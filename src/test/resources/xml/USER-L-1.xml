@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Подготовка конкурсов" verbose="1" parallel="tests" thread-count="15">
+
+	<test name="Экспертиза предложений / Перечень заданий на экспертизу предложений R5HeadlessCrossTransitions">
+		<parameter name="email" value="autotest@naumen.ru"/>
+		<parameter name="password" value="123qwe123"/>
+		<parameter name="name" value="test"/>
+		<parameter name="surname" value="auto"/>
+
+		<classes>
+			<class name="naumen.tests.user.L1EnterSystem" />
+		</classes>
+	</test>	
+
+</suite> 
