@@ -116,7 +116,8 @@ public abstract class NaumenTest extends BaseTest {
 
 	@Override
 	protected void info(String message) {
-		if (System.getProperty("os.name").toLowerCase().contains("win"))
+		// некорректно отображается буква "И" на винде
+        if (System.getProperty("os.name").toLowerCase().contains("win"))
             super.info(message.replace("И", "и"));
         else
             super.info(message);
