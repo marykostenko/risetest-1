@@ -12,7 +12,7 @@ import org.openqa.selenium.By;
 public class MainForm extends BaseAppForm {
     private final Button loginBtn = new Button(By.xpath("//a[contains(@class,'login-link') and contains(.,'Вход')]"), "Вход");
 	private final Button logoutBtn = new Button(By.xpath("//a[contains(@class,'login-link') and contains(.,'Выход')]"), "Выход");
-    private final Button registerBtn = new Button(By.xpath("//a[contains(@class,'register-link')]"), "Регистрация");
+    private final Button registerBtn = new Button(By.xpath("//a[contains(@class,'registration-link')]"), "Регистрация");
 
 	/**
 	 * Constructor by default
@@ -43,6 +43,14 @@ public class MainForm extends BaseAppForm {
      */
     public void clickRegisterBtn(){
         registerBtn.click();
+    }
+
+    public void assertIsLoginBtnPresent(){
+        loginBtn.doAssert(loginBtn.isPresent(), "присутствует", "не найдена");
+    }
+
+    public void assertIsRegisterBtnPresent(){
+        registerBtn.doAssert(registerBtn.isPresent(), "присутствует", "не найдена");
     }
 
     /**

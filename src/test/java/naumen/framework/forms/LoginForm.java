@@ -4,7 +4,6 @@ import naumen.framework.base.elements.Button;
 import naumen.framework.base.elements.Label;
 import naumen.framework.base.elements.TextBox;
 import naumen.framework.base.entities.User;
-import naumen.framework.base.entities.User.USER;
 import org.openqa.selenium.By;
 
 /** логин форма

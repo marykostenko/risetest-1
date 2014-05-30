@@ -10,6 +10,18 @@
 		<classes>
 			<class name="naumen.tests.user.L1EnterSystem" />
 		</classes>
-	</test>	
+	</test>
+
+    <test name="USER-L-2 Выход из системы">
+        <parameter name="email" value="autotest@naumen.ru"/>
+        <parameter name="password" value="123qwe123"/>
+        <parameter name="name" value="test"/>
+        <parameter name="surname" value="auto"/>
+
+        <classes>
+            <class name="naumen.tests.user.L2ExitSystem" />
+        </classes>
+    </test>
+
 
 </suite> 
