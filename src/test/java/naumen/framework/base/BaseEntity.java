@@ -136,6 +136,20 @@ public abstract class BaseEntity {
 		}
 	}
 
+    /**
+     *
+     * @param isTrue
+     * @param passMsg
+     * @param failMsg
+     */
+    public void doAssertNotifyOnly(final Boolean isTrue, final String passMsg, final String failMsg) {
+        if (isTrue) {
+            info(passMsg);
+        } else {
+            notify(failMsg);
+        }
+    }
+
 	/**
 	 * Assert Objects are Equal
 	 * @param expected Expected Value

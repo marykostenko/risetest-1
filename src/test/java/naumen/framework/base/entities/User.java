@@ -41,4 +41,19 @@ public class User extends Entity implements Serializable, Cloneable{
 		super();
 	}
 
+    public String getEmail(){
+        return this.getValue(USER.EMAIL);
+    }
+
+    public String getPassword(){
+        return this.getValue(USER.PASSWORD);
+    }
+
+    public String getName(){
+        return this.getValue(USER.NAME);
+    }
+
+    public String getSurname(){
+        return this.getValue(USER.SURNAME);
+    }
 }

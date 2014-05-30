@@ -1,6 +1,7 @@
 package naumen.framework.forms;
 
 import naumen.framework.base.elements.Button;
+import naumen.framework.base.entities.User;
 import org.openqa.selenium.By;
 
 /**
@@ -9,15 +10,15 @@ import org.openqa.selenium.By;
  *
  */
 public class MainForm extends BaseAppForm {
-
-	private final Button logoutBtn = new Button(By.xpath("//button[contains(.,'Выход')]"), "Выход");
-    private final Button backBtn = new Button(By.xpath("//button[contains(.,'Назад')]"), "Назад");
+    private final Button loginBtn = new Button(By.xpath("//a[contains(@class,'login-link') and contains(.,'Вход')]"), "Вход");
+	private final Button logoutBtn = new Button(By.xpath("//a[contains(@class,'login-link') and contains(.,'Выход')]"), "Выход");
+    private final Button registerBtn = new Button(By.xpath("//a[contains(@class,'register-link')]"), "Регистрация");
 
 	/**
 	 * Constructor by default
 	 */
 	public MainForm() {
-        super(By.className("logo"), "Главная форма");
+        super(By.className("logo"), "Главная страница");
 	}
 
     /** возвращает локатор идентификации формы
@@ -27,27 +28,31 @@ public class MainForm extends BaseAppForm {
         return By.className("logo");
     }
 
-    /** Подтвердить выход из системы
+    /** нажимает кнопку "Вход"
      */
-    public void confirmLogout(){
-        new Button(By.xpath("//button[contains(.,'Да')]"), "Да").clickAndWait();
+    public void clickLoginBtn(){
+        loginBtn.click();
     }
 
-    /** Отменить выход из системы
-     */
-    public void declineLogout(){
-        new Button(By.xpath("//button[contains(.,'Да')]"), "Да").clickAndWait();
-    }
-
-	/** нажимает кнопку "Войти"
+	/** нажимает кнопку "Выход"
 	 */
 	public void clickLogoutBtn(){
-        logoutBtn.clickAndWait();
+        logoutBtn.click();
 	}
-    /** нажимает кнопку "Назад"
+    /** нажимает кнопку "Регистрация"
      */
-    public void clickBackBtn(){
-        backBtn.clickAndWait();
+    public void clickRegisterBtn(){
+        registerBtn.click();
+    }
+
+    /**
+     * проверяет, был ли выполнен вход в систему
+     * @param user пользователь
+     * @return
+     */
+    public boolean wasLoginSuccessful(User user){
+        return getDriver().findElementsByXPath(String.format("//a[contains(.,'%s')]",
+                user.getName() + " " + user.getSurname())).size() > 0;
     }
 
 }
