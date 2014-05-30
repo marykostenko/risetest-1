@@ -1,7 +1,22 @@
 package naumen.tests.user;
 
-/**
- * Created by vivshin on 30.05.14.
- */
-public class R1UserRegistartion {
+import naumen.NaumenTest;
+import org.testng.annotations.Parameters;
+
+public class R1UserRegistartion extends NaumenTest {
+    @Parameters({"email", "password", "name", "surname"})
+    public R1UserRegistartion(String mail, String psw, String nam, String snam){
+        super(mail, psw, nam, snam);
+    }
+
+    /**
+     * default constructor
+     */
+    public R1UserRegistartion(){
+        super();
+    }
+
+    public void runTest(){
+
+    }
 }
