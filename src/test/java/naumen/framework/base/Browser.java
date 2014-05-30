@@ -36,6 +36,7 @@ public final class Browser {
     private static final String REDIRECTED_PORT = "redirectedPort";
     private static final String SUITE_CONFIGURATION = "suiteConfiguration";
     private static final String THREAD_COUNT = "threadCount";
+    private static final String TIME_TO_WAIT_MAIL = "timeToWaitMail";
 	
 	/**
 	 * speedValue=100 defaultPageLoadTimeout=60 defaultConditionTimeout=180
@@ -57,6 +58,7 @@ public final class Browser {
 	private static String timeoutForPageLoad;
 	private static String timeoutForCondition;
 	private static String shortTimeout;
+    private static String mailTimeout;
     private static String redirectedURL;
     private static int threadCount;
 	public static Browsers currentBrowser;
@@ -199,13 +201,21 @@ public final class Browser {
 
 
 	/**
-	 * gets TimeoutForCondition
-	 * @return timeoutForCondition
+	 * gets MailTimeout
+	 * @return mailTimeout
 	 */
-	public String getTimeoutForCondition() {
-		return timeoutForCondition;
+	public String getMailTimeout() {
+		return mailTimeout;
 	}
 
+
+    /**
+     * gets TimeoutForCondition
+     * @return timeoutForCondition
+     */
+    public String getTimeoutForCondition() {
+        return timeoutForCondition;
+    }
 
 	/**
 	 * gets short timeout
@@ -339,6 +349,7 @@ public final class Browser {
 		timeoutForPageLoad = props.getProperty(DEFAULT_PAGE_LOAD_TIMEOUT);
 		timeoutForCondition = props.getProperty(DEFAULT_CONDITION_TIMEOUT);
 		shortTimeout = props.getProperty(DEFAULT_SHORT_TIMEOUT);
+        mailTimeout = props.getProperty(TIME_TO_WAIT_MAIL);
 		// Получаем URL
 		String hostname = props.getProperty(HOSTNAME);
 		String port = props.getProperty(PORT);

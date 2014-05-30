@@ -14,7 +14,7 @@ public class MailUtils {
 	private String host, username, password;
 	private Properties properties = new Properties();
 	private MAIL_PROTOCOLS protocol;
-	private final long timeToWaitMail = Integer.parseInt(NaumenTest.getProperty("timeToWaitMail"));
+	private final long timeToWaitMail = 24000;
 	private Store store;
 
 	/** construct mail connector

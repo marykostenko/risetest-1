@@ -3,28 +3,12 @@ package naumen;
 import com.google.common.base.Strings;
 import naumen.framework.base.BaseTest;
 import naumen.framework.base.Browser;
-import naumen.framework.base.CommonFunctions;
-import naumen.framework.base.elements.Button;
 import naumen.framework.base.entities.User;
-import naumen.framework.base.exceptions.*;
-import naumen.framework.forms.ChooseFiltersForm;
 import naumen.framework.forms.LoginForm;
-import net.lightbody.bmp.core.har.Har;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -32,7 +16,7 @@ import java.util.Random;
  *
  */
 public abstract class NaumenTest extends BaseTest {
-	protected static String userEmail, userPassword, userName, userSurname;
+	protected static String userEmail, userPassword, userName, userLastName;
 	protected static User user = new User();
     protected Random rand = new Random();
 
@@ -44,16 +28,16 @@ public abstract class NaumenTest extends BaseTest {
 	}
 
     @Parameters({"email", "password", "name", "surname"})
-    public NaumenTest(String mail, String psw, String nam, String snam){
+    public NaumenTest(String mail, String psw, String fnam, String lnam){
         userEmail = mail;
         userPassword = psw;
-        userName = nam;
-        userSurname = snam;
+        userName = fnam;
+        userLastName = lnam;
 
         user.setValue(User.USER.EMAIL, userEmail);
         user.setValue(User.USER.PASSWORD, userPassword);
-        user.setValue(User.USER.NAME, userName);
-        user.setValue(User.USER.SURNAME, userSurname);
+        user.setValue(User.USER.FIRSTNAME, userName);
+        user.setValue(User.USER.LASTNAME, userLastName);
     }
 	public NaumenTest(){
 

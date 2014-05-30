@@ -60,7 +60,7 @@ public class MainForm extends BaseAppForm {
      */
     public boolean wasLoginSuccessful(User user){
         return getDriver().findElementsByXPath(String.format("//a[contains(.,'%s')]",
-                user.getName() + " " + user.getSurname())).size() > 0;
+                user.getFirstName() + " " + user.getLastName())).size() > 0;
     }
 
 }

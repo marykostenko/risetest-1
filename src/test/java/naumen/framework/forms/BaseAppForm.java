@@ -109,9 +109,9 @@ public class BaseAppForm extends BaseForm{
 	public void checkTextOnForm(String text, BaseTest test){
 		Label l = new Label(By.xpath("//*[contains(.,'" + text + "')]"), text);
 		if(l.waitForIsElementPresent(browser.getTimeoutShortInt())){
-			logger.info("Текст " + text + " присутствует на форме!");
+			logger.info("Текст '" + text + "' присутствует на форме!");
 		}else{
-			logger.warn("Текст " + text + " отсутствует на форме!");
+			logger.warn("Текст '" + text + "' отсутствует на форме!");
 			test.warn();
 		}
 	}

@@ -745,4 +745,21 @@ public final class CommonFunctions {
 		date=date.replace(":", "й");
 		return date;
 	}
+
+    public static String getRandomLatinStringByDate(){
+        String date=getDate("dd.MM.yyyyHH:mm:ss", 0);
+        date=date.replace(Integer.toString(0), "f");
+        date=date.replace(Integer.toString(1), "y");
+        date=date.replace(Integer.toString(2), "h");
+        date=date.replace(Integer.toString(3), "e");
+        date=date.replace(Integer.toString(4), "i");
+        date=date.replace(Integer.toString(5), "o");
+        date=date.replace(Integer.toString(6), "p");
+        date=date.replace(Integer.toString(7), "w");
+        date=date.replace(Integer.toString(8), "s");
+        date=date.replace(Integer.toString(9), "d");
+        date=date.replace(".", "a");
+        date=date.replace(":", "z");
+        return date;
+    }
 }
