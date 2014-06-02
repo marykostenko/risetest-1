@@ -10,7 +10,7 @@ public class L1EnterSystem extends NaumenTest {
 
     private User user1 = new User();
 
-    @Parameters({"email", "password", "name", "surname"})
+    @Parameters({"email", "password", "firstName", "lastName"})
     public L1EnterSystem(String mail, String psw, String nam, String snam){
         super(mail, psw, nam, snam);
     }

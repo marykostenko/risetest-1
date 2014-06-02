@@ -278,7 +278,7 @@ public class MailUtils {
                 }
             }
             inbox.close(true);
-            Logger.getInstance().info("Все сообщения с данной темой были успешно удалены c " + username);
+            Logger.getInstance().info("Все сообщения с темой '" + subject + "' и адресом отправления '" + from + "' были успешно удалены c " + username);
         }catch(MessagingException e){
             Logger.getInstance().warn("Ошибка чтения сообщения: " + e.getMessage());
         }

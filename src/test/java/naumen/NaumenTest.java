@@ -27,7 +27,7 @@ public abstract class NaumenTest extends BaseTest {
 		return user;
 	}
 
-    @Parameters({"email", "password", "name", "surname"})
+    @Parameters({"email", "password", "firstName", "lastName"})
     public NaumenTest(String mail, String psw, String fnam, String lnam){
         userEmail = mail;
         userPassword = psw;

@@ -11,7 +11,7 @@ public class L2ExitSystem extends NaumenTest {
     private MainForm mf;
     private LoginForm lf;
 
-    @Parameters({"email", "password", "name", "surname"})
+    @Parameters({"email", "password", "firstName", "lastName"})
     public L2ExitSystem(String mail, String psw, String nam, String snam){
         super(mail, psw, nam, snam);
     }
