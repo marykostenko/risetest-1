@@ -13,6 +13,7 @@ public class R1UserRegistration extends NaumenTest {
     private MainForm mf;
     private RegistrationForm rf;
     private String email = "test" + CommonFunctions.getRandomLatinStringByDate() + "@naumen.ru";
+    private String from = "standautotest@naumen.ru";
     private String password = "123qwe123";
     private String fname = "first" + CommonFunctions.getRandomStringByDate();
     private String mname = "middle" + CommonFunctions.getRandomStringByDate();
@@ -55,5 +56,8 @@ public class R1UserRegistration extends NaumenTest {
         mf.checkTextOnForm(confirmationText, this);
         String messageContent = mu.getMessageContent("Приветствуем вас в системе Экспир");
         logger.info("message = " + messageContent);
+
+        logStep("4", "USER-R-1.4	Удаление сообщений в электронной почте о регистрации пользователя");
+        mu.deleteMessagesFromInbox(from, "Приветствуем вас в системе Экспир");
     }
 }

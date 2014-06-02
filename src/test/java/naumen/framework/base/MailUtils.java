@@ -138,7 +138,8 @@ public class MailUtils {
 			messages = getMessage(folder);
 			for (Message m : messages) {
 				try {
-					if(m.getSubject().contains(subject)){
+
+                    if(m.getSubject().contains(subject)){
 						return m;
 					}
 				} catch (MessagingException e) {
@@ -254,6 +255,36 @@ public class MailUtils {
 			Logger.getInstance().warn("Ошибка чтения сообщения: " + e.getMessage());
 		}
 	}
+
+    /**
+     * удаляет сообщения с темой subject из ящика
+     * @param from - адрес, с которого пришли письма (например, хотим удалить только письма, относящиеся к стенду автотестов)
+     * @param subject тема сообщений, которые хотим удалить
+     */
+    public void deleteMessagesFromInbox(String from, String subject){
+        //Проверка, что соединение установлено
+        Assert.assertNotNull("Не удалось установить соединения с почтовым ящиком.", store);
+        try{
+            Folder inbox = store.getFolder("INBOX");
+            inbox.open(Folder.READ_WRITE);
+            //Получаем все сообщения из папки
+            Message[] messages = inbox.getMessages();
+            for(Message message:messages) {
+                if (message.getSubject().contains(subject)){
+                    for(Address adr:  message.getFrom()){
+                        if (adr.toString().contains(from)){
+                            message.setFlag(Flags.Flag.DELETED, true);
+                            break;
+                        }
+                    }
+                }
+            }
+            inbox.close(true);
+            Logger.getInstance().info("Все сообщения с данной темой были успешно удалены c " + username);
+        }catch(MessagingException e){
+            Logger.getInstance().warn("Ошибка чтения сообщения: " + e.getMessage());
+        }
+    }
 
 	/** close store
 	 */
