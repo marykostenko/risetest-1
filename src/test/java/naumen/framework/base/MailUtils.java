@@ -246,8 +246,6 @@ public class MailUtils {
 				message.setFlag(Flags.Flag.DELETED, true);
 			}
 			inbox.close(true);
-			//inbox = store.getFolder(folderName);
-			//inbox.open(Folder.READ_WRITE);
 			//Проверяем что все сообщения удалены
 			Assert.assertEquals("Все сообщения не были удалены c " +  username + ".", 0, inbox.getMessageCount());
 			Logger.getInstance().info("Все сообщения были успешно удалены c " + username);
