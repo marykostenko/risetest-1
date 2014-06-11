@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -156,6 +157,45 @@ public abstract class NaumenTest extends BaseTest {
     public void logout(){
         MainForm mf = new MainForm();
         mf.clickLogoutBtn();
+    }
+
+    /**
+     * проверяет доступность определенного функционала системы
+     * для пользователя, под которым мы залогинены в системе
+     * @param urlSuffix где расположен функционал
+     * @param checkTextList список строк, которые должны присутствовать
+     *                      на экране (как правило, названия кнопок)
+     */
+    protected void assertAccessGranted(String urlSuffix, List<String> checkTextList){
+        browser.navigate(getDriver().getCurrentUrl() + urlSuffix);
+        MainForm mf = new MainForm();
+        for(String str: checkTextList)
+            mf.checkTextOnForm(str, this);
+        makeScreen();
+    }
+
+    /**
+     * проверяет недоступность определенного функционала системы
+     * для пользователя, под которым мы залогинены в системе
+     * @param urlSuffix где расположен функционал
+     */
+    protected void assertAccessDenied(String urlSuffix){
+        browser.navigate(getDriver().getCurrentUrl() + urlSuffix);
+        MainForm mf = new MainForm();
+        mf.checkTextOnForm("у вас нет прав на это действие", this);
+        makeScreen();
+    }
+
+    /**
+     * проверяет недоступность определенного функционала системы
+     * для внешнего (анонимного) пользователя.
+     * Должна открыться форма входа в систему
+     * @param urlSuffix где расположен функционал
+     */
+    protected void assertAccessDeniedForAnonymousUser(String urlSuffix){
+        browser.navigate(getDriver().getCurrentUrl() + urlSuffix);
+        LoginForm lf = new LoginForm();
+        makeScreen();
     }
 
 }
