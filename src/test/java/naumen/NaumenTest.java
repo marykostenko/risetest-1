@@ -5,6 +5,7 @@ import naumen.framework.base.BaseTest;
 import naumen.framework.base.Browser;
 import naumen.framework.base.entities.User;
 import naumen.framework.forms.LoginForm;
+import naumen.framework.forms.MainForm;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -136,6 +137,25 @@ public abstract class NaumenTest extends BaseTest {
     @Test
     public void initializeTestData() throws Throwable{
         xTest();
+    }
+
+    /**
+     * залогиниться в системе под пользователем user
+     * @param user
+     */
+    public void login(User user){
+        MainForm mf = new MainForm();
+        mf.clickLoginBtn();
+        LoginForm lf = new LoginForm();
+        lf.login(user);
+    }
+
+    /**
+     * выход из системы
+     */
+    public void logout(){
+        MainForm mf = new MainForm();
+        mf.clickLogoutBtn();
     }
 
 }

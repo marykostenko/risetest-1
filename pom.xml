@@ -158,7 +158,8 @@
                         <aqa.locale>rU</aqa.locale>
                     </systemPropertyVariables>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/xml/USER-L-1.xml</suiteXmlFile>
+                        <!--<suiteXmlFile>src/test/resources/xml/USER.xml</suiteXmlFile>-->
+                        <suiteXmlFile>src/test/resources/xml/SYS.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <properties>
                         <property>

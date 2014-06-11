@@ -25,7 +25,7 @@ public class L2ExitSystem extends NaumenTest {
 
     /** Тест на успешный / неуспешный вход в систему
      */
-    private void login(User user) {
+    private void testLogin(User user) {
         mf = new MainForm();
         mf.clickLoginBtn();
         LoginForm lf = new LoginForm();
@@ -36,7 +36,7 @@ public class L2ExitSystem extends NaumenTest {
 
     public void runTest(){
         logStep("1", "USER-L-2.1	Вход в систему");
-        login(user);
+        testLogin(user);
 
         logStep("2", "USER-L-2.1	Удачный выход из системы");
         mf.clickLogoutBtn();
