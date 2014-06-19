@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="LOT" verbose="1" parallel="tests" thread-count="15">
+
+    <test name="LOT-S Подписка на конкурсы">
+        <parameter name="email" value="autotest@naumen.ru"/>
+        <parameter name="password" value="123qwe123"/>
+        <parameter name="firstName" value="test"/>
+        <parameter name="lastName" value="auto"/>
+
+        <classes>
+            <class name="naumen.tests.lot.LOTSLotSubscription" />
+        </classes>
+    </test>
+
+</suite>
