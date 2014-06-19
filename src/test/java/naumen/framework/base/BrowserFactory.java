@@ -31,7 +31,7 @@ public abstract class BrowserFactory {
 		switch (type) {
 		case CHROME:
 			cp = DesiredCapabilities.chrome();
-			cp.setCapability("chrome.switches", Arrays.asList("--disable-popup-blocking"));
+			cp.setCapability("chrome.switches", Arrays.asList("--disable-popup-blocking", "--disable-setuid-sandbox"));
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("lang=ru");
 			cp.setCapability(ChromeOptions.CAPABILITY, options);
