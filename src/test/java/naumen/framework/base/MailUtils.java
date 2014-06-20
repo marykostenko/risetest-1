@@ -108,12 +108,12 @@ public class MailUtils {
 
 	/** Get link from the letter
 	 * @param subject subject
-	 * @param text text
+	 * @param from text
 	 * @return link
 	 */
-	public String getMessageContent(String subject, String text){
+	public String getMessageContent(String subject, String from){
 		try {
-			Multipart part = (Multipart) waitForLetter(subject, text).getContent();
+			Multipart part = (Multipart) waitForLetter(subject, from).getContent();
 			return (String) part.getBodyPart(0).getContent();
 			//link = CommonFunctions.regexGetMatchGroup((String) part2.getBodyPart(0).getContent(), "(http://smail.railsware.*)\"", 1);
 		} catch (IOException e) {
@@ -159,11 +159,11 @@ public class MailUtils {
 
 	/** wait for letter with necessary subject and address is present in mailbox
 	 * @param subject subject of letter
-	 * @param text text that message contains
+	 * @param from sender e-mail
 	 * @return message
 	 * @throws MessagingException MessagingException
 	 */
-	private Message waitForLetter(String subject, String text) throws MessagingException{
+	private Message waitForLetter(String subject, String from) throws MessagingException{
 		Message[] messages = null;
 		// waiting
 		long start = System.currentTimeMillis();
@@ -172,8 +172,7 @@ public class MailUtils {
 			messages = getMessage(folder);
 			for (Message m : messages) {
 				try {
-					String content = (String) ((Multipart) m.getContent()).getBodyPart(0).getContent();
-					if(m.getSubject().contains(subject) && content.contains(text)){
+					if(m.getSubject().contains(subject) && m.getFrom()[0].toString().contains(from)){
 						return m;
 					}
 				} catch (Exception e) {

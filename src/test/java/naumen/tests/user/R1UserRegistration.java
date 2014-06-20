@@ -54,7 +54,7 @@ public class R1UserRegistration extends NaumenTest {
         logStep("3", "USER-R-1.3	Проверка успешности регистрации");
         makeScreen();
         mf.checkTextOnForm(confirmationText, this);
-        String messageContent = mu.getMessageContent("Приветствуем вас в системе Экспир");
+        String messageContent = mu.getMessageContent("Приветствуем вас в системе Экспир", from);
         logger.info("message = " + messageContent);
 
         logStep("4", "USER-R-1.4	Удаление сообщений в электронной почте о регистрации пользователя");
