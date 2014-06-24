@@ -169,8 +169,8 @@
                     </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/xml/USER.xml</suiteXmlFile>
-                        <!--<suiteXmlFile>src/test/resources/xml/SYS.xml</suiteXmlFile>-->
-                        <!--<suiteXmlFile>src/test/resources/xml/LOT.xml</suiteXmlFile>-->
+                        <suiteXmlFile>src/test/resources/xml/SYS.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/xml/LOT.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <properties>
                         <property>
