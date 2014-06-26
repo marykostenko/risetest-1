@@ -31,8 +31,9 @@ public abstract class BrowserFactory {
 		switch (type) {
 		case CHROME:
 			cp = DesiredCapabilities.chrome();
-			cp.setCapability("chrome.switches", Arrays.asList("--no-sandbox", "--disable-popup-blocking"));
+			cp.setCapability("chrome.switches", Arrays.asList("--disable-popup-blocking"));
 			ChromeOptions options = new ChromeOptions();
+            options.addArguments("no-sandbox");
 			options.addArguments("lang=ru");
 			cp.setCapability(ChromeOptions.CAPABILITY, options);
             cp.setCapability(CapabilityType.PROXY, Browser.getProxy());
