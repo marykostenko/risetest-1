@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="USER" verbose="1" parallel="tests" thread-count="1">
+<suite name="USER" verbose="1" parallel="tests" thread-count="15">
 
 	<test name="USER-L-1 Вход в систему">
 		<parameter name="email" value="autotest@naumen.ru"/>
