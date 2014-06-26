@@ -12,4 +12,15 @@
         </classes>
     </test>
 
+    <test name="LOT-T Вкладка 'Конкурсы' в профиле">
+        <parameter name="email" value="autotest@naumen.ru"/>
+        <parameter name="password" value="123qwe123"/>
+        <parameter name="firstName" value="test"/>
+        <parameter name="lastName" value="auto"/>
+
+        <classes>
+            <class name="naumen.tests.lot.LOTTLotsTab" />
+        </classes>
+    </test>
+
 </suite>
