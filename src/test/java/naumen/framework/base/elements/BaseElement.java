@@ -60,6 +60,15 @@ public abstract class BaseElement extends BaseEntity {
         return element.findElements(By);
     }
 
+    /**
+     * @param By
+     * @return List<WebElement>
+     */
+    public WebElement findElement(By By) {
+        waitForIsElementPresent();
+        return element.findElement(By);
+    }
+
 	/**
 	 * @return
 	 * @uml.property name="element"

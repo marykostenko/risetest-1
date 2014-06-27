@@ -17,7 +17,8 @@ public class LOTSLotSubscription extends NaumenTest {
 
     private MainForm mf;
     private UserProfileForm upf;
-    private String lotName = "2.1 Проведение исследований в рамках международного многостороннего и двустороннего сотрудничества";
+    private String lotName1 = "2.1 Проведение исследований в рамках международного многостороннего и двустороннего сотрудничества";
+    private String lotName2 = "3.2 Обеспечение развития информационной инфраструктуры";
 
     @Parameters({"email", "password", "firstName", "lastName"})
     public LOTSLotSubscription(String mail, String psw, String nam, String snam){
@@ -29,6 +30,23 @@ public class LOTSLotSubscription extends NaumenTest {
      */
     public LOTSLotSubscription(){
         super();
+    }
+
+    /**
+     * проверяем, что подпсика прошла успешно
+     * @param lotName
+     */
+    private void checkSubscription(String lotName){
+        UserProfileForm.openUserProfile();
+        upf = new UserProfileForm();
+        String classAttr = upf.lots.getElement().getAttribute("class");
+        doAssert(classAttr.equals("active"), "Атрибут class вкладки 'Конкурсы' имеет значение 'active'", String.format("Атрибут class вкладки 'Конкурсы' имеет значение '%s'", classAttr));
+        upf.subscriptions.click();
+        String upperSubscrText = upf.getSubscriptionsList().get(0).getText();
+        doAssert(upperSubscrText.contains(lotName), "Верхней в списке отображается подписка с нужным названием", String.format("Верхней в списке отображается подписка с названием '%s'", upperSubscrText));
+        String subscrType = upf.getSubscrType(upf.getSubscriptionsList().get(0));
+        doAssert(subscrType.equals("Новые конкурсы"), "Тип подписки 'Новые конкурсы'", String.format("Тип подписки '%s'", subscrType));
+        makeScreen();
     }
 
     public void runTest(){
@@ -50,26 +68,16 @@ public class LOTSLotSubscription extends NaumenTest {
             mf.financeLblClick();
             mf.lotSubscriptionClick();
             mf.checkTextOnForm("Подписка на конкурсы", this);
-            CheckBox cb = new CheckBox(By.xpath(String.format("//label[contains(.,'%s')]/input[@type='checkbox']", lotName)), lotName);
+            CheckBox cb = new CheckBox(By.xpath(String.format("//label[contains(.,'%s')]/input[@type='checkbox']", lotName1)), lotName1);
             if (!cb.isChecked())
                 cb.check();
             Button subscrBtn = new Button(By.xpath("//button[@type='submit' and contains(.,'Подписаться')]"), "Подписаться");
             subscrBtn.click();
             mf.checkTextOnForm("Вы успешно подписались на уведомления о появлении новых конкурсов", this);
             mf.checkTextOnForm("Вы подписаны на следующие программные мероприятия:", this);
-            mf.checkTextOnForm(lotName, this);
+            mf.checkTextOnForm(lotName1, this);
             makeScreen();
-
-            UserProfileForm.openUserProfile();
-            upf = new UserProfileForm();
-            String classAttr = upf.lots.getElement().getAttribute("class");
-            doAssert(classAttr.equals("active"), "Атрибут class вкладки 'Конкурсы' имеет значение 'active'", String.format("Атрибут class вкладки 'Конкурсы' имеет значение '%s'", classAttr));
-            upf.subscriptions.click();
-            String upperSubscrText = upf.getSubscriptionsList().get(0).getText();
-            doAssert(upperSubscrText.contains(lotName), "Верхней в списке отображается подписка с нужным названием", String.format("Верхней в списке отображается подписка с названием '%s'", upperSubscrText));
-            String subscrType = upf.getSubscrType(upf.getSubscriptionsList().get(0));
-            doAssert(subscrType.equals("Новые конкурсы"), "Тип подписки 'Новые конкурсы'", String.format("Тип подписки '%s'", subscrType));
-            makeScreen();
+            checkSubscription(lotName1);
             logout();
 
         logStep("3", "LOT-S-3	Подписаться на новые конкурсы через профилирование");
@@ -77,8 +85,17 @@ public class LOTSLotSubscription extends NaumenTest {
             mf.financeLblClick();
             mf.financeSearchClick();
             mf.checkTextOnForm("Поиск финансирования", this);
-            Label lab = new Label(By.xpath(String.format("//div[@class='title_small' and contains(.,'%s')]", lotName)),
-                    lotName);
+            Label lab = new Label(By.xpath(String.format("//div[@class='title_small' and contains(.,'%s')]", lotName2)), lotName2);
+            lab.moveMouseToElement();
+            WebElement el = lab.findElement(By.xpath(".."));
+            el.findElement(By.className("show-more")).click();
+            subscrBtn = new Button(By.xpath("//div[contains(@class,'btn') and contains(.,'Подписаться на конкурсы')]"), "Подписаться на конкурсы");
+            subscrBtn.clickAndWait();
+            mf.checkTextOnForm("Вы успешно подписались", this);
+            sleep(2); //чтобы обновилась надпись об успешной подписке и на скриншоте
+            makeScreen();
+            checkSubscription(lotName2);
+            logout();
 
     }
 }
