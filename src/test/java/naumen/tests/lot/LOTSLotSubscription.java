@@ -17,12 +17,14 @@ public class LOTSLotSubscription extends NaumenTest {
 
     private MainForm mf;
     private UserProfileForm upf;
-    private String lotName1 = "2.1 Проведение исследований в рамках международного многостороннего и двустороннего сотрудничества";
-    private String lotName2 = "3.2 Обеспечение развития информационной инфраструктуры";
+    private String lotName1; // = "2.1 Проведение исследований в рамках международного многостороннего и двустороннего сотрудничества";
+    private String lotName2; // = "3.2 Обеспечение развития информационной инфраструктуры";
 
-    @Parameters({"email", "password", "firstName", "lastName"})
-    public LOTSLotSubscription(String mail, String psw, String nam, String snam){
+    @Parameters({"email", "password", "firstName", "lastName", "ln1", "ln2"})
+    public LOTSLotSubscription(String mail, String psw, String nam, String snam, String ln1, String ln2){
         super(mail, psw, nam, snam);
+        lotName1 = ln1;
+        lotName2 = ln2;
     }
 
     /**

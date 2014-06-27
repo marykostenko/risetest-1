@@ -6,6 +6,8 @@
         <parameter name="password" value="123qwe123"/>
         <parameter name="firstName" value="test"/>
         <parameter name="lastName" value="auto"/>
+        <parameter name="ln1" value="2.1 Проведение исследований в рамках международного многостороннего и двустороннего сотрудничества"/>
+        <parameter name="ln2" value="3.2 Обеспечение развития информационной инфраструктуры"/>
 
         <classes>
             <class name="naumen.tests.lot.LOTSLotSubscription" />
