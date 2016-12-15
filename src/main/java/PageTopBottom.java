@@ -13,9 +13,10 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 /**
+ * Страница шапка, подвал и строка главного меню
  * Created by user nkorobicina on 07.12.2016.
  */
-//Шапка и подвал плюс строка меню
+
 public class PageTopBottom extends BasePage {
 
     public void goToLogin(){
