@@ -8,7 +8,7 @@ import static com.codeborne.selenide.WebDriverRunner.url;
  * Created by user nkorobicina on 07.12.2016.
  */
 //USER-L-1
-public class TestLoginSuccessful extends BaseTest {
+public class LoginSuccessfulTest extends BaseTest {
 
     //USER-L-1.1
     @Test(priority = 1)
