@@ -52,6 +52,11 @@ public class PageLogin extends BasePage{
         return checkAndLog(!isLoginPage(), logErrors, "Ошибка: url неверный ");
     }
 
+    //проверка алерта при неудачной авторизации
+    public void alertLoginFail(){
+
+        $(By.xpath("//div[@class='alert alert-error']")).shouldBe(Condition.appear);
+    }
 
 
 }
