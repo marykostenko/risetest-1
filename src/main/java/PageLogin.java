@@ -1,9 +1,11 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -53,11 +55,27 @@ public class PageLogin extends BasePage{
     }
 
     //проверка алерта при неудачной авторизации
-    public void alertLoginFail(){
+    public void alertLoginFail(int logErrors){
 
         $(By.xpath("//div[@class='alert alert-error']")).shouldBe(Condition.appear);
+        ElementsCollection alert= $$(By.linkText("Неверный Email или пароль"));
+        logErrors = checkAndLog(alert.isEmpty(), logErrors, "Ошибка: нет текста \"Неверный Email или пароль\"");
     }
 
+    //проверка алерта при превышении количетва неверных попыток входа
+    public void alertExcessLoginUnsuccessfulAttempts(int logErrors){
+
+        $(By.xpath("//div[@class='alert alert-error']")).shouldBe(Condition.appear);
+        ElementsCollection alert= $$(By.linkText("Вы превысили допустимое число попыток входа. Попробуйте повторить попытку через 1 час"));
+        logErrors = checkAndLog(alert.isEmpty(), logErrors, "Ошибка: нет текста \"Вы превысили допустимое число попыток входа. Попробуйте повторить попытку через 1 час\"");
+    }
+
+    //проверка появления капчи
+    public void isCapcha(){
+
+        $(By.xpath("//div[@id='adcopy-outer']")).shouldBe(Condition.appear);
+
+    }
 
 }
 

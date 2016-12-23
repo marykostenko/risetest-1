@@ -80,6 +80,13 @@ public class PageTopBottom extends BasePage {
         return logErrors;
     }
 
+    //откроывает меню администратора
+    public void adminMenu (){
+
+        $(By.xpath("//div[@class='clearfix']//child::a[@class='dropdown-toggle padding-right-0']")).click();
+
+    }
+
     //возвращает истину, если язык страницы русский
     protected boolean isRuLang(){
         ElementsCollection ruActive = $$(By.xpath("//a[contains(@class, 'rus active')]"));
