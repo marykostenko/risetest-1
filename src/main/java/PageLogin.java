@@ -2,7 +2,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -55,25 +56,31 @@ public class PageLogin extends BasePage{
     }
 
     //проверка алерта при неудачной авторизации
-    public void alertLoginFail(int logErrors){
+    private ElementsCollection loginFail = $$(By.xpath("//*[contains(text(),'Неверный Email или пароль')]"));
 
-        $(By.xpath("//div[@class='alert alert-error']")).shouldBe(Condition.appear);
-        ElementsCollection alert= $$(By.linkText("Неверный Email или пароль"));
-        logErrors = checkAndLog(alert.isEmpty(), logErrors, "Ошибка: нет текста \"Неверный Email или пароль\"");
-    }
+    public int alertLoginFail(int logErrors){
+
+        logErrors = checkAndLog(loginFail.isEmpty(), logErrors, "Ошибка: нет алерта \"Неверный Email или пароль\"");
+        return logErrors;
+
+        }
 
     //проверка алерта при превышении количетва неверных попыток входа
-    public void alertExcessLoginUnsuccessfulAttempts(int logErrors){
+    private ElementsCollection excessLoginUnsuccessfulAttempts = $$(By.xpath("//*[contains(text(),'Вы превысили допустимое число попыток входа. Попробуйте повторить попытку через 1 час')]"));
+    public int alertExcessLoginUnsuccessfulAttempts(int logErrors){
 
-        $(By.xpath("//div[@class='alert alert-error']")).shouldBe(Condition.appear);
-        ElementsCollection alert= $$(By.linkText("Вы превысили допустимое число попыток входа. Попробуйте повторить попытку через 1 час"));
-        logErrors = checkAndLog(alert.isEmpty(), logErrors, "Ошибка: нет текста \"Вы превысили допустимое число попыток входа. Попробуйте повторить попытку через 1 час\"");
-    }
+        logErrors = checkAndLog(excessLoginUnsuccessfulAttempts.isEmpty(), logErrors, "Ошибка: нет алерта о превышении количества попыток входа");
+        return logErrors;
+
+         }
 
     //проверка появления капчи
-    public void isCapcha(){
+    private ElementsCollection Capcha = $$(By.xpath("//div[@id='captchadiv']"));
 
-        $(By.xpath("//div[@id='adcopy-outer']")).shouldBe(Condition.appear);
+    public int isCapcha(int logErrors){
+
+        logErrors = checkAndLog(Capcha.isEmpty(), logErrors, "Ошибка: нет капчи", "Капча есть");
+        return logErrors;
 
     }
 

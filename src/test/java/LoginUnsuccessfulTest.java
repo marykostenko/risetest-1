@@ -1,10 +1,7 @@
-import com.codeborne.selenide.ElementsCollection;
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -41,7 +38,7 @@ public class LoginUnsuccessfulTest extends BaseTest {
         pageLogin.pushLoginButton();
 
         log("Проверяем, что есть алерт о неверном email или пароле");
-        pageLogin.alertLoginFail(logErrors);
+        logErrors = pageLogin.alertLoginFail(logErrors);
 
         log("Снова заполняем пароль и нажимаем кнопку вход (повторяем дважды) до появления капчи");
         pageTopBottom.goToLogin();
@@ -52,7 +49,7 @@ public class LoginUnsuccessfulTest extends BaseTest {
         pageLogin.pushLoginButton();
 
         log("Проверяем наличие капчи");
-        pageLogin.isCapcha();
+        logErrors = pageLogin.isCapcha(logErrors);
 
         log("Снова заполняем пароль и нажимаем кнопку вход (повторяем дважды) до появления алерта");
         pageTopBottom.goToLogin();
@@ -69,7 +66,7 @@ public class LoginUnsuccessfulTest extends BaseTest {
         pageLogin.pushLoginButton();
 
         log("Проверяем наличие алерта о превышении допустимого числа ошибок");
-        pageLogin.alertExcessLoginUnsuccessfulAttempts(logErrors);
+        logErrors = pageLogin.alertExcessLoginUnsuccessfulAttempts(logErrors);
 
         checkMistakes();
 
@@ -103,8 +100,8 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
-        
-        
+
+
         log("Открываем меню администратора");
         pageTopBottom.adminMenu();
 
@@ -125,26 +122,14 @@ public class LoginUnsuccessfulTest extends BaseTest {
         log("Сбрасываем число попыток ввода пользователя до нуля");
         userControl.resetLoginAttempts();
 
-        checkMistakes();
-
-        log("Тест USER-L-2.2 завершен");
-
-    }
-
-    @Test (priority = 3)
-    public void checkResetLogins() throws IOException{
-
-        log("Запущен тест USER-L-2.3");
-
-        log("Переключаем язык страницы на русский");
-        PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.switchToRu();
+        log("Разлогиниваемся");
+        pageTopBottom.logout();
 
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
-        PageLogin pageLogin = new PageLogin();
+        pageLogin = new PageLogin();
         log("Url страницы: " + url());
         logErrors = pageLogin.assertLoginUrl(logErrors);
 
@@ -152,18 +137,18 @@ public class LoginUnsuccessfulTest extends BaseTest {
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testUserLoserData = new TestUserData(getUserLoserId());
+        pageTopBottom.goToLogin();
         pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
 
         log("Проверяем, что есть алерт о неверном email или пароле");
-        pageLogin.alertLoginFail(logErrors);
+        logErrors = pageLogin.alertLoginFail(logErrors);
 
         checkMistakes();
 
-        log("Тест USER-L-2.3 завершен");
+        log("Тест USER-L-2.2 завершен");
 
     }
 
