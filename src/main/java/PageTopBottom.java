@@ -20,8 +20,12 @@ import static com.codeborne.selenide.Selenide.$$;
 public class PageTopBottom extends BasePage
 {
 
-    public void goToLogin()
-    {
+    // открывает главную страницу сайта
+    public void homePage (){
+        $(By.xpath("//div[@class='header-left']")).click();
+    }
+
+    public void goToLogin(){
         $(By.xpath("//a[contains(@href,'login')]")).click();
     }
 
@@ -139,6 +143,22 @@ public class PageTopBottom extends BasePage
     /**
      * иконка-домик слева, для пользователей-не админов всегда есть
      */
+    //возвращает истину, если язык страницы английский
+    protected boolean isEnLang(){
+        ElementsCollection enActive = $$(By.xpath("//a[contains(@class, 'eng active')]"));
+        if(enActive.isEmpty()){
+            return false;
+        }
+        else
+            return true;
+    }
+    //переключает язык страницы на английский
+    public void switchToEn(){
+        if(!isEnLang()){
+            $(By.xpath("//a[@lang='en']")).click();
+        }
+    }
+
     private ElementsCollection homeLogo = $$(By.xpath("//i[contains(@class, 'icon-home')]"));
 
     /**
