@@ -92,7 +92,7 @@ public class HomePageControl  extends BasePage{
     private ElementsCollection rossotrudnichestvoEn = $$(By.xpath("//div[contains(text(),'ROSSOTRUDNICHESTVO')]"));
     private ElementsCollection textRossotrudnichestvoEn = $$(By.linkText("The Federal Agency for the Commonwealth of Independent States, Compatriots Living Abroad, and International Humanitarian Cooperation "));
     private ElementsCollection agencyEn = $$(By.xpath("//div[contains(text(),'AGENCY FOR COOPERATION IN EDUCATION')]"));
-    private ElementsCollection textAgencyEn = $$(By.xpath("//span[contains(text(),'Оператор портала russia.study')]"));
+    private ElementsCollection textAgencyEn = $$(By.xpath("//span[contains(text(),'The russia.study Portal Managing Operator')]"));
     private ElementsCollection minobrEn = $$(By.xpath("//div[contains(text(),'Minobrnauki of Russia')]"));
     private ElementsCollection textMinobrEn = $$(By.linkText("The Ministry of Science and Education of Russian Federation"));
 
