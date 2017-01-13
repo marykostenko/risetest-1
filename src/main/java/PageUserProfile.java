@@ -43,4 +43,9 @@ public class PageUserProfile extends BasePage{
     public int assertUserFIO(String expectedFIO, int logErrors){
         return checkAndLog(!isUserFioCorrect(expectedFIO), logErrors, "Ошибка: ФИО пользователя неверное - " + getUserFio() + "; ожидалось: " + expectedFIO);
     }
+
+    public void goToAccount(){
+        $(By.xpath("//a[contains(@href, '/account')]")).click();
+
+    }
 }

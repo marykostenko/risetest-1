@@ -40,5 +40,10 @@ public abstract class BasePage {
         return logErrors;
     }
 
+    protected static final String greenFieldStyle = "background-color: rgb(190, 250, 194)";
+    protected static final String redFieldStyle = "background-color: rgb(252, 154, 156)";
+    protected static final String yellowFieldStyle = "background-color: rgb(247, 250, 172)";
+    protected static final String veryGreenFieldStyle = "background-color: rgb(45, 214, 56)";
+
 
 }

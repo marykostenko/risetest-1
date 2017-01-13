@@ -53,6 +53,9 @@ public class PageLogin extends BasePage{
     }
 
 
+    public void goToRecoveryPage(){
+        $(By.xpath("//a[@class='login-link forgot-password']")).click();
+    }
 
 }
 

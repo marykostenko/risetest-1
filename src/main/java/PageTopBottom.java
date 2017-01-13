@@ -28,7 +28,7 @@ public class PageTopBottom extends BasePage {
         PageLogin pageLogin = new PageLogin();
         pageLogin.fillLoginForm(userLogin, userPassword);
         pageLogin.pushLoginButton();
-        wait(waitTime);
+//        wait(waitTime);
     }
 
     //метод возвращает имя и фамилию, которые видны в шапке, когда пользователь залогинен
@@ -190,4 +190,10 @@ public class PageTopBottom extends BasePage {
 
         return logErrors;
     }
+
+    //Переходим в профиль пользователя
+    public void goToProfile(){
+        $(By.xpath("//div[@class='header-right']//a[contains(@href, '/user/')]")).click();
+    }
+
 }
