@@ -9,11 +9,13 @@ import static com.codeborne.selenide.Selenide.open;
  * Created by user nkorobicina on 22.12.2016.
  */
 //Восстановление пароля пользователя, USER-ACC-1
-public class PasswordRecoveryTest extends BaseTest {
+public class PasswordRecoveryTest extends BaseTest
+{
 
     //USER-ACC-1.1 Восстановление пароля пользователя: получение письма
     @Test(priority = 1)
-    public void testRecoveryPasswordReceivingMail() throws IOException, InterruptedException, MessagingException {
+    public void testRecoveryPasswordReceivingMail() throws IOException, InterruptedException, MessagingException
+    {
         log("Запущен тест USER-ACC-1.1");
 
         log("Переходим на форму логина");
@@ -54,13 +56,15 @@ public class PasswordRecoveryTest extends BaseTest {
         log("Проверяем заголовок последнего письма в отладочном почтовом ящике");
         TestMail testMail = new TestMail();
         String subjectRecoveryMail = testMail.getPasswordRecoveryMailHead();
-        if(!testMail.isSubjectCorrect(subjectRecoveryMail)){
+        if(!testMail.isSubjectCorrect(subjectRecoveryMail))
+        {
             logErrors++;
             log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRecoveryMail);
         }
 
         log("Проверяем адресата письма");
-        if(!testMail.isAddresseeCorrect(testUserData.getUserLogin())){
+        if(!testMail.isAddresseeCorrect(testUserData.getUserLogin()))
+        {
             logErrors++;
             log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserData.getUserLogin());
         }
@@ -74,7 +78,8 @@ public class PasswordRecoveryTest extends BaseTest {
 
     //USER-ACC-1.2. Восстановление пароля: изменение и проверка нового пароля
     @Test(priority = 2)
-    public void testRestorePassword() throws IOException, InterruptedException, MessagingException {
+    public void testRestorePassword() throws IOException, InterruptedException, MessagingException
+    {
         log("Запущен тест USER-ACC-1.2");
 
         log("Переходим на форму логина");
@@ -140,7 +145,8 @@ public class PasswordRecoveryTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void testMessageOnEmailPage() throws IOException {
+    public void testMessageOnEmailPage() throws IOException
+    {
         log("Запущен тест USER-ACC-1.3");
 
         log("Переходим на форму логина");

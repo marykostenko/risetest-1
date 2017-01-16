@@ -6,7 +6,8 @@ import java.util.Properties;
 /**
  * Created by user nkorobicina on 09.01.2017.
  */
-public class TestPasswordData {
+public class TestPasswordData
+{
 
     private String shortPassword;
     private String weakPassword;
@@ -15,7 +16,8 @@ public class TestPasswordData {
     private String veryStrongPassword;
     private String newRecoveryPassword;
 
-    public TestPasswordData() throws IOException {
+    public TestPasswordData() throws IOException
+    {
         shortPassword = this.initPasswordData("short");
         weakPassword = this.initPasswordData("weak");
         middlePassword = this.initPasswordData("middle");
@@ -26,23 +28,41 @@ public class TestPasswordData {
     }
 
 
-    protected String initPasswordData(String fieldKey) throws IOException {
+    protected String initPasswordData(String fieldKey) throws IOException
+    {
         Properties userData = new Properties();
         File propertyFile = new File("src/main/resources/passwordData.properties");
         userData.load(new FileReader(propertyFile));
         return userData.getProperty(fieldKey);
     }
 
-    public String getShortPassword(){ return shortPassword;}
+    public String getShortPassword()
+    {
+        return shortPassword;
+    }
 
-    public String getWeakPassword() {return weakPassword;}
+    public String getWeakPassword()
+    {
+        return weakPassword;
+    }
 
-    public String getMiddlePassword() { return middlePassword;}
+    public String getMiddlePassword()
+    {
+        return middlePassword;
+    }
 
-    public String getStrongPassword() { return strongPassword; }
+    public String getStrongPassword()
+    {
+        return strongPassword;
+    }
 
-    public String getVeryStrongPassword() { return veryStrongPassword; }
+    public String getVeryStrongPassword()
+    {
+        return veryStrongPassword;
+    }
 
-    public String getNewRecoveryPassword(){ return newRecoveryPassword; }
-
+    public String getNewRecoveryPassword()
+    {
+        return newRecoveryPassword;
+    }
 }

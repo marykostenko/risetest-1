@@ -8,10 +8,12 @@ import static com.codeborne.selenide.Selenide.open;
 /**
  * Created by user nkorobicina on 16.01.2017.
  */
-public class PasswordRecoveryMessagesTest extends BaseTest {
+public class PasswordRecoveryMessagesTest extends BaseTest
+{
 
     @Test(priority =  1)
-    public void testMessagesOnFormNewPassword() throws IOException, InterruptedException, MessagingException {
+    public void testMessagesOnFormNewPassword() throws IOException, InterruptedException, MessagingException
+    {
         log("Запущен тест USER-ACC-1.4");
 
         log("Переходим на форму логина");

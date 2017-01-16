@@ -5,8 +5,10 @@ import static com.codeborne.selenide.Selenide.$;
 
 /**
  * Created by user nkorobicina on 11.01.2017.
+ * Страница настроек аккаунта пользователя
  */
-public class PageUserAccount extends BasePage {
+public class PageUserAccount extends BasePage
+{
 
     public void changePassword(String currentPassword, String newPassword){
         $(By.id("oldPassword")).sendKeys(currentPassword);
