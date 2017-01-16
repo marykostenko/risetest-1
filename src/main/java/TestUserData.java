@@ -6,7 +6,8 @@ import java.util.Properties;
 /**
  * Created by user nkorobicina on 07.12.2016.
  */
-public class TestUserData {
+public class TestUserData
+{
 
     private String userFirstName;
     private String userMiddleName;
@@ -17,7 +18,8 @@ public class TestUserData {
 
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
-    public TestUserData(String userId) throws IOException {
+    public TestUserData(String userId) throws IOException
+    {
         userFirstName = this.initUserData(userId + "FirstName");
         userMiddleName = this.initUserData(userId + "MiddleName");
         userLastName = this.initUserData(userId + "LastName");
@@ -28,34 +30,41 @@ public class TestUserData {
 
     //методу передается название поля в properties и метод возвращает значение поля
 
-    protected String initUserData(String fieldKey) throws IOException {
+    protected String initUserData(String fieldKey) throws IOException
+    {
         Properties userData = new Properties();
         File propertyFile = new File("src/main/resources/userData.properties");
         userData.load(new FileReader(propertyFile));
         return userData.getProperty(fieldKey);
     }
 
-    public String getUserFirstName(){
+    public String getUserFirstName()
+    {
         return userFirstName;
     }
 
-    public String getUserMiddleName(){
+    public String getUserMiddleName()
+    {
         return userMiddleName;
     }
 
-    public String getUserLastName(){
+    public String getUserLastName()
+    {
         return userLastName;
     }
 
-    public String getUserLogin(){
+    public String getUserLogin()
+    {
         return userLogin;
     }
 
-    public String getUserPassword(){
+    public String getUserPassword()
+    {
         return userPassword;
     }
 
-    public String getUserPost(){
+    public String getUserPost()
+    {
         return userPost;
     }
 }

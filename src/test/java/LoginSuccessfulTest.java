@@ -8,11 +8,13 @@ import static com.codeborne.selenide.WebDriverRunner.url;
  * Created by user nkorobicina on 07.12.2016.
  */
 //USER-L-1
-public class LoginSuccessfulTest extends BaseTest {
+public class LoginSuccessfulTest extends BaseTest
+{
 
     //USER-L-1.1
     @Test(priority = 1)
-    public void testAdminLogin() throws IOException {
+    public void testAdminLogin() throws IOException
+    {
         log("Запущен тест USER-L-1.1");
 
         log("Переключаем язык страницы на русский");
@@ -59,7 +61,8 @@ public class LoginSuccessfulTest extends BaseTest {
 
 //USER-L-1.2 логин кандидата
     @Test(priority = 2)
-    public void testCandidateLogin() throws IOException {
+    public void testCandidateLogin() throws IOException
+    {
         log("Запущен тест USER-L-1.2");
 
         log("Переключаем язык страницы на русский");
@@ -106,7 +109,8 @@ public class LoginSuccessfulTest extends BaseTest {
 
     //USER-L-1.3
     @Test(priority = 3)
-    public void testRepresentativeLogin() throws IOException {
+    public void testRepresentativeLogin() throws IOException
+    {
         log("Запущен тест USER-L-1.3");
 
         log("Переключаем язык страницы на русский");
@@ -151,7 +155,8 @@ public class LoginSuccessfulTest extends BaseTest {
 
     //USER-L-1.4
     @Test(priority = 4)
-    public void testDistributiveLogin() throws IOException {
+    public void testDistributiveLogin() throws IOException
+    {
         log("Запущен тест USER-L-1.4");
 
         log("Переключаем язык страницы на русский");
@@ -196,7 +201,8 @@ public class LoginSuccessfulTest extends BaseTest {
 
     //USER-L-1.5
     @Test(priority = 5)
-    public void testAgreementLogin() throws IOException {
+    public void testAgreementLogin() throws IOException
+    {
         log("Запущен тест USER-L-1.5");
 
         log("Переключаем язык страницы на русский");
@@ -241,7 +247,8 @@ public class LoginSuccessfulTest extends BaseTest {
 
     //USER-L-1.6
     @Test(priority = 6)
-    public void testOrganizationAdministratorLogin() throws IOException {
+    public void testOrganizationAdministratorLogin() throws IOException
+    {
         log("Запущен тест USER-L-1.6");
 
         log("Переключаем язык страницы на русский");

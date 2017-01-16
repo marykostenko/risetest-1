@@ -12,7 +12,8 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
     //USER L-2.1
     @Test(priority =1)
-    public void testUnsuccessfulLogin() throws IOException {
+    public void testUnsuccessfulLogin() throws IOException
+    {
         log("Запущен тест USER-L-2.1");
 
         log("Переключаем язык страницы на русский");
@@ -75,8 +76,8 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
     //USER-L-2.2
     @Test (priority = 2)
-    public void resetLoginAttemps() throws IOException{
-
+    public void resetLoginAttemps() throws IOException
+    {
         log("Запущен тест USER-L-2.2");
 
         log("Переключаем язык страницы на русский");
@@ -103,24 +104,25 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
 
         log("Открываем меню администратора");
-        pageTopBottom.adminMenu();
+        pageTopBottom.openAdminMenu();
 
         log("Переходим к списку всех пользователей системы");
-        UserControl userControl = new UserControl();
-        userControl.usersPage();
+        PageUsersList userControl = new PageUsersList();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
         TestUserData testUserLoserData = new TestUserData(getUserLoserId());
         userControl.fillUserEmail(testUserLoserData.getUserLogin());
 
         log("Нажимаем кнопку поиск");
-        userControl.userSearchButton();
+        userControl.clickUserSearchButton();
 
         log("Выбираем пользователя");
-        userControl.filteredUser();
+        userControl.chooseFilteredUser();
 
         log("Сбрасываем число попыток ввода пользователя до нуля");
-        userControl.resetLoginAttempts();
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.resetLoginAttempts();
 
         log("Разлогиниваемся");
         pageTopBottom.logout();
