@@ -1,4 +1,3 @@
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -37,6 +36,8 @@ public abstract class BaseTest {
     private static final String agreementId = "agreement";
     private static final String adminOrgId = "adminOrg";
     private static final String mailRecoveryId = "mailRecovery";
+    private static final String userLoserId = "userLoser";
+
 
     public String getAdminId(){
         return adminId;
@@ -47,6 +48,7 @@ public abstract class BaseTest {
     public String getAgreementId(){ return agreementId; }
     public String getAdminOrgId() { return adminOrgId; }
     public String getMailRecoveryId() { return mailRecoveryId; }
+    public String getUserLoserId () { return userLoserId; }
 
 
     public String getStandUrl(String flag) throws IOException {
