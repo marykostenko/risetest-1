@@ -22,7 +22,7 @@ public class PageTopBottom extends BasePage
 
     // открывает главную страницу сайта
     public void homePage (){
-        $(By.xpath("//div[@class='header-left']")).click();
+        $(By.xpath("//a[@class='header_logo_link']")).click();
     }
 
     public void goToLogin(){
@@ -114,29 +114,21 @@ public class PageTopBottom extends BasePage
         $(By.xpath("//div[@class='clearfix']//child::a[@class='dropdown-toggle padding-right-0']")).click();
     }
 
-    /**
-     * /возвращает истину, если язык страницы русский
-    */
-
-    protected boolean isRuLang()
-    {
-        ElementsCollection ruActive = $$(By.xpath("//a[contains(@class, 'rus active')]"));
-        if(ruActive.isEmpty())
-        {
+    //возвращает истину, если язык страницы русский
+    protected boolean isRuLang(){
+        ElementsCollection ruActive = $$(By.xpath("//div[@class='dropdown-btn']//child::img[@src='/assets/images/ru.jpg']"));
+        if(ruActive.isEmpty()){
             return false;
         }
         else
             return true;
     }
 
-    /**
-     * переключает язык страницы на русский
-      */
-    public void switchToRu()
-    {
-        if(!isRuLang())
-        {
-            $(By.xpath("//a[@lang='ru']")).click();
+    //переключает язык страницы на русский
+    public void switchToRu(){
+        if(!isRuLang()){
+            $(By.xpath("//div[@class='rs-language']")).click();
+            $(By.xpath("//div[@data-language='ru-RU']")).click();
         }
     }
 
@@ -155,7 +147,8 @@ public class PageTopBottom extends BasePage
     //переключает язык страницы на английский
     public void switchToEn(){
         if(!isEnLang()){
-            $(By.xpath("//a[@lang='en']")).click();
+            $(By.xpath("//div[@class='rs-language']")).click();
+            $(By.xpath("//div[@data-language='en-EN']")).click();
         }
     }
 

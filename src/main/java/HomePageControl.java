@@ -9,34 +9,29 @@ import static com.codeborne.selenide.Selenide.$$;
 public class HomePageControl  extends BasePage{
 
     // проверяет отображение шапки на главной странице и наличие в ней логотипа Россотрудничества, названия сайта, кнопок смены языка, вход и регистрация, кнопка корзины
-    private ElementsCollection logo = $$(By.xpath("//a[@class='logo']"));
+    private ElementsCollection logo = $$(By.xpath("//a[@class='header_logo_link']"));
     private ElementsCollection logoTop = $$(By.xpath("//div[@class='logo-top']"));
     private ElementsCollection siteNameLogo = $$(By.xpath("//div[@class='logo-bottom']"));
-    private ElementsCollection ruLangButton = $$(By.xpath("//a[contains(@class,'btn-rus')]"));
-    private ElementsCollection enLangButton = $$(By.xpath("//a[contains(@class,'btn-eng')]"));
-    private ElementsCollection loginButton = $$(By.xpath("//a[@href='/login']"));
-    private ElementsCollection registrationButton = $$(By.xpath("//a[contains(@class,'colorbox-registration')]"));
-    private ElementsCollection basketButton = $$(By.xpath("//a[@data-toggle='dropdown']"));
-    private ElementsCollection basketButtonIcon = $$(By.xpath("//i[contains(@class,'icon-briefcase')]"));
+    private ElementsCollection loginButton = $$(By.xpath("//nav[@class='login_nav login_nav_header']//child::a[contains(@href,'/login')]"));
+    private ElementsCollection registrationButton = $$(By.xpath("//nav[@class='login_nav login_nav_header']//child::a[@href='/registration']"));
+    private ElementsCollection basketButton = $$(By.xpath("//div[@class='rs-basket']"));
+    private ElementsCollection basketButtonIcon = $$(By.xpath("//img[@src='/assets/images/basket.svg']"));
 
     public int hatHomePage (int logErrors){
 
         logErrors = checkAndLog(logo.isEmpty(), logErrors, "Ошибка: нет логотипа Россотрудничества", "Логотип Россотрудничества есть");
         logErrors = checkAndLog(logoTop.isEmpty(), logErrors, "Ошибка: нет логотипа сайта RUSSIA.STUDY", "Логотип сайта RUSSIA.STUDY есть");
         logErrors = checkAndLog(siteNameLogo.isEmpty(), logErrors, "Ошибка: название сайта отсутсвует", "Название сайта есть");
-        logErrors = checkAndLog(ruLangButton.isEmpty(), logErrors, "Ошибка: нет кнопки переключения на русский язык", "Кнопка переключения на русский язык есть");
-        logErrors = checkAndLog(enLangButton.isEmpty(), logErrors, "Ошибка: нет кнопки переключения на английский язык", "Кнопка переключения на английский язык есть");
         logErrors = checkAndLog(loginButton.isEmpty(), logErrors, "Ошибка: нет кнопки Вход", "Кнопка Вход есть");
         logErrors = checkAndLog(registrationButton.isEmpty(), logErrors, "Ошибка: нет кнопки Регистрация", "Кнопка Регистрация есть");
         logErrors = checkAndLog(basketButton.isEmpty(), logErrors, "Ошибка: нет кнопки корзины", "Кнопка корзины есть");
-        logErrors = checkAndLog(basketButtonIcon.isEmpty(), logErrors, "Ошибка: нет иконки портфеля на кнопке корзины", "Иконка портфеля на кнопке корзины есть");
+        logErrors = checkAndLog(basketButtonIcon.isEmpty(), logErrors, "Ошибка: нет иконки корзины", "Иконка корзины есть");
 
         return logErrors;
 
     }
 
     // проверяет отображение подвала на главной странице и наличие в нём корректных данных, таких как название сайта, электронную почту и ссылки на другие сайты
-    private ElementsCollection siteName = $$(By.xpath("//div[@id='c27']//child::p[@class='bodytext']"));
     private ElementsCollection emaiRussiaStudy = $$(By.xpath("//a[@href='mailto:info@russia.study']"));
     private ElementsCollection displayEmailRussiaStudy = $$(By.xpath("//strong[contains(text(),'info@russia.study')]"));
     private ElementsCollection linkToRossotrudnichestvo = $$(By.xpath("//a[@href='http://rs.gov.ru/']"));
@@ -44,11 +39,10 @@ public class HomePageControl  extends BasePage{
 
     public int basementHomePage(int logErrors){
 
-        logErrors = checkAndLog(siteName.isEmpty(), logErrors, "Ошибка: в подвале нет названия сайта", "Название сайта в подвале есть");
         logErrors = checkAndLog(emaiRussiaStudy.isEmpty(), logErrors, "Ошибка: нет ссылки на Emai", "Ссылка на Email есть");
         logErrors = checkAndLog(displayEmailRussiaStudy.isEmpty(), logErrors, "Ошибка: Email не отображается", "Email отображается");
         logErrors = checkAndLog(linkToRossotrudnichestvo.isEmpty(), logErrors, "Ошибка: ссылки на сайт Россотрудничества нет", "Ссылка на сайт Россотрудничества есть");
-        logErrors = checkAndLog(linkToMinobr.isEmpty(), logErrors, "Ошибка: ссылки на сайт Минобрнауки нет", "Ссылка на сайн Минобрнауки есть");
+        logErrors = checkAndLog(linkToMinobr.isEmpty(), logErrors, "Ошибка: ссылки на сайт Минобрнауки нет", "Ссылка на сайт Минобрнауки есть");
 
         return logErrors;
     }
@@ -57,7 +51,6 @@ public class HomePageControl  extends BasePage{
     private ElementsCollection loginButtonRu = $$(By.xpath("//a[contains(text(),'Вход')]"));
     private ElementsCollection registrationButtonRu = $$(By.xpath("//a[contains(text(),'Регистрация')]"));
     private ElementsCollection basketButtonRu = $$(By.linkText("Ваш выбор"));
-    private ElementsCollection siteNameRu = $$(By.xpath("//p[contains(text(),'Официальный сайт для отбора иностранных граждан на обучение в Российской Федерации')]"));
     private ElementsCollection rossotrudnichestvoRu = $$(By.xpath("//div[contains(text(),'РОССОТРУДНИЧЕСТВО')]"));
     private ElementsCollection textRossotrudnichestvoRu = $$(By.linkText("Федеральное агентство по делам Содружества Независимых государств, соотечественников, проживающих за рубежом, и по международному гуманитарному сотрудничеству "));
     private ElementsCollection agencyRu = $$(By.xpath("//div[contains(text(),'АГЕНТСТВО ПО СОТРУДНИЧЕСТВУ В ОБРАЗОВАНИИ')]"));
@@ -71,7 +64,6 @@ public class HomePageControl  extends BasePage{
         logErrors = checkAndLog(loginButtonRu.isEmpty(), logErrors, "Ошибка: невеное название кнопки Вход", "Название кнопки Вход верное");
         logErrors = checkAndLog(registrationButtonRu.isEmpty(), logErrors, "Ошибка: неверное название кнопки Регистрация", "Название кнопки Регистрация верное");
         logErrors = checkAndLog(basketButtonRu.isEmpty(), logErrors, "Ошибка: неверный текст на кнопке корзины", "Текст на кнопке корзины верный");
-        logErrors = checkAndLog(siteNameRu.isEmpty(), logErrors, "Ошибка: название сайта в подвале неверное", "Название сайта в подвале верное");
         logErrors = checkAndLog(rossotrudnichestvoRu.isEmpty(), logErrors, "Ошибка: РОССОТРУДНИЧЕСТВО в подвале написано неверно", "РОСОТРУДНИЧЕСВО в подвале написано верно");
         logErrors = checkAndLog(textRossotrudnichestvoRu.isEmpty(), logErrors, "Ошибка: текст описания РОССОТРУДНИЧЕСТВА написан неверно", "Текст описания РОССОТРУДНИЧЕСТВА написан верно");
         logErrors = checkAndLog(agencyRu.isEmpty(), logErrors, "Ошибка: АГЕНТСТВО ПО СОТРУДНИЧЕСТВУ В ОБРАЗОВАНИИ написано неверно", "АГЕНТСТВО ПО СОТРУДНИЧЕСТВУ В ОБРАЗОВАНИИ написано верно");
