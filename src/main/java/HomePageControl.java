@@ -25,7 +25,7 @@ public class HomePageControl  extends BasePage{
         logErrors = checkAndLog(loginButton.isEmpty(), logErrors, "Ошибка: нет кнопки Вход", "Кнопка Вход есть");
         logErrors = checkAndLog(registrationButton.isEmpty(), logErrors, "Ошибка: нет кнопки Регистрация", "Кнопка Регистрация есть");
         logErrors = checkAndLog(basketButton.isEmpty(), logErrors, "Ошибка: нет кнопки корзины", "Кнопка корзины есть");
-        logErrors = checkAndLog(basketButtonIcon.isEmpty(), logErrors, "Ошибка: нет иконки корзины", "Иконка корзины есть");
+        logErrors = checkAndLog(basketButtonIcon.isEmpty(), logErrors, "Ошибка: нет иконки корзины", "Иконка корзины есть.");
 
         return logErrors;
 
