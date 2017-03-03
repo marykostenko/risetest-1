@@ -11,7 +11,7 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 //SYS-MP-1
 public class SystemOperation extends BaseTest {
 
-        //SYS-MP-1.2
+        //SYS-MP-1.1
         @Test(priority =1)
         public void checkTheHomePageRu() throws IOException {
             log("Запущен тест SYS-MP-1.1");
