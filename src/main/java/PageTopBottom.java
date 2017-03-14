@@ -21,7 +21,7 @@ public class PageTopBottom extends BasePage
 {
 
     // открывает главную страницу сайта
-    public void homePage (){
+    public void goToHomePage (){
         $(By.xpath("//a[@class='header_logo_link']")).click();
     }
 
@@ -274,7 +274,7 @@ public class PageTopBottom extends BasePage
 
     public void goToProfile()
     {
-        $(By.xpath("//div[@class='header-right']//a[contains(@href, '/user/')]")).click();
+        $(By.xpath("//div[@class='hero candidate-rise']//a[contains(@href, '/account')]")).click();
     }
 
 

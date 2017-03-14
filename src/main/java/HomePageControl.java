@@ -6,7 +6,8 @@ import static com.codeborne.selenide.Selenide.$$;
 /**
  * Created by Maria on 28.12.2016.
  */
-public class HomePageControl  extends BasePage{
+public class HomePageControl  extends BasePage
+    {
 
     // проверяет отображение шапки на главной странице и наличие в ней логотипа Россотрудничества, названия сайта, кнопок смены языка, вход и регистрация, кнопка корзины
     private ElementsCollection logo = $$(By.xpath("//a[@class='header_logo_link']"));
@@ -17,7 +18,8 @@ public class HomePageControl  extends BasePage{
     private ElementsCollection basketButton = $$(By.xpath("//div[@class='rs-basket']"));
     private ElementsCollection basketButtonIcon = $$(By.xpath("//img[@src='/assets/images/basket.svg']"));
 
-    public int hatHomePage (int logErrors){
+    public int hatHomePage (int logErrors)
+    {
 
         logErrors = checkAndLog(logo.isEmpty(), logErrors, "Ошибка: нет логотипа Россотрудничества", "Логотип Россотрудничества есть");
         logErrors = checkAndLog(logoTop.isEmpty(), logErrors, "Ошибка: нет логотипа сайта RUSSIA.STUDY", "Логотип сайта RUSSIA.STUDY есть");
@@ -47,23 +49,24 @@ public class HomePageControl  extends BasePage{
         return logErrors;
     }
     // проверяет кнопки и названия в шапке и подвале на русскоязычность
-    private ElementsCollection siteNameLogoRu = $$(By.xpath("//div[contains(text(),'Официальный сайт для отбора иностранных граждан на обучение в Российской Федерации')]"));
+    private ElementsCollection siteNameLogoRu = $$(By.xpath("//div[contains(text(),'Официальный сайт для отбора иностранных граждан на обучение')]"));
     private ElementsCollection loginButtonRu = $$(By.xpath("//a[contains(text(),'Вход')]"));
     private ElementsCollection registrationButtonRu = $$(By.xpath("//a[contains(text(),'Регистрация')]"));
-    private ElementsCollection basketButtonRu = $$(By.linkText("Ваш выбор"));
+ //   private ElementsCollection basketButtonRu = $$(By.linkText("Ваш выбор"));
     private ElementsCollection rossotrudnichestvoRu = $$(By.xpath("//div[contains(text(),'РОССОТРУДНИЧЕСТВО')]"));
-    private ElementsCollection textRossotrudnichestvoRu = $$(By.linkText("Федеральное агентство по делам Содружества Независимых государств, соотечественников, проживающих за рубежом, и по международному гуманитарному сотрудничеству "));
+    private ElementsCollection textRossotrudnichestvoRu = $$(By.xpath("//span[contains(text(),'Федеральное агентство по делам Содружества Независимых государств, соотечественников, проживающих за рубежом, и по международному гуманитарному сотрудничеству')]"));
     private ElementsCollection agencyRu = $$(By.xpath("//div[contains(text(),'АГЕНТСТВО ПО СОТРУДНИЧЕСТВУ В ОБРАЗОВАНИИ')]"));
     private ElementsCollection textAgencyRu = $$(By.xpath("//span[contains(text(),'Оператор портала russia.study')]"));
     private ElementsCollection minobrRu = $$(By.xpath("//div[contains(text(),'МИНОБРНАУКИ РОССИИ')]"));
-    private ElementsCollection textMinobrRu = $$(By.linkText("Министерство образования и науки Российской Федерации"));
+    private ElementsCollection textMinobrRu = $$(By.xpath("//span[contains(text(),'Министерство образования и науки Российской Федерации')]"));
 
-    public int textPageRu(int logErrors){
+    public int textPageRu(int logErrors)
+    {
 
         logErrors = checkAndLog(siteNameLogoRu.isEmpty(), logErrors, "Ошибка: Название сайта в шапке неверное", "Название сайта в шапке верное");
         logErrors = checkAndLog(loginButtonRu.isEmpty(), logErrors, "Ошибка: невеное название кнопки Вход", "Название кнопки Вход верное");
         logErrors = checkAndLog(registrationButtonRu.isEmpty(), logErrors, "Ошибка: неверное название кнопки Регистрация", "Название кнопки Регистрация верное");
-        logErrors = checkAndLog(basketButtonRu.isEmpty(), logErrors, "Ошибка: неверный текст на кнопке корзины", "Текст на кнопке корзины верный");
+       // logErrors = checkAndLog(basketButtonRu.isEmpty(), logErrors, "Ошибка: неверный текст на кнопке корзины", "Текст на кнопке корзины верный");
         logErrors = checkAndLog(rossotrudnichestvoRu.isEmpty(), logErrors, "Ошибка: РОССОТРУДНИЧЕСТВО в подвале написано неверно", "РОСОТРУДНИЧЕСВО в подвале написано верно");
         logErrors = checkAndLog(textRossotrudnichestvoRu.isEmpty(), logErrors, "Ошибка: текст описания РОССОТРУДНИЧЕСТВА написан неверно", "Текст описания РОССОТРУДНИЧЕСТВА написан верно");
         logErrors = checkAndLog(agencyRu.isEmpty(), logErrors, "Ошибка: АГЕНТСТВО ПО СОТРУДНИЧЕСТВУ В ОБРАЗОВАНИИ написано неверно", "АГЕНТСТВО ПО СОТРУДНИЧЕСТВУ В ОБРАЗОВАНИИ написано верно");
@@ -79,22 +82,21 @@ public class HomePageControl  extends BasePage{
     private ElementsCollection siteNameLogoEn = $$(By.xpath("//div[contains(text(),'Official Website for Foreign Nationals Enrollment for Study')]"));
     private ElementsCollection loginButtonEn = $$(By.xpath("//a[contains(text(),'Login')]"));
     private ElementsCollection registrationButtonEn = $$(By.xpath("//a[contains(text(),'Register')]"));
-    private ElementsCollection basketButtonEn = $$(By.linkText("Your choice"));
-    private ElementsCollection siteNameEn = $$(By.xpath("//p[contains(text(),'Official Website for Foreign Nationals Enrollment for Study')]"));
+  //  private ElementsCollection basketButtonEn = $$(By.linkText("Your choice"));
     private ElementsCollection rossotrudnichestvoEn = $$(By.xpath("//div[contains(text(),'ROSSOTRUDNICHESTVO')]"));
-    private ElementsCollection textRossotrudnichestvoEn = $$(By.linkText("The Federal Agency for the Commonwealth of Independent States, Compatriots Living Abroad, and International Humanitarian Cooperation "));
+    private ElementsCollection textRossotrudnichestvoEn = $$(By.xpath("//span[contains(text(),'The Federal Agency for the Commonwealth of Independent States, Compatriots Living Abroad, and International Humanitarian Cooperation')]"));
     private ElementsCollection agencyEn = $$(By.xpath("//div[contains(text(),'AGENCY FOR COOPERATION IN EDUCATION')]"));
     private ElementsCollection textAgencyEn = $$(By.xpath("//span[contains(text(),'The russia.study Portal Managing Operator')]"));
     private ElementsCollection minobrEn = $$(By.xpath("//div[contains(text(),'Minobrnauki of Russia')]"));
-    private ElementsCollection textMinobrEn = $$(By.linkText("The Ministry of Science and Education of Russian Federation"));
+    private ElementsCollection textMinobrEn = $$(By.xpath("//span[contains(text(),'The Ministry of Science and Education of Russian Federation')]"));
 
-    public int textPageEn(int logErrors) {
+    public int textPageEn(int logErrors)
+    {
 
         logErrors = checkAndLog(siteNameLogoEn.isEmpty(), logErrors, "Ошибка: Название сайта в шапке неверное", "Название сайта в шапке верное");
         logErrors = checkAndLog(loginButtonEn.isEmpty(), logErrors, "Ошибка: невеное название кнопки Вход", "Название кнопки Вход верное");
         logErrors = checkAndLog(registrationButtonEn.isEmpty(), logErrors, "Ошибка: неверное название кнопки Регистрация", "Название кнопки Регистрация верное");
-        logErrors = checkAndLog(basketButtonEn.isEmpty(), logErrors, "Ошибка: неверный текст на кнопке корзины", "Текст на кнопке корзины верный");
-        logErrors = checkAndLog(siteNameEn.isEmpty(), logErrors, "Ошибка: название сайта в подвале неверное", "Название сайта в подвале верное");
+  //      logErrors = checkAndLog(basketButtonEn.isEmpty(), logErrors, "Ошибка: неверный текст на кнопке корзины", "Текст на кнопке корзины верный");
         logErrors = checkAndLog(rossotrudnichestvoEn.isEmpty(), logErrors, "Ошибка: РОССОТРУДНИЧЕСТВО в подвале написано неверно", "РОСОТРУДНИЧЕСВО в подвале написано верно");
         logErrors = checkAndLog(textRossotrudnichestvoEn.isEmpty(), logErrors, "Ошибка: текст описания РОССОТРУДНИЧЕСТВА написан неверно", "Текст описания РОССОТРУДНИЧЕСТВА написан верно");
         logErrors = checkAndLog(agencyEn.isEmpty(), logErrors, "Ошибка: AGENCY FOR COOPERATION IN EDUCATION написано неверно", "AGENCY FOR COOPERATION IN EDUCATION написано верно");

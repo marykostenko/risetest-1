@@ -45,7 +45,7 @@ public class SystemOperation extends BaseTest {
             pageLogin.pushLoginButton();
 
             log("Переходим на главную страницу сайта");
-            pageTopBottom.homePage();
+            pageTopBottom.goToHomePage();
 
             log("Проверяем шапку главной страницы");
             logErrors = homePageControl.hatHomePage(logErrors);
@@ -95,7 +95,7 @@ public class SystemOperation extends BaseTest {
         pageLogin.pushLoginButton();
 
         log("Переходим на главную страницу сайта");
-        pageTopBottom.homePage();
+        pageTopBottom.goToHomePage();
 
         log("Проверяем шапку главной страницы");
         logErrors = homePageControl.hatHomePage(logErrors);
@@ -105,6 +105,10 @@ public class SystemOperation extends BaseTest {
 
         log("Проверяем шапку и подвал на англоязычность");
         logErrors = homePageControl.textPageEn(logErrors);
+
+        log("Переключаем язык страницы на русский");
+
+        pageTopBottom.switchToRu();
 
         checkMistakes();
 

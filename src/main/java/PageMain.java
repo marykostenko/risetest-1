@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$$;
  */
 public class PageMain extends BasePage
 {
-    private ElementsCollection navigatorLanding = $$(By.xpath("//div[contains(@class, 'programs-search')]"));
+    private ElementsCollection navigatorLanding = $$(By.xpath("//div[@class='rs-program']"));
 
     /**
      * возвращает true, если на странице есть навигатор, то есть открыта главная страница
