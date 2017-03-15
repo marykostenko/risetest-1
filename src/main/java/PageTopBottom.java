@@ -21,7 +21,8 @@ public class PageTopBottom extends BasePage
 {
 
     // открывает главную страницу сайта
-    public void goToHomePage (){
+    public void goToHomePage ()
+    {
         $(By.xpath("//a[@class='header_logo_link']")).click();
     }
 
@@ -79,7 +80,7 @@ public class PageTopBottom extends BasePage
     /**
      * пункты главного меню
      */
-    private String[] menuLine = {"План приема", "Организации", "Кандидаты", "Страны", "Визы", "Администрирование" };
+    private String[] menuLine = {"План приема", "Организации", "Кандидаты", "Страны", "Визы", "Агенты", "Администрирование" };
 
     /**
      * возвращаетс true, если найден пункт меню с заданным номером
