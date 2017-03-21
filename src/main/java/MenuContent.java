@@ -33,7 +33,44 @@ public class MenuContent extends BasePage{
         logErrors = checkAndLog(filtersOrg.isEmpty(), logErrors, "ОШИБКА: нет фильтров организаций", "Фильтры организаций есть");
         logErrors = checkAndLog(tableOrg.isEmpty(), logErrors, "ОШИБКА: нет таблицы с организациями", "Таблица с организациями есть");
 
-        return logErrors();
+        return logErrors;
     }
 
+    private ElementsCollection filtersCand = $$(By.xpath("//div[@id='candidate-filter']"));
+    private ElementsCollection tableCand = $$(By.xpath("//div[@id='candidates']"));
+
+    public int menuCand (int logErrors)
+    {
+
+        logErrors = checkAndLog(filtersCand.isEmpty(), logErrors, "ОШИБКА: нет фильтров кандидатов", "Фильтры кандидатов есть");
+        logErrors = checkAndLog(tableCand.isEmpty(), logErrors, "ОШИБКА: нет таблицы с кандидатами", "Таблица с кандидатами есть");
+
+        return logErrors;
+    }
+
+    private ElementsCollection filtersCountry = $$(By.xpath("//div[@id='country-filters']"));
+    private ElementsCollection tableCountries = $$(By.xpath("//div[@id='countries']"));
+
+    public int menuCoutntries (int logErrors)
+    {
+
+        logErrors = checkAndLog(filtersCountry.isEmpty(), logErrors, "ОШИБКА: нет фильтров стран", "Фильтры стран есть");
+        logErrors = checkAndLog(tableCountries.isEmpty(), logErrors, "ОШИБКА: нет таблицы со странами", "Таблица со странами есть");
+
+        return logErrors;
+
+    }
+
+    private ElementsCollection filtersAgents = $$(By.xpath("//div[@id='agents-filter']"));
+    private ElementsCollection tableAgents = $$(By.xpath("//div[@id='agents']"));
+
+    public int menuAgents (int logErrors)
+    {
+
+        logErrors = checkAndLog(filtersAgents.isEmpty(), logErrors, "ОШИБКА: нет фильтров стран", "Фильтры стран есть");
+        logErrors = checkAndLog(tableAgents.isEmpty(), logErrors, "ОШИБКА: нет таблицы со странами", "Таблица со странами есть");
+
+        return logErrors;
+
+    }
 }

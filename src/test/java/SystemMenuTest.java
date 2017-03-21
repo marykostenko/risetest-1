@@ -49,7 +49,7 @@ public class SystemMenuTest extends BaseTest{
             log("Пункт 'План приема' есть");
             $(By.xpath("//a[contains(@href,'/plans/')]")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuPlans();
+            logErrors = menuContent.menuPlans(logErrors);
 
         }
         else log("ОШИБКА: Пункт 'План приема' не найден");
@@ -60,7 +60,7 @@ public class SystemMenuTest extends BaseTest{
             log("Пкнкт 'Организации' есть");
             $(By.xpath("//a[contains(@href,'/organizations')]")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuOrg();
+            logErrors = menuContent.menuOrg(logErrors);
         }
         else log("ОШИБКА: Пункт 'Организации' не найден");
 
@@ -69,6 +69,8 @@ public class SystemMenuTest extends BaseTest{
         {
             log("Пкнкт 'Кандидаты' есть");
             $(By.xpath("//a[@href='/candidates']")).click();
+            MenuContent menuContent = new MenuContent();
+            logErrors = menuContent.menuCand(logErrors);
         }
         else log("ОШИБКА: Пункт 'Кандидаты' не найден");
 
@@ -77,11 +79,13 @@ public class SystemMenuTest extends BaseTest{
         {
             log("Пкнкт 'Страны' есть");
             $(By.xpath("//a[@href='/countries']")).click();
+            MenuContent menuContent = new MenuContent();
+            logErrors = menuContent.menuCoutntries(logErrors);
         }
         else log("ОШИБКА: Пункт 'Страны' не найден");
 
         log("Проверка меню 'Визы'");
-        if (pageTopBottom.isAnyMenuAppear(1))
+        if (pageTopBottom.isAnyMenuAppear(5))
         {
             log("Пкнкт 'Визы' есть");
             $(By.xpath("//a[@href='/visaRequest/list']")).click();
@@ -93,6 +97,8 @@ public class SystemMenuTest extends BaseTest{
         {
             log("Пкнкт 'Агенты' есть");
             $(By.xpath("//a[@href='/agent/list']")).click();
+            MenuContent menuContent = new MenuContent();
+            logErrors = menuContent.menuAgents(logErrors);
         }
         else log("ОШИБКА: Пункт 'Агенты' не найден");
 
