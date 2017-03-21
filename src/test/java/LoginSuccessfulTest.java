@@ -175,8 +175,8 @@ public class LoginSuccessfulTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testDistributiveData = new TestUserData(getDistributiveId());
-        pageLogin.fillLoginForm(testDistributiveData.getUserLogin(), testDistributiveData.getUserPassword());
+        TestUserData testCuratorData = new TestUserData(getCuratorId());
+        pageLogin.fillLoginForm(testCuratorData.getUserLogin(), testCuratorData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -186,7 +186,7 @@ public class LoginSuccessfulTest extends BaseTest
 
         log("Проверяем имя пользователя в шапке:");
         log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(testDistributiveData.getUserFirstName() + " " + testDistributiveData.getUserLastName(), logErrors);
+        logErrors = pageTopBottom.assertFIOLoggedIn(testCuratorData.getUserFirstName() + " " + testCuratorData.getUserLastName(), logErrors);
 
         log("Проверяем доступные пункты меню");
         logErrors = pageTopBottom.assertDistributiveMenu(logErrors);
