@@ -21,7 +21,8 @@ public class PageTopBottom extends BasePage
 {
 
     // открывает главную страницу сайта
-    public void goToHomePage (){
+    public void goToHomePage ()
+    {
         $(By.xpath("//a[@class='header_logo_link']")).click();
     }
 

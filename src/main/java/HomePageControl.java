@@ -39,7 +39,8 @@ public class HomePageControl  extends BasePage
     private ElementsCollection linkToRossotrudnichestvo = $$(By.xpath("//a[@href='http://rs.gov.ru/']"));
     private ElementsCollection linkToMinobr = $$(By.xpath("//a[@href='http://минобрнауки.рф/']"));
 
-    public int basementHomePage(int logErrors){
+    public int basementHomePage(int logErrors)
+    {
 
         logErrors = checkAndLog(emaiRussiaStudy.isEmpty(), logErrors, "Ошибка: нет ссылки на Emai", "Ссылка на Email есть");
         logErrors = checkAndLog(displayEmailRussiaStudy.isEmpty(), logErrors, "Ошибка: Email не отображается", "Email отображается");
