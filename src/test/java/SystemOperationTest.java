@@ -9,7 +9,7 @@ import static com.codeborne.selenide.WebDriverRunner.url;
  */
 
 //SYS-MP-1
-public class SystemOperation extends BaseTest {
+public class SystemOperationTest extends BaseTest {
 
         //SYS-MP-1.1
         @Test(priority =1)

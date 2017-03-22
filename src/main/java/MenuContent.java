@@ -73,4 +73,52 @@ public class MenuContent extends BasePage{
         return logErrors;
 
     }
+
+    private ElementsCollection menuUsers = $$(By.xpath("//a[@href='/users']"));
+    private ElementsCollection menuCatalogs = $$(By.xpath("//a[@href='/catalogs']"));
+    private ElementsCollection menuCyclesWithPlans = $$(By.xpath("//a[@href='/cycleswithplans']"));
+    private ElementsCollection menuGovernment = $$(By.xpath("//a[@href='/government/list']"));
+    private ElementsCollection menuJournal = $$(By.xpath("//a[@href='/journal']"));
+    private ElementsCollection menuContentManagement = $$(By.xpath("//a[@href='/contentManagement']"));
+    private ElementsCollection menuMailTemplates = $$(By.xpath("//a[@href='/admin/mailtemplates']"));
+
+    public int menuAdmin (int logErrors)
+    {
+
+        logErrors = checkAndLog(menuUsers.isEmpty(), logErrors, "ОШИБКА: нет меню 'Пользователи'", "Меню 'Пользователи' есть");
+        logErrors = checkAndLog(menuCatalogs.isEmpty(), logErrors, "ОШИБКА: нет меню 'Справочники'", "Меню 'Справочники' есть");
+        logErrors = checkAndLog(menuCyclesWithPlans.isEmpty(), logErrors, "ОШИБКА: нет меню 'Циклы приёма'", "Меню 'Циклы приема' есть");
+        logErrors = checkAndLog(menuGovernment.isEmpty(), logErrors, "ОШИБКА: нет меню 'Органы власти'", "Меню 'Органы власти' есть");
+        logErrors = checkAndLog(menuJournal.isEmpty(), logErrors, "ОШИБКА: нет меню 'Журнал'", "Меню 'Журнал' есть");
+        logErrors = checkAndLog(menuContentManagement.isEmpty(), logErrors, "ОШИБКА: нет меню 'Управление контентом'", "Меню 'Управление контентом' есть");
+        logErrors = checkAndLog(menuMailTemplates.isEmpty(), logErrors, "ОШИБКА: нет меню 'Шаблоны'", "Меню 'Шаблоны' есть");
+
+        return logErrors;
+
+    }
+
+    public int menuAdminForCurator (int logErrors)
+    {
+
+        logErrors = checkAndLog(menuGovernment.isEmpty(), logErrors, "ОШИБКА: нет меню 'Органы власти'", "Меню 'Органы власти' есть");
+
+        return logErrors;
+
+    }
+
+    private ElementsCollection menuOrgSev = $$(By.xpath("//div[@class='clearfix']//child::li"));
+    private ElementsCollection titleSev = $$(By.xpath("//div[@class='user-title']"));
+    private ElementsCollection contentSev = $$(By.xpath("//div[@class='content']"));
+
+    public int menuAdminOrg (int logErrors)
+    {
+
+        logErrors = checkAndLog(menuOrgSev.isEmpty(), logErrors, "ОШИБКА: нет меню 'СевГУ'", "Меню 'СевГУ' есть");
+        logErrors = checkAndLog(titleSev.isEmpty(), logErrors, "ОШИБКА: нет названия вуза", "Название вуза есть");
+        logErrors = checkAndLog(contentSev.isEmpty(), logErrors, "ОШИБКА: нет общей информации о вузе", "Общая информация о вузе есть");
+
+        return logErrors;
+
+    }
+
 }
