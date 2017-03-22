@@ -50,54 +50,54 @@ public class SystemMenuTest extends BaseTest
             log("Пункт 'План приема' есть");
             $(By.xpath("//a[contains(@href,'/plans/')]")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuPlans(logErrors);
+            logErrors = menuContent.CheckMenuPlans(logErrors);
 
         } else log("ОШИБКА: Пункт 'План приема' не найден");
 
         log("Проверка меню 'Организации'");
         if (pageTopBottom.isAnyMenuAppear(1)) {
-            log("Пкнкт 'Организации' есть");
+            log("Пункт 'Организации' есть");
             $(By.xpath("//a[contains(@href,'/organizations')]")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuOrg(logErrors);
+            logErrors = menuContent.CheckMenuOrg(logErrors);
         } else log("ОШИБКА: Пункт 'Организации' не найден");
 
         log("Проверка меню 'Кандидаты'");
         if (pageTopBottom.isAnyMenuAppear(2)) {
-            log("Пкнкт 'Кандидаты' есть");
+            log("Пункт 'Кандидаты' есть");
             $(By.xpath("//a[@href='/candidates']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuCand(logErrors);
+            logErrors = menuContent.CheckMenuCand(logErrors);
         } else log("ОШИБКА: Пункт 'Кандидаты' не найден");
 
         log("Проверка меню 'Страны'");
         if (pageTopBottom.isAnyMenuAppear(3)) {
-            log("Пкнкт 'Страны' есть");
+            log("Пункт 'Страны' есть");
             $(By.xpath("//a[@href='/countries']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuCoutntries(logErrors);
+            logErrors = menuContent.CheckMenuCountries(logErrors);
         } else log("ОШИБКА: Пункт 'Страны' не найден");
 
         log("Проверка меню 'Визы'");
         if (pageTopBottom.isAnyMenuAppear(4)) {
-            log("Пкнкт 'Визы' есть");
+            log("Пункт 'Визы' есть");
             $(By.xpath("//a[@href='/visaRequest/list']")).click();
         } else log("ОШИБКА: Пункт 'Визы' не найден");
 
         log("Проверка меню 'Агенты'");
         if (pageTopBottom.isAnyMenuAppear(5)) {
-            log("Пкнкт 'Агенты' есть");
+            log("Пункт 'Агенты' есть");
             $(By.xpath("//a[@href='/agent/list']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuAgents(logErrors);
+            logErrors = menuContent.CheckMenuAgents(logErrors);
         } else log("ОШИБКА: Пункт 'Агенты' не найден");
 
         log("Проверка меню 'Администрирование'");
         if (pageTopBottom.isAnyMenuAppear(6)) {
-            log("Пкнкт 'Администрирование' есть");
+            log("Пункт 'Администрирование' есть");
             $(By.xpath("//a[@class='dropdown-toggle padding-right-0']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuAdmin(logErrors);
+            logErrors = menuContent.CheckMenuAdmin(logErrors);
         } else log("ОШИБКА: Пункт 'Администрирование' не найден");
 
         checkMistakes();
@@ -107,7 +107,7 @@ public class SystemMenuTest extends BaseTest
 
     }
 
-    //SYS-MENU-1.1
+    //SYS-MENU-1.2
     @Test(priority = 2)
     public void checkTheCuratorMenu() throws IOException
     {
@@ -141,40 +141,40 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверка меню 'Организации'");
         if (pageTopBottom.isAnyMenuAppear(1)) {
-            log("Пкнкт 'Организации' есть");
+            log("Пункт 'Организации' есть");
             $(By.xpath("//a[contains(@href,'/organizations')]")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuOrg(logErrors);
+            logErrors = menuContent.CheckMenuOrg(logErrors);
         } else log("ОШИБКА: Пункт 'Организации' не найден");
 
         log("Проверка меню 'Кандидаты'");
         if (pageTopBottom.isAnyMenuAppear(2)) {
-            log("Пкнкт 'Кандидаты' есть");
+            log("Пункт 'Кандидаты' есть");
             $(By.xpath("//a[@href='/candidates']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuCand(logErrors);
+            logErrors = menuContent.CheckMenuCand(logErrors);
         } else log("ОШИБКА: Пункт 'Кандидаты' не найден");
 
         log("Проверка меню 'Страны'");
         if (pageTopBottom.isAnyMenuAppear(3)) {
-            log("Пкнкт 'Страны' есть");
+            log("Пункт 'Страны' есть");
             $(By.xpath("//a[@href='/countries']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuCoutntries(logErrors);
+            logErrors = menuContent.CheckMenuCountries(logErrors);
         } else log("ОШИБКА: Пункт 'Страны' не найден");
 
         log("Проверка меню 'Визы'");
         if (pageTopBottom.isAnyMenuAppear(4)) {
-            log("Пкнкт 'Визы' есть");
+            log("Пункт 'Визы' есть");
             $(By.xpath("//a[@href='/visaRequest/list']")).click();
         } else log("ОШИБКА: Пункт 'Визы' не найден");
 
         log("Проверка меню 'Администрирование'");
         if (pageTopBottom.isAnyMenuAppear(6)) {
-            log("Пкнкт 'Администрирование' есть");
+            log("Пункт 'Администрирование' есть");
             $(By.xpath("//a[@class='dropdown-toggle padding-right-0']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuAdminForCurator(logErrors);
+            logErrors = menuContent.CheckMenuAdminForCurator(logErrors);
         } else log("ОШИБКА: Пункт 'Администрирование' не найден");
 
         checkMistakes();
@@ -183,6 +183,7 @@ public class SystemMenuTest extends BaseTest
 
     }
 
+    //SYS-MENU-1.3
     @Test(priority = 3)
     public void checkTheAdminOrgMenu() throws IOException
     {
@@ -216,7 +217,7 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверяем организацию:");
         MenuContent menuContent = new MenuContent();
-        logErrors = menuContent.menuAdminOrg(logErrors);
+        logErrors = menuContent.CheckMenuAdminOrg(logErrors);
 
 
         checkMistakes();
@@ -225,6 +226,7 @@ public class SystemMenuTest extends BaseTest
 
     }
 
+    //SYS-MENU-1.4
     @Test(priority = 4)
     public void checkTheRepresentativeMenu() throws IOException
     {
@@ -258,18 +260,18 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверка меню 'Кандидаты'");
         if (pageTopBottom.isAnyMenuAppear(2)) {
-            log("Пкнкт 'Кандидаты' есть");
+            log("Пункт 'Кандидаты' есть");
             $(By.xpath("//a[@href='/candidates']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuCand(logErrors);
+            logErrors = menuContent.CheckMenuCand(logErrors);
         } else log("ОШИБКА: Пункт 'Кандидаты' не найден");
 
         log("Проверка меню 'Страны'");
         if (pageTopBottom.isAnyMenuAppear(3)) {
-            log("Пкнкт 'Страны' есть");
+            log("Пункт 'Страны' есть");
             $(By.xpath("//a[@href='/countries']")).click();
             MenuContent menuContent = new MenuContent();
-            logErrors = menuContent.menuCoutntries(logErrors);
+            logErrors = menuContent.CheckMenuCountries(logErrors);
         } else log("ОШИБКА: Пункт 'Страны' не найден");
 
         checkMistakes();
