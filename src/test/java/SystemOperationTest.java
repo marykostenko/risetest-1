@@ -2,8 +2,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.codeborne.selenide.WebDriverRunner.url;
-
 /**
  * Created by Maria on 28.12.2016.
  */
@@ -25,13 +23,13 @@ public class SystemOperationTest extends BaseTest
 
             log("Проверяем шапку главной страницы");
             HomePageControl homePageControl = new HomePageControl();
-            logErrors = homePageControl.hatHomePage(logErrors);
+            logErrors = homePageControl.checkHatHomePage(logErrors);
 
             log("Проверяем подвал главной страницы");
-            logErrors = homePageControl.basementHomePage(logErrors);
+            logErrors = homePageControl.checkBasementHomePage(logErrors);
 
             log("Проверяем шапку и подвал на русскоязычность");
-            logErrors = homePageControl.textPageRu(logErrors);
+            logErrors = homePageControl.checkTextPageRu(logErrors);
 
             log("Нажимаем кнопку \"Вход\"");
             pageTopBottom.goToLogin();
@@ -51,13 +49,13 @@ public class SystemOperationTest extends BaseTest
             pageTopBottom.goToHomePage();
 
             log("Проверяем шапку главной страницы");
-            logErrors = homePageControl.hatHomePage(logErrors);
+            logErrors = homePageControl.checkHatHomePage(logErrors);
 
             log("Проверяем подвал главной страницы");
-            logErrors = homePageControl.basementHomePage(logErrors);
+            logErrors = homePageControl.checkBasementHomePage(logErrors);
 
             log("Проверяем шапку и подвал на русскоязычность");
-            logErrors = homePageControl.textPageRu(logErrors);
+            logErrors = homePageControl.checkTextPageRu(logErrors);
 
             checkMistakes();
 
@@ -78,13 +76,13 @@ public class SystemOperationTest extends BaseTest
 
         log("Проверяем шапку главной страницы");
         HomePageControl homePageControl = new HomePageControl();
-        logErrors = homePageControl.hatHomePage(logErrors);
+        logErrors = homePageControl.checkHatHomePage(logErrors);
 
         log("Проверяем подвал главной страницы");
-        logErrors = homePageControl.basementHomePage(logErrors);
+        logErrors = homePageControl.checkBasementHomePage(logErrors);
 
         log("Проверяем шапку и подвал на русскоязычность");
-        logErrors = homePageControl.textPageEn(logErrors);
+        logErrors = homePageControl.checkTextPageEn(logErrors);
 
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
@@ -104,13 +102,13 @@ public class SystemOperationTest extends BaseTest
         pageTopBottom.goToHomePage();
 
         log("Проверяем шапку главной страницы");
-        logErrors = homePageControl.hatHomePage(logErrors);
+        logErrors = homePageControl.checkHatHomePage(logErrors);
 
         log("Проверяем подвал главной страницы");
-        logErrors = homePageControl.basementHomePage(logErrors);
+        logErrors = homePageControl.checkBasementHomePage(logErrors);
 
         log("Проверяем шапку и подвал на англоязычность");
-        logErrors = homePageControl.textPageEn(logErrors);
+        logErrors = homePageControl.checkTextPageEn(logErrors);
 
         log("Переключаем язык страницы на русский");
 

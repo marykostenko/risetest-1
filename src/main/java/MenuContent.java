@@ -16,7 +16,7 @@ public class MenuContent extends BasePage
     private ElementsCollection tableGroups = $$(By.xpath("//div[@class='table_wrapper']"));
 
 
-    public int CheckMenuPlans(int logErrors) {
+    public int checkMenuPlans(int logErrors) {
 
         if (pageTopBottom.isAnyMenuAppear(0))
         {
@@ -43,7 +43,7 @@ public class MenuContent extends BasePage
     private ElementsCollection filtersOrg = $$(By.xpath("//div[@id='orgs-filter']"));
     private ElementsCollection tableOrg = $$(By.xpath("//div[@id='orgs']"));
 
-    public int CheckMenuOrg(int logErrors)
+    public int checkMenuOrg(int logErrors)
     {
         if (pageTopBottom.isAnyMenuAppear(1))
 
@@ -68,7 +68,7 @@ public class MenuContent extends BasePage
     private ElementsCollection filtersCand = $$(By.xpath("//div[@id='candidate-filter']"));
     private ElementsCollection tableCand = $$(By.xpath("//div[@id='candidates']"));
 
-    public int CheckMenuCand(int logErrors)
+    public int checkMenuCand(int logErrors)
     {
 
         if (pageTopBottom.isAnyMenuAppear(2))
@@ -91,7 +91,7 @@ public class MenuContent extends BasePage
     private ElementsCollection filtersCountry = $$(By.xpath("//div[@id='country-filters']"));
     private ElementsCollection tableCountries = $$(By.xpath("//div[@id='countries']"));
 
-    public int CheckMenuCountries(int logErrors)
+    public int checkMenuCountries(int logErrors)
     {
 
         if (pageTopBottom.isAnyMenuAppear(3))
@@ -116,7 +116,7 @@ public class MenuContent extends BasePage
     private ElementsCollection filtersVisa = $$(By.xpath("//div[@id='visaRequest-filter']"));
     private ElementsCollection tableVisa = $$(By.xpath("//div[@id='visaRequests']"));
 
-    public int CheckMenuVisa (int logErrors)
+    public int checkMenuVisa(int logErrors)
     {
 
         if (pageTopBottom.isAnyMenuAppear(4))
@@ -143,7 +143,7 @@ public class MenuContent extends BasePage
     private ElementsCollection filtersAgents = $$(By.xpath("//div[@id='agents-filter']"));
     private ElementsCollection tableAgents = $$(By.xpath("//div[@id='agents']"));
 
-    public int CheckMenuAgents(int logErrors)
+    public int checkMenuAgents(int logErrors)
     {
 
         if (pageTopBottom.isAnyMenuAppear(5))
@@ -175,7 +175,7 @@ public class MenuContent extends BasePage
     private ElementsCollection menuContentManagement = $$(By.xpath("//a[@href='/contentManagement']"));
     private ElementsCollection menuMailTemplates = $$(By.xpath("//a[@href='/admin/mailtemplates']"));
 
-    public int CheckMenuAdmin(int logErrors)
+    public int checkMenuAdmin(int logErrors)
     {
 
         if (pageTopBottom.isAnyMenuAppear(6))
@@ -203,7 +203,7 @@ public class MenuContent extends BasePage
 
     }
 
-    public int CheckMenuAdminForCurator(int logErrors)
+    public int checkMenuAdminForCurator(int logErrors)
     {
 
         if (pageTopBottom.isAnyMenuAppear(6))
@@ -230,7 +230,7 @@ public class MenuContent extends BasePage
     private ElementsCollection titleSev = $$(By.xpath("//div[@class='user-title']"));
     private ElementsCollection contentSev = $$(By.xpath("//div[@class='content']"));
 
-    public int CheckMenuAdminOrg(int logErrors) {
+    public int checkMenuAdminOrg(int logErrors) {
 
         if (!menuOrgSev.isEmpty()) {
 

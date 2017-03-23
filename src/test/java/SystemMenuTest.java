@@ -1,4 +1,3 @@
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ public class SystemMenuTest extends BaseTest
 
     //SYS-MENU-1.1
     @Test(priority = 1)
-    public void checkTheAdminMenu() throws IOException
+    public void testTheAdminMenu() throws IOException
     {
         log("Запущен тест SYS-MENU-1.1");
 
@@ -47,29 +46,29 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверка меню 'Плана приема'");
         MenuContent menuContent = new MenuContent();
-        logErrors = menuContent.CheckMenuPlans(logErrors);
+        logErrors = menuContent.checkMenuPlans(logErrors);
 
 
         log("Проверка меню 'Организации'");
-        logErrors = menuContent.CheckMenuOrg(logErrors);
+        logErrors = menuContent.checkMenuOrg(logErrors);
 
 
         log("Проверка меню 'Кандидаты'");
-        logErrors = menuContent.CheckMenuCand(logErrors);
+        logErrors = menuContent.checkMenuCand(logErrors);
 
 
         log("Проверка меню 'Страны'");
-        logErrors = menuContent.CheckMenuCountries(logErrors);
+        logErrors = menuContent.checkMenuCountries(logErrors);
 
 
         log("Проверка меню 'Визы'");
-        logErrors = menuContent.CheckMenuVisa(logErrors);
+        logErrors = menuContent.checkMenuVisa(logErrors);
 
         log("Проверка меню 'Агенты'");
-        logErrors = menuContent.CheckMenuAgents(logErrors);
+        logErrors = menuContent.checkMenuAgents(logErrors);
 
         log("Проверка меню 'Администрирование'");
-        logErrors = menuContent.CheckMenuAdmin(logErrors);
+        logErrors = menuContent.checkMenuAdmin(logErrors);
 
         checkMistakes();
 
@@ -80,7 +79,7 @@ public class SystemMenuTest extends BaseTest
 
     //SYS-MENU-1.2
     @Test(priority = 2)
-    public void checkTheCuratorMenu() throws IOException
+    public void testTheCuratorMenu() throws IOException
     {
         log("Запущен тест SYS-MENU-1.2");
         log("Переключаем язык страницы на русский");
@@ -112,19 +111,19 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверка меню 'Организации'");
         MenuContent menuContent = new MenuContent();
-        logErrors = menuContent.CheckMenuOrg(logErrors);
+        logErrors = menuContent.checkMenuOrg(logErrors);
 
         log("Проверка меню 'Кандидаты'");
-        logErrors = menuContent.CheckMenuCand(logErrors);
+        logErrors = menuContent.checkMenuCand(logErrors);
 
         log("Проверка меню 'Страны'");
-        logErrors = menuContent.CheckMenuCountries(logErrors);
+        logErrors = menuContent.checkMenuCountries(logErrors);
 
         log("Проверка меню 'Визы'");
 
 
         log("Проверка меню 'Администрирование'");
-        logErrors = menuContent.CheckMenuAdminForCurator(logErrors);
+        logErrors = menuContent.checkMenuAdminForCurator(logErrors);
 
         checkMistakes();
 
@@ -134,7 +133,7 @@ public class SystemMenuTest extends BaseTest
 
     //SYS-MENU-1.3
     @Test(priority = 3)
-    public void checkTheAdminOrgMenu() throws IOException
+    public void testTheAdminOrgMenu() throws IOException
     {
         log("Запущен тест SYS-MENU-1.3");
         log("Переключаем язык страницы на русский");
@@ -166,7 +165,7 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверяем организацию:");
         MenuContent menuContent = new MenuContent();
-        logErrors = menuContent.CheckMenuAdminOrg(logErrors);
+        logErrors = menuContent.checkMenuAdminOrg(logErrors);
 
 
         checkMistakes();
@@ -177,7 +176,7 @@ public class SystemMenuTest extends BaseTest
 
     //SYS-MENU-1.4
     @Test(priority = 4)
-    public void checkTheRepresentativeMenu() throws IOException
+    public void testTheRepresentativeMenu() throws IOException
     {
         log("Запущен тест SYS-MENU-1.4");
         log("Переключаем язык страницы на русский");
@@ -209,10 +208,10 @@ public class SystemMenuTest extends BaseTest
 
         log("Проверка меню 'Кандидаты'");
         MenuContent menuContent = new MenuContent();
-        logErrors = menuContent.CheckMenuCand(logErrors);
+        logErrors = menuContent.checkMenuCand(logErrors);
 
         log("Проверка меню 'Страны'");
-        logErrors = menuContent.CheckMenuCountries(logErrors);
+        logErrors = menuContent.checkMenuCountries(logErrors);
 
         checkMistakes();
 
