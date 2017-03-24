@@ -12,7 +12,7 @@ public class SystemOperationTest extends BaseTest
 
         //SYS-MP-1.1
         @Test(priority =1)
-        public void checkTheHomePageRu() throws IOException
+        public void testTheHomePageRu() throws IOException
         {
 
             log("Запущен тест SYS-MP-1.1");
@@ -65,7 +65,7 @@ public class SystemOperationTest extends BaseTest
     //SYS-MP-1.2
     @Test(priority =2)
 
-    public void checkTheHomePageEn() throws IOException
+    public void testTheHomePageEn() throws IOException
     {
 
         log("Запущен тест SYS-MP-1.2");
