@@ -33,7 +33,7 @@ public abstract class BaseTest
     private static final String adminId = "admin";
     private static final String candidateId = "candidate";
     private static final String representativeId = "representative";
-    private static final String distributiveId = "distributive";
+    private static final String curatorId = "curator";
     private static final String agreementId = "agreement";
     private static final String adminOrgId = "adminOrg";
     private static final String mailRecoveryId = "mailRecovery";
@@ -52,9 +52,9 @@ public abstract class BaseTest
     {
         return representativeId;
     }
-    public String getDistributiveId()
+    public String getCuratorId()
     {
-        return distributiveId;
+        return curatorId;
     }
     public String getAgreementId()
     {
