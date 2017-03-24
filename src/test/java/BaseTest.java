@@ -38,7 +38,7 @@ public abstract class BaseTest
     private static final String adminOrgId = "adminOrg";
     private static final String mailRecoveryId = "mailRecovery";
     private static final String userLoserId = "userLoser";
-
+    private static final String userForEditPersonalDataId = "userForEditPersonalData";
 
     public String getAdminId()
     {
@@ -72,6 +72,7 @@ public abstract class BaseTest
     {
         return userLoserId;
     }
+    public String getUserForEditPersonalData() { return userForEditPersonalDataId; }
 
 
     public String getStandUrl(String flag) throws IOException

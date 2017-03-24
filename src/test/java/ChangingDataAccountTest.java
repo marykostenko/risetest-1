@@ -47,8 +47,18 @@ public class ChangingDataAccountTest extends BaseTest
         AccountInformation accountInformation = new AccountInformation();
         accountInformation.goToUsers();
 
-        log("Заполняем форму для посика пользователя");
+        log("Заполняем email для поиска пользователя");
+        TestUserData testUserForEditPersonalDataData = new TestUserData(getUserForEditPersonalData());
+        accountInformation.fillEmail(testUserForEditPersonalDataData.getUserLogin());
 
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+
+        log("Переходим на страницу пользователя Изменение Данных");
+        accountInformation.goToUserForEdit();
+
+        log("Редактируем личную информацию от лица администратора");
+        logErrors = accountInformation.editPersonalInfoFromAdmin(logErrors);
 
 
     }

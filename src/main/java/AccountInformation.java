@@ -1,5 +1,6 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -16,7 +17,7 @@ public class AccountInformation extends BasePage
     private ElementsCollection buttonAddRole = $$(By.xpath("//a[@href='#add_modal_']"));
 
 
-
+    //переход на страницу с пользователями
     public void goToUsers()
     {
 
@@ -25,11 +26,44 @@ public class AccountInformation extends BasePage
 
     }
 
-    public int checkUserProfile (int logErrors)
+    //заполняем email для поиска пользователя
+    public void fillEmail(String userEmail)
+    {
+        WebElement emailField = $(By.id("email"));
+        emailField.sendKeys(userEmail);
+    }
+
+    //нажимает кнопку "Найти"
+    public void pushSearchButton()
+    {
+        $(By.id("submit_search")).click();
+    }
+
+
+    //переходит на страницу пользователя Изменение Данных
+    public void goToUserForEdit()
+    {
+        $(By.xpath("//td//child::a[contains(@href,'/user/')]")).click();
+    }
+
+
+    public int editPersonalInfoFromAdmin (int logErrors)
     {
 
+        if (!buttonEditPersonalInfo.isEmpty())
+        {
 
-        PageLogin pageLogin = new PageLogin();
+
+
+        } else
+        {
+
+            logErrors++;
+            log("Пиктограмы 'Редактировать' в блоке личной информации нет");
+
+        }
+
+        return logErrors;
 
     }
 
