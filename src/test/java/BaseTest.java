@@ -72,7 +72,7 @@ public abstract class BaseTest
     {
         return userLoserId;
     }
-    public String getUserForEditPersonalData() { return userForEditPersonalDataId; }
+    public String getUserForEditPersonalDataId () { return userForEditPersonalDataId; }
 
 
     public String getStandUrl(String flag) throws IOException

@@ -47,12 +47,74 @@ public class AccountInformation extends BasePage
     }
 
 
+    //чистит поля личной информации перед редактированием
+    private void clearFieldsPersonalInfo()
+    {
+
+        $(By.id("firstName")).clear();
+        $(By.id("lastName")).clear();
+        $(By.id("middleName")).clear();
+        $(By.id("firstNameEng")).clear();
+        $(By.id("lastNameEng")).clear();
+
+    }
+
+    //заполняет поле имя при редактировании
+   private void fillFirstName (String changedFirstName)
+    {
+        WebElement firstNameField = $(By.id("firstName"));
+        firstNameField.sendKeys(changedFirstName);
+    }
+
+     //заполняет поле фамилия при редактировании
+    private void fillLastName (String changedLastName)
+    {
+        WebElement lastNameField = $(By.id("lastName"));
+        lastNameField.sendKeys(changedLastName);
+    }
+
+    //заполняет поле отчество при редактировании
+    private void fillMiddleName (String changedMaiddleName)
+    {
+        WebElement middleNameField = $(By.id("middleName"));
+        middleNameField.sendKeys(changedMaiddleName);
+    }
+
+    //заполняет поле имя(eng) при редактировании
+    private void fillFirstNameEng (String changedFirstNameEng)
+    {
+        WebElement firstNameEngField = $(By.id("firstNameEng"));
+        firstNameEngField.sendKeys(changedFirstNameEng);
+    }
+
+    //заполняет поле фамилия(eng) при редактировании
+    private void fillLastNameEng (String changeLastNameEng)
+    {
+        WebElement lastNameEngField = $(By.id("lastNameEng"));
+        lastNameEngField.sendKeys(changeLastNameEng);
+    }
+
+
+    //проверяет пиктограмму редактирования личной информации, в случае если пиктограмма есть, меняет личные данные и сохраняет их
     public int editPersonalInfoFromAdmin (int logErrors)
     {
 
         if (!buttonEditPersonalInfo.isEmpty())
         {
-
+            $(By.xpath("//a[contains(@href,'/editPersonalInfo')]")).click();
+            log("Перешли на форму редактирования личных данных");
+            log("Очистили поля перед редактированием");
+            clearFieldsPersonalInfo();
+            log("Меняем имя");
+            fillFirstName("ТЕСТИК");
+            log("Меняем фамилию");
+            fillLastName("тестик");
+            log("Меняем отчество");
+            fillMiddleName("Тестик");
+            log("Меняем Имя(Eng)");
+            fillFirstNameEng("TESTIK");
+            log("Меняем Фамилию(Eng)");
+            fillLastNameEng("testik");
 
 
         } else
@@ -66,5 +128,6 @@ public class AccountInformation extends BasePage
         return logErrors;
 
     }
+
 
 }
