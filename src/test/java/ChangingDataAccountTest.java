@@ -57,12 +57,18 @@ public class ChangingDataAccountTest extends BaseTest
         log("Переходим на страницу пользователя Изменение Данных");
         accountInformation.goToUserForEdit();
 
+        log("Проверяем данные на карточке пользователя");
+        logErrors = accountInformation.checkPersonalInfo(logErrors);
+
         log("Редактируем личную информацию от лица администратора");
         logErrors = accountInformation.editPersonalInfoFromAdmin(logErrors);
 
+        log("Проверяем, что изменения сохранены");
+        logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
 
+        checkMistakes();
 
-
+        log("Тест USER-ACC-2.1 завершен");
 
     }
 

@@ -12,6 +12,19 @@ import static com.codeborne.selenide.Selenide.$$;
 public class AccountInformation extends BasePage
 {
 
+    private ElementsCollection checkFirstName = $$(By.linkText("Данных"));
+    private ElementsCollection checkLastName = $$(By.linkText("Изменение"));
+    private ElementsCollection checkMiddleName = $$(By.linkText("Личных"));
+
+    public int checkPersonalInfo (int logErrors)
+    {
+        logErrors = checkAndLog(checkFirstName.isEmpty(), logErrors, "ОШИБКА: имя неверное", "Имя верное");
+        logErrors = checkAndLog(checkLastName.isEmpty(), logErrors, "ОШИБКА: фимилияне верная", "Фамилия верная");
+        logErrors = checkAndLog(checkMiddleName.isEmpty(), logErrors, "ОШИБКА: отчество неверное", "Отчество верное");
+
+        return logErrors;
+    }
+
     private ElementsCollection buttonEditPersonalInfo = $$(By.xpath("//a[contains(@href,'/editPersonalInfo')]"));
     private ElementsCollection buttonEditContactOnfo = $$(By.xpath("//a[contains(@href,'/editContactInfo')]"));
     private ElementsCollection buttonAddRole = $$(By.xpath("//a[@href='#add_modal_']"));
@@ -106,16 +119,16 @@ public class AccountInformation extends BasePage
             log("Очистили поля перед редактированием");
             clearFieldsPersonalInfo();
             log("Меняем имя");
-            fillFirstName("ТЕСТИК");
+            fillFirstName("Измененная");
             log("Меняем фамилию");
-            fillLastName("тестик");
+            fillLastName("Личная");
             log("Меняем отчество");
-            fillMiddleName("Тестик");
+            fillMiddleName("Информация");
             log("Меняем Имя(Eng)");
-            fillFirstNameEng("TESTIK");
+            fillFirstNameEng("Edit");
             log("Меняем Фамилию(Eng)");
-            fillLastNameEng("testik");
-
+            fillLastNameEng("Data");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
 
         } else
         {
@@ -127,6 +140,23 @@ public class AccountInformation extends BasePage
 
         return logErrors;
 
+    }
+
+    private ElementsCollection checkEditFirstNameFromAdmin = $$(By.linkText("Измененная"));
+    private ElementsCollection checkEditLastNameFromAdmin = $$(By.linkText("Личная"));
+    private ElementsCollection checkEditMiddleNameFromAdmin = $$(By.linkText("Информация"));
+    private ElementsCollection checkEditFirstNameEngFromAdmin = $$(By.linkText("Edit"));
+    private ElementsCollection checkEditLastNameEngFromAdmin = $$(By.linkText("Data"));
+
+    public int checkEditsPersonalInfoFromAdmin (int logErrors)
+    {
+        logErrors = checkAndLog(checkEditFirstNameFromAdmin.isEmpty(), logErrors, "ОШИБКА: имя не изменено", "Имя изменено");
+        logErrors = checkAndLog(checkLastName.isEmpty(), logErrors, "ОШИБКА: фимилия не изменена", "Фамилия изменена");
+        logErrors = checkAndLog(checkEditMiddleNameFromAdmin.isEmpty(), logErrors, "ОШИБКА: отчество не изменено", "Отчество изменено");
+        logErrors = checkAndLog(checkEditFirstNameEngFromAdmin.isEmpty(), logErrors, "ОШИБКА: имя ENG не изменено", "Имя ENG изменено");
+        logErrors = checkAndLog(checkEditLastNameEngFromAdmin.isEmpty(), logErrors, "ОШИБКА: фамилия ENG не изменена", "Фамилия ENG изменена");
+
+        return logErrors;
     }
 
 
