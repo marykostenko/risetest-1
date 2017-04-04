@@ -127,6 +127,49 @@ public class ChangingDataAccountTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Переход на страницу с пользователями");
+        AccountInformation accountInformation = new AccountInformation();
+        accountInformation.goToUsers();
+
+        log("Заполняем email для поиска пользователя");
+        TestUserData testUserForEditPersonalDataData = new TestUserData(getUserForEditPersonalDataId());
+        accountInformation.fillEmail(testUserForEditPersonalDataData.getUserLogin());
+
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+
+        log("Переходим на страницу пользователя Изменение Данных");
+        accountInformation.goToUserForEdit();
+
+        log("Редактируем контактную информацию от лица администратора");
+        logErrors = accountInformation.editContactInfoFromAdmin(logErrors);
+
+        log("Проверяем изменения контактной информации");
+        logErrors = accountInformation.checkContactInfo(logErrors);
+
+        log("Выйти из системы");
+        pageLogin.logut();
+
+        log("Нажимаем кнопку \"Вход\"");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
         TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
         pageLogin.fillLoginForm(testUserForEditPersonalData.getUserLogin(), testUserForEditPersonalData.getUserPassword());
 
@@ -136,7 +179,11 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
+        log("Проверяем измененные администратором данные на карточке пользователя");
+        logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
 
+        log("Редактируем контактную информацию от лица пользователя");
+        logErrors = accountInformation.editContactInfoFromUser(logErrors);
 
         checkMistakes();
 
@@ -149,7 +196,48 @@ public class ChangingDataAccountTest extends BaseTest
     public void TestAddPostFromAdministrator() throws IOException
     {
 
+        log("Тест USER-ACC-2.3 запущен");
 
+        log("Переключаем язык страницы на русский");
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.switchToRu();
+
+        log("Нажимаем кнопку \"Вход\"");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        PageLogin pageLogin = new PageLogin();
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Переход на страницу с пользователями");
+        AccountInformation accountInformation = new AccountInformation();
+        accountInformation.goToUsers();
+
+        log("Заполняем email для поиска пользователя");
+        TestUserData testUserForEditPostData = new TestUserData(getUserForEditPostId());
+        accountInformation.fillEmail(testUserForEditPostData.getUserLogin());
+
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+
+        log("Переходим на страницу пользователя Изменение Должности");
+        accountInformation.goToUserForEdit();
 
     }
 

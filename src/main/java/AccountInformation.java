@@ -27,11 +27,13 @@ public class AccountInformation extends BasePage
     }
 
     private ElementsCollection buttonEditPersonalInfo = $$(By.xpath("//a[contains(@href,'/editPersonalInfo')]"));
-    private ElementsCollection buttonEditContactOnfo = $$(By.xpath("//a[contains(@href,'/editContactInfo')]"));
+    private ElementsCollection buttonEditContactInfo = $$(By.xpath("//a[contains(@href,'/editContactInfo')]"));
     private ElementsCollection buttonAddRole = $$(By.xpath("//a[@href='#add_modal_']"));
 
 
-    //переход на страницу с пользователями
+    /**
+     * переход на страницу с пользователями
+     */
     public void goToUsers()
     {
 
@@ -40,79 +42,94 @@ public class AccountInformation extends BasePage
 
     }
 
-    //заполняем email для поиска пользователя
+    /**
+     *  заполняем email для поиска пользователя
+     */
     public void fillEmail(String userEmail)
     {
         WebElement emailField = $(By.id("email"));
         emailField.sendKeys(userEmail);
     }
 
-    //нажимает кнопку "Найти"
+    /**
+     * нажимает кнопку "Найти"
+     */
     public void pushSearchButton()
     {
         $(By.id("submit_search")).click();
     }
 
 
-    //переходит на страницу пользователя Изменение Данных
+    /**
+     * переходит на страницу пользователя Изменение Данных
+     */
     public void goToUserForEdit()
     {
         $(By.xpath("//td//child::a[contains(@href,'/user/')]")).click();
     }
 
-
-    //чистит поля личной информации перед редактированием
+    /**
+     * чистит поля личной информации перед редактированием
+     */
     private void clearFieldsPersonalInfo()
     {
-
         $(By.id("firstName")).clear();
         $(By.id("lastName")).clear();
         $(By.id("middleName")).clear();
         $(By.id("firstNameEng")).clear();
         $(By.id("lastNameEng")).clear();
-
     }
 
-    //заполняет поле имя при редактировании
+    /**
+     *  заполняет поле имя при редактировании
+     */
    private void fillFirstName (String changedFirstName)
     {
         WebElement firstNameField = $(By.id("firstName"));
         firstNameField.sendKeys(changedFirstName);
     }
 
-     //заполняет поле фамилия при редактировании
+    /**
+     * заполняет поле фамилия при редактировании
+     */
     private void fillLastName (String changedLastName)
     {
         WebElement lastNameField = $(By.id("lastName"));
         lastNameField.sendKeys(changedLastName);
     }
 
-    //заполняет поле отчество при редактировании
+    /**
+     * заполняет поле отчество при редактировании
+     */
     private void fillMiddleName (String changedMaiddleName)
     {
         WebElement middleNameField = $(By.id("middleName"));
         middleNameField.sendKeys(changedMaiddleName);
     }
 
-    //заполняет поле имя(eng) при редактировании
+    /**
+     * заполняет поле имя(eng) при редактировании
+     */
     private void fillFirstNameEng (String changedFirstNameEng)
     {
         WebElement firstNameEngField = $(By.id("firstNameEng"));
         firstNameEngField.sendKeys(changedFirstNameEng);
     }
 
-    //заполняет поле фамилия(eng) при редактировании
+    /**
+     * заполняет поле фамилия(eng) при редактировании
+     */
     private void fillLastNameEng (String changeLastNameEng)
     {
         WebElement lastNameEngField = $(By.id("lastNameEng"));
         lastNameEngField.sendKeys(changeLastNameEng);
     }
 
-
-    //проверяет пиктограмму редактирования личной информации, в случае если пиктограмма есть, меняет личные данные и сохраняет их
+    /**
+     *  проверяет пиктограмму редактирования личной информации, в случае если пиктограмма есть, меняет личные данные и сохраняет их
+     */
     public int editPersonalInfoFromAdmin (int logErrors)
     {
-
         if (!buttonEditPersonalInfo.isEmpty())
         {
             $(By.xpath("//a[contains(@href,'/editPersonalInfo')]")).click();
@@ -133,16 +150,23 @@ public class AccountInformation extends BasePage
 
         } else
         {
-
             logErrors++;
             log("Пиктограмы 'Редактировать' в блоке личной информации нет");
-
         }
-
         return logErrors;
+    }
+
+    /**
+     *  чистит поля контактной информации перед редактированием
+     */
+    private void clearFieldsContatInfo()
+    {
 
     }
 
+    /**
+     * редактирование и сохранение личных данных от лица пользователя
+     */
     public int editPersonalInfoFromUser (int logErrors)
     {
 
@@ -159,17 +183,93 @@ public class AccountInformation extends BasePage
             log("Меняем отчество");
             fillMiddleName("Изменение");
             $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
-
+            log("Нажимаем кнопку Сохранить");
         } else
         {
-
             logErrors++;
             log("Пиктограмы 'Редактировать' в блоке личной информации нет");
-
         }
 
         return logErrors;
 
+    }
+
+    /**
+     * заполняет поле Мобильный телефон при редактировании контактной информации
+     */
+    private void fillPhone (String changePhone)
+    {
+        WebElement phoneField = $(By.id("phoone"));
+        phoneField.sendKeys(changePhone);
+    }
+
+    /**
+     * редактирование и сохранение контактных данных от лица администратора
+     */
+    public int editContactInfoFromAdmin (int logErrors)
+    {
+        if (!buttonEditContactInfo.isEmpty())
+        {
+            $(By.xpath("//a[contains(@href,'/editContactInfo')]")).click();
+            log("Перешли на форму редактирования контактной информации");
+            log("Добавляем номер телефона");
+            fillPhone("+79789789789");
+            log("Добавляем email");
+            fillEmail("izmenenie@mail.com");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+            log("Нажимаем кнопку Сохранить");
+        } else
+        {
+            logErrors++;
+            log("Нет пиктограммы 'Редактировать' в блоке контактной информации ");
+        }
+        return logErrors;
+    }
+
+    private ElementsCollection checkPhone = $$(By.linkText("Изменение"));
+    private ElementsCollection checkEmail = $$(By.linkText("Личных"));
+
+
+    /**
+     * проверяет изменения контактной информации
+     */
+    public int checkContactInfo (int logErrors)
+    {
+        logErrors = checkAndLog(checkPhone.isEmpty(), logErrors, "ОШИБКА: телефон не верный", "Телефон верный");
+        logErrors = checkAndLog(checkEmail.isEmpty(), logErrors, "ОШИБКА: Email не верный", "Email верный");
+
+
+        return logErrors;
+    }
+
+    /**
+     * чистит поля телефон и email
+     */
+    private void clearFieldsContactInfo()
+    {
+        $(By.id("phone")).clear();
+        $(By.id("email")).clear();
+    }
+
+    /**
+     *  редактирование и сохранение контактнных данных от лица пользователя
+     */
+    public int editContactInfoFromUser (int logErrors)
+    {
+        if (!buttonEditContactInfo.isEmpty())
+        {
+            $(By.xpath("//a[contains(@href,'/editContactInfo')]")).click();
+            log("Перешли на форму редактирования контактной информации");
+            log("Стираем номер телефона и email");
+            clearFieldsContactInfo();
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+            log("Нажимаем кнопку Сохранить");
+        } else
+        {
+            logErrors++;
+            log("Нет пиктограммы 'Редактировать' в блоке контактной информации ");
+        }
+        return logErrors;
     }
 
     private ElementsCollection checkEditFirstNameFromAdmin = $$(By.linkText("Измененная"));
@@ -178,6 +278,9 @@ public class AccountInformation extends BasePage
     private ElementsCollection checkEditFirstNameEngFromAdmin = $$(By.linkText("Edit"));
     private ElementsCollection checkEditLastNameEngFromAdmin = $$(By.linkText("Data"));
 
+    /**
+     * проверка измененной личной информации
+     */
     public int checkEditsPersonalInfoFromAdmin (int logErrors)
     {
         logErrors = checkAndLog(checkEditFirstNameFromAdmin.isEmpty(), logErrors, "ОШИБКА: имя не изменено", "Имя изменено");
@@ -188,6 +291,5 @@ public class AccountInformation extends BasePage
 
         return logErrors;
     }
-
 
 }
