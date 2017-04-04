@@ -26,6 +26,7 @@ public class AccountInformation extends BasePage
         return logErrors;
     }
 
+    private ElementsCollection buttonEditJob = $$(By.xpath("//a[contains(@href,'/editJob')]"));
     private ElementsCollection buttonEditPersonalInfo = $$(By.xpath("//a[contains(@href,'/editPersonalInfo')]"));
     private ElementsCollection buttonEditContactInfo = $$(By.xpath("//a[contains(@href,'/editContactInfo')]"));
     private ElementsCollection buttonAddRole = $$(By.xpath("//a[@href='#add_modal_']"));
@@ -289,6 +290,51 @@ public class AccountInformation extends BasePage
         logErrors = checkAndLog(checkEditFirstNameEngFromAdmin.isEmpty(), logErrors, "ОШИБКА: имя ENG не изменено", "Имя ENG изменено");
         logErrors = checkAndLog(checkEditLastNameEngFromAdmin.isEmpty(), logErrors, "ОШИБКА: фамилия ENG не изменена", "Фамилия ENG изменена");
 
+        return logErrors;
+    }
+
+    /**
+     * чистит поля места работы
+     */
+    private void clearFieldsJob()
+    {
+        $(By.id("post")).clear();
+        $(By.id("workPhone")).clear();
+    }
+    /**
+     * заполняет поле должность
+     */
+    private void fillPost (String changedPost)
+    {
+        WebElement postField = $(By.id("post"));
+        postField.sendKeys(changedPost);
+    }
+
+    /**
+     *  добавление должности путем редактирования должности пользователя
+     */
+    public int addTestPostFromAdmin (int logErrors)
+    {
+        if (!buttonEditJob.isEmpty())
+        {
+            $(By.xpath("//a[contains(@href,'/editJob')]")).click();
+            log("Перешли на форму редактирования места работы");
+            log("Стираем Должность");
+            $(By.id("post")).clear();
+            log("Вводим название тестовой должности");
+            fillPost("Тестовая должность");
+            log("Нажимаем кнопку Сохранить");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+            log("Возвращаем должность пользователя в первоначальное состояние");
+            $(By.xpath("//a[contains(@href,'/editJob')]")).click();
+            $(By.id("post")).clear();
+            fillPost("Директор");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+        } else
+        {
+            logErrors++;
+            log("Нет пиктограммы 'Редактировать' в блоке контактной информации ");
+        }
         return logErrors;
     }
 

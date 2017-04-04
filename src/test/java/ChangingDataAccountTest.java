@@ -22,7 +22,7 @@ public class ChangingDataAccountTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку \"Вход\"");
+        log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
@@ -69,7 +69,7 @@ public class ChangingDataAccountTest extends BaseTest
         log("Выйти из системы");
         pageLogin.logut();
 
-        log("Нажимаем кнопку \"Вход\"");
+        log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
@@ -115,7 +115,7 @@ public class ChangingDataAccountTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку \"Вход\"");
+        log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
@@ -159,7 +159,7 @@ public class ChangingDataAccountTest extends BaseTest
         log("Выйти из системы");
         pageLogin.logut();
 
-        log("Нажимаем кнопку \"Вход\"");
+        log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
@@ -202,7 +202,7 @@ public class ChangingDataAccountTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку \"Вход\"");
+        log("Нажимаем кнопку Войти'");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
@@ -223,6 +223,13 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
+        log("Переходим в справочник должностей");
+        TestCatalogData testCatalogData = new TestCatalogData();
+        testCatalogData.goToPostCatalog();
+
+        log("Проверяем отсутсвие тестовой должности в справочнике");
+        testCatalogData.checkAbsenceNewPost();
+
         log("Переход на страницу с пользователями");
         AccountInformation accountInformation = new AccountInformation();
         accountInformation.goToUsers();
@@ -233,11 +240,22 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Нажимаем кнопку Поиск");
         accountInformation.pushSearchButton();
-        log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
 
         log("Переходим на страницу пользователя Изменение Должности");
         accountInformation.goToUserForEdit();
+
+        log("Добавляем тестовую должность");
+        accountInformation.addTestPostFromAdmin(logErrors);
+
+        log("Переходим к справочнику должностей");
+        testCatalogData.goToPostCatalog();
+
+        log("Проверяем, была ли добавлена нровая тестовая должность");
+        testCatalogData.checkNewPost(logErrors);
+
+        checkMistakes();
+
+        log("Тест USER-ACC-2.3 завершен");
 
     }
 

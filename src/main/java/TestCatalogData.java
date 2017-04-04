@@ -39,4 +39,20 @@ public class TestCatalogData extends BasePage
         }
     }
 
+    /**
+     * проверить, что тестовую должность добавили, удалить в случае нахождения. Если должность не добавлена, функция возвращает ошибку
+     */
+    public int checkNewPost (int logErrors) {
+        if (!testPost.isEmpty()) {
+            logErrors++;
+            log("ОШИБКА: Новая должность не была добавлена");
+        } else {
+            log("Новая должность была добавлена в справочник. Удаляем её");
+            $(By.xpath("//a[contains(text(),'Тестовая должность')]")).click();
+            $(By.xpath("//a[contains(@href,'/delete')]")).click();
+            $(By.xpath("//button[contains(@class,'btn-danger')]")).click();
+        }
+        return logErrors;
+    }
+
 }
