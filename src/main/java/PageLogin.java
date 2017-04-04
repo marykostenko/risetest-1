@@ -119,6 +119,13 @@ public class PageLogin extends BasePage
         return logErrors;
     }
 
+    /**
+     *  выход из системы
+     */
+    public void logut()
+    {
+        $(By.xpath("//a[@href='/logout']")).click();
+    }
 }
 
 

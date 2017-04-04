@@ -16,6 +16,7 @@ public class AccountInformation extends BasePage
     private ElementsCollection checkLastName = $$(By.linkText("Изменение"));
     private ElementsCollection checkMiddleName = $$(By.linkText("Личных"));
 
+
     public int checkPersonalInfo (int logErrors)
     {
         logErrors = checkAndLog(checkFirstName.isEmpty(), logErrors, "ОШИБКА: имя неверное", "Имя верное");
@@ -142,6 +143,35 @@ public class AccountInformation extends BasePage
 
     }
 
+    public int editPersonalInfoFromUser (int logErrors)
+    {
+
+        if (!buttonEditPersonalInfo.isEmpty())
+        {
+            $(By.xpath("//a[contains(@href,'/editPersonalInfo')]")).click();
+            log("Перешли на форму редактирования личных данных");
+            log("Очистили поля перед редактированием");
+            clearFieldsPersonalInfo();
+            log("Меняем имя");
+            fillFirstName("Данных");
+            log("Меняем фамилию");
+            fillLastName("Личных");
+            log("Меняем отчество");
+            fillMiddleName("Изменение");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+
+        } else
+        {
+
+            logErrors++;
+            log("Пиктограмы 'Редактировать' в блоке личной информации нет");
+
+        }
+
+        return logErrors;
+
+    }
+
     private ElementsCollection checkEditFirstNameFromAdmin = $$(By.linkText("Измененная"));
     private ElementsCollection checkEditLastNameFromAdmin = $$(By.linkText("Личная"));
     private ElementsCollection checkEditMiddleNameFromAdmin = $$(By.linkText("Информация"));
@@ -151,7 +181,7 @@ public class AccountInformation extends BasePage
     public int checkEditsPersonalInfoFromAdmin (int logErrors)
     {
         logErrors = checkAndLog(checkEditFirstNameFromAdmin.isEmpty(), logErrors, "ОШИБКА: имя не изменено", "Имя изменено");
-        logErrors = checkAndLog(checkLastName.isEmpty(), logErrors, "ОШИБКА: фимилия не изменена", "Фамилия изменена");
+        logErrors = checkAndLog(checkEditLastNameFromAdmin.isEmpty(), logErrors, "ОШИБКА: фимилия не изменена", "Фамилия изменена");
         logErrors = checkAndLog(checkEditMiddleNameFromAdmin.isEmpty(), logErrors, "ОШИБКА: отчество не изменено", "Отчество изменено");
         logErrors = checkAndLog(checkEditFirstNameEngFromAdmin.isEmpty(), logErrors, "ОШИБКА: имя ENG не изменено", "Имя ENG изменено");
         logErrors = checkAndLog(checkEditLastNameEngFromAdmin.isEmpty(), logErrors, "ОШИБКА: фамилия ENG не изменена", "Фамилия ENG изменена");

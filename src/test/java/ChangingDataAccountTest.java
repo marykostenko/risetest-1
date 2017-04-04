@@ -66,6 +66,38 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем, что изменения сохранены");
         logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
 
+        log("Выйти из системы");
+        pageLogin.logut();
+
+        log("Нажимаем кнопку \"Вход\"");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
+        pageLogin.fillLoginForm(testUserForEditPersonalData.getUserLogin(), testUserForEditPersonalData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Проверяем измененные администратором данные на карточке пользователя");
+        logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
+
+        log("Редактируем личную информацию от лица пользователя");
+        logErrors = accountInformation.editPersonalInfoFromUser(logErrors);
+
+        log("Проверяем, что изменения сохранены и возвращены в первоначальный вид");
+        logErrors = accountInformation.checkPersonalInfo(logErrors);
+
         checkMistakes();
 
         log("Тест USER-ACC-2.1 завершен");
@@ -77,7 +109,38 @@ public class ChangingDataAccountTest extends BaseTest
     public void testChangeUserContactInfo() throws IOException
     {
 
+        log("запущен тест USER-ACC-2.2");
 
+        log("Переключаем язык страницы на русский");
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.switchToRu();
+
+        log("Нажимаем кнопку \"Вход\"");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        PageLogin pageLogin = new PageLogin();
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
+        pageLogin.fillLoginForm(testUserForEditPersonalData.getUserLogin(), testUserForEditPersonalData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+
+
+        checkMistakes();
+
+        log("Тест USER-ACC-2.2 завершен");
 
     }
 
