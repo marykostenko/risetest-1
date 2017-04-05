@@ -265,8 +265,53 @@ public class ChangingDataAccountTest extends BaseTest
     public void TestEditingPostAndWorkPhone() throws IOException
     {
 
+        log("Запущен тест USER-ACC-2.4");
 
+        log("Переключаем язык страницы на русский");
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.switchToRu();
 
+        log("Нажимаем кнопку Войти'");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        PageLogin pageLogin = new PageLogin();
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Переход на страницу с пользователями");
+        AccountInformation accountInformation = new AccountInformation();
+        accountInformation.goToUsers();
+
+        log("Заполняем email для поиска пользователя");
+        TestUserData testUserForEditPostData = new TestUserData(getUserForEditPostId());
+        accountInformation.fillEmail(testUserForEditPostData.getUserLogin());
+
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+
+        log("Переходим на страницу пользователя Изменение Должности");
+        accountInformation.goToUserForEdit();
+
+        log("Редактируем должность и рабочий телефон");
+        accountInformation.editPostAndPhoneFromAdmin(logErrors);
+
+        checkMistakes();
+
+        log("Тест USER-ACC-2.4 завершен");
     }
 
     //USER-ACC-2.5
@@ -274,7 +319,80 @@ public class ChangingDataAccountTest extends BaseTest
     public void TestAddRoleFromAdministrator() throws IOException
     {
 
+        log("Тест USER-ACC-2.5 запущен");
+
+        log("Переключаем язык страницы на русский");
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.switchToRu();
+
+        log("Нажимаем кнопку Войти'");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        PageLogin pageLogin = new PageLogin();
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Переход на страницу с пользователями");
+        AccountInformation accountInformation = new AccountInformation();
+        accountInformation.goToUsers();
+
+        log("Заполняем email для поиска пользователя");
+        TestUserData testUserForEditPostData = new TestUserData(getUserForEditPostId());
+        accountInformation.fillEmail(testUserForEditPostData.getUserLogin());
+
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+
+        log("Переходим на страницу пользователя Изменение Должности");
+        accountInformation.goToUserForEdit();
+
+        log("Добавляем новую роль пользователю");
+        accountInformation.addAndCheckRoleFromAdmin(logErrors);
+
+        log("Проверяем меню администратора");
+
+        log("Проверка меню 'Плана приема'");
+        MenuContent menuContent = new MenuContent();
+        logErrors = menuContent.checkMenuPlans(logErrors);
 
 
+        log("Проверка меню 'Организации'");
+        logErrors = menuContent.checkMenuOrg(logErrors);
+
+
+        log("Проверка меню 'Кандидаты'");
+        logErrors = menuContent.checkMenuCand(logErrors);
+
+
+        log("Проверка меню 'Страны'");
+        logErrors = menuContent.checkMenuCountries(logErrors);
+
+
+        log("Проверка меню 'Визы'");
+        logErrors = menuContent.checkMenuVisa(logErrors);
+
+        log("Проверка меню 'Агенты'");
+        logErrors = menuContent.checkMenuAgents(logErrors);
+
+        log("Проверка меню 'Администрирование'");
+        logErrors = menuContent.checkMenuAdmin(logErrors);
+
+        checkMistakes();
+
+        log("Тест USER-ACC-2.5 завершен");
     }
 }

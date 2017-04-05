@@ -333,9 +333,81 @@ public class AccountInformation extends BasePage
         } else
         {
             logErrors++;
-            log("Нет пиктограммы 'Редактировать' в блоке контактной информации ");
+            log("Нет пиктограммы 'Редактировать' в блоке место работы");
         }
         return logErrors;
     }
 
+    private ElementsCollection editedPost =  $$(By.linkText("Директор+"));
+    private ElementsCollection editedPhone = $$(By.linkText("555557"));
+
+    /**
+     * редактирование должности и рабочего телефона
+     */
+    public int editPostAndPhoneFromAdmin (int logErrors)
+    {
+        if (!buttonEditJob.isEmpty())
+        {
+            $(By.xpath("//a[contains(@href,'/editJob')]")).click();
+            log("Перешли на форму редактирования места работы");
+            log("Редактируем должность");
+            fillPost("+");
+            log("Редактируем рабочий телефон");
+            fillPost("7");
+            log("Нажимаем кнопку Сохранить");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+            log("Проверяем изменения");
+            logErrors = checkAndLog(editedPost.isEmpty(), logErrors, "ОШИБКА: должность не отредактирована либо отредактирована неверно", "Должность отредактирована");
+            logErrors = checkAndLog(editedPhone.isEmpty(), logErrors, "ОШИБКА: рабочий телефон не отредактирован либо отредактирован неверно", "Рабочий телефон отредактирован");
+            log("Возвращаем данные в первоначальное состояние");
+            $(By.xpath("//a[contains(@href,'/editJob')]")).click();
+            clearFieldsJob();
+            fillPost("Директор");
+            fillPhone("55555");
+            $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
+        }  else
+        {
+            logErrors++;
+            log("Нет пиктограммы 'Редактировать' в блоке место работы");
+        }
+        return logErrors;
+    }
+
+    /**
+     * добавление и проверка роли от лица администратора
+     */
+    public int addAndCheckRoleFromAdmin (int logErrors)
+    {
+        if (!buttonAddRole.isEmpty())
+        {
+            $(By.xpath("//a[@href='#add_modal_']")).click();
+            $(By.xpath("//span[@data-dropdown='dropdown']")).click();
+            log("Выбираем роль Администратор");
+            $(By.xpath("//a[@data-id='Admin']")).click();
+            $(By.xpath("//button[@class='add-role btn btn-primary']")).click();
+            log("Входим от лица пользователя");
+
+        } else
+        {
+            logErrors++;
+            log("Нет кнопки добавления роли");
+        }
+        return logErrors;
+    }
+
+    /**
+     * выход из под симулирования пользователя
+     */
+    public void stopSimulateUser ()
+    {
+        $(By.xpath("//a[@href='/stopSimulateUser']")).click();
+    }
+
+    /**
+     * удаляем роль
+     */
+    public void deleteRoleAdmin ()
+    {
+        $(By.xpath("//a[contains(@data-ajax,'/users/denyAdmin')]")).click();
+    }
 }
