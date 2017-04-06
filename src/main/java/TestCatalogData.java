@@ -1,5 +1,9 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -10,7 +14,8 @@ import static com.codeborne.selenide.Selenide.$$;
 public class TestCatalogData extends BasePage
 {
 
-    private ElementsCollection testPost = $$(By.linkText("Тестовая должность"));
+    private ElementsCollection testPost = $$(By.xpath("//a[contains(text(),'Тестовая должность')]"));
+
 
     /**
      * переход к справочнику должностей
@@ -42,8 +47,9 @@ public class TestCatalogData extends BasePage
     /**
      * проверить, что тестовую должность добавили, удалить в случае нахождения. Если должность не добавлена, функция возвращает ошибку
      */
-    public int checkNewPost (int logErrors) {
-        if (!testPost.isEmpty()) {
+    public int checkNewPost (int logErrors)
+    {
+        if (testPost.isEmpty()) {
             logErrors++;
             log("ОШИБКА: Новая должность не была добавлена");
         } else {

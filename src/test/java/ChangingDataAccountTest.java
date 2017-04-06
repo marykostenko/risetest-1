@@ -1,3 +1,5 @@
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -247,8 +249,8 @@ public class ChangingDataAccountTest extends BaseTest
         log("Переходим к справочнику должностей");
         testCatalogData.goToPostCatalog();
 
-        log("Проверяем, была ли добавлена нровая тестовая должность");
-        testCatalogData.checkNewPost(logErrors);
+        log("Проверяем, была ли добавлена новая тестовая должность");
+        logErrors = testCatalogData.checkNewPost(logErrors);
 
         checkMistakes();
 
