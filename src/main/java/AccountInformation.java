@@ -12,9 +12,9 @@ import static com.codeborne.selenide.Selenide.$$;
 public class AccountInformation extends BasePage
 {
 
-    private ElementsCollection checkFirstName = $$(By.linkText("Данных"));
-    private ElementsCollection checkLastName = $$(By.linkText("Изменение"));
-    private ElementsCollection checkMiddleName = $$(By.linkText("Личных"));
+    private ElementsCollection checkFirstName = $$(By.xpath("//div[contains(text(),'Изменение')]"));
+    private ElementsCollection checkLastName = $$(By.xpath("//div[contains(text(),'Личных')]"));
+    private ElementsCollection checkMiddleName = $$(By.xpath("//div[contains(text(),'Данных')]"));
 
 
     public int checkPersonalInfo (int logErrors)
@@ -200,7 +200,7 @@ public class AccountInformation extends BasePage
      */
     private void fillPhone (String changePhone)
     {
-        WebElement phoneField = $(By.id("phoone"));
+        WebElement phoneField = $(By.id("phone"));
         phoneField.sendKeys(changePhone);
     }
 
@@ -227,8 +227,8 @@ public class AccountInformation extends BasePage
         return logErrors;
     }
 
-    private ElementsCollection checkPhone = $$(By.linkText("Изменение"));
-    private ElementsCollection checkEmail = $$(By.linkText("Личных"));
+    private ElementsCollection checkPhone = $$(By.xpath("//div[contains(text(),'+79789789789')]"));;
+    private ElementsCollection checkEmail = $$(By.xpath("//div[contains(text(),'izmenenie@mail.com')]"));;
 
 
     /**
@@ -273,11 +273,11 @@ public class AccountInformation extends BasePage
         return logErrors;
     }
 
-    private ElementsCollection checkEditFirstNameFromAdmin = $$(By.linkText("Измененная"));
-    private ElementsCollection checkEditLastNameFromAdmin = $$(By.linkText("Личная"));
-    private ElementsCollection checkEditMiddleNameFromAdmin = $$(By.linkText("Информация"));
-    private ElementsCollection checkEditFirstNameEngFromAdmin = $$(By.linkText("Edit"));
-    private ElementsCollection checkEditLastNameEngFromAdmin = $$(By.linkText("Data"));
+    private ElementsCollection checkEditFirstNameFromAdmin = $$(By.xpath("//div[contains(text(),'Измененная')]"));;
+    private ElementsCollection checkEditLastNameFromAdmin = $$(By.xpath("//div[contains(text(),'Личная')]"));;
+    private ElementsCollection checkEditMiddleNameFromAdmin = $$(By.xpath("//div[contains(text(),'Информация')]"));;
+    private ElementsCollection checkEditFirstNameEngFromAdmin = $$(By.xpath("//div[contains(text(),'Edit')]"));;
+    private ElementsCollection checkEditLastNameEngFromAdmin = $$(By.xpath("//div[contains(text(),'Data')]"));;
 
     /**
      * проверка измененной личной информации
@@ -329,6 +329,7 @@ public class AccountInformation extends BasePage
             $(By.xpath("//a[contains(@href,'/editJob')]")).click();
             $(By.id("post")).clear();
             fillPost("Директор");
+            $(By.xpath("//strong[contains(text(),'Директор')]")).click();
             $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
         } else
         {
@@ -338,9 +339,17 @@ public class AccountInformation extends BasePage
         return logErrors;
     }
 
-    private ElementsCollection editedPost =  $$(By.linkText("Директор+"));
-    private ElementsCollection editedPhone = $$(By.linkText("555557"));
+    private ElementsCollection editedPost =  $$(By.xpath("//div[contains(text(),'Директор+')]"));;
+    private ElementsCollection editedPhone = $$(By.xpath("//div[contains(text(),'555557')]"));;
 
+    /**
+     * заполнение рабочего телефона
+     */
+    private void fillWorkPhone (String changePhone)
+    {
+        WebElement phoneField = $(By.id("workPhone"));
+        phoneField.sendKeys(changePhone);
+    }
     /**
      * редактирование должности и рабочего телефона
      */
@@ -353,7 +362,7 @@ public class AccountInformation extends BasePage
             log("Редактируем должность");
             fillPost("+");
             log("Редактируем рабочий телефон");
-            fillPost("7");
+            fillWorkPhone("7");
             log("Нажимаем кнопку Сохранить");
             $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
             log("Проверяем изменения");
@@ -363,7 +372,7 @@ public class AccountInformation extends BasePage
             $(By.xpath("//a[contains(@href,'/editJob')]")).click();
             clearFieldsJob();
             fillPost("Директор");
-            fillPhone("55555");
+            fillWorkPhone("55555");
             $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
         }  else
         {
@@ -371,6 +380,20 @@ public class AccountInformation extends BasePage
             log("Нет пиктограммы 'Редактировать' в блоке место работы");
         }
         return logErrors;
+    }
+
+    private ElementsCollection adminRole = $$(By.xpath("//div[contains(text(),'Администратор')]"));
+    /**
+     * проверка нет ли роли админа, если есть - удаляем
+     */
+    public void checkAndDeleteAdminRole ()
+    {
+        if(!adminRole.isEmpty())
+        {
+            log("У пользователя найдена роль администратора. Удалим её");
+            deleteRoleAdmin();
+            log("Ролль админисатратора удалена. продолжаем выполнение теста");
+        } else log("Роль администратора у пользователя не найдена. Продолжаем выполнение теста");
     }
 
     /**
@@ -396,7 +419,15 @@ public class AccountInformation extends BasePage
     }
 
     /**
-     * выход из под симулирования пользователя
+     * войти под пользователем (симулирование)
+     */
+    public void startSimulateUser()
+    {
+        $(By.xpath("//a[contains(@href,'/simulateUser/')]")).click();
+    }
+
+    /**
+     * выход из симулирования пользователя
      */
     public void stopSimulateUser ()
     {
@@ -408,6 +439,7 @@ public class AccountInformation extends BasePage
      */
     public void deleteRoleAdmin ()
     {
-        $(By.xpath("//a[contains(@data-ajax,'/users/denyAdmin')]")).click();
+        $(By.xpath("//td//div[contains(text(),'Администратор')]//following::td[2]//child::a")).click();
+        $(By.xpath("//td//div[contains(text(),'Администратор')]//following::td[2]//child::a//following::div[1]//child::button[contains(text(),'Да')]")).click();
     }
 }

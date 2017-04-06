@@ -179,9 +179,6 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-        log("Проверяем измененные администратором данные на карточке пользователя");
-        logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
-
         log("Редактируем контактную информацию от лица пользователя");
         logErrors = accountInformation.editContactInfoFromUser(logErrors);
 
@@ -351,17 +348,23 @@ public class ChangingDataAccountTest extends BaseTest
         accountInformation.goToUsers();
 
         log("Заполняем email для поиска пользователя");
-        TestUserData testUserForEditPostData = new TestUserData(getUserForEditPostId());
-        accountInformation.fillEmail(testUserForEditPostData.getUserLogin());
+        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
+        accountInformation.fillEmail(testUserForEditPersonalData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
         accountInformation.pushSearchButton();
 
-        log("Переходим на страницу пользователя Изменение Должности");
+        log("Переходим на страницу пользователя Изменение Личных Данных");
         accountInformation.goToUserForEdit();
+
+        log("Проверяем отсутсвие роли администратора у пользователя");
+        accountInformation.checkAndDeleteAdminRole();
 
         log("Добавляем новую роль пользователю");
         accountInformation.addAndCheckRoleFromAdmin(logErrors);
+
+        log("Входим под пользователем");
+        accountInformation.startSimulateUser();
 
         log("Проверяем меню администратора");
 
@@ -390,6 +393,24 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Проверка меню 'Администрирование'");
         logErrors = menuContent.checkMenuAdmin(logErrors);
+
+        log("Выход из симулирования пользователя");
+        accountInformation.stopSimulateUser();
+
+        log("Переход на страницу с пользователями");
+        accountInformation.goToUsers();
+
+        log("Заполняем email для поиска пользователя");
+        accountInformation.fillEmail(testUserForEditPersonalData.getUserLogin());
+
+        log("Нажимаем кнопку Поиск");
+        accountInformation.pushSearchButton();
+
+        log("Переходим на страницу пользователя Изменение Личных Данных");
+        accountInformation.goToUserForEdit();
+
+        log("Удаление роли пользователя");
+        accountInformation.deleteRoleAdmin();
 
         checkMistakes();
 
