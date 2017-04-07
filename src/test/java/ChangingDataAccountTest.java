@@ -1,5 +1,3 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -18,7 +16,7 @@ public class ChangingDataAccountTest extends BaseTest
     public void testChangeUserPersonalInfo() throws IOException
     {
 
-        log("запущен тест USER-ACC-2.1");
+        log("Запущен тест USER-ACC-2.1");
 
         log("Переключаем язык страницы на русский");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -46,21 +44,23 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.goToUsers();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
+        PageUsersList pageUsersList = new PageUsersList();
         TestUserData testUserForEditPersonalDataData = new TestUserData(getUserForEditPersonalDataId());
-        accountInformation.fillEmail(testUserForEditPersonalDataData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForEditPersonalDataData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
+        pageUsersList.clickUserSearchButton();
 
         log("Переходим на страницу пользователя Изменение Данных");
-        accountInformation.goToUserForEdit();
+        pageUsersList.chooseFilteredUser();
 
         log("Проверяем данные на карточке пользователя");
-        logErrors = accountInformation.checkPersonalInfo(logErrors);
+        AccountInformation accountInformation = new AccountInformation();
+        accountInformation.
+      //  logErrors = accountInformation.checkPersonalInfo(logErrors);
 
         log("Редактируем личную информацию от лица администратора");
         logErrors = accountInformation.editPersonalInfoFromAdmin(logErrors);
@@ -69,7 +69,7 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
 
         log("Выйти из системы");
-        pageLogin.logut();
+        pageTopBottom.logout();
 
         log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
@@ -139,27 +139,28 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.goToUsers();
+        PageUsersList pageUsersList = new PageUsersList();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
         TestUserData testUserForEditPersonalDataData = new TestUserData(getUserForEditPersonalDataId());
-        accountInformation.fillEmail(testUserForEditPersonalDataData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForEditPersonalDataData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
+        pageUsersList.clickUserSearchButton();
 
         log("Переходим на страницу пользователя Изменение Данных");
-        accountInformation.goToUserForEdit();
+        pageUsersList.chooseFilteredUser();
 
         log("Редактируем контактную информацию от лица администратора");
+        AccountInformation accountInformation = new AccountInformation();
         logErrors = accountInformation.editContactInfoFromAdmin(logErrors);
 
         log("Проверяем изменения контактной информации");
         logErrors = accountInformation.checkContactInfo(logErrors);
 
         log("Выйти из системы");
-        pageLogin.logut();
+        pageTopBottom.logout();
 
         log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
@@ -192,7 +193,7 @@ public class ChangingDataAccountTest extends BaseTest
 
     //USER-ACC-2.3
     @Test(priority =3)
-    public void TestAddPostFromAdministrator() throws IOException
+    public void testAddPostFromAdministrator() throws IOException
     {
 
         log("Тест USER-ACC-2.3 запущен");
@@ -223,27 +224,28 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переходим в справочник должностей");
-        TestCatalogData testCatalogData = new TestCatalogData();
+        PageCatalogs testCatalogData = new PageCatalogs();
         testCatalogData.goToPostCatalog();
 
         log("Проверяем отсутсвие тестовой должности в справочнике");
         testCatalogData.checkAbsenceNewPost();
 
         log("Переход на страницу с пользователями");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.goToUsers();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
+        PageUsersList pageUsersList = new PageUsersList();
         TestUserData testUserForEditPostData = new TestUserData(getUserForEditPostId());
-        accountInformation.fillEmail(testUserForEditPostData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForEditPostData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
+        pageUsersList.clickUserSearchButton();
 
         log("Переходим на страницу пользователя Изменение Должности");
-        accountInformation.goToUserForEdit();
+        pageUsersList.chooseFilteredUser();
 
         log("Добавляем тестовую должность");
+        AccountInformation accountInformation = new AccountInformation();
         accountInformation.addTestPostFromAdmin(logErrors);
 
         log("Переходим к справочнику должностей");
@@ -261,7 +263,7 @@ public class ChangingDataAccountTest extends BaseTest
 
     //USER-ACC-2.4
     @Test(priority =4)
-    public void TestEditingPostAndWorkPhone() throws IOException
+    public void testEditingPostAndWorkPhone() throws IOException
     {
 
         log("Запущен тест USER-ACC-2.4");
@@ -292,21 +294,22 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.goToUsers();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
+        PageUsersList pageUsersList = new PageUsersList();
         TestUserData testUserForEditPostData = new TestUserData(getUserForEditPostId());
-        accountInformation.fillEmail(testUserForEditPostData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForEditPostData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
+        pageUsersList.clickUserSearchButton();
 
         log("Переходим на страницу пользователя Изменение Должности");
-        accountInformation.goToUserForEdit();
+        pageUsersList.chooseFilteredUser();
 
         log("Редактируем должность и рабочий телефон");
-        accountInformation.editPostAndPhoneFromAdmin(logErrors);
+        AccountInformation accountInformation = new AccountInformation();
+        logErrors = accountInformation.editPostAndPhoneFromAdmin(logErrors);
 
         checkMistakes();
 
@@ -315,7 +318,7 @@ public class ChangingDataAccountTest extends BaseTest
 
     //USER-ACC-2.5
     @Test(priority =5)
-    public void TestAddRoleFromAdministrator() throws IOException
+    public void testAddRoleFromAdministrator() throws IOException
     {
 
         log("Тест USER-ACC-2.5 запущен");
@@ -346,27 +349,29 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.goToUsers();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
+        PageUsersList pageUsersList = new PageUsersList();
         TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
-        accountInformation.fillEmail(testUserForEditPersonalData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForEditPersonalData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
+        pageUsersList.clickUserSearchButton();
 
         log("Переходим на страницу пользователя Изменение Личных Данных");
-        accountInformation.goToUserForEdit();
+        pageUsersList.chooseFilteredUser();
 
         log("Проверяем отсутсвие роли администратора у пользователя");
+        AccountInformation accountInformation = new AccountInformation();
         accountInformation.checkAndDeleteAdminRole();
 
         log("Добавляем новую роль пользователю");
         accountInformation.addAndCheckRoleFromAdmin(logErrors);
 
         log("Входим под пользователем");
-        accountInformation.startSimulateUser();
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.startSimulateUser();
 
         log("Проверяем меню администратора");
 
@@ -397,19 +402,19 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = menuContent.checkMenuAdmin(logErrors);
 
         log("Выход из симулирования пользователя");
-        accountInformation.stopSimulateUser();
+        pageUserProfile.stopSimulateUser();
 
         log("Переход на страницу с пользователями");
-        accountInformation.goToUsers();
+        pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
-        accountInformation.fillEmail(testUserForEditPersonalData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForEditPersonalData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
-        accountInformation.pushSearchButton();
+        pageUsersList.clickUserSearchButton();
 
         log("Переходим на страницу пользователя Изменение Личных Данных");
-        accountInformation.goToUserForEdit();
+        pageUsersList.chooseFilteredUser();
 
         log("Удаление роли пользователя");
         accountInformation.deleteRoleAdmin();

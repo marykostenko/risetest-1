@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$$;
 /**
  * Created by Maria on 04.04.2017.
  */
-public class TestCatalogData extends BasePage
+public class PageCatalogs extends BasePage
 {
 
     private ElementsCollection testPost = $$(By.xpath("//a[contains(text(),'Тестовая должность')]"));
@@ -53,10 +53,7 @@ public class TestCatalogData extends BasePage
             logErrors++;
             log("ОШИБКА: Новая должность не была добавлена");
         } else {
-            log("Новая должность была добавлена в справочник. Удаляем её");
-            $(By.xpath("//a[contains(text(),'Тестовая должность')]")).click();
-            $(By.xpath("//a[contains(@href,'/delete')]")).click();
-            $(By.xpath("//button[contains(@class,'btn-danger')]")).click();
+            log("Новая должность была добавлена в справочник");
         }
         return logErrors;
     }

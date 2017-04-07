@@ -12,11 +12,14 @@ import static com.codeborne.selenide.Selenide.$$;
 public class AccountInformation extends BasePage
 {
 
-    private ElementsCollection checkFirstName = $$(By.xpath("//div[contains(text(),'Изменение')]"));
+    private ElementsCollection checkFirstName = String userFirstName;
     private ElementsCollection checkLastName = $$(By.xpath("//div[contains(text(),'Личных')]"));
     private ElementsCollection checkMiddleName = $$(By.xpath("//div[contains(text(),'Данных')]"));
 
 
+    /**
+     * проверка изначальных данных в профиле пользователя, которого будем менять
+     */
     public int checkPersonalInfo (int logErrors)
     {
         logErrors = checkAndLog(checkFirstName.isEmpty(), logErrors, "ОШИБКА: имя неверное", "Имя верное");
@@ -30,44 +33,6 @@ public class AccountInformation extends BasePage
     private ElementsCollection buttonEditPersonalInfo = $$(By.xpath("//a[contains(@href,'/editPersonalInfo')]"));
     private ElementsCollection buttonEditContactInfo = $$(By.xpath("//a[contains(@href,'/editContactInfo')]"));
     private ElementsCollection buttonAddRole = $$(By.xpath("//a[@href='#add_modal_']"));
-
-
-    /**
-     * переход на страницу с пользователями
-     */
-    public void goToUsers()
-    {
-
-        $(By.xpath("//div[@class='clearfix']//child::a[@class='dropdown-toggle padding-right-0']")).click();
-        $(By.xpath("//a[@href='/users']")).click();
-
-    }
-
-    /**
-     *  заполняем email для поиска пользователя
-     */
-    public void fillEmail(String userEmail)
-    {
-        WebElement emailField = $(By.id("email"));
-        emailField.sendKeys(userEmail);
-    }
-
-    /**
-     * нажимает кнопку "Найти"
-     */
-    public void pushSearchButton()
-    {
-        $(By.id("submit_search")).click();
-    }
-
-
-    /**
-     * переходит на страницу пользователя Изменение Данных
-     */
-    public void goToUserForEdit()
-    {
-        $(By.xpath("//td//child::a[contains(@href,'/user/')]")).click();
-    }
 
     /**
      * чистит поля личной информации перед редактированием
@@ -158,14 +123,6 @@ public class AccountInformation extends BasePage
     }
 
     /**
-     *  чистит поля контактной информации перед редактированием
-     */
-    private void clearFieldsContatInfo()
-    {
-
-    }
-
-    /**
      * редактирование и сохранение личных данных от лица пользователя
      */
     public int editPersonalInfoFromUser (int logErrors)
@@ -216,7 +173,7 @@ public class AccountInformation extends BasePage
             log("Добавляем номер телефона");
             fillPhone("+79789789789");
             log("Добавляем email");
-            fillEmail("izmenenie@mail.com");
+  //          fillEmail("izmenenie@mail.com");
             $(By.xpath("//button[contains(@class,'btn-primary')]")).click();
             log("Нажимаем кнопку Сохранить");
         } else
@@ -416,22 +373,6 @@ public class AccountInformation extends BasePage
             log("Нет кнопки добавления роли");
         }
         return logErrors;
-    }
-
-    /**
-     * войти под пользователем (симулирование)
-     */
-    public void startSimulateUser()
-    {
-        $(By.xpath("//a[contains(@href,'/simulateUser/')]")).click();
-    }
-
-    /**
-     * выход из симулирования пользователя
-     */
-    public void stopSimulateUser ()
-    {
-        $(By.xpath("//a[@href='/stopSimulateUser']")).click();
     }
 
     /**

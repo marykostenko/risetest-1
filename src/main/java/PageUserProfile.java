@@ -72,4 +72,20 @@ public class PageUserProfile extends BasePage
     {
         $(By.xpath("//a[contains(@href,'/dropUserLoginAttempts/')]")).click();
     }
+
+    /**
+     * войти под пользователем (симулирование)
+     */
+    public void startSimulateUser()
+    {
+        $(By.xpath("//a[contains(@href,'/simulateUser/')]")).click();
+    }
+
+    /**
+     * выход из симулирования пользователя
+     */
+    public void stopSimulateUser ()
+    {
+        $(By.xpath("//a[@href='/stopSimulateUser']")).click();
+    }
 }

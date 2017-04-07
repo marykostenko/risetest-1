@@ -118,14 +118,6 @@ public class PageLogin extends BasePage
         logErrors = checkAndLog(Capcha.isEmpty(), logErrors, "Ошибка: нет капчи", "Капча есть");
         return logErrors;
     }
-
-    /**
-     *  выход из системы
-     */
-    public void logut()
-    {
-        $(By.xpath("//a[@href='/logout']")).click();
-    }
 }
 
 
