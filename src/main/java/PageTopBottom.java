@@ -153,7 +153,7 @@ public class PageTopBottom extends BasePage
         }
     }
 
-    private ElementsCollection homeLogo = $$(By.xpath("//i[contains(@class, 'icon-home')]"));
+    private ElementsCollection homeLogo = $$(By.xpath("//i[contains(@class, 'fa fa-home')]"));
 
     /**
      * пункт меню "Поиск образовательных программ"
