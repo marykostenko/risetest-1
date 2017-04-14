@@ -38,6 +38,8 @@ public abstract class BaseTest
     private static final String adminOrgId = "adminOrg";
     private static final String mailRecoveryId = "mailRecovery";
     private static final String userLoserId = "userLoser";
+    private static final String userForEditLoginId = "userForEditLogin";
+    private static final String getUserForEditPasswordId = "userForEditPassword";
 
 
     public String getAdminId()
@@ -72,7 +74,7 @@ public abstract class BaseTest
     {
         return userLoserId;
     }
-
+    public String getUserForEditLoginId () { return userForEditLoginId; }
 
     public String getStandUrl(String flag) throws IOException
     {
