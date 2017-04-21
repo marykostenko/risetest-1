@@ -15,26 +15,17 @@ public class AccountInformation extends BasePage
     /**
      * возвращает фамилию из профиля пользователя
      * */
-    public String getLastNameUser ()
-    {
-        return $(By.xpath("//div[contains(text(),'Фамилия')]//following::div[1]")).text();
-    }
+    public String getLastNameUser () { return $(By.xpath("//div[contains(text(),'Фамилия')]//following::div[1]")).text(); }
 
     /**
      * возвращает имя из профиля пользователя
      */
-    public String getFirstNameUser()
-    {
-        return $(By.xpath("//div[contains(text(),'Имя')]//following::div[1]")).text();
-    }
+    public String getFirstNameUser() { return $(By.xpath("//div[contains(text(),'Имя')]//following::div[1]")).text(); }
 
     /**
      * возвращает отчетсво из профиля пользователя
      **/
-    public String getMiddleNameUser()
-    {
-        return $(By.xpath("//div[contains(text(),'Отчество')]//following::div[1]")).text();
-    }
+    public String getMiddleNameUser() { return $(By.xpath("//div[contains(text(),'Отчество')]//following::div[1]")).text(); }
 
     /**
      * сверяет фамилию в профиле с ожидаемой
@@ -42,7 +33,7 @@ public class AccountInformation extends BasePage
     public int checkLastName (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getLastNameUser().equals(expectedFIO), logErrors,
-                "Ошибка: В шапке неправильное имя пользователя - " + getLastNameUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Фамилия в профиле не верная - " + getLastNameUser() + "; ожидалось - " + expectedFIO);
     }
 
     /**
@@ -51,7 +42,7 @@ public class AccountInformation extends BasePage
     public int checkFirstName (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getFirstNameUser().equals(expectedFIO), logErrors,
-                "Ошибка: В шапке неправильное имя пользователя - " + getFirstNameUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Имя в профле не верное - " + getFirstNameUser() + "; ожидалось - " + expectedFIO);
     }
 
     /**
@@ -60,7 +51,7 @@ public class AccountInformation extends BasePage
     public int checkMiddleName (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getMiddleNameUser().equals(expectedFIO), logErrors,
-                "Ошибка: В шапке неправильное имя пользователя - " + getMiddleNameUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Отчество в профиле не верное - " + getMiddleNameUser() + "; ожидалось - " + expectedFIO);
     }
 
     /**
@@ -85,8 +76,6 @@ public class AccountInformation extends BasePage
      * открывает редактирование места работы
      */
     public void goToEditJob () { $(By.xpath("//a[contains(@href,'/editJob')]")).click(); }
-
-
 
     /**
      * чистит поля личной информации перед редактированием
@@ -146,8 +135,18 @@ public class AccountInformation extends BasePage
     }
 
     /**
-     *  проверяет пиктограмму редактирования личной информации, в случае если пиктограмма есть, меняет личные данные и сохраняет их
+     * заполняет форму редактирования личной информации
      */
+    public void fillPersonalInfoForm (String userFirstName, String userLastName, String userMiddleName)
+    {
+        fillFirstName(userFirstName);
+        fillLastNameEng(userLastName);
+        fillMiddleName(userMiddleName);
+    }
+
+    /**
+     *  проверяет пиктограмму редактирования личной информации, в случае если пиктограмма есть, меняет личные данные и сохраняет их
+
     public int editPersonalInfoFromAdmin (int logErrors)
     {
         if (!buttonEditPersonalInfo.isEmpty())
@@ -175,6 +174,7 @@ public class AccountInformation extends BasePage
         }
         return logErrors;
     }
+     */
 
     /**
      * редактирование и сохранение личных данных от лица пользователя
