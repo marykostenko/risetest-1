@@ -12,27 +12,81 @@ import static com.codeborne.selenide.Selenide.$$;
 public class AccountInformation extends BasePage
 {
 
-    private ElementsCollection checkFirstName = String userFirstName;
-    private ElementsCollection checkLastName = $$(By.xpath("//div[contains(text(),'Личных')]"));
-    private ElementsCollection checkMiddleName = $$(By.xpath("//div[contains(text(),'Данных')]"));
-
-
     /**
-     * проверка изначальных данных в профиле пользователя, которого будем менять
-     */
-    public int checkPersonalInfo (int logErrors)
+     * возвращает фамилию из профиля пользователя
+     * */
+    public String getLastNameUser ()
     {
-        logErrors = checkAndLog(checkFirstName.isEmpty(), logErrors, "ОШИБКА: имя неверное", "Имя верное");
-        logErrors = checkAndLog(checkLastName.isEmpty(), logErrors, "ОШИБКА: фимилияне верная", "Фамилия верная");
-        logErrors = checkAndLog(checkMiddleName.isEmpty(), logErrors, "ОШИБКА: отчество неверное", "Отчество верное");
-
-        return logErrors;
+        return $(By.xpath("//div[contains(text(),'Фамилия')]//following::div[1]")).text();
     }
 
+    /**
+     * возвращает имя из профиля пользователя
+     */
+    public String getFirstNameUser()
+    {
+        return $(By.xpath("//div[contains(text(),'Имя')]//following::div[1]")).text();
+    }
+
+    /**
+     * возвращает отчетсво из профиля пользователя
+     **/
+    public String getMiddleNameUser()
+    {
+        return $(By.xpath("//div[contains(text(),'Отчество')]//following::div[1]")).text();
+    }
+
+    /**
+     * сверяет фамилию в профиле с ожидаемой
+     */
+    public int checkLastName (String expectedFIO, int logErrors)
+    {
+        return checkAndLog(!getLastNameUser().equals(expectedFIO), logErrors,
+                "Ошибка: В шапке неправильное имя пользователя - " + getLastNameUser() + "; ожидалось - " + expectedFIO);
+    }
+
+    /**
+     * сверяет имя в профиле с ожидаемым
+     */
+    public int checkFirstName (String expectedFIO, int logErrors)
+    {
+        return checkAndLog(!getFirstNameUser().equals(expectedFIO), logErrors,
+                "Ошибка: В шапке неправильное имя пользователя - " + getFirstNameUser() + "; ожидалось - " + expectedFIO);
+    }
+
+    /**
+     * сверяет отчество в профиле с ожидаемым
+     */
+    public int checkMiddleName (String expectedFIO, int logErrors)
+    {
+        return checkAndLog(!getMiddleNameUser().equals(expectedFIO), logErrors,
+                "Ошибка: В шапке неправильное имя пользователя - " + getMiddleNameUser() + "; ожидалось - " + expectedFIO);
+    }
+
+    /**
+     * кнопки в профиле пользователя
+     */
     private ElementsCollection buttonEditJob = $$(By.xpath("//a[contains(@href,'/editJob')]"));
     private ElementsCollection buttonEditPersonalInfo = $$(By.xpath("//a[contains(@href,'/editPersonalInfo')]"));
     private ElementsCollection buttonEditContactInfo = $$(By.xpath("//a[contains(@href,'/editContactInfo')]"));
     private ElementsCollection buttonAddRole = $$(By.xpath("//a[@href='#add_modal_']"));
+
+    /**
+     * открывает редактирование личной информации
+     */
+    public void goToEditPersonalInfo(){ $(By.xpath("//a[contains(@href,'/editPersonalInfo')]")).click(); }
+
+    /**
+     * открывает редактирование контактной информации
+     */
+    public void goToEditContactInfo () { $(By.xpath("//a[contains(@href,'/editContactInfo')]")).click(); }
+
+    /**
+     * открывает редактирование места работы
+     */
+    public void goToEditJob () { $(By.xpath("//a[contains(@href,'/editJob')]")).click(); }
+
+
 
     /**
      * чистит поля личной информации перед редактированием
@@ -103,7 +157,7 @@ public class AccountInformation extends BasePage
             log("Очистили поля перед редактированием");
             clearFieldsPersonalInfo();
             log("Меняем имя");
-            fillFirstName("Измененная");
+        //    fillFirstName(testEditedUserForEditPersonalData);
             log("Меняем фамилию");
             fillLastName("Личная");
             log("Меняем отчество");

@@ -44,6 +44,7 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
+        pageTopBottom.openAdminMenu();
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
@@ -58,9 +59,18 @@ public class ChangingDataAccountTest extends BaseTest
         pageUsersList.chooseFilteredUser();
 
         log("Проверяем данные на карточке пользователя");
+        log("Проверяем фамилию");
         AccountInformation accountInformation = new AccountInformation();
-        accountInformation.
-      //  logErrors = accountInformation.checkPersonalInfo(logErrors);
+        log(accountInformation.getLastNameUser());
+        logErrors = accountInformation.checkLastName(testUserForEditPersonalDataData.getUserLastName(), logErrors);
+
+        log("Проверяем имя");
+        log(accountInformation.getFirstNameUser());
+        logErrors = accountInformation.checkFirstName(testUserForEditPersonalDataData.getUserFirstName(), logErrors);
+
+        log("Проверяем отчество");
+        log(accountInformation.getMiddleNameUser());
+        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalDataData.getUserMiddleName(), logErrors);
 
         log("Редактируем личную информацию от лица администратора");
         logErrors = accountInformation.editPersonalInfoFromAdmin(logErrors);
@@ -98,7 +108,17 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = accountInformation.editPersonalInfoFromUser(logErrors);
 
         log("Проверяем, что изменения сохранены и возвращены в первоначальный вид");
-        logErrors = accountInformation.checkPersonalInfo(logErrors);
+        log("Проверяем фамилию");
+        log(accountInformation.getLastNameUser());
+        logErrors = accountInformation.checkLastName(testUserForEditPersonalDataData.getUserLastName(), logErrors);
+
+        log("Проверяем имя");
+        log(accountInformation.getFirstNameUser());
+        logErrors = accountInformation.checkFirstName(testUserForEditPersonalDataData.getUserFirstName(), logErrors);
+
+        log("Проверяем отчество");
+        log(accountInformation.getMiddleNameUser());
+        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalDataData.getUserMiddleName(), logErrors);
 
         checkMistakes();
 
@@ -140,6 +160,7 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Переход на страницу с пользователями");
         PageUsersList pageUsersList = new PageUsersList();
+        pageTopBottom.openAdminMenu();
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
@@ -294,6 +315,7 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
+        pageTopBottom.openAdminMenu();
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
@@ -349,6 +371,7 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переход на страницу с пользователями");
+        pageTopBottom.openAdminMenu();
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
@@ -405,6 +428,7 @@ public class ChangingDataAccountTest extends BaseTest
         pageUserProfile.stopSimulateUser();
 
         log("Переход на страницу с пользователями");
+        pageTopBottom.openAdminMenu();
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
