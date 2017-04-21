@@ -54,6 +54,11 @@ public class PageCatalogs extends BasePage
             log("ОШИБКА: Новая должность не была добавлена");
         } else {
             log("Новая должность была добавлена в справочник");
+            $(By.xpath("//a[contains(text(),'Тестовая должность')]")).click();
+            $(By.xpath("//a[contains(@href,'/delete')]")).click();
+            $(By.xpath("//button[contains(@class,'btn-danger')]")).click();
+            log("Тестовая должность удалена из справочника");
+
         }
         return logErrors;
     }

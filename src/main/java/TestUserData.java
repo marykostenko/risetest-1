@@ -17,6 +17,10 @@ public class TestUserData
     private String userLogin;
     private String userPassword;
     private String userPost;
+    private String userPhone;
+    private String userEmail;
+    private String userWorkPhone;
+    private String newPost;
 
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
@@ -30,6 +34,10 @@ public class TestUserData
         userLogin = this.initUserData(userId + "Login");
         userPassword = this.initUserData(userId + "Password");
         userPost = this.initUserData(userId + "Post");
+        userPhone = this.initUserData(userId + "Phone");
+        userEmail = this.initUserData(userId + "Email");
+        userWorkPhone = this.initUserData(userId + "WorkPhone");
+        newPost = this.initUserData(userId + "NewPost");
     }
 
     //методу передается название поля в properties и метод возвращает значение поля
@@ -69,4 +77,12 @@ public class TestUserData
     {
         return userPost;
     }
+
+    public String getUserPhone() { return userPhone; }
+
+    public String getUserEmail() { return userEmail; }
+
+    public String getUserWorkPhone() { return userWorkPhone;}
+
+    public String getNewPost() { return newPost; }
 }

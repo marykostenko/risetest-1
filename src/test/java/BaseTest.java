@@ -76,7 +76,7 @@ public abstract class BaseTest
     }
     public String getUserForEditPersonalDataId () { return userForEditPersonalDataId; }
     public String getUserForEditPostId () { return userForEditPostId; }
-    public String getChangedUserForEditPersonalDataId () { return changedUserForEditPersonalDataId;}
+    public String getChangedUserPersonalDataId() { return changedUserForEditPersonalDataId;}
 
 
     public String getStandUrl(String flag) throws IOException

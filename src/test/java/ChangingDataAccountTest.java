@@ -49,8 +49,8 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Заполняем email для поиска пользователя");
         PageUsersList pageUsersList = new PageUsersList();
-        TestUserData testUserForEditPersonalDataData = new TestUserData(getUserForEditPersonalDataId());
-        pageUsersList.fillUserEmail(testUserForEditPersonalDataData.getUserLogin());
+        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
+        pageUsersList.fillUserEmail(testUserForEditPersonalData.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
         pageUsersList.clickUserSearchButton();
@@ -62,21 +62,36 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем фамилию");
         AccountInformation accountInformation = new AccountInformation();
         log(accountInformation.getLastNameUser());
-        logErrors = accountInformation.checkLastName(testUserForEditPersonalDataData.getUserLastName(), logErrors);
+        logErrors = accountInformation.checkLastName(testUserForEditPersonalData.getUserLastName(), logErrors);
 
         log("Проверяем имя");
         log(accountInformation.getFirstNameUser());
-        logErrors = accountInformation.checkFirstName(testUserForEditPersonalDataData.getUserFirstName(), logErrors);
+        logErrors = accountInformation.checkFirstName(testUserForEditPersonalData.getUserFirstName(), logErrors);
 
         log("Проверяем отчество");
         log(accountInformation.getMiddleNameUser());
-        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalDataData.getUserMiddleName(), logErrors);
+        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalData.getUserMiddleName(), logErrors);
 
         log("Редактируем личную информацию от лица администратора");
-        logErrors = accountInformation.editPersonalInfoFromAdmin(logErrors);
+        accountInformation.goToEditPersonalInfo();
+        PageEditPersonalInfo pageEditPersonalInfo = new PageEditPersonalInfo();
+        TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
+        pageEditPersonalInfo.clearFieldsPersonalInfo();
+        pageEditPersonalInfo.fillPersonalInfoForm(testChangedUserPersonalData.getUserFirstName(), testChangedUserPersonalData.getUserLastName(), testChangedUserPersonalData.getUserMiddleName(),
+                testChangedUserPersonalData.getUserFirstNameEng(), testChangedUserPersonalData.getUserLastNameEng());
+        pageEditPersonalInfo.savePersonalInfoChanges();
 
         log("Проверяем, что изменения сохранены");
-        logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
+        log(accountInformation.getLastNameUser());
+        logErrors = accountInformation.checkLastName(testChangedUserPersonalData.getUserLastName(), logErrors);
+        log(accountInformation.getFirstNameUser());
+        logErrors = accountInformation.checkFirstName(testChangedUserPersonalData.getUserFirstName(), logErrors);
+        log(accountInformation.getMiddleNameUser());
+        logErrors = accountInformation.checkMiddleName(testChangedUserPersonalData.getUserMiddleName(), logErrors);
+        log(accountInformation.getLastNameUser());
+        logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
+        log(accountInformation.getFirstNameUserEng());
+        logErrors = accountInformation.checkFirstNameEng(testChangedUserPersonalData.getUserFirstNameEng(), logErrors);
 
         log("Выйти из системы");
         pageTopBottom.logout();
@@ -92,7 +107,6 @@ public class ChangingDataAccountTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
         pageLogin.fillLoginForm(testUserForEditPersonalData.getUserLogin(), testUserForEditPersonalData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -101,25 +115,20 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-        log("Проверяем измененные администратором данные на карточке пользователя");
-        logErrors = accountInformation.checkEditsPersonalInfoFromAdmin(logErrors);
-
         log("Редактируем личную информацию от лица пользователя");
-        logErrors = accountInformation.editPersonalInfoFromUser(logErrors);
+        accountInformation.goToEditPersonalInfo();
+        pageEditPersonalInfo.clearFieldsPersonalInfo();
+        pageEditPersonalInfo.fillPersonalInfoForm(testUserForEditPersonalData.getUserFirstName(), testUserForEditPersonalData.getUserLastName(), testUserForEditPersonalData.getUserMiddleName(),
+                testUserForEditPersonalData.getUserFirstNameEng(), testUserForEditPersonalData.getUserLastNameEng());
+        pageEditPersonalInfo.savePersonalInfoChanges();
 
         log("Проверяем, что изменения сохранены и возвращены в первоначальный вид");
-        log("Проверяем фамилию");
         log(accountInformation.getLastNameUser());
-        logErrors = accountInformation.checkLastName(testUserForEditPersonalDataData.getUserLastName(), logErrors);
-
-        log("Проверяем имя");
+        logErrors = accountInformation.checkLastName(testUserForEditPersonalData.getUserLastName(), logErrors);
         log(accountInformation.getFirstNameUser());
-        logErrors = accountInformation.checkFirstName(testUserForEditPersonalDataData.getUserFirstName(), logErrors);
-
-        log("Проверяем отчество");
+        logErrors = accountInformation.checkFirstName(testUserForEditPersonalData.getUserFirstName(), logErrors);
         log(accountInformation.getMiddleNameUser());
-        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalDataData.getUserMiddleName(), logErrors);
-
+        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalData.getUserMiddleName(), logErrors);
         checkMistakes();
 
         log("Тест USER-ACC-2.1 завершен");
@@ -173,12 +182,27 @@ public class ChangingDataAccountTest extends BaseTest
         log("Переходим на страницу пользователя Изменение Данных");
         pageUsersList.chooseFilteredUser();
 
-        log("Редактируем контактную информацию от лица администратора");
+        log("Проверяем, что контактных данных нет");
         AccountInformation accountInformation = new AccountInformation();
-        logErrors = accountInformation.editContactInfoFromAdmin(logErrors);
+        log(accountInformation.getPhoneUser());
+        logErrors = accountInformation.checkPhoneUser(testUserForEditPersonalDataData.getUserPhone(), logErrors);
+        log(accountInformation.getEmailUser());
+        logErrors = accountInformation.checkEmailUser(testUserForEditPersonalDataData.getUserEmail(), logErrors);
+
+        log("Редактируем контактную информацию от лица администратора");
+        accountInformation.goToEditContactInfo();
+        PageEditContactInfo pageEditContactInfo = new PageEditContactInfo();
+        TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
+        pageEditContactInfo.clearFieldsContactInfo();
+        pageEditContactInfo.fillContactInfoForm(testChangedUserPersonalData.getUserPhone(), testChangedUserPersonalData.getUserEmail());
+        pageEditContactInfo.saveContactInfoChanges();
+
 
         log("Проверяем изменения контактной информации");
-        logErrors = accountInformation.checkContactInfo(logErrors);
+        log(accountInformation.getPhoneUser());
+        logErrors = accountInformation.checkPhoneUser(testChangedUserPersonalData.getUserPhone(), logErrors);
+        log(accountInformation.getEmailUser());
+        logErrors = accountInformation.checkEmailUser(testChangedUserPersonalData.getUserEmail(), logErrors);
 
         log("Выйти из системы");
         pageTopBottom.logout();
@@ -204,7 +228,15 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Редактируем контактную информацию от лица пользователя");
-        logErrors = accountInformation.editContactInfoFromUser(logErrors);
+        accountInformation.goToEditContactInfo();
+        pageEditContactInfo.clearFieldsContactInfo();
+        pageEditContactInfo.saveContactInfoChanges();
+
+        log("Проверяем изменения контактной информации");
+        log(accountInformation.getPhoneUser());
+        logErrors = accountInformation.checkPhoneUser(testUserForEditPersonalDataData.getUserPhone(), logErrors);
+        log(accountInformation.getEmailUser());
+        logErrors = accountInformation.checkEmailUser(testUserForEditPersonalDataData.getUserEmail(), logErrors);
 
         checkMistakes();
 
@@ -267,7 +299,14 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Добавляем тестовую должность");
         AccountInformation accountInformation = new AccountInformation();
-        accountInformation.addTestPostFromAdmin(logErrors);
+        accountInformation.goToEditJob();
+        PageEditJob pageEditJob = new PageEditJob();
+        pageEditJob.clearFieldsJob();
+        pageEditJob.fillPost(testUserForEditPostData.getNewPost());
+
+        log("Возвращаем должность пользователя в первоначальное состояние");
+        accountInformation.goToEditJob();
+        pageEditJob.fillJobForm(testUserForEditPostData.getUserPost(), testUserForEditPostData.getUserWorkPhone());
 
         log("Переходим к справочнику должностей");
         testCatalogData.goToPostCatalog();
@@ -331,7 +370,49 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Редактируем должность и рабочий телефон");
         AccountInformation accountInformation = new AccountInformation();
-        logErrors = accountInformation.editPostAndPhoneFromAdmin(logErrors);
+        accountInformation.goToEditJob();
+        PageEditJob pageEditJob = new PageEditJob();
+        TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
+        pageEditJob.fillJobForm(testChangedUserPersonalData.getUserPost(), testChangedUserPersonalData.getUserWorkPhone());
+
+        log("Проверка изменения рабочей информации");
+        log(accountInformation.getPostUser());
+        logErrors = accountInformation.checkPostUser(testChangedUserPersonalData.getUserPost(), logErrors);
+        log(accountInformation.getWorkPhoneUser());
+        logErrors = accountInformation.checkWorkPhone(testChangedUserPersonalData.getUserWorkPhone(), logErrors);
+
+        log("Выйти из системы");
+        pageTopBottom.logout();
+
+        log("Нажимаем кнопку Войти");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        pageLogin.fillLoginForm(testUserForEditPostData.getUserLogin(), testUserForEditPostData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Возвращаем должность и рабочий телефон");
+        accountInformation.goToEditJob();
+        pageEditJob.fillJobForm(testUserForEditPostData.getUserPost(), testUserForEditPostData.getUserWorkPhone());
+
+        log("Проверка изменения рабочей информации");
+        log(accountInformation.getPostUser());
+        logErrors = accountInformation.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
+        log(accountInformation.getWorkPhoneUser());
+        logErrors = accountInformation.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
+
 
         checkMistakes();
 
