@@ -44,4 +44,8 @@ public class PageEditJob extends BasePage
         fillWorkPhone(userWorkPhone);
     }
 
+    /**
+     * нажимает кнопку сохранить
+     */
+    public void saveJobInfoChanges() { $(By.xpath("//button[@class='btn btn-primary']")).click(); }
 }

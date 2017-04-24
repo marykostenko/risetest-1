@@ -278,6 +278,14 @@ public class PageTopBottom extends BasePage
         $(By.xpath("//div[@class='hero candidate-rise']//a[contains(@href, '/account')]")).click();
     }
 
+    /**
+     * Переходим в профиль пользователя для изменения должности
+     */
+
+    public void goToProfileChangePost()
+    {
+        $(By.xpath("//div[@class='rs-row']//child::a[contains(@href,'/user/')]")).click();
+    }
 
 
     /**

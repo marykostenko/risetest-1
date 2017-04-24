@@ -92,6 +92,8 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
         log(accountInformation.getFirstNameUserEng());
         logErrors = accountInformation.checkFirstNameEng(testChangedUserPersonalData.getUserFirstNameEng(), logErrors);
+        log(accountInformation.getLastNameUserEng());
+        logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
 
         log("Выйти из системы");
         pageTopBottom.logout();
@@ -284,6 +286,7 @@ public class ChangingDataAccountTest extends BaseTest
         testCatalogData.checkAbsenceNewPost();
 
         log("Переход на страницу с пользователями");
+        pageTopBottom.openAdminMenu();
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
@@ -303,10 +306,13 @@ public class ChangingDataAccountTest extends BaseTest
         PageEditJob pageEditJob = new PageEditJob();
         pageEditJob.clearFieldsJob();
         pageEditJob.fillPost(testUserForEditPostData.getNewPost());
+        pageEditJob.saveJobInfoChanges();
 
         log("Возвращаем должность пользователя в первоначальное состояние");
         accountInformation.goToEditJob();
+        pageEditJob.clearFieldsJob();
         pageEditJob.fillJobForm(testUserForEditPostData.getUserPost(), testUserForEditPostData.getUserWorkPhone());
+        pageEditJob.saveJobInfoChanges();
 
         log("Переходим к справочнику должностей");
         testCatalogData.goToPostCatalog();
@@ -368,12 +374,20 @@ public class ChangingDataAccountTest extends BaseTest
         log("Переходим на страницу пользователя Изменение Должности");
         pageUsersList.chooseFilteredUser();
 
-        log("Редактируем должность и рабочий телефон");
+        log("Проверяем первоначальный рабочие данные");
         AccountInformation accountInformation = new AccountInformation();
+        log(accountInformation.getPostUser());
+        logErrors = accountInformation.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
+        log(accountInformation.getWorkPhoneUser());
+        logErrors = accountInformation.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
+
+        log("Редактируем должность и рабочий телефон");
         accountInformation.goToEditJob();
         PageEditJob pageEditJob = new PageEditJob();
+        pageEditJob.clearFieldsJob();
         TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
         pageEditJob.fillJobForm(testChangedUserPersonalData.getUserPost(), testChangedUserPersonalData.getUserWorkPhone());
+        pageEditJob.saveJobInfoChanges();
 
         log("Проверка изменения рабочей информации");
         log(accountInformation.getPostUser());
@@ -403,16 +417,20 @@ public class ChangingDataAccountTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
+        log("Переходим в профиль пользователя");
+        pageTopBottom.goToProfileChangePost();
+
         log("Возвращаем должность и рабочий телефон");
         accountInformation.goToEditJob();
+        pageEditJob.clearFieldsJob();
         pageEditJob.fillJobForm(testUserForEditPostData.getUserPost(), testUserForEditPostData.getUserWorkPhone());
+        pageEditJob.saveJobInfoChanges();
 
         log("Проверка изменения рабочей информации");
         log(accountInformation.getPostUser());
         logErrors = accountInformation.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
         log(accountInformation.getWorkPhoneUser());
         logErrors = accountInformation.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
-
 
         checkMistakes();
 

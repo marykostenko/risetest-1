@@ -104,7 +104,7 @@ public class AccountInformation extends BasePage
     public int checkPhoneUser (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getPhoneUser().equals(expectedFIO), logErrors,
-                "Ошибка: Имя Eng в профле не верное - " + getPhoneUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Мобильный телефон в профле не верный - " + getPhoneUser() + "; ожидалось - " + expectedFIO);
     }
 
     /**
@@ -113,7 +113,7 @@ public class AccountInformation extends BasePage
     public int checkEmailUser (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getEmailUser().equals(expectedFIO), logErrors,
-                "Ошибка: Имя Eng в профле не верное - " + getEmailUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Email в профле не верный - " + getEmailUser() + "; ожидалось - " + expectedFIO);
     }
 
 
@@ -135,7 +135,7 @@ public class AccountInformation extends BasePage
     public int checkPostUser (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getPostUser().equals(expectedFIO), logErrors,
-                "Ошибка: Имя Eng в профле не верное - " + getPostUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Должность профле не верная - " + getPostUser() + "; ожидалось - " + expectedFIO);
     }
 
     /**
@@ -144,7 +144,7 @@ public class AccountInformation extends BasePage
     public int checkWorkPhone (String expectedFIO, int logErrors)
     {
         return checkAndLog(!getWorkPhoneUser().equals(expectedFIO), logErrors,
-                "Ошибка: Имя Eng в профле не верное - " + getWorkPhoneUser() + "; ожидалось - " + expectedFIO);
+                "Ошибка: Рабочий телефон в профиле неверный - " + getWorkPhoneUser() + "; ожидалось - " + expectedFIO);
     }
     /**-----------------------------Открытие страниц редактирования
 
