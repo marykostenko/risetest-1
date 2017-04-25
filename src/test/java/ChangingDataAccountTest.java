@@ -279,11 +279,11 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переходим в справочник должностей");
-        PageCatalogs testCatalogData = new PageCatalogs();
-        testCatalogData.goToPostCatalog();
+        PageCatalogs pageCatalogs = new PageCatalogs();
+        pageCatalogs.goToPostCatalog();
 
         log("Проверяем отсутсвие тестовой должности в справочнике");
-        testCatalogData.checkAbsenceNewPost();
+        pageCatalogs.checkAbsenceNewPost();
 
         log("Переход на страницу с пользователями");
         pageTopBottom.openAdminMenu();
@@ -315,10 +315,14 @@ public class ChangingDataAccountTest extends BaseTest
         pageEditJob.saveJobInfoChanges();
 
         log("Переходим к справочнику должностей");
-        testCatalogData.goToPostCatalog();
+        pageCatalogs.goToPostCatalog();
 
         log("Проверяем, была ли добавлена новая тестовая должность");
-        logErrors = testCatalogData.checkNewPost(logErrors);
+        log(pageCatalogs.getNewPost());
+        logErrors = pageCatalogs.checkNewPost(testUserForEditPostData.getNewPost(), logErrors);
+
+        log("Удаляем новую должность");
+        pageCatalogs.deleteNewPost();
 
         checkMistakes();
 

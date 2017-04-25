@@ -45,18 +45,27 @@ public class PageCatalogs extends BasePage
     }
 
     /**
-     * проверить, что тестовую должность добавили, удалить в случае нахождения. Если должность не добавлена, функция возвращает ошибку
+     * возвращает название должности из справочника пользователя
+     **/
+    public String getNewPost() { return $(By.linkText("Тестовая должность")).text(); }
+
+    /**
+     * сверяет новую должность с одидаемой
      */
-    public int checkNewPost (int logErrors)
+    public int checkNewPost (String expectedFIO, int logErrors)
     {
-        if (testPost.isEmpty()) {
-            logErrors++;
-            log("ОШИБКА: Новая должность не была добавлена");
-        } else {
-            log("Новая должность была добавлена в справочник");
-            $(By.xpath("//a[contains(text(),'Тестовая должность')]")).click();
-        }
-        return logErrors;
+        return checkAndLog(!getNewPost().equals(expectedFIO), logErrors,
+                "Ошибка: Новая должность не добавлена -  ожидалось - " + expectedFIO);
     }
 
+    /**
+     * проверить, что тестовую должность добавили, удалить в случае нахождения. Если должность не добавлена, функция возвращает ошибку
+     */
+    public void deleteNewPost ()
+    {
+        $(By.xpath("//a[contains(text(),'Тестовая должность')]")).click();
+        $(By.xpath("//a[contains(@href,'/delete')]")).click();
+        $(By.xpath("//button[contains(@class,'btn-danger')]")).click();
+        log("Тестовая должность удалена");
+    }
 }
