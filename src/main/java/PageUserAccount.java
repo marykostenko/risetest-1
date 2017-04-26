@@ -32,4 +32,46 @@ public class PageUserAccount extends BasePage
      * Нажимает кнопку сохранить для изменения логина
      */
     public void clickSaveLogin() { $(By.xpath("//form[contains(@action,'/request-email-change')]//child::input[@value='Сохранить']")).click(); }
+
+    /**
+     * заполняет поле старого пароля
+     */
+    private void fillOldPassword (String userOldPassword)
+    {
+        WebElement oldPasswordField = $(By.id("oldPassword"));
+        oldPasswordField.sendKeys(userOldPassword);
+    }
+
+    /**
+     * заполняет поле нового пароля
+     */
+    private void fillNewPassword (String userNewPassword)
+    {
+        WebElement newPasswordField = $(By.id("registrationPassword"));
+        newPasswordField.sendKeys(userNewPassword);
+    }
+
+    /**
+     * заполняет поле повторного нового пароля
+     */
+    private void fillRepeatNewPassword (String userRepeatNewPassword)
+    {
+        WebElement repeatNewPasswordField = $(By.id("registrationPasswordConfirm"));
+        repeatNewPasswordField.sendKeys(userRepeatNewPassword);
+    }
+
+    /**
+     * заполняет поля старого пароля, нового, подтверждение нового пароля
+     */
+    public void fillPasswords (String userOldPassword, String userNewPassword, String userRepeatNewPassword)
+    {
+        fillOldPassword(userOldPassword);
+        fillNewPassword(userNewPassword);
+        fillRepeatNewPassword(userRepeatNewPassword);
+    }
+
+    /**
+     * Нажимает кнопку Сохранить для изменения пароля
+     */
+    public void clickSavePassword() { $(By.xpath("//form[contains(@action,'password-change')]//child::input[@value='Сохранить']")).click(); }
 }

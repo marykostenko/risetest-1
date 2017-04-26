@@ -8,10 +8,10 @@ import static com.codeborne.selenide.WebDriverRunner.url;
  * Created by Maria on 14.04.2017.
  */
 public class ChangingLoginAndPassTest extends BaseTest {
-    //USER-L-2.1
+    //USER-ACC-3.1
     @Test(priority = 1)
     public void testChangingLogin() throws IOException {
-        log("Запущен тест USER-L-1.1");
+        log("Запущен тест USER-ACC-3.1");
 
         log("Переключаем язык страницы на русский");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -52,5 +52,81 @@ public class ChangingLoginAndPassTest extends BaseTest {
         checkMistakes();
 
         log("Тест USER-L-2.1 завершен");
+
+    }
+        //USER-ACC-3.2
+        @Test (priority = 2)
+        public void testChangingPassword() throws IOException {
+            log("Запущен тест USER-ACC-3.2");
+
+            log("Переключаем язык страницы на русский");
+            PageTopBottom pageTopBottom = new PageTopBottom();
+            pageTopBottom.switchToRu();
+
+            log("Нажимаем кнопку Вход");
+            pageTopBottom.goToLogin();
+
+            log("Проверяем, что открылась страница с url /login");
+            PageLogin pageLogin = new PageLogin();
+            log("Url страницы: " + url());
+            logErrors = pageLogin.assertLoginUrl(logErrors);
+
+            log("Проверяем, что есть форма логина");
+            pageLogin.isLoginForm();
+
+            log("Заполняем форму логина");
+            TestUserData testUserForEditPassword = new TestUserData(getGetUserForEditPasswordId());
+            pageLogin.fillLoginForm(testUserForEditPassword.getUserLogin(), testUserForEditPassword.getUserPassword());
+
+            log("Нажимаем кнопку Войти");
+            pageLogin.pushLoginButton();
+
+            log("Проверяем, выполнен ли вход");
+            logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим в меню Настройки");
+            PageUserProfile pageUserProfile = new PageUserProfile();
+            pageUserProfile.goToAccount();
+
+            log("Заполняем поля старого, нового и повторного нового логина");
+            PageUserAccount pageUserAccount = new PageUserAccount();
+            pageUserAccount.fillPasswords(testUserForEditPassword.getUserPassword(), testUserForEditPassword.getUserNewPassword(), testUserForEditPassword.getUserNewPassword());
+
+            log("Нажимаем кнопку Сохранить");
+            pageUserAccount.clickSavePassword();
+
+            log("Вызодим из системы");
+            pageTopBottom.logout();
+
+            log("Нажимаем кнопку Вход");
+            pageTopBottom.goToLogin();
+
+            log("Проверяем, что открылась страница с url /login");
+            log("Url страницы: " + url());
+            logErrors = pageLogin.assertLoginUrl(logErrors);
+
+            log("Проверяем, что есть форма логина");
+            pageLogin.isLoginForm();
+
+            log("Заполняем форму логина с новым пароелм");
+            pageLogin.fillLoginForm(testUserForEditPassword.getUserLogin(), testUserForEditPassword.getUserNewPassword());
+
+            log("Нажимаем кнопку Войти");
+            pageLogin.pushLoginButton();
+
+            log("Проверяем, выполнен ли вход");
+            logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим в меню Настройки");
+            pageUserProfile.goToAccount();
+
+            log("Возвращаем старый пароль");
+            pageUserAccount.fillPasswords(testUserForEditPassword.getUserNewPassword(), testUserForEditPassword.getUserPassword(), testUserForEditPassword.getUserPassword());
+
+            log("Нажимаем кнопку Сохранить");
+            pageUserAccount.clickSavePassword();
+
+            checkMistakes();
+
     }
 }
