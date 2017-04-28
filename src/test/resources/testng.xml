@@ -1,4 +1,20 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="First step of automation">
-
+    <test name = "Login (USER-L)">
+        <classes>
+            <class name = "LoginSuccessfulTest"></class>
+            <class name = "LoginUnsuccessfulTest"></class>
+        </classes>
+    </test>
+    <test name="System Menu and Main page (SYS-MENU, SYS-MP)">
+        <classes>
+            <class name = "SystemMenuTest"></class>
+            <class name="SystemOperationTest"></class>
+        </classes>
+    </test>
+    <test name="Recovery of the password (USER-ACC-1, USER-ACC-MES-1)">
+        <classes>
+            <class name = "PasswordRecoveryTest"></class>
+        </classes>
+    </test>
 </suite>
