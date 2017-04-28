@@ -1,15 +1,9 @@
-import com.sun.org.apache.xpath.internal.operations.String;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.*;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.mail.*;
-import javax.mail.MessagingException;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+import javax.management.Notification;
 
 /**
  * Created by user nkorobicina on 28.12.2016.
@@ -31,14 +25,20 @@ public class TestMail extends BasePage
     private static final String emailUserRegistration = "Приглашение в информационную систему формирования и распределения квоты приема иностранных студентов";
     private static final String passwordRecoveryMailHead = "Восстановление пароля russia.study / russia.study password restore";
 
-    public String getPasswordRecoveryMailHead() { return passwordRecoveryMailHead; }
+    public String getPasswordRecoveryMailHead()
+    {
+        return passwordRecoveryMailHead;
+    }
 
     public String getEmailUserRegistration()
     {
         return emailUserRegistration;
     }
 
-    public String getEmailChangeNotification() {return emailChangeNotification; }
+    public String getEmailChangeNotification()
+    {
+        return emailChangeNotification;
+    }
 
     public String getEmailChangeRequest()
     {
@@ -144,7 +144,7 @@ public class TestMail extends BasePage
     {
         Folder inbox = initInboxReadOnly();
         Message msg = inbox.getMessage(num);
-   //     log("SUBJECT: " + msg.getSubject());
+        //     log("SUBJECT: " + msg.getSubject());
         return msg.getSubject();
     }
 
@@ -156,7 +156,7 @@ public class TestMail extends BasePage
     {
         Folder inbox = initInboxReadOnly();
         Message msg = inbox.getMessage(inbox.getMessageCount());
- //       log("SUBJECT: " + msg.getSubject());
+        //       log("SUBJECT: " + msg.getSubject());
         return msg.getSubject();
 
     }
@@ -187,7 +187,7 @@ public class TestMail extends BasePage
         {
             log("Не нашел адресата");
         }
- //       log("Адресат письма: " + Addresse);
+        //       log("Адресат письма: " + Addresse);
         return Addresse;
 
     }
@@ -239,7 +239,7 @@ public class TestMail extends BasePage
             log("Не нашли текст в письме");
 
         }
- //       log("Требуемый текст из письма: " + result);
+        //       log("Требуемый текст из письма: " + result);
         return result;
     }
 
@@ -264,29 +264,6 @@ public class TestMail extends BasePage
     }
 
     /**
-     * выдает ссылку из предпоследнего письма
-     */
-    public String getLinkFromPenultMail() throws IOException, MessagingException
-    {
-        int lettersCount = getLettersCount();
-        return getLinkFromMail(getHtmlTextMail(lettersCount - 1));
-    }
-
-    /**
-     * проверяет заголовок предпоследнего письма в ящике
-     */
-    public boolean isSubjectPenultCorrect(String subject) throws MessagingException
-    {
-        int lettersCount = getLettersCount();
-        String subjectLastMail = getSubjectMail(lettersCount - 1);
-        if(subjectLastMail.equals(subject))
-        {
-            return true;
-        }
-        else return false;
-    }
-
-    /**
      * Метод, проверяющий заголовок последнего письма в ящике
      */
     public boolean isSubjectCorrect(String subject) throws MessagingException
@@ -297,15 +274,6 @@ public class TestMail extends BasePage
             return true;
         }
         else return false;
-    }
-
-    /**
-     * проверяем какое последнее письмо
-     */
-    public int checkLastMail (String subject, int logErrrors)
-    {
-        if isSubjectCorrect(String subject)
-        return logErrors;
     }
 
     /**
@@ -320,4 +288,34 @@ public class TestMail extends BasePage
         }
         else return false;
     }
+
+    /**
+     * Проверяет является ли последнее письмо уведомлением или подтверждением смены логина
+     */
+    public int checkLastMail (String lastMail, int logErrors, String actualMail, String requestMail, String notificationMail) throws MessagingException
+    {
+        if (actualMail = notificationMail)
+            lastMail = "Уведомление";
+        if (actualMail = requestMail)
+                lastMail = "Подтверждение";
+        else
+        {
+            logErrors++;
+            log("ОШИБКА: Последние письмо не уведомление и не подверждение смены логина");
+        }
+
+        return logErrors;
+    }
+
+    /**
+     * Проверяет является ли предпоследнее письмо уведомлением или подтверждением смены логина
+     */
+    public int checkPenultMail (String penultMail, int logErrors, int lettersCount) throws MessagingException
+    {
+        lettersCount = getLettersCount();
+
+        if (getSubjectMail(lettersCount - 1))
+
+    }
 }
+
