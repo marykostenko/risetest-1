@@ -12,6 +12,11 @@
             <class name="SystemOperationTest"></class>
         </classes>
     </test>
+    <test name="Change of Data Account (USER-ACC-2)">
+        <classes>
+            <class name="ChangingDataAccountTest"></class>
+        </classes>
+    </test>
     <test name="Recovery of the password (USER-ACC-1, USER-ACC-MES-1)">
         <classes>
             <class name = "PasswordRecoveryTest"></class>

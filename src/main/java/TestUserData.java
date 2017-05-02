@@ -12,12 +12,17 @@ public class TestUserData
     private String userFirstName;
     private String userMiddleName;
     private String userLastName;
+    private String userFirstNameEng;
+    private String userLastNameEng;
     private String userLogin;
     private String userPassword;
     private String userPost;
     private String userNewLogin;
     private String userNewPassword;
-
+    private String userPhone;
+    private String userEmail;
+    private String userWorkPhone;
+    private String newPost;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -25,11 +30,17 @@ public class TestUserData
         userFirstName = this.initUserData(userId + "FirstName");
         userMiddleName = this.initUserData(userId + "MiddleName");
         userLastName = this.initUserData(userId + "LastName");
+        userFirstNameEng = this.initUserData(userId + "FirstNameEng");
+        userLastNameEng = this.initUserData(userId + "LastNameEng");
         userLogin = this.initUserData(userId + "Login");
         userPassword = this.initUserData(userId + "Password");
         userPost = this.initUserData(userId + "Post");
         userNewLogin = this.initUserData(userId + "NewLogin");
         userNewPassword = this.initUserData(userId + "NewPassword");
+        userPhone = this.initUserData(userId + "Phone");
+        userEmail = this.initUserData(userId + "Email");
+        userWorkPhone = this.initUserData(userId + "WorkPhone");
+        newPost = this.initUserData(userId + "NewPost");
     }
 
     //методу передается название поля в properties и метод возвращает значение поля
@@ -42,10 +53,7 @@ public class TestUserData
         return userData.getProperty(fieldKey);
     }
 
-    public String getUserFirstName()
-    {
-        return userFirstName;
-    }
+    public String getUserFirstName() { return userFirstName; }
 
     public String getUserMiddleName()
     {
@@ -57,10 +65,11 @@ public class TestUserData
         return userLastName;
     }
 
-    public String getUserLogin()
-    {
-        return userLogin;
-    }
+    public String getUserFirstNameEng() { return userFirstNameEng; }
+
+    public String getUserLastNameEng() { return userLastNameEng; }
+
+    public String getUserLogin() { return userLogin; }
 
     public String getUserPassword()
     {
@@ -71,6 +80,7 @@ public class TestUserData
     {
         return userPost;
     }
+
 
     public String getUserNewLogin() { return userNewLogin; }
 

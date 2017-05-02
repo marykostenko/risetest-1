@@ -43,7 +43,7 @@ public class PageTopBottom extends BasePage
      */
     public String getFILoggedUser()
     {
-       return $(By.xpath("//div[@class='login_nav_item']/a[contains(@href, '/user/')]")).text();
+       return $(By.xpath("//div[@class='login_nav login_nav_header']//child::a[contains(@href,'/user/')]")).text();
     }
 
     /**
@@ -52,7 +52,7 @@ public class PageTopBottom extends BasePage
      */
     public String getFICandidate()
     {
-        return $(By.xpath("//a[contains(@class, 'dropdown-toggle padding-right-0')]")).text();
+        return $(By.xpath("//div[@class='login_nav login_nav_header']//a[contains(@href,'/candidates/')]")).text();
     }
 
     private ElementsCollection logoutButton = $$(By.xpath("//a[contains(@href, 'logout')]"));
@@ -153,7 +153,7 @@ public class PageTopBottom extends BasePage
         }
     }
 
-    private ElementsCollection homeLogo = $$(By.xpath("//i[contains(@class, 'icon-home')]"));
+    private ElementsCollection homeLogo = $$(By.xpath("//i[@class='fa fa-home']"));
 
     /**
      * пункт меню "Поиск образовательных программ"
@@ -278,6 +278,14 @@ public class PageTopBottom extends BasePage
         $(By.xpath("//div[@class='hero candidate-rise']//a[contains(@href, '/account')]")).click();
     }
 
+    /**
+     * Переходим в профиль пользователя для изменения должности
+     */
+
+    public void goToProfileChangePost()
+    {
+        $(By.xpath("//div[@class='rs-row']//child::a[contains(@href,'/user/')]")).click();
+    }
 
 
     /**

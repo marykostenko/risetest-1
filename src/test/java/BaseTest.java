@@ -40,6 +40,9 @@ public abstract class BaseTest
     private static final String userLoserId = "userLoser";
     private static final String userForEditLoginId = "userForEditLogin";
     private static final String userForEditPasswordId = "userForEditPassword";
+    private static final String userForEditPersonalDataId = "userForEditPersonalData";
+    private static final String userForEditPostId = "userForEditPost";
+    private static final String changedUserForEditPersonalDataId = "changedUserForEditPersonalData";
 
 
     public String getAdminId()
@@ -76,6 +79,10 @@ public abstract class BaseTest
     }
     public String getUserForEditLoginId () { return userForEditLoginId; }
     public String getGetUserForEditPasswordId () { return userForEditPasswordId; }
+    public String getUserForEditPersonalDataId () { return userForEditPersonalDataId; }
+    public String getUserForEditPostId () { return userForEditPostId; }
+    public String getChangedUserPersonalDataId() { return changedUserForEditPersonalDataId;}
+
 
     public String getStandUrl(String flag) throws IOException
     {
