@@ -319,17 +319,18 @@ public class TestMail extends BasePage
                 log("Подтверждение найдено в предпоследнем письме");
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromPenultMail();
-
                 log("Переходим по ссылке");
                 open(linkRecovery);
                 if (lastActualMailName.equals(expectedNotificationLetter))
                 {
                     log("Уведомление найдено в последнем письме");
+                }
+                else
+                {
+                    log("Уведомление не найдено в последнем письме");
                     logErrors++;
                 }
             }
-
-
         else if (lastActualMailName.equals(expectedRequestLetter))
             {
                 log("Подтверждение найдено в последнем письме");
@@ -341,18 +342,17 @@ public class TestMail extends BasePage
                 if (penultActualMailName.equals(expectedNotificationLetter))
                 {
                     log("Уведомление найдено в предпоследнем письме");
-                    logErrors++;
                 }
-
-            else
-            {
-                log("В последнем письме подтверждение не было найдено. Тест не может быть продолжен.");
-                logErrors++;
-            }
+                else
+                    {
+                    log("Уведомление не найдено в предпоследнем письме");
+                    logErrors++;
+                    }
         }
         else
             {
                 log("Подтверждение не было найдено в последнем и предпоследнем письмах. Тест не может быть продолжен");
+                logErrors++;
             }
         return logErrors;
     }

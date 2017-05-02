@@ -85,4 +85,12 @@ public class TestUserData
     public String getUserNewLogin() { return userNewLogin; }
 
     public String getUserNewPassword() { return userNewPassword; }
+
+    public String getUserPhone() {return userPhone; }
+
+    public String getUserEmail () {return userEmail; }
+
+    public String getUserWorkPhone () { return userWorkPhone; }
+
+    public String getNewPost () { return newPost; }
 }

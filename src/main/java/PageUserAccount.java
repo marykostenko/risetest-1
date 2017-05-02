@@ -1,8 +1,10 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 /**
  * Created by user nkorobicina on 11.01.2017.
