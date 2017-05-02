@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 import javax.mail.*;
 import javax.management.Notification;
 
+import static com.codeborne.selenide.Selenide.open;
+
 /**
  * Created by user nkorobicina on 28.12.2016.
  * методы, открывающие письма в почтовом ящике, вход в почтовый ящик
@@ -264,6 +266,15 @@ public class TestMail extends BasePage
     }
 
     /**
+     * выдает ссылку из предпоследнего письма
+     */
+    public String getLinkFromPenultMail() throws IOException, MessagingException
+    {
+        int letterCount = getLettersCount();
+        return getLinkFromMail(getHtmlTextMail(letterCount -1));
+    }
+
+    /**
      * Метод, проверяющий заголовок последнего письма в ящике
      */
     public boolean isSubjectCorrect(String subject) throws MessagingException
@@ -288,34 +299,62 @@ public class TestMail extends BasePage
         }
         else return false;
     }
+    /**
+     *
+     */
 
     /**
-     * Проверяет является ли последнее письмо уведомлением или подтверждением смены логина
+     * Проверяет последнее и предпоследнее письмо на наличие в нем уведомления и подтверждения смены пароля, переходит по ссылке для смены
      */
-    public int checkLastMail (String lastMail, int logErrors, String actualMail, String requestMail, String notificationMail) throws MessagingException
+    public int checkMailAndChangeLogin (int logErrors) throws MessagingException, IOException
     {
-        if (actualMail = notificationMail)
-            lastMail = "Уведомление";
-        if (actualMail = requestMail)
-                lastMail = "Подтверждение";
-        else
-        {
-            logErrors++;
-            log("ОШИБКА: Последние письмо не уведомление и не подверждение смены логина");
+        String lastActualMailName = getSubjectLastMail();
+        int lettersCount = getLettersCount();
+        String penultActualMailName = getSubjectMail(lettersCount - 1);
+        String expectedNotificationLetter = getEmailChangeNotification();
+        String expectedRequestLetter = getEmailChangeRequest();
+
+            if (penultActualMailName.equals(expectedRequestLetter))
+            {
+                log("Подтверждение найдено в предпоследнем письме");
+                log("Находим ссылку из предпоследнего письма в ящике");
+                String linkRecovery = getLinkFromPenultMail();
+
+                log("Переходим по ссылке");
+                open(linkRecovery);
+                if (lastActualMailName.equals(expectedNotificationLetter))
+                {
+                    log("Уведомление найдено в последнем письме");
+                    logErrors++;
+                }
+            }
+
+
+        else if (lastActualMailName.equals(expectedRequestLetter))
+            {
+                log("Подтверждение найдено в последнем письме");
+                log("Находим ссылку из предпоследнего письма в ящике");
+                String linkRecovery = getLinkFromLastMail();
+
+                log("Переходим по ссылке");
+                open(linkRecovery);
+                if (penultActualMailName.equals(expectedNotificationLetter))
+                {
+                    log("Уведомление найдено в предпоследнем письме");
+                    logErrors++;
+                }
+
+            else
+            {
+                log("В последнем письме подтверждение не было найдено. Тест не может быть продолжен.");
+                logErrors++;
+            }
         }
-
+        else
+            {
+                log("Подтверждение не было найдено в последнем и предпоследнем письмах. Тест не может быть продолжен");
+            }
         return logErrors;
-    }
-
-    /**
-     * Проверяет является ли предпоследнее письмо уведомлением или подтверждением смены логина
-     */
-    public int checkPenultMail (String penultMail, int logErrors, int lettersCount) throws MessagingException
-    {
-        lettersCount = getLettersCount();
-
-        if (getSubjectMail(lettersCount - 1))
-
     }
 }
 

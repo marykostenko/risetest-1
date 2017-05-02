@@ -51,75 +51,43 @@ public class ChangingLoginAndPassTest extends BaseTest {
         log("Нажимаем кнопку Сохранить");
         pageUserAccount.clickSaveLogin();
 
-
-
-
-        log("Проверяем, что последнее письмо в ящике - уведомление о смене электронного адреса  правильному адресату");
+        log("Проверяем почту");
         TestMail testMail = new TestMail();
-        int lettersCount = testMail.getLettersCount();
-        String subjectEmailChangeNotification = testMail.getEmailChangeNotification();
-        String subjectEmailChangeRequest = testMail.getEmailChangeRequest();
+        logErrors = testMail.checkMailAndChangeLogin(logErrors);
 
+        log("Выходим из системы");
 
+        log("Проверяем новый логин");
+        log("Нажимаем кнопку Вход");
+        pageTopBottom.goToLogin();
 
-        /**
-        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectEmailChangeNotification), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectEmailChangeNotification);
+        log("Проверяем, что открылась страница с url /login");
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
 
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserForEditLogin.getUserLogin()), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserForEditLogin.getUserLogin());
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
 
+        log("Заполняем форму логина");
+        pageLogin.fillLoginForm(testUserForEditLogin.getUserNewLogin(), testUserForEditLogin.getUserPassword());
 
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
 
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-        log("Проверяем, что предпоследнее письмо в ящике - подлтверждение о смене электронного адреса  правильному адресату");
-
-
-        logErrors = testMail.checkAndLog(!testMail.isSubjectPenultCorrect(subjectEmailChangeRequest), logErrors,
-                "Ошибка: неправильный заголовок предпоследнего письма - " + testMail.getSubjectMail(lettersCount - 1) + ". Ожидался: " + subjectEmailChangeRequest);
-
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserForEditLogin.getUserLogin()), logErrors,
-                "Ошибка: неправильный адресат в предпоследнем письме - " + testMail.getAddresseeMail(lettersCount - 1) + ". Ожидался: " + testUserForEditLogin.getUserLogin());
-
-        log("Находим ссылку в письме о подтверждении смены пароля");
-        String linkChangeLogin = testMail.getLinkFromPenultMail();
-
-        log("Переходим по ссылке");
-        open(linkChangeLogin);
+        log("Переходим в меню Настройки");
+        pageUserProfile.goToAccount();
 
         log("Возвращаем старый логин");
-        pageUserAccount.fillNewLogin(testUserForEditLogin.getUserLogin());
+        pageUserAccount.fillNewLogin(testUserForEditLogin.getUserNewLogin());
 
         log("Нажимаем кнопку Сохранить");
         pageUserAccount.clickSaveLogin();
 
-        logErrors = (testMail.checkAndLog(!testMail.isSubjectCorrect(subjectEmailChangeNotification), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectEmailChangeNotification))|
-                (testMail.checkAndLog(!testMail.isSubjectCorrect(subjectEmailChangeNotification), logErrors,
-                        "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectMail(lettersCount - 1) + ". Ожидался: " + subjectEmailChangeNotification));
-
-        logErrors = (testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserForEditLogin.getUserLogin()), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserForEditLogin.getUserLogin()))|
-                (testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserForEditLogin.getUserLogin()), logErrors,
-                        "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeMail(lettersCount - 1) + ". Ожидался: " + testUserForEditLogin.getUserLogin()));
-
-        log("Проверяем, что предпоследнее письмо в ящике - подлтверждение о смене электронного адреса  правильному адресату");
-
-        logErrors = (testMail.checkAndLog(!testMail.isSubjectCorrect(subjectEmailChangeRequest), logErrors,
-                "Ошибка: неправильный заголовок предпоследнего письма - " + testMail.getSubjectMail(lettersCount - 1) + ". Ожидался: " + subjectEmailChangeRequest))|
-                (testMail.checkAndLog(!testMail.isSubjectCorrect(subjectEmailChangeRequest), logErrors,
-                        "Ошибка: неправильный заголовок предпоследнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectEmailChangeRequest));
-
-        logErrors = (testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserForEditLogin.getUserLogin()), logErrors,
-                "Ошибка: неправильный адресат в предпоследнем письме - " + testMail.getAddresseeMail(lettersCount - 1) + ". Ожидался: " + testUserForEditLogin.getUserLogin()))|
-                (testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserForEditLogin.getUserLogin()), logErrors,
-                        "Ошибка: неправильный адресат в предпоследнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserForEditLogin.getUserLogin()));
-
-        log("Находим ссылку в письме о подтверждении смены пароля");
-
-        log("Переходим по ссылке");
-        open(linkChangeLogin);
-*/
+        log("Проверяем почту");
+        logErrors = testMail.checkMailAndChangeLogin(logErrors);
 
         checkMistakes();
 
