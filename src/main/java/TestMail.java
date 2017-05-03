@@ -3,6 +3,9 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.mail.*;
+import javax.management.Notification;
+
+import static com.codeborne.selenide.Selenide.open;
 
 /**
  * Created by user nkorobicina on 28.12.2016.
@@ -143,7 +146,7 @@ public class TestMail extends BasePage
     {
         Folder inbox = initInboxReadOnly();
         Message msg = inbox.getMessage(num);
-   //     log("SUBJECT: " + msg.getSubject());
+        //     log("SUBJECT: " + msg.getSubject());
         return msg.getSubject();
     }
 
@@ -155,7 +158,7 @@ public class TestMail extends BasePage
     {
         Folder inbox = initInboxReadOnly();
         Message msg = inbox.getMessage(inbox.getMessageCount());
- //       log("SUBJECT: " + msg.getSubject());
+        //       log("SUBJECT: " + msg.getSubject());
         return msg.getSubject();
 
     }
@@ -186,7 +189,7 @@ public class TestMail extends BasePage
         {
             log("Не нашел адресата");
         }
- //       log("Адресат письма: " + Addresse);
+        //       log("Адресат письма: " + Addresse);
         return Addresse;
 
     }
@@ -238,7 +241,7 @@ public class TestMail extends BasePage
             log("Не нашли текст в письме");
 
         }
- //       log("Требуемый текст из письма: " + result);
+        //       log("Требуемый текст из письма: " + result);
         return result;
     }
 
@@ -260,6 +263,15 @@ public class TestMail extends BasePage
     public String getLinkFromLastMail() throws IOException, MessagingException
     {
         return getLinkFromMail(getHtmlTextLastMail());
+    }
+
+    /**
+     * выдает ссылку из предпоследнего письма
+     */
+    public String getLinkFromPenultMail() throws IOException, MessagingException
+    {
+        int letterCount = getLettersCount();
+        return getLinkFromMail(getHtmlTextMail(letterCount -1));
     }
 
     /**
@@ -287,4 +299,62 @@ public class TestMail extends BasePage
         }
         else return false;
     }
+    /**
+     *
+     */
+
+    /**
+     * Проверяет последнее и предпоследнее письмо на наличие в нем уведомления и подтверждения смены пароля, переходит по ссылке для смены
+     */
+    public int checkMailAndChangeLogin (int logErrors) throws MessagingException, IOException
+    {
+        String lastActualMailName = getSubjectLastMail();
+        int lettersCount = getLettersCount();
+        String penultActualMailName = getSubjectMail(lettersCount - 1);
+        String expectedNotificationLetter = getEmailChangeNotification();
+        String expectedRequestLetter = getEmailChangeRequest();
+
+            if (penultActualMailName.equals(expectedRequestLetter))
+            {
+                log("Подтверждение найдено в предпоследнем письме");
+                log("Находим ссылку из предпоследнего письма в ящике");
+                String linkRecovery = getLinkFromPenultMail();
+                log("Переходим по ссылке");
+                open(linkRecovery);
+                if (lastActualMailName.equals(expectedNotificationLetter))
+                {
+                    log("Уведомление найдено в последнем письме");
+                }
+                else
+                {
+                    log("Уведомление не найдено в последнем письме");
+                    logErrors++;
+                }
+            }
+        else if (lastActualMailName.equals(expectedRequestLetter))
+            {
+                log("Подтверждение найдено в последнем письме");
+                log("Находим ссылку из предпоследнего письма в ящике");
+                String linkRecovery = getLinkFromLastMail();
+
+                log("Переходим по ссылке");
+                open(linkRecovery);
+                if (penultActualMailName.equals(expectedNotificationLetter))
+                {
+                    log("Уведомление найдено в предпоследнем письме");
+                }
+                else
+                    {
+                    log("Уведомление не найдено в предпоследнем письме");
+                    logErrors++;
+                    }
+        }
+        else
+            {
+                log("Подтверждение не было найдено в последнем и предпоследнем письмах. Тест не может быть продолжен");
+                logErrors++;
+            }
+        return logErrors;
+    }
 }
+
