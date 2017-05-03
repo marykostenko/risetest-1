@@ -12,9 +12,10 @@
             <class name="SystemOperationTest"></class>
         </classes>
     </test>
-    <test name="Change of Data Account (USER-ACC-2)">
+    <test name="Change of Data Account (USER-ACC-2, USER-ACC-3)">
         <classes>
             <class name="ChangingDataAccountTest"></class>
+            <class name="ChangingLoginAndPassTest"></class>
         </classes>
     </test>
     <test name="Recovery of the password (USER-ACC-1, USER-ACC-MES-1)">
