@@ -248,4 +248,13 @@ public class MenuContent extends BasePage
         return logErrors;
     }
 
+    /**
+     * переход в меню Действия
+     */
+    public void goToActions()
+    {
+        $(By.xpath("//a[@class='dropdown-toggle padding-right-0']")).click();
+        $(By.xpath("//a[@href='/admin/systemactions']")).click();
+    }
+
 }
