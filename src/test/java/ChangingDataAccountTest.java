@@ -55,7 +55,7 @@ public class ChangingDataAccountTest extends BaseTest
         log("Нажимаем кнопку Поиск");
         pageUsersList.clickUserSearchButton();
 
-        log("Переходим на страницу пользователя Изменение Данных");
+        log("Переходим на страницу пользователя");
         pageUsersList.chooseFilteredUser();
 
         log("Проверяем данные на карточке пользователя");
@@ -94,6 +94,13 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = accountInformation.checkFirstNameEng(testChangedUserPersonalData.getUserFirstNameEng(), logErrors);
         log(accountInformation.getLastNameUserEng());
         logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
+
+        log("Меняем пароль пользователя, которому меняли данные и под которым будем заходить, на тестовый");
+        MenuContent menuContent = new MenuContent();
+        menuContent.goToActions();
+
+        PageActions pageActions = new PageActions();
+        pageActions.changeUserPassword(testUserForEditPersonalData.getId(), testUserForEditPersonalData.getUserPassword());
 
         log("Выйти из системы");
         pageTopBottom.logout();
