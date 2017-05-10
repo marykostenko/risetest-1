@@ -21,7 +21,7 @@ public class PageActions extends BasePage
     /**
      * заполняет тестовый пароль при смене пароля администратором
      */
-    public void fillNewPassword(String testPassword)
+    private void fillNewPassword(String testPassword)
     {
         WebElement newPasswordField = $(By.id("password"));
         newPasswordField.sendKeys(testPassword);
@@ -36,7 +36,7 @@ public class PageActions extends BasePage
         fillUserId(userId);
         fillNewPassword(testPassword);
         log("Нажимаем кнопку сохранить");
-        $(By.xpath("//input[@value='Сохранить']"));
+        $(By.xpath("//input[@value='Сохранить']")).click();
     }
 
 }

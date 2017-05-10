@@ -19,7 +19,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Вход");
+        log("Нажимаем кнопку Войти");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
@@ -31,7 +31,38 @@ public class ChangingLoginAndPassTest extends BaseTest {
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Проверяем, выполнен ли вход");
+        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+        log("Переходим к системным дейсвиям");
+        MenuContent menuContent = new MenuContent();
+        menuContent.goToActions();
+
+        log("Меняем пароль на тестовый пользователю, которому будем менять логин");
         TestUserData testUserForEditLogin = new TestUserData(getUserForEditLoginId());
+        PageActions pageActions = new PageActions();
+        pageActions.changeUserPassword(testUserForEditLogin.getId(), testUserForEditLogin.getUserPassword());
+
+        log("Выходим из системы");
+        pageTopBottom.logout();
+
+        log("Нажимаем кнопку Вход");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
         pageLogin.fillLoginForm(testUserForEditLogin.getUserLogin(), testUserForEditLogin.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -105,7 +136,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
             PageTopBottom pageTopBottom = new PageTopBottom();
             pageTopBottom.switchToRu();
 
-            log("Нажимаем кнопку Вход");
+            log("Нажимаем кнопку Войти");
             pageTopBottom.goToLogin();
 
             log("Проверяем, что открылась страница с url /login");
@@ -117,7 +148,38 @@ public class ChangingLoginAndPassTest extends BaseTest {
             pageLogin.isLoginForm();
 
             log("Заполняем форму логина");
+            TestUserData testAdminData = new TestUserData(getAdminId());
+            pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+            log("Нажимаем кнопку Войти");
+            pageLogin.pushLoginButton();
+
+            log("Проверяем, выполнен ли вход");
+            logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим к системным дейсвиям");
+            MenuContent menuContent = new MenuContent();
+            menuContent.goToActions();
+
+            log("Меняем пароль на тестовый пользователю, которому будем менять логин");
             TestUserData testUserForEditPassword = new TestUserData(getGetUserForEditPasswordId());
+            PageActions pageActions = new PageActions();
+            pageActions.changeUserPassword(testUserForEditPassword.getId(), testUserForEditPassword.getUserPassword());
+
+            log("Выходим из системы");
+            pageTopBottom.logout();
+
+            log("Нажимаем кнопку Вход");
+            pageTopBottom.goToLogin();
+
+            log("Проверяем, что открылась страница с url /login");
+            log("Url страницы: " + url());
+            logErrors = pageLogin.assertLoginUrl(logErrors);
+
+            log("Проверяем, что есть форма логина");
+            pageLogin.isLoginForm();
+
+            log("Заполняем форму логина");
             pageLogin.fillLoginForm(testUserForEditPassword.getUserLogin(), testUserForEditPassword.getUserPassword());
 
             log("Нажимаем кнопку Войти");
@@ -125,6 +187,9 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
             log("Проверяем, выполнен ли вход");
             logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим в профиль пользователя");
+            pageTopBottom.go();
 
             log("Переходим в меню Настройки");
             PageUserProfile pageUserProfile = new PageUserProfile();

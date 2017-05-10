@@ -279,10 +279,10 @@ public class PageTopBottom extends BasePage
     }
 
     /**
-     * Переходим в профиль пользователя для изменения должности
+     * Переходим в профиль пользователя
      */
 
-    public void goToProfileChangePost()
+    public void goToUserProfile()
     {
         $(By.xpath("//div[@class='rs-row']//child::a[contains(@href,'/user/')]")).click();
     }

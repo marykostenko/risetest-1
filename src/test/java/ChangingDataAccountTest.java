@@ -95,34 +95,9 @@ public class ChangingDataAccountTest extends BaseTest
         log(accountInformation.getLastNameUserEng());
         logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
 
-        log("Меняем пароль пользователя, которому меняли данные и под которым будем заходить, на тестовый");
-        MenuContent menuContent = new MenuContent();
-        menuContent.goToActions();
-
-        PageActions pageActions = new PageActions();
-        pageActions.changeUserPassword(testUserForEditPersonalData.getId(), testUserForEditPersonalData.getUserPassword());
-
-        log("Выйти из системы");
-        pageTopBottom.logout();
-
-        log("Нажимаем кнопку Войти");
-        pageTopBottom.goToLogin();
-
-        log("Проверяем, что открылась страница с url /login");
-        log("Url страницы: " + url());
-        logErrors = pageLogin.assertLoginUrl(logErrors);
-
-        log("Проверяем, что есть форма логина");
-        pageLogin.isLoginForm();
-
-        log("Заполняем форму логина");
-        pageLogin.fillLoginForm(testUserForEditPersonalData.getUserLogin(), testUserForEditPersonalData.getUserPassword());
-
-        log("Нажимаем кнопку Войти");
-        pageLogin.pushLoginButton();
-
-        log("Проверяем, выполнен ли вход");
-        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+        log("Входим под пользователем, которого редактируем");
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.startSimulateUser();
 
         log("Редактируем личную информацию от лица пользователя");
         accountInformation.goToEditPersonalInfo();
@@ -213,28 +188,9 @@ public class ChangingDataAccountTest extends BaseTest
         log(accountInformation.getEmailUser());
         logErrors = accountInformation.checkEmailUser(testChangedUserPersonalData.getUserEmail(), logErrors);
 
-        log("Выйти из системы");
-        pageTopBottom.logout();
-
-        log("Нажимаем кнопку Войти");
-        pageTopBottom.goToLogin();
-
-        log("Проверяем, что открылась страница с url /login");
-        log("Url страницы: " + url());
-        logErrors = pageLogin.assertLoginUrl(logErrors);
-
-        log("Проверяем, что есть форма логина");
-        pageLogin.isLoginForm();
-
-        log("Заполняем форму логина");
-        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
-        pageLogin.fillLoginForm(testUserForEditPersonalData.getUserLogin(), testUserForEditPersonalData.getUserPassword());
-
-        log("Нажимаем кнопку Войти");
-        pageLogin.pushLoginButton();
-
-        log("Проверяем, выполнен ли вход");
-        logErrors = pageTopBottom.assertLoggingIn(logErrors);
+        log("Входим под пользователем, которому меняем данные");
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.startSimulateUser();
 
         log("Редактируем контактную информацию от лица пользователя");
         accountInformation.goToEditContactInfo();
@@ -385,7 +341,7 @@ public class ChangingDataAccountTest extends BaseTest
         log("Переходим на страницу пользователя Изменение Должности");
         pageUsersList.chooseFilteredUser();
 
-        log("Проверяем первоначальный рабочие данные");
+        log("Проверяем первоначальные рабочие данные");
         AccountInformation accountInformation = new AccountInformation();
         log(accountInformation.getPostUser());
         logErrors = accountInformation.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
@@ -406,30 +362,12 @@ public class ChangingDataAccountTest extends BaseTest
         log(accountInformation.getWorkPhoneUser());
         logErrors = accountInformation.checkWorkPhone(testChangedUserPersonalData.getUserWorkPhone(), logErrors);
 
-        log("Выйти из системы");
-        pageTopBottom.logout();
+        log("Входим под польхователем, которому меняли данные");
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.startSimulateUser();
 
-        log("Нажимаем кнопку Войти");
-        pageTopBottom.goToLogin();
-
-        log("Проверяем, что открылась страница с url /login");
-        log("Url страницы: " + url());
-        logErrors = pageLogin.assertLoginUrl(logErrors);
-
-        log("Проверяем, что есть форма логина");
-        pageLogin.isLoginForm();
-
-        log("Заполняем форму логина");
-        pageLogin.fillLoginForm(testUserForEditPostData.getUserLogin(), testUserForEditPostData.getUserPassword());
-
-        log("Нажимаем кнопку Войти");
-        pageLogin.pushLoginButton();
-
-        log("Проверяем, выполнен ли вход");
-        logErrors = pageTopBottom.assertLoggingIn(logErrors);
-
-        log("Переходим в профиль пользователя");
-        pageTopBottom.goToProfileChangePost();
+        log("Переходим к профилю пользователя");
+        pageTopBottom.goToUserProfile();
 
         log("Возвращаем должность и рабочий телефон");
         accountInformation.goToEditJob();
@@ -486,8 +424,8 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Заполняем email для поиска пользователя");
         PageUsersList pageUsersList = new PageUsersList();
-        TestUserData testUserForEditPersonalData = new TestUserData(getUserForEditPersonalDataId());
-        pageUsersList.fillUserEmail(testUserForEditPersonalData.getUserLogin());
+        TestUserData testUserForAddRole = new TestUserData(getuserForAddRoleId());
+        pageUsersList.fillUserEmail(testUserForAddRole.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
         pageUsersList.clickUserSearchButton();
@@ -542,7 +480,7 @@ public class ChangingDataAccountTest extends BaseTest
         pageTopBottom.goToUsersList();
 
         log("Заполняем email для поиска пользователя");
-        pageUsersList.fillUserEmail(testUserForEditPersonalData.getUserLogin());
+        pageUsersList.fillUserEmail(testUserForAddRole.getUserLogin());
 
         log("Нажимаем кнопку Поиск");
         pageUsersList.clickUserSearchButton();

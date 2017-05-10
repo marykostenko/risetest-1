@@ -42,7 +42,7 @@ public class TestUserData
         userEmail = this.initUserData(userId + "Email");
         userWorkPhone = this.initUserData(userId + "WorkPhone");
         newPost = this.initUserData(userId + "NewPost");
-        id = this.initUserData(userId + "id");
+        id = this.initUserData(userId + "Id");
     }
 
     //методу передается название поля в properties и метод возвращает значение поля
