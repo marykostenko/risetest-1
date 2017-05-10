@@ -42,7 +42,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
         log("Переходим к системным дейсвиям");
         MenuContent menuContent = new MenuContent();
-        menuContent.goToActions();
+        menuContent.goToAdminActions();
 
         log("Меняем пароль на тестовый пользователю, которому будем менять логин");
         TestUserData testUserForEditLogin = new TestUserData(getUserForEditLoginId());
@@ -159,7 +159,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
             log("Переходим к системным дейсвиям");
             MenuContent menuContent = new MenuContent();
-            menuContent.goToActions();
+            menuContent.goToAdminActions();
 
             log("Меняем пароль на тестовый пользователю, которому будем менять логин");
             TestUserData testUserForEditPassword = new TestUserData(getGetUserForEditPasswordId());
@@ -189,7 +189,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
             logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
             log("Переходим в профиль пользователя");
-            pageTopBottom.go();
+            pageTopBottom.goToUserProfile();
 
             log("Переходим в меню Настройки");
             PageUserProfile pageUserProfile = new PageUserProfile();
@@ -223,6 +223,9 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
             log("Проверяем, выполнен ли вход");
             logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим в профиль пользователя");
+            pageTopBottom.goToUserProfile();
 
             log("Переходим в меню Настройки");
             pageUserProfile.goToAccount();

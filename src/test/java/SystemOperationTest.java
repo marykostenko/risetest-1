@@ -2,6 +2,8 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static com.codeborne.selenide.WebDriverRunner.url;
+
 /**
  * Created by Maria on 28.12.2016.
  */
@@ -34,13 +36,44 @@ public class SystemOperationTest extends BaseTest
             log("Нажимаем кнопку \"Вход\"");
             pageTopBottom.goToLogin();
 
-            log("Проверяем, что есть форма логина");
+            log("Проверяем, что открылась страница с url /login");
             PageLogin pageLogin = new PageLogin();
+            log("Url страницы: " + url());
+            logErrors = pageLogin.assertLoginUrl(logErrors);
+
+            log("Проверяем, что есть форма логина");
             pageLogin.isLoginForm();
 
             log("Заполняем форму логина");
+            TestUserData testAdminData = new TestUserData(getAdminId());
+            pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+            log("Нажимаем кнопку Войти");
+            pageLogin.pushLoginButton();
+
+            log("Проверяем, выполнен ли вход");
+            logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим к системным дейсвиям");
+            MenuContent menuContent = new MenuContent();
+            menuContent.goToAdminActions();
+
+            log("Меняем пароль на тестовый пользователю, которому будем менять логин");
             TestUserData testCandidateData = new TestUserData(getCandidateId());
-            pageLogin.fillLoginForm(testCandidateData.getUserLogin(), testCandidateData.getUserPassword());
+            PageActions pageActions = new PageActions();
+            pageActions.changeUserPassword(testCandidateData.getId(), testCandidateData.getUserPassword());
+
+            log("Выходим из системы");
+            pageTopBottom.logout();
+
+            log("Нажимаем кнопку \"Вход\"");
+            pageTopBottom.goToLogin();
+
+            log("Проверяем, что есть форма логина");
+            pageLogin.isLoginForm();
+
+            log("Заполняем форму логина");
+               pageLogin.fillLoginForm(testCandidateData.getUserLogin(), testCandidateData.getUserPassword());
 
             log("Нажимаем кнопку Войти");
             pageLogin.pushLoginButton();

@@ -238,14 +238,14 @@ public class PageTopBottom extends BasePage
         return logErrors;
     }
 
-    //проверка, что главное меню согласования кандидатов содержит иконку-домик, меню Россотрудничество, Организации, Кандидаты
+    //проверка, что главное меню согласования кандидатов содержит иконку-домик, меню Россотрудничество,  Кандидаты, Страны
     public int assertAgreementMenu(int logErrors){
 
         logErrors = checkAndLog(homeLogo.isEmpty(), logErrors, "Ошибка: нет иконки домика", "Иконка-домик отображается");
 
         logErrors = checkAndLog(governmentMenu.isEmpty(), logErrors, "Ошибка: нет пункта меню Органа власти", "Пункт главного меню Орган власти доступен");
 
-        int j[] = {1, 2};
+        int j[] = {2, 3};
         for(int i = 0; i <= 1; i++){
             logErrors = checkAndLog(!isAnyMenuAppear(j[i]), logErrors, "Ошибка: Пункт меню " + menuLine[j[i]] + " недоступен",
                     "Пункт меню " + menuLine[j[i]] + " доступен");
@@ -267,15 +267,6 @@ public class PageTopBottom extends BasePage
         logErrors = checkAndLog(organizationMenu.isEmpty(), logErrors, "Ошибка: нет пункта меню организации", "Пункт главного меню организации доступен");
 
         return logErrors;
-    }
-
-    /**
-     * Переходим в профиль пользователя
-     */
-
-    public void goToProfile()
-    {
-        $(By.xpath("//div[@class='hero candidate-rise']//a[contains(@href, '/account')]")).click();
     }
 
     /**

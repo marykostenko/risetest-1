@@ -135,7 +135,7 @@ public class PasswordRecoveryTest extends BaseTest
                 "Ошибка: не залогинились с новым паролем");
 
         log("Изменяем пароль обратно");
-        pageTopBottom.goToProfile();
+        pageTopBottom.goToUserProfile();
         PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.goToAccount();
         PageUserAccount pageUserAccount = new PageUserAccount();

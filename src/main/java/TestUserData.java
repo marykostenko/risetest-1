@@ -24,6 +24,7 @@ public class TestUserData
     private String userWorkPhone;
     private String newPost;
     private String id;
+    private String incorrectPassword;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -43,6 +44,7 @@ public class TestUserData
         userWorkPhone = this.initUserData(userId + "WorkPhone");
         newPost = this.initUserData(userId + "NewPost");
         id = this.initUserData(userId + "Id");
+        incorrectPassword = this.initUserData(userId + "IncorrectPassword");
     }
 
     //методу передается название поля в properties и метод возвращает значение поля
@@ -97,4 +99,6 @@ public class TestUserData
     public String getNewPost () { return newPost; }
 
     public String getId() { return id; }
+
+    public String getIncorrectPassword() { return incorrectPassword; }
 }

@@ -37,6 +37,7 @@ public class PageActions extends BasePage
         fillNewPassword(testPassword);
         log("Нажимаем кнопку сохранить");
         $(By.xpath("//input[@value='Сохранить']")).click();
+        log("Пароль пользователя изменен");
     }
 
 }

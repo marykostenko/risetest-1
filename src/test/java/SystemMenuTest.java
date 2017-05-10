@@ -70,6 +70,24 @@ public class SystemMenuTest extends BaseTest
         log("Проверка меню 'Администрирование'");
         logErrors = menuContent.checkMenuAdmin(logErrors);
 
+        PageActions pageActions = new PageActions();
+
+        log("Меняем пароль представителю на тестовый для выполнения следующего теста");
+        menuContent.goToActions();
+        TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
+        pageActions.changeUserPassword(testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
+
+        log("Меняем пароль куратору на тестовый для выполнения следующего теста");
+        menuContent.goToAdminActions();
+        TestUserData testCuratorData = new TestUserData(getCuratorId());
+        pageActions.changeUserPassword(testCuratorData.getId(), testCuratorData.getUserPassword());
+
+        log("Меняем пароль администратору организации для выполнения следующиего теста");
+        menuContent.goToAdminActions();
+        TestUserData testAdminOrgData = new TestUserData(getAdminOrgId());
+        pageActions.changeUserPassword(testAdminOrgData.getId(), testAdminOrgData.getUserPassword());
+
+
         checkMistakes();
 
         log("Тест SYS-MENU-1.1 завершен");

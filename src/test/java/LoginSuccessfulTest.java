@@ -54,6 +54,34 @@ public class LoginSuccessfulTest extends BaseTest
         log(pageAdminProfile.getUserFio());
         logErrors = pageAdminProfile.assertUserFIO(testAdminData.getUserLastName() + " " + testAdminData.getUserFirstName() + " " + testAdminData.getUserMiddleName(), logErrors);
 
+        log("Меняем пароль кандидату на тестовый для выполнения следующего теста");
+        MenuContent menuContent = new MenuContent();
+        menuContent.goToAdminActions();
+        TestUserData testCandidateData = new TestUserData(getCandidateId());
+        PageActions pageActions = new PageActions();
+        pageActions.changeUserPassword(testCandidateData.getId(), testCandidateData.getUserPassword());
+
+        log("Меняем пароль представителю на тестовый для выполнения следующего теста");
+        menuContent.goToAdminActions();
+        TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
+        pageActions.changeUserPassword(testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
+
+        log("Меняем пароль куратору на тестовый для выполнения следующего теста");
+        menuContent.goToAdminActions();
+        TestUserData testCuratorData = new TestUserData(getCuratorId());
+        pageActions.changeUserPassword(testCuratorData.getId(), testCuratorData.getUserPassword());
+
+        log("Меняем пароль согласователю кандидатов для выполнения следующего теста");
+        menuContent.goToAdminActions();
+        TestUserData testAgreementData = new TestUserData(getAgreementId());
+        pageActions.changeUserPassword(testAgreementData.getId(), testAgreementData.getUserPassword());
+
+        log("Меняем пароль администратору организации для выполнения следующиего теста");
+        menuContent.goToAdminActions();
+        TestUserData testAdminOrgData = new TestUserData(getAdminOrgId());
+        pageActions.changeUserPassword(testAdminOrgData.getId(), testAdminOrgData.getUserPassword());
+
+
         checkMistakes();
 
         log("Тест USER-L-1.1 завершен");

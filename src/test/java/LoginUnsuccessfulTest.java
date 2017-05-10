@@ -32,8 +32,34 @@ public class LoginUnsuccessfulTest extends BaseTest {
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
+
+        log("Нажимаем кнопку Войти");
+        pageLogin.pushLoginButton();
+
+        log("Меняем пароль пользователя на тестовый для дальнейшего выполнения теста");
+        MenuContent menuContent = new MenuContent();
+        menuContent.goToAdminActions();
         TestUserData testUserLoserData = new TestUserData(getUserLoserId());
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        PageActions pageActions = new PageActions();
+        pageActions.changeUserPassword(testUserLoserData.getId(), testUserLoserData.getUserPassword());
+
+        log("Выходим из системы");
+        pageTopBottom.logout();
+
+        log("Нажимаем кнопку \"Вход\"");
+        pageTopBottom.goToLogin();
+
+        log("Проверяем, что открылась страница с url /login");
+        log("Url страницы: " + url());
+        logErrors = pageLogin.assertLoginUrl(logErrors);
+
+        log("Проверяем, что есть форма логина");
+        pageLogin.isLoginForm();
+
+        log("Заполняем форму логина");
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -43,10 +69,10 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
         log("Снова заполняем пароль и нажимаем кнопку вход (повторяем дважды) до появления капчи");
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
         pageLogin.pushLoginButton();
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
         pageLogin.pushLoginButton();
 
         log("Проверяем наличие капчи");
@@ -54,16 +80,16 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
         log("Снова заполняем пароль и нажимаем кнопку вход (повторяем дважды) до появления алерта");
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
         pageLogin.pushLoginButton();
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
         pageLogin.pushLoginButton();
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
         pageLogin.pushLoginButton();
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
         pageLogin.pushLoginButton();
 
         log("Проверяем наличие алерта о превышении допустимого числа ошибок");
@@ -140,7 +166,7 @@ public class LoginUnsuccessfulTest extends BaseTest {
 
         log("Заполняем форму логина");
         pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getUserPassword());
+        pageLogin.fillLoginForm(testUserLoserData.getUserLogin(), testUserLoserData.getIncorrectPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
