@@ -20,39 +20,19 @@ public class LoginUnsuccessfulTest extends BaseTest {
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку \"Вход\"");
-        pageTopBottom.goToLogin();
-
-        log("Проверяем, что открылась страница с url /login");
-        PageLogin pageLogin = new PageLogin();
-        log("Url страницы: " + url());
-        logErrors = pageLogin.assertLoginUrl(logErrors);
-
-        log("Проверяем, что есть форма логина");
-        pageLogin.isLoginForm();
-
-        log("Заполняем форму логина");
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         TestUserData testAdminData = new TestUserData(getAdminId());
-        pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
-
-        log("Нажимаем кнопку Войти");
-        pageLogin.pushLoginButton();
-
-        log("Меняем пароль пользователя на тестовый для дальнейшего выполнения теста");
-        MenuContent menuContent = new MenuContent();
-        menuContent.goToAdminActions();
         TestUserData testUserLoserData = new TestUserData(getUserLoserId());
-        PageActions pageActions = new PageActions();
-        pageActions.changeUserPassword(testUserLoserData.getId(), testUserLoserData.getUserPassword());
-
-        log("Выходим из системы");
-        pageTopBottom.logout();
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testUserLoserData.getId(), testUserLoserData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
 
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
         log("Url страницы: " + url());
+        PageLogin pageLogin = new PageLogin();
         logErrors = pageLogin.assertLoginUrl(logErrors);
 
         log("Проверяем, что есть форма логина");

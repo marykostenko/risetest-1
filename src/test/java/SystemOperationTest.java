@@ -23,6 +23,13 @@ public class SystemOperationTest extends BaseTest
             PageTopBottom pageTopBottom = new PageTopBottom();
             pageTopBottom.switchToRu();
 
+            log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+            TestUserData testAdminData = new TestUserData(getAdminId());
+            TestUserData testCandidateData = new TestUserData(getCandidateId());
+            TestUserData testUserData = new TestUserData();
+            testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testCandidateData.getId(), testCandidateData.getUserPassword());
+            log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
             log("Проверяем шапку главной страницы");
             HomePageControl homePageControl = new HomePageControl();
             logErrors = homePageControl.checkHatHomePage(logErrors);
@@ -36,44 +43,12 @@ public class SystemOperationTest extends BaseTest
             log("Нажимаем кнопку \"Вход\"");
             pageTopBottom.goToLogin();
 
-            log("Проверяем, что открылась страница с url /login");
+            log("Проверяем, что есть форма логина");
             PageLogin pageLogin = new PageLogin();
-            log("Url страницы: " + url());
-            logErrors = pageLogin.assertLoginUrl(logErrors);
-
-            log("Проверяем, что есть форма логина");
             pageLogin.isLoginForm();
 
             log("Заполняем форму логина");
-            TestUserData testAdminData = new TestUserData(getAdminId());
-            pageLogin.fillLoginForm(testAdminData.getUserLogin(), testAdminData.getUserPassword());
-
-            log("Нажимаем кнопку Войти");
-            pageLogin.pushLoginButton();
-
-            log("Проверяем, выполнен ли вход");
-            logErrors = pageTopBottom.assertLoggingIn(logErrors);
-
-            log("Переходим к системным дейсвиям");
-            MenuContent menuContent = new MenuContent();
-            menuContent.goToAdminActions();
-
-            log("Меняем пароль на тестовый пользователю, которому будем менять логин");
-            TestUserData testCandidateData = new TestUserData(getCandidateId());
-            PageActions pageActions = new PageActions();
-            pageActions.changeUserPassword(testCandidateData.getId(), testCandidateData.getUserPassword());
-
-            log("Выходим из системы");
-            pageTopBottom.logout();
-
-            log("Нажимаем кнопку \"Вход\"");
-            pageTopBottom.goToLogin();
-
-            log("Проверяем, что есть форма логина");
-            pageLogin.isLoginForm();
-
-            log("Заполняем форму логина");
-               pageLogin.fillLoginForm(testCandidateData.getUserLogin(), testCandidateData.getUserPassword());
+            pageLogin.fillLoginForm(testCandidateData.getUserLogin(), testCandidateData.getUserPassword());
 
             log("Нажимаем кнопку Войти");
             pageLogin.pushLoginButton();

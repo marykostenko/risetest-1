@@ -30,14 +30,10 @@ public class PageActions extends BasePage
 
     public void changeUserPassword(String userId, String testPassword)
     {
-        log("Переход из системных действий к смене пароля пользователю");
         $(By.xpath("//a[@href='/admin/changeUserPassword']")).click();
-        log("Заполняем айди пользователя и пароль");
         fillUserId(userId);
         fillNewPassword(testPassword);
-        log("Нажимаем кнопку сохранить");
         $(By.xpath("//input[@value='Сохранить']")).click();
-        log("Пароль пользователя изменен");
     }
 
 }

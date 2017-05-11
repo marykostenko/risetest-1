@@ -54,34 +54,6 @@ public class LoginSuccessfulTest extends BaseTest
         log(pageAdminProfile.getUserFio());
         logErrors = pageAdminProfile.assertUserFIO(testAdminData.getUserLastName() + " " + testAdminData.getUserFirstName() + " " + testAdminData.getUserMiddleName(), logErrors);
 
-        log("Меняем пароль кандидату на тестовый для выполнения следующего теста");
-        MenuContent menuContent = new MenuContent();
-        menuContent.goToAdminActions();
-        TestUserData testCandidateData = new TestUserData(getCandidateId());
-        PageActions pageActions = new PageActions();
-        pageActions.changeUserPassword(testCandidateData.getId(), testCandidateData.getUserPassword());
-
-        log("Меняем пароль представителю на тестовый для выполнения следующего теста");
-        menuContent.goToAdminActions();
-        TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
-        pageActions.changeUserPassword(testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
-
-        log("Меняем пароль куратору на тестовый для выполнения следующего теста");
-        menuContent.goToAdminActions();
-        TestUserData testCuratorData = new TestUserData(getCuratorId());
-        pageActions.changeUserPassword(testCuratorData.getId(), testCuratorData.getUserPassword());
-
-        log("Меняем пароль согласователю кандидатов для выполнения следующего теста");
-        menuContent.goToAdminActions();
-        TestUserData testAgreementData = new TestUserData(getAgreementId());
-        pageActions.changeUserPassword(testAgreementData.getId(), testAgreementData.getUserPassword());
-
-        log("Меняем пароль администратору организации для выполнения следующиего теста");
-        menuContent.goToAdminActions();
-        TestUserData testAdminOrgData = new TestUserData(getAdminOrgId());
-        pageActions.changeUserPassword(testAdminOrgData.getId(), testAdminOrgData.getUserPassword());
-
-
         checkMistakes();
 
         log("Тест USER-L-1.1 завершен");
@@ -92,6 +64,13 @@ public class LoginSuccessfulTest extends BaseTest
     public void testCandidateLogin() throws IOException
     {
         log("Запущен тест USER-L-1.2");
+
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testCandidateData = new TestUserData(getCandidateId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testCandidateData.getId(), testCandidateData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
 
         log("Переключаем язык страницы на русский");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -109,7 +88,6 @@ public class LoginSuccessfulTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testCandidateData = new TestUserData(getCandidateId());
         pageLogin.fillLoginForm(testCandidateData.getUserLogin(), testCandidateData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -145,6 +123,13 @@ public class LoginSuccessfulTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -157,7 +142,6 @@ public class LoginSuccessfulTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
         pageLogin.fillLoginForm(testRepresentativeData.getUserLogin(), testRepresentativeData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -191,6 +175,13 @@ public class LoginSuccessfulTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testCuratorData = new TestUserData(getCuratorId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testCuratorData.getId(), testCuratorData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -203,7 +194,6 @@ public class LoginSuccessfulTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testCuratorData = new TestUserData(getCuratorId());
         pageLogin.fillLoginForm(testCuratorData.getUserLogin(), testCuratorData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -237,6 +227,13 @@ public class LoginSuccessfulTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testAgreementData = new TestUserData(getAgreementId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testAgreementData.getId(), testAgreementData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -249,7 +246,6 @@ public class LoginSuccessfulTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testAgreementData = new TestUserData(getAgreementId());
         pageLogin.fillLoginForm(testAgreementData.getUserLogin(), testAgreementData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -283,6 +279,13 @@ public class LoginSuccessfulTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testAdminOrgData = new TestUserData(getAdminOrgId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testAdminOrgData.getId(), testAdminOrgData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -295,7 +298,6 @@ public class LoginSuccessfulTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testAdminOrgData = new TestUserData(getAdminOrgId());
         pageLogin.fillLoginForm(testAdminOrgData.getUserLogin(), testAdminOrgData.getUserPassword());
 
         log("Нажимаем кнопку Войти");

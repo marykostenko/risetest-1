@@ -3,6 +3,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import static org.testng.Reporter.log;
+
 /**
  * Created by user nkorobicina on 07.12.2016.
  */
@@ -45,6 +47,10 @@ public class TestUserData
         newPost = this.initUserData(userId + "NewPost");
         id = this.initUserData(userId + "Id");
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
+    }
+
+    public TestUserData() {
+
     }
 
     //методу передается название поля в properties и метод возвращает значение поля
@@ -101,4 +107,22 @@ public class TestUserData
     public String getId() { return id; }
 
     public String getIncorrectPassword() { return incorrectPassword; }
+
+    /**
+     * смена пароля пользователя на тестовый
+     */
+    public void changePassForTest(String adminLogin, String adminPass, String userId, String userPass)
+    {
+        PageLogin pageLogin = new PageLogin();
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.goToLogin();
+        pageLogin.isLoginForm();
+        pageLogin.fillLoginForm(adminLogin, adminPass);
+        pageLogin.pushLoginButton();
+        MenuContent menuContent = new MenuContent();
+        menuContent.goToAdminActions();
+        PageActions pageActions = new PageActions();
+        pageActions.changeUserPassword(userId, userPass);
+        pageTopBottom.logout();
+    }
 }

@@ -45,10 +45,7 @@ public abstract class BaseTest
     private static final String changedUserForEditPersonalDataId = "changedUserForEditPersonalData";
     private static final String userForAddRoleId = "userForAddRole";
 
-    public String getAdminId()
-    {
-        return adminId;
-    }
+    public String getAdminId() { return adminId; }
     public String getCandidateId()
     {
         return candidateId;
