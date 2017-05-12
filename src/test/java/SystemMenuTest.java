@@ -86,6 +86,13 @@ public class SystemMenuTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testCuratorData = new TestUserData(getCuratorId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testCuratorData.getId(), testCuratorData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -98,8 +105,7 @@ public class SystemMenuTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testCuratorData = new TestUserData(getCuratorId());
-        pageLogin.fillLoginForm(testCuratorData.getUserLogin(), testCuratorData.getUserPassword());
+       pageLogin.fillLoginForm(testCuratorData.getUserLogin(), testCuratorData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -140,6 +146,13 @@ public class SystemMenuTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testAdminOrgData = new TestUserData(getAdminOrgId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testAdminOrgData.getId(), testAdminOrgData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -152,8 +165,7 @@ public class SystemMenuTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testCuratorData = new TestUserData(getRepresentativeId());
-        pageLogin.fillLoginForm(testCuratorData.getUserLogin(), testCuratorData.getUserPassword());
+        pageLogin.fillLoginForm(testAdminOrgData.getUserLogin(), testAdminOrgData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -183,6 +195,13 @@ public class SystemMenuTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
         log("Нажимаем кнопку \"Вход\"");
         pageTopBottom.goToLogin();
 
@@ -195,8 +214,7 @@ public class SystemMenuTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testCuratorData = new TestUserData(getRepresentativeId());
-        pageLogin.fillLoginForm(testCuratorData.getUserLogin(), testCuratorData.getUserPassword());
+        pageLogin.fillLoginForm(testRepresentativeData.getUserLogin(), testRepresentativeData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();

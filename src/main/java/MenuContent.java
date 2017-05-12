@@ -173,6 +173,7 @@ public class MenuContent extends BasePage
     private ElementsCollection menuGovernment = $$(By.xpath("//a[@href='/government/list']"));
     private ElementsCollection menuJournal = $$(By.xpath("//a[@href='/journal']"));
     private ElementsCollection menuContentManagement = $$(By.xpath("//a[@href='/contentManagement']"));
+    private ElementsCollection menuSystemActions = $$(By.xpath("//a[@href = '/admin/systemactions']"));
     private ElementsCollection menuMailTemplates = $$(By.xpath("//a[@href='/admin/mailtemplates']"));
 
     public int checkMenuAdmin(int logErrors)
@@ -246,6 +247,23 @@ public class MenuContent extends BasePage
         }
 
         return logErrors;
+    }
+
+    /**
+     * переход в меню Действия (при свернутом меню Администрирование)
+     */
+    public void goToAdminActions()
+    {
+        $(By.xpath("//a[@class='dropdown-toggle padding-right-0']")).click();
+        $(By.xpath("//a[@href='/admin/systemactions']")).click();
+    }
+
+    /**
+     * переход в меню Действия (при развернутом меню адмигнистрирование)
+     */
+    public void goToActions()
+    {
+        $(By.xpath("//a[@href='/admin/systemactions']")).click();
     }
 
 }

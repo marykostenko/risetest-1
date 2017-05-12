@@ -2,6 +2,8 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static com.codeborne.selenide.WebDriverRunner.url;
+
 /**
  * Created by Maria on 28.12.2016.
  */
@@ -21,6 +23,13 @@ public class SystemOperationTest extends BaseTest
             PageTopBottom pageTopBottom = new PageTopBottom();
             pageTopBottom.switchToRu();
 
+            log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+            TestUserData testAdminData = new TestUserData(getAdminId());
+            TestUserData testCandidateData = new TestUserData(getCandidateId());
+            TestUserData testUserData = new TestUserData();
+            testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testCandidateData.getId(), testCandidateData.getUserPassword());
+            log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
             log("Проверяем шапку главной страницы");
             HomePageControl homePageControl = new HomePageControl();
             logErrors = homePageControl.checkHatHomePage(logErrors);
@@ -39,7 +48,6 @@ public class SystemOperationTest extends BaseTest
             pageLogin.isLoginForm();
 
             log("Заполняем форму логина");
-            TestUserData testCandidateData = new TestUserData(getCandidateId());
             pageLogin.fillLoginForm(testCandidateData.getUserLogin(), testCandidateData.getUserPassword());
 
             log("Нажимаем кнопку Войти");

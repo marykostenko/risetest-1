@@ -19,19 +19,26 @@ public class ChangingLoginAndPassTest extends BaseTest {
         PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.switchToRu();
 
+        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestUserData testAdminData = new TestUserData(getAdminId());
+        TestUserData testUserForEditLogin = new TestUserData(getUserForEditLoginId());
+        TestUserData testUserData = new TestUserData();
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testUserForEditLogin.getId(), testUserForEditLogin.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
+
         log("Нажимаем кнопку Вход");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
-        PageLogin pageLogin = new PageLogin();
         log("Url страницы: " + url());
+        PageLogin pageLogin = new PageLogin();
         logErrors = pageLogin.assertLoginUrl(logErrors);
 
         log("Проверяем, что есть форма логина");
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData testUserForEditLogin = new TestUserData(getUserForEditLoginId());
         pageLogin.fillLoginForm(testUserForEditLogin.getUserLogin(), testUserForEditLogin.getUserPassword());
 
         log("Нажимаем кнопку Войти");
@@ -105,19 +112,28 @@ public class ChangingLoginAndPassTest extends BaseTest {
             PageTopBottom pageTopBottom = new PageTopBottom();
             pageTopBottom.switchToRu();
 
+            log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+            TestUserData testAdminData = new TestUserData(getAdminId());
+            TestUserData testUserForEditPassword = new TestUserData(getGetUserForEditPasswordId());
+            TestUserData testUserData = new TestUserData();
+            testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testUserForEditPassword.getId(), testUserForEditPassword.getUserPassword());
+            log("Пароль пользователя изменен. Продолжаем выполнение теста");
+
+            log("Нажимаем кнопку Войти");
+            pageTopBottom.goToLogin();
+
             log("Нажимаем кнопку Вход");
             pageTopBottom.goToLogin();
 
             log("Проверяем, что открылась страница с url /login");
-            PageLogin pageLogin = new PageLogin();
             log("Url страницы: " + url());
+            PageLogin pageLogin = new PageLogin();
             logErrors = pageLogin.assertLoginUrl(logErrors);
 
             log("Проверяем, что есть форма логина");
             pageLogin.isLoginForm();
 
             log("Заполняем форму логина");
-            TestUserData testUserForEditPassword = new TestUserData(getGetUserForEditPasswordId());
             pageLogin.fillLoginForm(testUserForEditPassword.getUserLogin(), testUserForEditPassword.getUserPassword());
 
             log("Нажимаем кнопку Войти");
@@ -125,6 +141,9 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
             log("Проверяем, выполнен ли вход");
             logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим в профиль пользователя");
+            pageTopBottom.goToUserProfile();
 
             log("Переходим в меню Настройки");
             PageUserProfile pageUserProfile = new PageUserProfile();
@@ -158,6 +177,9 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
             log("Проверяем, выполнен ли вход");
             logErrors = pageTopBottom.assertLoggingIn(logErrors);
+
+            log("Переходим в профиль пользователя");
+            pageTopBottom.goToUserProfile();
 
             log("Переходим в меню Настройки");
             pageUserProfile.goToAccount();
