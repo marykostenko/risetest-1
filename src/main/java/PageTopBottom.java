@@ -30,6 +30,8 @@ public class PageTopBottom extends BasePage
         $(By.xpath("//a[contains(@href,'login')]")).click();
     }
 
+    public void goToRegistration() { $(By.xpath(" //nav[@class='login_nav login_nav_header']//child::a[@href='/registration'] ")).click(); }
+
     public void login(String userLogin, String userPassword) throws InterruptedException
     {
         goToLogin();
@@ -160,6 +162,8 @@ public class PageTopBottom extends BasePage
      */
     private ElementsCollection navMenu = $$(By.xpath("//a[contains(@href, '/navigator#')]"));
 
+    public void goToNavigator() { $(By.xpath("//a[contains(@href, '/navigator#')]")).click(); }
+
     /**
      * проверка, что главное меню кандидата содержит Личный кабинет, иконку-домик, поиск образовательных программ
      */
@@ -286,5 +290,11 @@ public class PageTopBottom extends BasePage
     {
         $(By.xpath("//a[@href='/users']")).click();
     }
+
+
+    /**
+     * переходит на публичную страницу "Как поступить"
+     */
+    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/education/how-to-apply')]]")).click(); }
 
 }
