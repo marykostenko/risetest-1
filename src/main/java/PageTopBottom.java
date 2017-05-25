@@ -26,11 +26,19 @@ public class PageTopBottom extends BasePage
         $(By.xpath("//a[@class='header_logo_link']")).click();
     }
 
+    //открывает страницу логина
     public void goToLogin(){
         $(By.xpath("//a[contains(@href,'login')]")).click();
     }
 
+    //открывает страницу регистрации
     public void goToRegistration() { $(By.xpath(" //nav[@class='login_nav login_nav_header']//child::a[@href='/registration'] ")).click(); }
+
+    //открывает корзину
+    public void openBasket() { $(By.xpath("//div[@class='rs-basket']//child::div[@class='dropdown-btn']")).click(); }
+
+    //нажимоет кнопку в корзине
+    public void pushTheButtonInBasket() { $(By.xpath("//div[@class='fmstyle']")).click(); }
 
     public void login(String userLogin, String userPassword) throws InterruptedException
     {
@@ -162,7 +170,7 @@ public class PageTopBottom extends BasePage
      */
     private ElementsCollection navMenu = $$(By.xpath("//a[contains(@href, '/navigator#')]"));
 
-    public void goToNavigator() { $(By.xpath("//a[contains(@href, '/navigator#')]")).click(); }
+    public void goToNavigator() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_5 rs-swap-target rs-swap-enabled']")).click(); }
 
     /**
      * проверка, что главное меню кандидата содержит Личный кабинет, иконку-домик, поиск образовательных программ
@@ -292,9 +300,10 @@ public class PageTopBottom extends BasePage
     }
 
 
+    public void openEdInRus() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_1 rs-swap-target rs-swap-enabled']")).click(); }
     /**
      * переходит на публичную страницу "Как поступить"
      */
-    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/education/how-to-apply')]]")).click(); }
+    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/education/how-to-apply')]")).click(); }
 
 }

@@ -20,8 +20,11 @@ public class CandidateRegistrationTest extends BaseTest
 
         log("Запущен тест CAND-REG-1.1");
 
-        log("Переключаем язык страницы на русский");
+        log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.goToHomePage();
+
+        log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
         log("Нажимаем кнопку Регистрация");
@@ -131,7 +134,7 @@ public class CandidateRegistrationTest extends BaseTest
         logErrors = pageRegistration.assertRegistrationContract(logErrors);
 
         log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationForm();
+        pageRegistration.isRegistrationContractForm();
 
         checkMistakes();
 
@@ -153,12 +156,12 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.switchToRu();
 
         log("Открываем страницу  'Как поступить'");
+        pageTopBottom.openEdInRus();
         pageTopBottom.goToPublicPageHowToApply();
 
         log("Нажимаем кнопку 'Отправить заявку'");
         PagePublicHowToApply pagePublicHowToApply = new PagePublicHowToApply();
         pagePublicHowToApply.goToRegistration();
-
 
         log("Проверяем, что открылась страница с url /registration");
         PageRegistration pageRegistration = new PageRegistration();
@@ -178,7 +181,7 @@ public class CandidateRegistrationTest extends BaseTest
     public void testGoToRegistrationFromBasket() throws IOException
     {
 
-        log("Запущен тест CAND-REG-1.3");
+        log("Запущен тест CAND-REG-1.6");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -190,7 +193,15 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переходим в навигатор образовательных программ");
         pageTopBottom.goToNavigator();
 
+        log("Добавляем первую ОП из списка");
+        PageNavigator pageNavigator = new PageNavigator();
+        pageNavigator.addFirstEP();
 
+        log("Открыть корзину");
+        pageTopBottom.openBasket();
+
+        log("Перейти к заполнению заявки");
+        pageTopBottom.pushTheButtonInBasket();
 
         log("Проверяем, что открылась страница с url /registration");
         PageRegistration pageRegistration = new PageRegistration();
@@ -202,6 +213,38 @@ public class CandidateRegistrationTest extends BaseTest
 
         checkMistakes();
 
-        log("Тест CAND-REG-1.3 завершен");
+        log("Тест CAND-REG-1.6 завершен");
     }
+
+    //CAND-REG-1.7
+    @Test(priority = 7)
+    public void testRegistrationQuotaWithPartitalFilling() throws IOException
+    {
+
+        log("Запущен тест CAND-REG-1.1");
+
+        log("Переходим на главную страницу");
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.goToHomePage();
+
+        log("Переключаем язык страницы на русский");
+        pageTopBottom.switchToRu();
+
+        log("Нажимаем кнопку Регистрация");
+        pageTopBottom.goToRegistration();
+
+
+        log("Проверяем, что открылась страница с url /registration");
+        PageRegistration pageRegistration = new PageRegistration();
+        log("Url страницы: " + url());
+        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
+
+        log("Заполняем обязательбные поля");
+        TestUserData registrationQuotaPartial = new TestUserData(getUserForRegistrationPartialQuotaId());
+        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartial.getUserLastName(), registrationQuotaPartial.getUserFirstName(), registrationQuotaPartial.getSex(),
+                registrationQuotaPartial.getCountry(), registrationQuotaPartial.getUserLogin(), registrationQuotaPartial.getUserPassword());
+
+
+    }
+
 }

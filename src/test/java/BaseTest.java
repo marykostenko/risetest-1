@@ -44,6 +44,7 @@ public abstract class BaseTest
     private static final String userForEditPostId = "userForEditPost";
     private static final String changedUserForEditPersonalDataId = "changedUserForEditPersonalData";
     private static final String userForAddRoleId = "userForAddRole";
+    private static final String userForRegistrationPartialQuotaId = "userForRegistrationPartialQuota";
 
     public String getAdminId() { return adminId; }
     public String getCandidateId()
@@ -80,6 +81,7 @@ public abstract class BaseTest
     public String getUserForEditPostId () { return userForEditPostId; }
     public String getChangedUserPersonalDataId() { return changedUserForEditPersonalDataId;}
     public String getuserForAddRoleId() { return userForAddRoleId; }
+    public String getUserForRegistrationPartialQuotaId() { return userForRegistrationPartialQuotaId; }
 
 
     public String getStandUrl(String flag) throws IOException
