@@ -86,6 +86,6 @@ public class PageUserProfile extends BasePage
      */
     public void stopSimulateUser ()
     {
-        $(By.xpath("//a[@href='/stopSimulateUser']")).click();
+        $(By.xpath("//a[contains(@href,'/stopSimulateUser')]")).click();
     }
 }
