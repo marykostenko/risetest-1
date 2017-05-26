@@ -1,7 +1,9 @@
 import org.testng.annotations.Test;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
+import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -218,8 +220,7 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-1.7
     @Test(priority = 7)
-    public void testRegistrationQuotaWithPartitalFilling() throws IOException
-    {
+    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException {
 
         log("Запущен тест CAND-REG-1.1");
 
@@ -239,11 +240,25 @@ public class CandidateRegistrationTest extends BaseTest
         log("Url страницы: " + url());
         logErrors = pageRegistration.assertRegistrationQuota(logErrors);
 
-        log("Заполняем обязательбные поля");
+        log("Заполняем обязательные поля");
         TestUserData registrationQuotaPartial = new TestUserData(getUserForRegistrationPartialQuotaId());
         pageRegistration.partialFillingRegistrationForm(registrationQuotaPartial.getUserLastName(), registrationQuotaPartial.getUserFirstName(), registrationQuotaPartial.getSex(),
-                registrationQuotaPartial.getCountry(), registrationQuotaPartial.getUserLogin(), registrationQuotaPartial.getUserPassword());
+                registrationQuotaPartial.getCountry(), registrationQuotaPartial.getUserPassword());
 
+        TestMail testMail = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        String subjectRecoveryMail = testMail.getPasswordRecoveryMailHead();
+       // logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRecoveryMail), logErrors,
+     //           "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRecoveryMail);
+   //     logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserData.getUserLogin()), logErrors,
+   //             "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserData.getUserLogin());
+
+        log("Находим ссылку из последнего письма в ящике");
+        String linkRecovery = testMail.getLinkFromLastMail();
+
+        open(linkRecovery);
+        log("Проверяем url страницы");
+  //      logErrors = pagePasswordRecovery.checkUrlLinkRecoveryPage(logErrors);
 
     }
 

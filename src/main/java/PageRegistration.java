@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.url;
-
+import org.apache.commons.lang3.RandomStringUtils;
 /**
  * Created by Maria on 24.05.2017.
  */
@@ -86,9 +86,8 @@ public class PageRegistration extends BasePage
      */
     private void fillSex(String userSex)
     {
-        WebElement sexField = $(By.id("sex"));
+        WebElement sexField = $(By.xpath("//div[@id='sex']//child::input[@type='text']"));
         sexField.sendKeys(userSex);
-        $(By.xpath("//li[@class='active']//child::a[@href='#']")).click();
     }
 
     /**
@@ -96,9 +95,8 @@ public class PageRegistration extends BasePage
      */
     private void fillCountry(String userCountry)
     {
-        WebElement countryField = $(By.id("countryId"));
+        WebElement countryField = $(By.xpath("//div[@id='countryId']//child::input[@type='text']"));
         countryField.sendKeys(userCountry);
-        $(By.xpath("//ul[contains(@style,'overflow-y')]//child::a[@href='#']")).click();
     }
 
     /**
@@ -128,15 +126,24 @@ public class PageRegistration extends BasePage
         passwordField.sendKeys(userPassword);
     }
 
-    public void partialFillingRegistrationForm(String userLastName, String userFirstName, String userSex, String userCountry, String userEmail, String userPassword)
+    public void partialFillingRegistrationForm(String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
     {
         fillLastName(userLastName);
         fillFirstName(userFirstName);
         fillSex(userSex);
+        $(By.xpath("//ul[contains(@style,'top')]//child::a[@href='#']")).click();
         fillCountry(userCountry);
-        fillEmail(userEmail);
+        $(By.xpath("//ul[contains(@style,'overflow-y')]//child::a[@href='#']")).click();
+
+        //генерируем случайный email для регистрации
+        String email = "mail"+RandomStringUtils.randomNumeric(10) + "@gmail.com";
+        fillEmail(email);
         fillPassword(userPassword);
         fillConfirmPassword(userPassword);
+        $(By.id("licenseAgreement")).click();
+        $(By.id("pdnAgreement")).click();
+        $(By.xpath("//input[@value='ЗАРЕГИСТРИРОВАТЬСЯ']")).click();
+
 
     }
 }
