@@ -126,7 +126,32 @@ public class PageRegistration extends BasePage
         passwordField.sendKeys(userPassword);
     }
 
-    public void partialFillingRegistrationForm(String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
+    /**
+     * создает рандомный email для регистрации
+     */
+    public String createRandomEmail()
+    {
+        String email = "mail"+RandomStringUtils.randomNumeric(10) + "@gmail.com";
+        return email;
+    }
+
+    public String saveContractMail1 (String randomEmail)
+    {
+        String contractMail = randomEmail;
+        return contractMail;
+    }
+
+    public String getContractMail1()
+    {
+        return saveContractMail1(createRandomEmail());
+    }
+
+
+
+    /**
+     * частичное заполненние полей при  регистрации (только обязательные поля)
+     */
+    public void partialFillingRegistrationForm(String userLastName, String userFirstName, String userSex, String userCountry,String email, String userPassword)
     {
         fillLastName(userLastName);
         fillFirstName(userFirstName);
@@ -134,16 +159,48 @@ public class PageRegistration extends BasePage
         $(By.xpath("//ul[contains(@style,'top')]//child::a[@href='#']")).click();
         fillCountry(userCountry);
         $(By.xpath("//ul[contains(@style,'overflow-y')]//child::a[@href='#']")).click();
-
-        //генерируем случайный email для регистрации
-        String email = "mail"+RandomStringUtils.randomNumeric(10) + "@gmail.com";
         fillEmail(email);
         fillPassword(userPassword);
         fillConfirmPassword(userPassword);
         $(By.id("licenseAgreement")).click();
         $(By.id("pdnAgreement")).click();
         $(By.xpath("//input[@value='ЗАРЕГИСТРИРОВАТЬСЯ']")).click();
-
-
     }
+
+    /**
+     * полное заполнение полей при регистрации (все, кроме тех, что касаются агентов)
+     */
+    public void fullFillingRegistrationForm(String userLastName, String userFirstName, String userMiddleName,String userSex, String userCountry, String email, String userPassword)
+    {
+        fillLastName(userLastName);
+        fillFirstName(userFirstName);
+        fillMiddleName(userMiddleName);
+        fillSex(userSex);
+        $(By.xpath("//ul[contains(@style,'top')]//child::a[@href='#']")).click();
+        fillCountry(userCountry);
+        $(By.xpath("//ul[contains(@style,'overflow-y')]//child::a[@href='#']")).click();
+        fillEmail(email);
+        fillPassword(userPassword);
+        fillConfirmPassword(userPassword);
+        $(By.id("licenseAgreement")).click();
+        $(By.id("pdnAgreement")).click();
+        $(By.xpath("//input[@value='ЗАРЕГИСТРИРОВАТЬСЯ']")).click();
+    }
+
+    /**
+     * проверка, что страница - та, на которую переход по ссылке регистрации
+     */
+    private boolean isFirstRegistrationPage()
+    {
+        return url().contains("/activate/");
+    }
+
+    /**
+     * проверка, что урл страницы содержит password/recovery. Если нет, то увеличивается число найденных ошибок и пишется в лог
+     */
+    public int checkUrlFirstRegistrationPage(int logErrors)
+    {
+        return checkAndLog(!isFirstRegistrationPage(), logErrors, "Ошибка: url неверный -" + url());
+    }
+
 }

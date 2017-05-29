@@ -14,13 +14,11 @@ public class CandidateRegistrationTest extends BaseTest
 
 //Самостоятельная регистрация кандидата
 
-
-    //CAND-REG-1.1
+    //CAND-REG-2.1
     @Test(priority = 1)
-    public void testGoToRegistrationFromHat() throws IOException
-    {
+    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException {
 
-        log("Запущен тест CAND-REG-1.1");
+        log("Запущен тест CAND-REG-2.1");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -38,21 +36,40 @@ public class CandidateRegistrationTest extends BaseTest
         log("Url страницы: " + url());
         logErrors = pageRegistration.assertRegistrationQuota(logErrors);
 
-        log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationForm();
+        log("Создаём рандомый email для регитсрации");
+        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
+        log("Сохраняем email для последующего входа под данным кандидатом");
+        pageRegistration.saveContractMail1(randomEmail);
+
+        log("Заполняем обязательные поля");
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSex(),
+                registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
+
+        TestMail testMail = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
+        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+
+        log("Находим ссылку из последнего письма в ящике");
+        String linkRegistration = testMail.getLinkFromLastMail();
+
+        open(linkRegistration);
+        log("Проверяем url страницы");
+        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
 
         checkMistakes();
-
-        log("Тест CAND-REG-1.1 завершен");
     }
 
-
-    //CAND-REG-1.2
+    //CAND-REG-2.2
     @Test(priority = 2)
-    public void testGoToRegistrationFromFooter() throws IOException
-    {
+    public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException {
 
-        log("Запущен тест CAND-REG-1.2");
+        log("Запущен тест CAND-REG-2.2");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -61,9 +78,8 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Зарегистрироваться под футером");
-        PageMain pageMain = new PageMain();
-        pageMain.goToRegistrationFromFooter();
+        log("Нажимаем кнопку Регистрация");
+        pageTopBottom.goToRegistration();
 
 
         log("Проверяем, что открылась страница с url /registration");
@@ -71,52 +87,38 @@ public class CandidateRegistrationTest extends BaseTest
         log("Url страницы: " + url());
         logErrors = pageRegistration.assertRegistrationQuota(logErrors);
 
-        log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationForm();
+        log("Создаём рандомый email для регитсрации");
+        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
+        log("Заполняем все поля (кроме полей, связанных с агентами)");
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        pageRegistration.fullFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
+              registrationQuotaPartialUserData.getUserMiddleName(),  registrationQuotaPartialUserData.getSex(), registrationQuotaPartialUserData.getCountry(),
+               randomEmail, registrationQuotaPartialUserData.getUserPassword());
+
+        TestMail testMail = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
+        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+
+        log("Находим ссылку из последнего письма в ящике");
+        String linkRegistration = testMail.getLinkFromLastMail();
+
+        open(linkRegistration);
+        log("Проверяем url страницы");
+        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
 
         checkMistakes();
-
-        log("Тест CAND-REG-1.2 завершен");
     }
 
-    //CAND-REG-1.3
+    //CAND-REG-2.3
     @Test(priority = 3)
-    public void testGoToRegistrationFromBlockLearnFree() throws IOException
-    {
+    public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException {
 
-        log("Запущен тест CAND-REG-1.3");
-
-        log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.goToHomePage();
-
-        log("Переключаем язык страницы на русский");
-        pageTopBottom.switchToRu();
-
-        log("Нажимаем кнопку 'Подать заявку' в блоке 'Учись беслпатно!'");
-        PageMain pageMain = new PageMain();
-        pageMain.goToRegistrationFromBlockLearnFree();
-
-
-        log("Проверяем, что открылась страница с url /registration");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
-
-        log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationForm();
-
-        checkMistakes();
-
-        log("Тест CAND-REG-1.3 завершен");
-    }
-
-    //CAND-REG-1.4
-    @Test(priority = 4)
-    public void testGoToRegistrationFromBlockContractTraining() throws IOException
-    {
-
-        log("Запущен тест CAND-REG-1.4");
+        log("Запущен тест CAND-REG-2.3");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -125,9 +127,8 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку 'Подать заявку' в блоке 'Обучение по контракту'");
-        PageMain pageMain = new PageMain();
-        pageMain.goToRegistrationFromBlockContractTraining();
+        log("Нажимаем кнопку Подать заявку в блоке Обучение по контракту");
+        pageTopBottom.goToRegistration();
 
 
         log("Проверяем, что открылась страница с url /registration?contract=true");
@@ -135,94 +136,37 @@ public class CandidateRegistrationTest extends BaseTest
         log("Url страницы: " + url());
         logErrors = pageRegistration.assertRegistrationContract(logErrors);
 
-        log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationContractForm();
+        log("Создаём рандомый email для регитсрации");
+        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
+        log("Заполняем обязательные поля");
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSex(),
+                registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
+
+        TestMail testMail = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
+        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+
+        log("Находим ссылку из последнего письма в ящике");
+        String linkRegistration = testMail.getLinkFromLastMail();
+
+        open(linkRegistration);
+        log("Проверяем url страницы");
+        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
 
         checkMistakes();
-
-        log("Тест CAND-REG-1.4 завершен");
     }
 
-    //CAND-REG-1.5
-    @Test(priority = 5)
-    public void testGoToRegistrationFromPublicPage() throws IOException
-    {
+    //CAND-REG-2.3
+    @Test(priority = 4)
+    public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException {
 
-        log("Запущен тест CAND-REG-1.5");
-
-        log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.goToHomePage();
-
-        log("Переключаем язык страницы на русский");
-        pageTopBottom.switchToRu();
-
-        log("Открываем страницу  'Как поступить'");
-        pageTopBottom.openEdInRus();
-        pageTopBottom.goToPublicPageHowToApply();
-
-        log("Нажимаем кнопку 'Отправить заявку'");
-        PagePublicHowToApply pagePublicHowToApply = new PagePublicHowToApply();
-        pagePublicHowToApply.goToRegistration();
-
-        log("Проверяем, что открылась страница с url /registration");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
-
-        log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationForm();
-
-        checkMistakes();
-
-        log("Тест CAND-REG-1.5 завершен");
-    }
-
-    //CAND-REG-1.6
-    @Test(priority = 6)
-    public void testGoToRegistrationFromBasket() throws IOException
-    {
-
-        log("Запущен тест CAND-REG-1.6");
-
-        log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.goToHomePage();
-
-        log("Переключаем язык страницы на русский");
-        pageTopBottom.switchToRu();
-
-        log("Переходим в навигатор образовательных программ");
-        pageTopBottom.goToNavigator();
-
-        log("Добавляем первую ОП из списка");
-        PageNavigator pageNavigator = new PageNavigator();
-        pageNavigator.addFirstEP();
-
-        log("Открыть корзину");
-        pageTopBottom.openBasket();
-
-        log("Перейти к заполнению заявки");
-        pageTopBottom.pushTheButtonInBasket();
-
-        log("Проверяем, что открылась страница с url /registration");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
-
-        log("Проверяем, что есть форма регистрации");
-        pageRegistration.isRegistrationForm();
-
-        checkMistakes();
-
-        log("Тест CAND-REG-1.6 завершен");
-    }
-
-    //CAND-REG-1.7
-    @Test(priority = 7)
-    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException {
-
-        log("Запущен тест CAND-REG-1.1");
+        log("Запущен тест CAND-REG-2.4");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -235,31 +179,35 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.goToRegistration();
 
 
-        log("Проверяем, что открылась страница с url /registration");
+        log("Проверяем, что открылась страница с url /registration?contract=true");
         PageRegistration pageRegistration = new PageRegistration();
         log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
+        logErrors = pageRegistration.assertRegistrationContract(logErrors);
 
-        log("Заполняем обязательные поля");
-        TestUserData registrationQuotaPartial = new TestUserData(getUserForRegistrationPartialQuotaId());
-        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartial.getUserLastName(), registrationQuotaPartial.getUserFirstName(), registrationQuotaPartial.getSex(),
-                registrationQuotaPartial.getCountry(), registrationQuotaPartial.getUserPassword());
+        log("Создаём рандомый email для регитсрации");
+        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
+        log("Заполняем все поля (кроме полей, связанных с агентами)");
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        pageRegistration.fullFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
+                registrationQuotaPartialUserData.getUserMiddleName(),  registrationQuotaPartialUserData.getSex(), registrationQuotaPartialUserData.getCountry(), randomEmail,
+                registrationQuotaPartialUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
         log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
-        String subjectRecoveryMail = testMail.getPasswordRecoveryMailHead();
-       // logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRecoveryMail), logErrors,
-     //           "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRecoveryMail);
-   //     logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserData.getUserLogin()), logErrors,
-   //             "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserData.getUserLogin());
+        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
+        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         log("Находим ссылку из последнего письма в ящике");
-        String linkRecovery = testMail.getLinkFromLastMail();
+        String linkRegistration = testMail.getLinkFromLastMail();
 
-        open(linkRecovery);
+        open(linkRegistration);
         log("Проверяем url страницы");
-  //      logErrors = pagePasswordRecovery.checkUrlLinkRecoveryPage(logErrors);
+        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
 
+        checkMistakes();
     }
-
 }

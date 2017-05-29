@@ -24,7 +24,7 @@ public class TestMail extends BasePage
     private static final String emailChangeRequest = "Подтверждение смены электронного адреса (логина)";
     private static final String loginMail = "fsmnaumen@yandex.ru";
     private static final String passwdMail = "manager1";
-    private static final String emailUserRegistration = "Приглашение в информационную систему формирования и распределения квоты приема иностранных студентов";
+    private static final String emailUserRegistration = "Регистрация на russia.study / russia.study Registration";
     private static final String passwordRecoveryMailHead = "Восстановление пароля russia.study / russia.study password restore";
 
     public String getPasswordRecoveryMailHead()
