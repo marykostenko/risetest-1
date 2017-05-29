@@ -41,14 +41,14 @@ public class CandidateRegistrationTest extends BaseTest
 
         log("Сохраняем email для последующего входа под этим кандидатом");
         TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        registrationQuotaPartialUserData.entryUserData(registrationQuotaPartialUserData.getRandomEmail(), randomEmail);
+        registrationQuotaPartialUserData.entryUserData("userForRegistrationPartialQuotaRandomEmail", randomEmail);
 
         log("Заполняем обязательные поля");
         pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSex(),
                 registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
         String subjectRegistrationMail = testMail.getEmailUserRegistration();
         logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
                 "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
@@ -90,14 +90,18 @@ public class CandidateRegistrationTest extends BaseTest
         log("Создаём рандомый email для регитсрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
+        log("Сохраняем email для последующего входа под этим кандидатом");
+        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
+        registrationQuotaFullUserData.entryUserData("userForRegistrationFullQuotaRandomEmail", randomEmail);
+
         log("Заполняем все поля (кроме полей, связанных с агентами)");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        pageRegistration.fullFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
-              registrationQuotaPartialUserData.getUserMiddleName(),  registrationQuotaPartialUserData.getSex(), registrationQuotaPartialUserData.getCountry(),
-               randomEmail, registrationQuotaPartialUserData.getUserPassword());
+
+        pageRegistration.fullFillingRegistrationForm(registrationQuotaFullUserData.getUserLastName(), registrationQuotaFullUserData.getUserFirstName(),
+              registrationQuotaFullUserData.getUserMiddleName(),  registrationQuotaFullUserData.getSex(), registrationQuotaFullUserData.getCountry(),
+               randomEmail, registrationQuotaFullUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
         String subjectRegistrationMail = testMail.getEmailUserRegistration();
         logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
                 "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
@@ -139,13 +143,16 @@ public class CandidateRegistrationTest extends BaseTest
         log("Создаём рандомый email для регитсрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
+        log("Сохраняем email для последующего входа под этим кандидатом");
+        TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
+        registrationContractPartialUserData.entryUserData("userForRegistrationPartialContractRandomEmail", randomEmail);
+
         log("Заполняем обязательные поля");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSex(),
-                registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
+        pageRegistration.partialFillingRegistrationForm(registrationContractPartialUserData.getUserLastName(), registrationContractPartialUserData.getUserFirstName(), registrationContractPartialUserData.getSex(),
+                registrationContractPartialUserData.getCountry(), randomEmail, registrationContractPartialUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
         String subjectRegistrationMail = testMail.getEmailUserRegistration();
         logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
                 "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
@@ -187,14 +194,17 @@ public class CandidateRegistrationTest extends BaseTest
         log("Создаём рандомый email для регитсрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
+        log("Сохраняем email для последующего входа под этим кандидатом");
+        TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
+        registrationContractFullUserData.entryUserData("userForRegistrationFullContractRandomEmail", randomEmail);
+
         log("Заполняем все поля (кроме полей, связанных с агентами)");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        pageRegistration.fullFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
-                registrationQuotaPartialUserData.getUserMiddleName(),  registrationQuotaPartialUserData.getSex(), registrationQuotaPartialUserData.getCountry(), randomEmail,
-                registrationQuotaPartialUserData.getUserPassword());
+        pageRegistration.fullFillingRegistrationForm(registrationContractFullUserData.getUserLastName(), registrationContractFullUserData.getUserFirstName(),
+                registrationContractFullUserData.getUserMiddleName(),  registrationContractFullUserData.getSex(), registrationContractFullUserData.getCountry(), randomEmail,
+                registrationContractFullUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
         String subjectRegistrationMail = testMail.getEmailUserRegistration();
         logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
                 "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
