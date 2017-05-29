@@ -39,11 +39,11 @@ public class CandidateRegistrationTest extends BaseTest
         log("Создаём рандомый email для регитсрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
-        log("Сохраняем email для последующего входа под данным кандидатом");
-        pageRegistration.saveContractMail1(randomEmail);
+        log("Сохраняем email для последующего входа под этим кандидатом");
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        registrationQuotaPartialUserData.entryUserData(registrationQuotaPartialUserData.getRandomEmail(), randomEmail);
 
         log("Заполняем обязательные поля");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
         pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSex(),
                 registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
 

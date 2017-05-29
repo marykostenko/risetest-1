@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import static org.testng.Reporter.log;
@@ -29,6 +27,7 @@ public class TestUserData
     private String incorrectPassword;
     private String sex;
     private String country;
+    private String randomEmail;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -51,6 +50,7 @@ public class TestUserData
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
         sex = this.initUserData(userId + "Sex");
         country = this.initUserData(userId + "Country");
+        randomEmail = this.initUserData(userId + "randomEmail");
     }
 
     public TestUserData() {
@@ -65,6 +65,22 @@ public class TestUserData
         File propertyFile = new File("src/main/resources/userData.properties");
         userData.load(new FileReader(propertyFile));
         return userData.getProperty(fieldKey);
+    }
+
+    // методу передаётся название поля в properties и метод записывает данные в поле
+    public String entryUserData(String fieldName, String newData) throws IOException
+    {
+        FileInputStream in = new FileInputStream("src/main/resources/userData.properties");
+        Properties props = new Properties();
+        props.load(in);
+        in.close();
+
+        props.setProperty(fieldName, newData);
+
+        FileOutputStream out = new FileOutputStream("src/main/resources/userData.properties");
+        props.store(out, null);
+        out.close();
+
     }
 
     public String getUserFirstName() { return userFirstName; }
@@ -115,6 +131,8 @@ public class TestUserData
     public String getSex() { return sex; }
 
     public String getCountry() { return country; }
+
+    public String getRandomEmail() { return  randomEmail; }
 
     /**
      * смена пароля пользователя на тестовый

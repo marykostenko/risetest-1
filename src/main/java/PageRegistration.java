@@ -135,19 +135,6 @@ public class PageRegistration extends BasePage
         return email;
     }
 
-    public String saveContractMail1 (String randomEmail)
-    {
-        String contractMail = randomEmail;
-        return contractMail;
-    }
-
-    public String getContractMail1()
-    {
-        return saveContractMail1(createRandomEmail());
-    }
-
-
-
     /**
      * частичное заполненние полей при  регистрации (только обязательные поля)
      */
@@ -196,7 +183,7 @@ public class PageRegistration extends BasePage
     }
 
     /**
-     * проверка, что урл страницы содержит password/recovery. Если нет, то увеличивается число найденных ошибок и пишется в лог
+     * проверка, что урл страницы содержит /activate/. Если нет, то увеличивается число найденных ошибок и пишется в лог
      */
     public int checkUrlFirstRegistrationPage(int logErrors)
     {
