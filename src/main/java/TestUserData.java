@@ -27,7 +27,7 @@ public class TestUserData
     private String incorrectPassword;
     private String sex;
     private String country;
-
+    private String randomEmail;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -50,6 +50,7 @@ public class TestUserData
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
         sex = this.initUserData(userId + "Sex");
         country = this.initUserData(userId + "Country");
+        randomEmail = this.initRandomUserData(userId + "randomEmail");
     }
 
     public TestUserData() {
@@ -66,8 +67,27 @@ public class TestUserData
         return userData.getProperty(fieldKey);
     }
 
+    protected String initRandomUserData(String fieldKey) throws IOException
+    {
+        Properties userData = new Properties();
+        File propertyFile = new File("src/main/resources/randomUserData.properties");
+        userData.load(new FileReader(propertyFile));
+        return userData.getProperty(fieldKey);
+    }
 
+    // методу передаётся название поля в properties и метод записывает данные в поле
+    public void entryUserData(String fieldKey, String newData) throws IOException
+    {
+        FileInputStream in = new FileInputStream("src/main/resources/randomUserData.properties");
+        Properties props = new Properties();
+        props.load(in);
+        in.close();
+        props.setProperty(fieldKey, newData);
 
+        FileOutputStream out = new FileOutputStream("src/main/resources/randomUserData.properties");
+        props.store(out, null);
+        out.close();
+    }
 
     public String getUserFirstName() { return userFirstName; }
 
@@ -117,6 +137,8 @@ public class TestUserData
     public String getSex() { return sex; }
 
     public String getCountry() { return country; }
+
+    public String getRandomEmail() { return  randomEmail; }
 
     /**
      * смена пароля пользователя на тестовый
