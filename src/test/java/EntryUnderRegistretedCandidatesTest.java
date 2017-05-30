@@ -74,9 +74,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullContractId());
 
-        pageLogin.fillLoginForm(registrationQuotaPartialUserData.getRandomEmail(), registrationQuotaPartialUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationQuotaFullUserData.getRandomEmail(), registrationQuotaFullUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -86,7 +86,7 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Проверяем имя пользователя в шапке:");
         log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationQuotaPartialUserData.getUserFirstName() + " " + registrationQuotaPartialUserData.getUserLastName(), logErrors);
+        logErrors = pageTopBottom.assertFIOLoggedIn(registrationQuotaFullUserData.getUserFirstName() + " " + registrationQuotaFullUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 
@@ -115,9 +115,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
 
-        pageLogin.fillLoginForm(registrationQuotaPartialUserData.getRandomEmail(), registrationQuotaPartialUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationContractPartialUserData.getRandomEmail(), registrationContractPartialUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -127,7 +127,7 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Проверяем имя пользователя в шапке:");
         log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationQuotaPartialUserData.getUserFirstName() + " " + registrationQuotaPartialUserData.getUserLastName(), logErrors);
+        logErrors = pageTopBottom.assertFIOLoggedIn(registrationContractPartialUserData.getUserFirstName() + " " + registrationContractPartialUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 
@@ -156,9 +156,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
 
-        pageLogin.fillLoginForm(registrationQuotaPartialUserData.getRandomEmail(), registrationQuotaPartialUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationContractFullUserData.getRandomEmail(), registrationContractFullUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -168,7 +168,7 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Проверяем имя пользователя в шапке:");
         log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationQuotaPartialUserData.getUserFirstName() + " " + registrationQuotaPartialUserData.getUserLastName(), logErrors);
+        logErrors = pageTopBottom.assertFIOLoggedIn(registrationContractFullUserData.getUserFirstName() + " " + registrationContractFullUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 

@@ -1,8 +1,11 @@
+import com.sun.xml.internal.messaging.saaj.packaging.mime.*;
+
 import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.mail.*;
+import javax.mail.MessagingException;
 import javax.management.Notification;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -32,10 +35,7 @@ public class TestMail extends BasePage
         return passwordRecoveryMailHead;
     }
 
-    public String getEmailUserRegistration()
-    {
-        return emailUserRegistration;
-    }
+    public String getEmailUserRegistration() { return emailUserRegistration; }
 
     public String getEmailChangeNotification()
     {
@@ -255,6 +255,24 @@ public class TestMail extends BasePage
             link = link.substring(1, link.length()-1);
         log("Ссылка из письма: " + link);
         return link;
+    }
+    /**
+     * берет ссылку из письма подтьверждения регистрации
+     */
+    public String getLinkFromMailForRegistration(String text) throws IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException, MessagingException
+    {
+        String link = getTextMail(text, "перейдите по <a href=", ">ссылке</a>");
+        if(!link.isEmpty())
+            link = link.substring(1, link.length()-1);
+        log("Ссылка из письма: " + link);
+        return link;
+    }
+    /**
+     * выдает ссылку для подтверждения регистрации из последнего найденного письма
+     */
+    public String getLinkFromLastMailForRegistration() throws IOException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    {
+        return getLinkFromMailForRegistration(getHtmlTextLastMail());
     }
 
     /**

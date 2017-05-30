@@ -47,7 +47,7 @@ public abstract class BaseTest
     private static final String userForRegistrationPartialQuotaId = "userForRegistrationPartialQuota";
     private static final String userForRegistrationFullQuotaId = "userForRegistrationFullQuota";
     private static final String userForRegistrationPartialContractId = "userForRegistrationPartialContract";
-    private static final String userForRegistrationFullContractId = "userForRegistrationPartialQuota";
+    private static final String userForRegistrationFullContractId = "userForRegistrationFullContract";
 
     public String getAdminId() { return adminId; }
     public String getCandidateId()

@@ -2,7 +2,12 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static com.codeborne.selenide.Selenide.close;
+import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.WebDriverRunner.closeWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static java.awt.SystemColor.window;
 
 /**
  * Created by Maria on 29.05.2017.
@@ -139,8 +144,7 @@ public class CheckRegistrationButtonsTest extends BaseTest
 
     //CAND-REG-1.5
     @Test(priority = 5)
-    public void testGoToRegistrationFromPublicPage() throws IOException
-    {
+    public void testGoToRegistrationFromPublicPage() throws IOException, InterruptedException {
 
         log("Запущен тест CAND-REG-1.5");
 
@@ -174,8 +178,7 @@ public class CheckRegistrationButtonsTest extends BaseTest
 
     //CAND-REG-1.6
     @Test(priority = 6)
-    public void testGoToRegistrationFromBasket() throws IOException
-    {
+    public void testGoToRegistrationFromBasket() throws IOException, InterruptedException {
 
         log("Запущен тест CAND-REG-1.6");
 

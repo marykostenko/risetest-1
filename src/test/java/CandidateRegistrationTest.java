@@ -16,7 +16,8 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-2.1
     @Test(priority = 1)
-    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException {
+    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    {
 
         log("Запущен тест CAND-REG-2.1");
 
@@ -56,18 +57,28 @@ public class CandidateRegistrationTest extends BaseTest
                 "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMail();
+        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
 
         open(linkRegistration);
         log("Проверяем url страницы");
         logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
+
+        log("Проверяем письмо на почте, подтверждающее регистрацию");
+        TestMail testMail1 = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
+        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         checkMistakes();
     }
 
     //CAND-REG-2.2
     @Test(priority = 2)
-    public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException {
+    public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    {
 
         log("Запущен тест CAND-REG-2.2");
 
@@ -109,18 +120,27 @@ public class CandidateRegistrationTest extends BaseTest
                 "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMail();
+        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
 
         open(linkRegistration);
         log("Проверяем url страницы");
         logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
+
+        log("Проверяем письмо на почте, подтверждающее регистрацию");
+        TestMail testMail1 = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
+        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         checkMistakes();
     }
 
     //CAND-REG-2.3
     @Test(priority = 3)
-    public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException {
+    public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         log("Запущен тест CAND-REG-2.3");
 
@@ -132,7 +152,8 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.switchToRu();
 
         log("Нажимаем кнопку Подать заявку в блоке Обучение по контракту");
-        pageTopBottom.goToRegistration();
+        PageMain pageMain = new PageMain();
+        pageMain.goToRegistrationFromBlockContractTraining();
 
 
         log("Проверяем, что открылась страница с url /registration?contract=true");
@@ -160,18 +181,28 @@ public class CandidateRegistrationTest extends BaseTest
                 "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMail();
+        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
 
         open(linkRegistration);
         log("Проверяем url страницы");
         logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
+
+        log("Проверяем письмо на почте, подтверждающее регистрацию");
+        TestMail testMail1 = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
+        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         checkMistakes();
     }
 
     //CAND-REG-2.3
     @Test(priority = 4)
-    public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException {
+    public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    {
 
         log("Запущен тест CAND-REG-2.4");
 
@@ -182,8 +213,9 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Регистрация");
-        pageTopBottom.goToRegistration();
+        log("Нажимаем кнопку Подать заявку в блоке Обучение по контракту");
+        PageMain pageMain = new PageMain();
+        pageMain.goToRegistrationFromBlockContractTraining();
 
 
         log("Проверяем, что открылась страница с url /registration?contract=true");
@@ -212,11 +244,20 @@ public class CandidateRegistrationTest extends BaseTest
                 "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMail();
+        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
 
         open(linkRegistration);
         log("Проверяем url страницы");
         logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
+
+        log("Проверяем письмо на почте, подтверждающее регистрацию");
+        TestMail testMail1 = new TestMail();
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
+        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
+                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
+                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
         checkMistakes();
     }
