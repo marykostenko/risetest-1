@@ -1,3 +1,4 @@
+import org.bouncycastle.util.test.TestRandomData;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -44,8 +45,8 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Проверяем имя пользователя в шапке:");
-        log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationQuotaPartialUserData.getUserFirstName() + " " + registrationQuotaPartialUserData.getUserLastName(), logErrors);
+        log(pageTopBottom.getFICandidate());
+        logErrors = pageTopBottom.assertFIOCandidateLoggedIn(registrationQuotaPartialUserData.getUserFirstName() + " " + registrationQuotaPartialUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 
@@ -74,7 +75,7 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullContractId());
+        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
 
         pageLogin.fillLoginForm(registrationQuotaFullUserData.getRandomEmail(), registrationQuotaFullUserData.getUserPassword());
 
@@ -85,8 +86,8 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Проверяем имя пользователя в шапке:");
-        log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationQuotaFullUserData.getUserFirstName() + " " + registrationQuotaFullUserData.getUserLastName(), logErrors);
+        log(pageTopBottom.getFICandidate());
+        logErrors = pageTopBottom.assertFIOCandidateLoggedIn(registrationQuotaFullUserData.getUserFirstName() + " " + registrationQuotaFullUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 
@@ -126,8 +127,8 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Проверяем имя пользователя в шапке:");
-        log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationContractPartialUserData.getUserFirstName() + " " + registrationContractPartialUserData.getUserLastName(), logErrors);
+        log(pageTopBottom.getFICandidate());
+        logErrors = pageTopBottom.assertFIOCandidateLoggedIn(registrationContractPartialUserData.getUserFirstName() + " " + registrationContractPartialUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 
@@ -167,8 +168,8 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Проверяем имя пользователя в шапке:");
-        log(pageTopBottom.getFILoggedUser());
-        logErrors = pageTopBottom.assertFIOLoggedIn(registrationContractFullUserData.getUserFirstName() + " " + registrationContractFullUserData.getUserLastName(), logErrors);
+        log(pageTopBottom.getFICandidate());
+        logErrors = pageTopBottom.assertFIOCandidateLoggedIn(registrationContractFullUserData.getUserFirstName() + " " + registrationContractFullUserData.getUserLastName(), logErrors);
 
         checkMistakes();
 

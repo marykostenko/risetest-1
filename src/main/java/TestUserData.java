@@ -50,7 +50,7 @@ public class TestUserData
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
         sex = this.initUserData(userId + "Sex");
         country = this.initUserData(userId + "Country");
-        randomEmail = this.initRandomUserData(userId + "randomEmail");
+        randomEmail = this.initRandomUserData(userId + "RandomEmail");
     }
 
     public TestUserData() {
@@ -69,10 +69,10 @@ public class TestUserData
 
     protected String initRandomUserData(String fieldKey) throws IOException
     {
-        Properties userData = new Properties();
+        Properties randomUserData = new Properties();
         File propertyFile = new File("src/main/resources/randomUserData.properties");
-        userData.load(new FileReader(propertyFile));
-        return userData.getProperty(fieldKey);
+        randomUserData.load(new FileReader(propertyFile));
+        return randomUserData.getProperty(fieldKey);
     }
 
     // методу передаётся название поля в properties и метод записывает данные в поле
