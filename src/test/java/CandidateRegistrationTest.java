@@ -72,6 +72,15 @@ public class CandidateRegistrationTest extends BaseTest
         logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
                 "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
+        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
+
+        open(linkFromMailOfSuccessfulRegistration);
+
+        log("Проверяем что открылась главная страница сайта");
+        HomePageControl homePageControl = new HomePageControl();
+        logErrors = homePageControl.isHomePage(logErrors);
+
         checkMistakes();
     }
 
@@ -135,6 +144,15 @@ public class CandidateRegistrationTest extends BaseTest
         logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
                 "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
 
+        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
+
+        open(linkFromMailOfSuccessfulRegistration);
+
+        log("Проверяем что открылась главная страница сайта");
+        HomePageControl homePageControl = new HomePageControl();
+        logErrors = homePageControl.isHomePage(logErrors);
+
         checkMistakes();
     }
 
@@ -195,6 +213,15 @@ public class CandidateRegistrationTest extends BaseTest
                 "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
         logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
                 "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+
+        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
+
+        open(linkFromMailOfSuccessfulRegistration);
+
+        log("Проверяем что открылась главная страница сайта");
+        HomePageControl homePageControl = new HomePageControl();
+        logErrors = homePageControl.isHomePage(logErrors);
 
         checkMistakes();
     }
@@ -258,6 +285,15 @@ public class CandidateRegistrationTest extends BaseTest
                 "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
         logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
                 "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+
+        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
+
+        open(linkFromMailOfSuccessfulRegistration);
+
+        log("Проверяем что открылась главная страница сайта");
+        HomePageControl homePageControl = new HomePageControl();
+        logErrors = homePageControl.isHomePage(logErrors);
 
         checkMistakes();
     }

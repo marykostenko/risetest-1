@@ -7,9 +7,23 @@ import static com.codeborne.selenide.Selenide.$$;
  * Created by Maria on 28.12.2016.
  */
 public class HomePageControl  extends BasePage
-    {
+{
 
-    // проверяет отображение шапки на главной странице и наличие в ней логотипа Россотрудничества, названия сайта, кнопок смены языка, вход и регистрация, кнопка корзины
+    private ElementsCollection homePage = $$(By.xpath("//title[contains(text(),'Официальный сайт для отбора иностранных граждан на обучение в Российской Федерации')]"));
+
+    /**
+     * метод проверяет, что мы находимся на главной странице
+     */
+    public int isHomePage(int logErrors)
+    {
+        logErrors = checkAndLog(logo.isEmpty(), logErrors, "Ошибка: ссылка на главную страницу не открылась", "Ссылка на главную страницу открылась");
+
+        return logErrors;
+    }
+
+    /**проверяет отображение шапки на главной странице и наличие в ней логотипа Россотрудничества, названия сайта, кнопок смены языка, вход и регистрация, кнопка корзины
+     *
+     */
     private ElementsCollection logo = $$(By.xpath("//a[@class='header_logo_link']"));
     private ElementsCollection logoTop = $$(By.xpath("//div[@class='logo-top']"));
     private ElementsCollection siteNameLogo = $$(By.xpath("//div[@class='logo-bottom']"));
@@ -33,7 +47,9 @@ public class HomePageControl  extends BasePage
 
     }
 
-    // проверяет отображение подвала на главной странице и наличие в нём корректных данных, таких как название сайта, электронную почту и ссылки на другие сайты
+    /**
+     *проверяет отображение подвала на главной странице и наличие в нём корректных данных, таких как название сайта, электронную почту и ссылки на другие сайты
+      */
     private ElementsCollection emaiRussiaStudy = $$(By.xpath("//a[@href='mailto:info@russia.study']"));
     private ElementsCollection displayEmailRussiaStudy = $$(By.xpath("//strong[contains(text(),'info@russia.study')]"));
     private ElementsCollection linkToRossotrudnichestvo = $$(By.xpath("//a[@href='http://rs.gov.ru/']"));
@@ -49,7 +65,11 @@ public class HomePageControl  extends BasePage
 
         return logErrors;
     }
-    // проверяет кнопки и названия в шапке и подвале на русскоязычность
+
+    /**
+     *  проверяет кнопки и названия в шапке и подвале на русскоязычность
+      */
+
     private ElementsCollection siteNameLogoRu = $$(By.xpath("//div[contains(text(),'Официальный сайт для отбора иностранных граждан на обучение')]"));
     private ElementsCollection loginButtonRu = $$(By.xpath("//a[contains(text(),'Вход')]"));
     private ElementsCollection registrationButtonRu = $$(By.xpath("//a[contains(text(),'Регистрация')]"));

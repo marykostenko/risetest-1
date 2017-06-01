@@ -257,7 +257,7 @@ public class TestMail extends BasePage
         return link;
     }
     /**
-     * берет ссылку из письма подтьверждения регистрации
+     * берет ссылку из письма для подтверждения регистрации
      */
     public String getLinkFromMailForRegistration(String text) throws IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException, MessagingException
     {
@@ -267,6 +267,27 @@ public class TestMail extends BasePage
         log("Ссылка из письма: " + link);
         return link;
     }
+
+    /**
+     * берет ссылку из письма, которое подтверждает успешную регистрацию
+     */
+    public String getLinkFromMailOfSuccessfilRegistration(String text) throws IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException, MessagingException
+    {
+        String link = getTextMail(text, "Спасибо, вы успешно зарегистрированы на <a href=", ">официальном сайте для отбора иностранных граждан на обучение в Российской Федерации</a>");
+        if(!link.isEmpty())
+            link = link.substring(1, link.length()-1);
+        log("Ссылка из письма: " + link);
+        return link;
+    }
+
+    /**
+     * Выдает ссылку на главную страницу сайта из последнего письма, которое подверждает успешную регистрацию
+     */
+    public String getLinkFromLastMailOfSuccessfilRegistration() throws IOException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    {
+        return getLinkFromMailOfSuccessfilRegistration(getHtmlTextLastMail());
+    }
+
     /**
      * выдает ссылку для подтверждения регистрации из последнего найденного письма
      */
