@@ -41,12 +41,13 @@ public class CandidateRegistrationTest extends BaseTest
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
         log("Сохраняем email для последующего входа под этим кандидатом");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        registrationQuotaPartialUserData.entryUserData("userForRegistrationPartialQuotaRandomEmail", randomEmail);
+        TestRandomUserData registrationQuotaPartialUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialQuotaId());
+        registrationQuotaPartialUserRandomEmail.entryUserData(registrationQuotaPartialUserRandomEmail.getPartialQuotaRandomEmail(), randomEmail);
 
         log("Заполняем обязательные поля");
-        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSex(),
-                registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
+                registrationQuotaPartialUserData.getSex(), registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
         log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
@@ -111,11 +112,11 @@ public class CandidateRegistrationTest extends BaseTest
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
         log("Сохраняем email для последующего входа под этим кандидатом");
-        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
-        registrationQuotaFullUserData.entryUserData("userForRegistrationFullQuotaRandomEmail", randomEmail);
+        TestRandomUserData registrationQuotaFullUserRandomEmail = new TestRandomUserData(getUserForRegistrationFullQuotaId());
+        registrationQuotaFullUserRandomEmail.entryUserData(registrationQuotaFullUserRandomEmail.getFullQuotaRandomEmail(), randomEmail);
 
         log("Заполняем все поля (кроме полей, связанных с агентами)");
-
+        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
         pageRegistration.fullFillingRegistrationForm(registrationQuotaFullUserData.getUserLastName(), registrationQuotaFullUserData.getUserFirstName(),
               registrationQuotaFullUserData.getUserMiddleName(),  registrationQuotaFullUserData.getSex(), registrationQuotaFullUserData.getCountry(),
                randomEmail, registrationQuotaFullUserData.getUserPassword());
@@ -183,10 +184,11 @@ public class CandidateRegistrationTest extends BaseTest
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
         log("Сохраняем email для последующего входа под этим кандидатом");
-        TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
-        registrationContractPartialUserData.entryUserData("userForRegistrationPartialContractRandomEmail", randomEmail);
+        TestRandomUserData registrationContractPartialUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialContractId());
+        registrationContractPartialUserRandomEmail.entryUserData(registrationContractPartialUserRandomEmail.getPartialContractRandomEmail(), randomEmail);
 
         log("Заполняем обязательные поля");
+        TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
         pageRegistration.partialFillingRegistrationForm(registrationContractPartialUserData.getUserLastName(), registrationContractPartialUserData.getUserFirstName(), registrationContractPartialUserData.getSex(),
                 registrationContractPartialUserData.getCountry(), randomEmail, registrationContractPartialUserData.getUserPassword());
 
@@ -254,10 +256,11 @@ public class CandidateRegistrationTest extends BaseTest
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
         log("Сохраняем email для последующего входа под этим кандидатом");
-        TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
-        registrationContractFullUserData.entryUserData("userForRegistrationFullContractRandomEmail", randomEmail);
+        TestRandomUserData registrationContractFullUserRandomEmail = new TestRandomUserData(getUserForRegistrationFullContractId());
+        registrationContractFullUserRandomEmail.entryUserData(registrationContractFullUserRandomEmail.getFullContractRandomEmail(), randomEmail);
 
         log("Заполняем все поля (кроме полей, связанных с агентами)");
+        TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
         pageRegistration.fullFillingRegistrationForm(registrationContractFullUserData.getUserLastName(), registrationContractFullUserData.getUserFirstName(),
                 registrationContractFullUserData.getUserMiddleName(),  registrationContractFullUserData.getSex(), registrationContractFullUserData.getCountry(), randomEmail,
                 registrationContractFullUserData.getUserPassword());

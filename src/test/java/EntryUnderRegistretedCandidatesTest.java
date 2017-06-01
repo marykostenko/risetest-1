@@ -35,8 +35,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Заполняем форму логина");
         TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        TestRandomUserData registrationQuotaPartialUserrandomData = new TestRandomUserData(getUserForRegistrationPartialQuotaId());
 
-        pageLogin.fillLoginForm(registrationQuotaPartialUserData.getRandomEmail(), registrationQuotaPartialUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationQuotaPartialUserrandomData.getRandomEmail(), registrationQuotaPartialUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -76,8 +77,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Заполняем форму логина");
         TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
+        TestRandomUserData registrationQuotaFullUserRandomData = new TestRandomUserData(getUserForRegistrationFullQuotaId());
 
-        pageLogin.fillLoginForm(registrationQuotaFullUserData.getRandomEmail(), registrationQuotaFullUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationQuotaFullUserRandomData.getRandomEmail(), registrationQuotaFullUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -117,8 +119,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Заполняем форму логина");
         TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
+        TestRandomUserData registrationContractPartialUserRandomData = new TestRandomUserData(getUserForRegistrationPartialContractId());
 
-        pageLogin.fillLoginForm(registrationContractPartialUserData.getRandomEmail(), registrationContractPartialUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationContractPartialUserRandomData.getRandomEmail(), registrationContractPartialUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -158,8 +161,9 @@ public class EntryUnderRegistretedCandidatesTest extends BaseTest
 
         log("Заполняем форму логина");
         TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
+        TestRandomUserData registrationContractFullUserRandomData = new TestRandomUserData(getUserForRegistrationFullContractId());
 
-        pageLogin.fillLoginForm(registrationContractFullUserData.getRandomEmail(), registrationContractFullUserData.getUserPassword());
+        pageLogin.fillLoginForm(registrationContractFullUserRandomData.getRandomEmail(), registrationContractFullUserData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
