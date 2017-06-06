@@ -2,8 +2,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.codeborne.selenide.WebDriverRunner.url;
-
 /**
  * Created by Maria on 28.12.2016.
  */
