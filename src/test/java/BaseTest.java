@@ -49,6 +49,7 @@ public abstract class BaseTest
     private static final String userForRegistrationFullQuotaId = "userForRegistrationFullQuota";
     private static final String userForRegistrationPartialContractId = "userForRegistrationPartialContract";
     private static final String userForRegistrationFullContractId = "userForRegistrationFullContract";
+    private static final String userForPayFeeId = "userForPayFee";
 
     public String getAdminId() { return adminId; }
     public String getCandidateId()
@@ -89,6 +90,7 @@ public abstract class BaseTest
     public String getUserForRegistrationFullQuotaId() { return userForRegistrationFullQuotaId; }
     public String getUserForRegistrationPartialContractId() { return userForRegistrationPartialContractId; }
     public String getUserForRegistrationFullContractId() { return userForRegistrationFullContractId; }
+    public String getUserForPayFeeId() { return userForPayFeeId; }
 
 
     public String getStandUrl(String flag) throws IOException
