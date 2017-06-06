@@ -194,5 +194,4 @@ public class PageRegistration extends BasePage
     {
         return checkAndLog(!isFirstRegistrationPage(), logErrors, "Ошибка: url неверный -" + url());
     }
-
 }

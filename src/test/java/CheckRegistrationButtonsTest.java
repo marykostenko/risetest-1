@@ -1,6 +1,8 @@
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.close;
 import static com.codeborne.selenide.Selenide.sleep;
@@ -162,6 +164,10 @@ public class CheckRegistrationButtonsTest extends BaseTest
         log("Нажимаем кнопку 'Отправить заявку'");
         PagePublicHowToApply pagePublicHowToApply = new PagePublicHowToApply();
         pagePublicHowToApply.goToRegistration();
+
+        log("Форма регистрации открывается в новой вкладке, переключаемся на эту вкладку");
+        TabSwitcher tabSwitcher = new TabSwitcher();
+        tabSwitcher.switchToNewTabOpened();
 
         log("Проверяем, что открылась страница с url /registration");
         PageRegistration pageRegistration = new PageRegistration();
