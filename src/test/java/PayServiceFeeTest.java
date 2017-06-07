@@ -25,6 +25,8 @@ public class PayServiceFeeTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
+
+
         log("Регистрируем тестового контрактного кандидата для оплаты сервисного сбора");
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
@@ -53,7 +55,9 @@ public class PayServiceFeeTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        pageEditCandidate.fillCandidateRequest(userDataForPayFee.getPlaceOfBirth(), userDataForPayFee.getDateOfBirth(), userDataForPayFee.getEducationLvl(),
+                userDataForPayFee.getPreviousEduOrganization(), userDataForPayFee.getCountryOfFinishedEducationOrganisation(), userDataForPayFee.getLvlId(), userDataForPayFee.getEduDirId());
 
         checkMistakes();
 

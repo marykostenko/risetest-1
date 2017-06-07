@@ -16,7 +16,7 @@ public class PageEditCandidate extends BasePage
      */
     private void fillPlaceOfBirth(String userPlaceOfBirth)
     {
-        WebElement placeOfBirthField = $(By.id("placeOfbirth"));
+        WebElement placeOfBirthField = $(By.id("placeOfBirth"));
         placeOfBirthField.sendKeys(userPlaceOfBirth);
     }
 
@@ -26,7 +26,7 @@ public class PageEditCandidate extends BasePage
      */
     private void fillDateOfBirth(String userDateOfBirth)
     {
-        WebElement dateOfBirthBirthField = $(By.id("dateOfBirth"));
+        WebElement dateOfBirthBirthField = $(By.xpath("//input[@name='dateOfBirth']"));
         dateOfBirthBirthField.sendKeys(userDateOfBirth);
     }
 
@@ -36,7 +36,7 @@ public class PageEditCandidate extends BasePage
      */
     private void fillEducationLevelId(String userEducationLevelId)
     {
-        WebElement educationLevelIdField = $(By.id("educationLevelId"));
+        WebElement educationLevelIdField = $(By.xpath("//div[@id='educationLevelId']//child::input[@class='span4 add-scroll']"));
         educationLevelIdField.sendKeys(userEducationLevelId);
     }
 
@@ -56,7 +56,7 @@ public class PageEditCandidate extends BasePage
      */
     private void fillCountryOfFinishedEducationOrganisation(String userCountryOfFinishedEducationOrganisation)
     {
-        WebElement countryOfFinishedEducationOrganisationField = $(By.id("countryOfFinishedEducationOrganisation"));
+        WebElement countryOfFinishedEducationOrganisationField = $(By.xpath("//div[@id='countryOfFinishedEducationOrganisation']//child::input[@class='span4 add-scroll']"));
         countryOfFinishedEducationOrganisationField.sendKeys(userCountryOfFinishedEducationOrganisation);
     }
 
@@ -69,11 +69,18 @@ public class PageEditCandidate extends BasePage
         WebElement levelIdField = $(By.id("levelId"));
         levelIdField.sendKeys(userLevelId);
     }
+
+    private void fillEduDirId(String userEduDirId)
+    {
+        WebElement eduDirIdField = $(By.id("eduDirId"));
+        eduDirIdField.sendKeys(userEduDirId);
+    }
+
     /**
      * метод, заполняющий все обязательные поля заявки кандидата
      */
-    public void fillCadidateRequest(String userPlaceOfBirth, String userDateOfBirth, String userEducationLevelId, String userPreviousEduOrganization,
-                                    String userCountryOfFinishedEducationOrganisation, String userLevelId )
+    public void fillCandidateRequest(String userPlaceOfBirth, String userDateOfBirth, String userEducationLevelId, String userPreviousEduOrganization,
+                                     String userCountryOfFinishedEducationOrganisation, String userLevelId, String userEduDirId )
     {
         log("Заполняем обязательные поля заявки кандидата");
         $(By.xpath("//div[@id='sourceOfSearch']//child::span[@class='add-on dropdown-toggle']")).click();
@@ -81,9 +88,14 @@ public class PageEditCandidate extends BasePage
         fillPlaceOfBirth(userPlaceOfBirth);
         fillDateOfBirth(userDateOfBirth);
         fillEducationLevelId(userEducationLevelId);
+        $(By.xpath("//ul[7]//child::li[@class='']//child::a[@href='#']")).click();
         fillPreviousEduOrganization(userPreviousEduOrganization);
         fillCountryOfFinishedEducationOrganisation(userCountryOfFinishedEducationOrganisation);
+        $(By.xpath("//ul[7]//child::li[@class='']//child::a[@href='#']")).click();
         $(By.xpath("//button[@data-go-to-request='true']")).click();
+        fillLevelId(userLevelId);
+        fillEduDirId(userEduDirId);
+        $(By.xpath("//button[@class='btn btn-success']")).click();
 
     }
 
