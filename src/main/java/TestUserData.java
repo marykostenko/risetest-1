@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import static org.testng.Reporter.log;
@@ -27,6 +25,8 @@ public class TestUserData
     private String newPost;
     private String id;
     private String incorrectPassword;
+    private String sex;
+    private String country;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -47,6 +47,8 @@ public class TestUserData
         newPost = this.initUserData(userId + "NewPost");
         id = this.initUserData(userId + "Id");
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
+        sex = this.initUserData(userId + "Sex");
+        country = this.initUserData(userId + "Country");
     }
 
     public TestUserData() {
@@ -62,6 +64,7 @@ public class TestUserData
         userData.load(new FileReader(propertyFile));
         return userData.getProperty(fieldKey);
     }
+
 
     public String getUserFirstName() { return userFirstName; }
 
@@ -107,6 +110,10 @@ public class TestUserData
     public String getId() { return id; }
 
     public String getIncorrectPassword() { return incorrectPassword; }
+
+    public String getSex() { return sex; }
+
+    public String getCountry() { return country; }
 
     /**
      * смена пароля пользователя на тестовый

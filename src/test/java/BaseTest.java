@@ -12,6 +12,7 @@ import java.util.Properties;
 import static com.codeborne.selenide.Selenide.close;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
+import static com.sun.xml.internal.ws.dump.LoggingDumpTube.Position.Before;
 
 /**
  * Created by user nkorobicina on 17.11.2016.
@@ -44,6 +45,10 @@ public abstract class BaseTest
     private static final String userForEditPostId = "userForEditPost";
     private static final String changedUserForEditPersonalDataId = "changedUserForEditPersonalData";
     private static final String userForAddRoleId = "userForAddRole";
+    private static final String userForRegistrationPartialQuotaId = "userForRegistrationPartialQuota";
+    private static final String userForRegistrationFullQuotaId = "userForRegistrationFullQuota";
+    private static final String userForRegistrationPartialContractId = "userForRegistrationPartialContract";
+    private static final String userForRegistrationFullContractId = "userForRegistrationFullContract";
 
     public String getAdminId() { return adminId; }
     public String getCandidateId()
@@ -80,6 +85,10 @@ public abstract class BaseTest
     public String getUserForEditPostId () { return userForEditPostId; }
     public String getChangedUserPersonalDataId() { return changedUserForEditPersonalDataId;}
     public String getuserForAddRoleId() { return userForAddRoleId; }
+    public String getUserForRegistrationPartialQuotaId() { return userForRegistrationPartialQuotaId; }
+    public String getUserForRegistrationFullQuotaId() { return userForRegistrationFullQuotaId; }
+    public String getUserForRegistrationPartialContractId() { return userForRegistrationPartialContractId; }
+    public String getUserForRegistrationFullContractId() { return userForRegistrationFullContractId; }
 
 
     public String getStandUrl(String flag) throws IOException
