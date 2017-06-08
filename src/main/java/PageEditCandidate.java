@@ -66,13 +66,13 @@ public class PageEditCandidate extends BasePage
      */
     private void fillLevelId(String userLevelId)
     {
-        WebElement levelIdField = $(By.id("levelId"));
+        WebElement levelIdField = $(By.xpath("//div[@id='levelId']//child::input[@class='span4 add-scroll']"));
         levelIdField.sendKeys(userLevelId);
     }
 
     private void fillEduDirId(String userEduDirId)
     {
-        WebElement eduDirIdField = $(By.id("eduDirId"));
+        WebElement eduDirIdField = $(By.xpath("//div[@id='eduDirId']//child::input[@class='span4 add-scroll']"));
         eduDirIdField.sendKeys(userEduDirId);
     }
 
@@ -88,13 +88,15 @@ public class PageEditCandidate extends BasePage
         fillPlaceOfBirth(userPlaceOfBirth);
         fillDateOfBirth(userDateOfBirth);
         fillEducationLevelId(userEducationLevelId);
-        $(By.xpath("//ul[7]//child::li[@class='']//child::a[@href='#']")).click();
+        $(By.xpath("//strong[contains(text(),'Бакалавриат')]")).click();
         fillPreviousEduOrganization(userPreviousEduOrganization);
         fillCountryOfFinishedEducationOrganisation(userCountryOfFinishedEducationOrganisation);
-        $(By.xpath("//ul[7]//child::li[@class='']//child::a[@href='#']")).click();
+        $(By.xpath("//strong[contains(text(),'Австралия')]")).click();
         $(By.xpath("//button[@data-go-to-request='true']")).click();
         fillLevelId(userLevelId);
+        $(By.xpath("//strong[contains(text(),'Магистратура')]")).click();
         fillEduDirId(userEduDirId);
+        $(By.xpath("//strong[contains(text(),'09.04.02')]")).click();
         $(By.xpath("//button[@class='btn btn-success']")).click();
 
     }
