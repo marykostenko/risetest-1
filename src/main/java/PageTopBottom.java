@@ -1,14 +1,7 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.List;
 
 import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.present;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -83,7 +76,7 @@ public class PageTopBottom extends BasePage
     public void logout()
     {
         logoutButton.get(0).click();
-        $(By.linkText("Регистрация")).waitUntil(appear, waitTime);
+        $(By.xpath("//div[@class='login_nav_item']/a[@href='/registration']")).waitUntil(appear, waitTime);
     }
 
 

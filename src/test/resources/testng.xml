@@ -12,15 +12,22 @@
             <class name="SystemOperationTest"></class>
         </classes>
     </test>
-    <test name="Change of Data Account (USER-ACC-2, USER-ACC-3)">
+    <test name = "Change of Data Account (USER-ACC-2, USER-ACC-3)">
         <classes>
-            <class name="ChangingDataAccountTest"></class>
-            <class name="ChangingLoginAndPassTest"></class>
+            <class name = "ChangingDataAccountTest"></class>
+            <class name = "ChangingLoginAndPassTest"></class>
         </classes>
     </test>
-    <test name="Recovery of the password (USER-ACC-1, USER-ACC-MES-1)">
+    <test name = "Recovery of the password (USER-ACC-1, USER-ACC-MES-1)">
         <classes>
             <class name = "PasswordRecoveryTest"></class>
+        </classes>
+    </test>
+    <test name = "Candidate registration (Cand-reg-1 - 3)">
+        <classes>
+            <class name ="CheckRegistrationButtonsTest"></class>
+            <class name = "CandidateRegistrationTest"></class>
+            <class name = "EntryUnderRegistretedCandidatesTest"></class>
         </classes>
     </test>
 </suite>
