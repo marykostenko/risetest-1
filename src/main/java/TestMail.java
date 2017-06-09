@@ -1,12 +1,8 @@
-import com.sun.xml.internal.messaging.saaj.packaging.mime.*;
-
+import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.mail.*;
-import javax.mail.MessagingException;
-import javax.management.Notification;
 
 import static com.codeborne.selenide.Selenide.open;
 
