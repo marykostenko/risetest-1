@@ -255,7 +255,7 @@ public class TestMail extends BasePage
     /**
      * берет ссылку из письма для подтверждения регистрации
      */
-    public String getLinkFromMailForRegistration(String text) throws IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException, MessagingException
+    public String getLinkFromMailForRegistration(String text) throws IOException, MessagingException
     {
         String link = getTextMail(text, "перейдите по <a href=", ">ссылке</a>");
         if(!link.isEmpty())
@@ -267,7 +267,7 @@ public class TestMail extends BasePage
     /**
      * берет ссылку из письма, которое подтверждает успешную регистрацию
      */
-    public String getLinkFromMailOfSuccessfilRegistration(String text) throws IOException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException, MessagingException
+    public String getLinkFromMailOfSuccessfilRegistration(String text) throws IOException, MessagingException
     {
         String link = getTextMail(text, "Спасибо, вы успешно зарегистрированы на <a href=", ">официальном сайте для отбора иностранных граждан на обучение в Российской Федерации</a>");
         if(!link.isEmpty())
@@ -279,7 +279,7 @@ public class TestMail extends BasePage
     /**
      * Выдает ссылку на главную страницу сайта из последнего письма, которое подверждает успешную регистрацию
      */
-    public String getLinkFromLastMailOfSuccessfilRegistration() throws IOException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    public String getLinkFromLastMailOfSuccessfilRegistration() throws IOException, MessagingException
     {
         return getLinkFromMailOfSuccessfilRegistration(getHtmlTextLastMail());
     }
@@ -287,7 +287,7 @@ public class TestMail extends BasePage
     /**
      * выдает ссылку для подтверждения регистрации из последнего найденного письма
      */
-    public String getLinkFromLastMailForRegistration() throws IOException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    public String getLinkFromLastMailForRegistration() throws IOException, MessagingException
     {
         return getLinkFromMailForRegistration(getHtmlTextLastMail());
     }
