@@ -1,8 +1,12 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -57,6 +61,11 @@ public class PayServiceFeeTest extends BaseTest
         PageEditCandidate pageEditCandidate = new PageEditCandidate();
         pageEditCandidate.fillCandidateRequest(userDataForPayFee.getPlaceOfBirth(), userDataForPayFee.getDateOfBirth(), userDataForPayFee.getEducationLvl(),
                 userDataForPayFee.getPreviousEduOrganization(), userDataForPayFee.getCountryOfFinishedEducationOrganisation(), userDataForPayFee.getLvlId(), userDataForPayFee.getEduDirId());
+
+
+        actions.moveToElement(element).build().perform();
+        log("Жмакаем ан элемент");
+        $(By.xpath("//td[contains(text(),'Копия паспорта')]//following::i[1]")).click();
 
         log("Добавляем копию паспорта");
         PageRequest pageRequest = new PageRequest();
