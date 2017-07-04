@@ -235,8 +235,8 @@ public class PageTopBottom extends BasePage
 
         logErrors = checkAndLog(governmentMenu.isEmpty(), logErrors, "Ошибка: нет пункта меню Органа власти", "Пункт главного меню Орган власти доступен");
 
-        int j[] = {1, 2, 3, 4};
-        for(int i = 0; i <= 3; i++){
+        int j[] = {1, 2, 3};
+        for(int i = 0; i <= 2; i++){
             logErrors = checkAndLog(!isAnyMenuAppear(j[i]), logErrors, "Ошибка: Пункт меню " + menuLine[j[i]] + " недоступен",
                     "Пункт меню " + menuLine[j[i]] + " доступен");
         }
