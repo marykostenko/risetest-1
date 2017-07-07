@@ -1,6 +1,8 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Mouse;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
@@ -8,6 +10,7 @@ import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static com.codeborne.selenide.WebDriverRunner.webdriverContainer;
 
 /**
  * Created by Maria on 06.06.2017.
@@ -62,14 +65,21 @@ public class PayServiceFeeTest extends BaseTest
         pageEditCandidate.fillCandidateRequest(userDataForPayFee.getPlaceOfBirth(), userDataForPayFee.getDateOfBirth(), userDataForPayFee.getEducationLvl(),
                 userDataForPayFee.getPreviousEduOrganization(), userDataForPayFee.getCountryOfFinishedEducationOrganisation(), userDataForPayFee.getLvlId(), userDataForPayFee.getEduDirId());
 
-
-        actions.moveToElement(element).build().perform();
-        log("Жмакаем ан элемент");
-        $(By.xpath("//td[contains(text(),'Копия паспорта')]//following::i[1]")).click();
-
-        log("Добавляем копию паспорта");
         PageRequest pageRequest = new PageRequest();
+        log("Добавляем копию паспорта");
         pageRequest.loadingCopyOfPassport();
+
+        log("Добавлем копию документа об образовании");
+        pageRequest.loadingCopyOfTheDocumentOnEducation();
+
+        log("Переходим к форме оплаты сервисного сбора");
+        pageRequest.goToPayServiceFee();
+
+        log("Проверяем наличие айфрейма Тинькофф");
+        PagePaymentServiceFee pagePaymentServiceFee = new PagePaymentServiceFee();
+        logErrors = pagePaymentServiceFee.checkIframe(logErrors);
+
+        log("Вводим тестовые данные для успешной оплаты");
 
         checkMistakes();
 
