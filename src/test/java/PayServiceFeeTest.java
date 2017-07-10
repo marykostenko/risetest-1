@@ -80,6 +80,7 @@ public class PayServiceFeeTest extends BaseTest
         logErrors = pagePaymentServiceFee.checkIframe(logErrors);
 
         log("Вводим тестовые данные для успешной оплаты");
+        pagePaymentServiceFee.fillCardData()
 
         checkMistakes();
 
