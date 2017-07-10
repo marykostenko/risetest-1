@@ -167,8 +167,8 @@ public class TestUserData
             throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
     {
         log("Нажимаем кнопку Регистрация");
-        PageTopBottom pageTopButtom = new PageTopBottom();
-        pageTopButtom.goToRegistration();
+        PageMain pageMain = new PageMain();
+        pageMain.goToRegistrationFromBlockContractTraining();
 
         PageRegistration pageRegistration = new PageRegistration();
         log("Создаём рандомый email для регитсрации");

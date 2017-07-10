@@ -28,15 +28,26 @@ public class PageRequest extends BasePage
         $x("//td[contains(text(),'Копия паспорта')]//following::td[2]//child::a[1]//child::input").uploadFile(file);
     }
 
-    public void loadingCopyOfTheDocumentOnEducation()
+    public void loadingCopyOfTheDocumentOnEducation() throws InterruptedException
     {
         File file = new File("src/main/resources/cote.jpg");
         $x("//td[contains(text(),'Копия документа об образовании')]//following::td[2]//child::a[1]//child::input").uploadFile(file);
     }
 
-    public void goToPayServiceFee() throws InterruptedException {
+    public void goToPersonalData()
+    {
         $(By.xpath("//a[contains(text(),'Личные данные')]")).click();
-        $(By.xpath("//a[contains(@id,'FILLING_APPLICATION_to_CONTRACT_ACCEPTED')]")).click();
+    }
+
+    public void addPhoto() throws InterruptedException
+    {
+        File file = new File("src/main/resources/cote.jpg");
+        $x("//div[@class='span4 visible-phone']//child::input[@name='avatar-file']").uploadFile(file);
+        $(By.xpath("//input[@id='saveAvatar']")).click();
+    }
+
+    public void goToPayServiceFee() throws InterruptedException {
+        $(By.xpath("//a[@class='btn btn-success pull-left margin-0-10-10-0']")).click();
         sleep(2000);
     }
 }

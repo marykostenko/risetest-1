@@ -88,6 +88,14 @@ public class MenuContent extends BasePage
         return logErrors;
     }
 
+    /**
+     * переход к списку каниддатов
+     */
+    public void goToCandidatesList()
+    {
+        $(By.xpath("//a[@href='/candidates']")).click();
+    }
+
     private ElementsCollection filtersCountry = $$(By.xpath("//div[@id='country-filters']"));
     private ElementsCollection tableCountries = $$(By.xpath("//div[@id='countries']"));
 
