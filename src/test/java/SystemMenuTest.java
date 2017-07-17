@@ -2,7 +2,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -61,8 +60,8 @@ public class SystemMenuTest extends BaseTest
         logErrors = menuContent.checkMenuCountries(logErrors);
 
 
-        log("Проверка меню 'Визы'");
-        logErrors = menuContent.checkMenuVisa(logErrors);
+ //       log("Проверка меню 'Визы'");
+//        logErrors = menuContent.checkMenuVisa(logErrors);
 
         log("Проверка меню 'Агенты'");
         logErrors = menuContent.checkMenuAgents(logErrors);
