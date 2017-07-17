@@ -175,6 +175,7 @@ public class MenuContent extends BasePage
     private ElementsCollection menuContentManagement = $$(By.xpath("//a[@href='/contentManagement']"));
     private ElementsCollection menuSystemActions = $$(By.xpath("//a[@href = '/admin/systemactions']"));
     private ElementsCollection menuMailTemplates = $$(By.xpath("//a[@href='/admin/mailtemplates']"));
+    private ElementsCollection menuVisas = $$(By.xpath("//a[@href='/visaRequest/list']"));
 
     public int checkMenuAdmin(int logErrors)
     {
@@ -189,8 +190,10 @@ public class MenuContent extends BasePage
             logErrors = checkAndLog(menuCyclesWithPlans.isEmpty(), logErrors, "ОШИБКА: нет меню 'Циклы приёма'", "Меню 'Циклы приема' есть");
             logErrors = checkAndLog(menuGovernment.isEmpty(), logErrors, "ОШИБКА: нет меню 'Органы власти'", "Меню 'Органы власти' есть");
             logErrors = checkAndLog(menuJournal.isEmpty(), logErrors, "ОШИБКА: нет меню 'Журнал'", "Меню 'Журнал' есть");
-            logErrors = checkAndLog(menuContentManagement.isEmpty(), logErrors, "ОШИБКА: нет меню 'Управление контентом'", "Меню 'Управление контентом' есть");
+        //    logErrors = checkAndLog(menuContentManagement.isEmpty(), logErrors, "ОШИБКА: нет меню 'Управление контентом'", "Меню 'Управление контентом' есть");
             logErrors = checkAndLog(menuMailTemplates.isEmpty(), logErrors, "ОШИБКА: нет меню 'Шаблоны'", "Меню 'Шаблоны' есть");
+            logErrors = checkAndLog(menuVisas.isEmpty(), logErrors, "ОШИБКА: нет меню 'Визы'", "Меню 'Визы' есть");
+
 
         } else
             {

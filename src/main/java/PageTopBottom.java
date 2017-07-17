@@ -83,7 +83,7 @@ public class PageTopBottom extends BasePage
     /**
      * пункты главного меню
      */
-    private String[] menuLine = {"План приема", "Организации", "Кандидаты", "Страны", "Визы", "Агенты", "Администрирование" };
+    private String[] menuLine = {"План приема", "Организации", "Кандидаты", "Страны", "Платежи", "Агенты", "Администрирование" };
 
     /**
      * возвращаетс true, если найден пункт меню с заданным номером
@@ -235,8 +235,8 @@ public class PageTopBottom extends BasePage
 
         logErrors = checkAndLog(governmentMenu.isEmpty(), logErrors, "Ошибка: нет пункта меню Органа власти", "Пункт главного меню Орган власти доступен");
 
-        int j[] = {1, 2, 3, 4};
-        for(int i = 0; i <= 3; i++){
+        int j[] = {1, 2, 3};
+        for(int i = 0; i <= 2; i++){
             logErrors = checkAndLog(!isAnyMenuAppear(j[i]), logErrors, "Ошибка: Пункт меню " + menuLine[j[i]] + " недоступен",
                     "Пункт меню " + menuLine[j[i]] + " доступен");
         }
@@ -297,6 +297,6 @@ public class PageTopBottom extends BasePage
     /**
      * переходит на публичную страницу "Как поступить"
      */
-    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/education/how-to-apply')]")).click(); }
+    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/public-material/how-to-apply')]")).click(); }
 
 }
