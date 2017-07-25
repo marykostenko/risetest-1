@@ -98,6 +98,8 @@ public class PageEditCandidate extends BasePage
         $(By.xpath("//strong[contains(text(),'Магистратура')]")).click();
         fillEduDirId(userEduDirId);
         $(By.xpath("//strong[contains(text(),'09.04.02')]")).click();
+        $(By.xpath("//div[@id='selectedOrgId_field']//div[contains(text(),'1.')]//following::div[3]//child::span")).click();
+        $(By.xpath("//a[contains(text(),'Воронежский государственный')]")).click();
         $(By.xpath("//button[@class='btn btn-success']")).click();
 
     }

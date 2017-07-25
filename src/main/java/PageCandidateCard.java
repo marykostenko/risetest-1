@@ -39,4 +39,13 @@ public class PageCandidateCard extends BasePage
         return logErrors;
     }
 
+    /**
+     * провертка отсутствия кнопки "Оплатить"
+     */
+    public int checkLackOfPaymentButton(int logErrors)
+    {
+        logErrors = checkAndLog(!paymentButton.isEmpty(), logErrors, "ОШИБКА: нет кнопки 'Оплатить' на карточке кандидата", "Кнопка 'Оплатить' на карточке кандидата есть");
+        return logErrors;
+    }
+
 }

@@ -2,17 +2,14 @@ import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.sleep;
-
+import static com.codeborne.selenide.Selenide.*;
 /**
  * Created by Maria on 07.07.2017.
  */
 public class PagePaymentServiceFee extends BasePage
 
 {
-    private ElementsCollection iframe = $$(By.xpath("//div[@class='wrapper__middle']"));
+    private ElementsCollection iframe = $$(By.xpath("//iframe"));
 
     /**
      * проверка наличия айфрейма
@@ -30,7 +27,7 @@ public class PagePaymentServiceFee extends BasePage
      */
     public void fillCardNumber(String cardNumber)
     {
-        WebElement cardNumberField = $(By.id("form-card-number-input"));
+        WebElement cardNumberField = $(By.xpath("//input[@id='form-card-number-input']"));
         cardNumberField.sendKeys(cardNumber);
     }
 
@@ -39,7 +36,7 @@ public class PagePaymentServiceFee extends BasePage
      */
     public void fillExpMonth(String expMonth)
     {
-        WebElement expMonthField = $(By.xpath("//label[@class='form-label form-date__label form-date__label_month']"));
+        WebElement expMonthField = $(By.xpath("//input[@class='form-field form-date__field form-date_month__field']"));
         expMonthField.sendKeys(expMonth);
     }
 
@@ -48,7 +45,7 @@ public class PagePaymentServiceFee extends BasePage
      */
     public void fillExpYear(String expYear)
     {
-        WebElement expYearField = $(By.xpath("//label[@class='form-label form-date__label form-date__label_year']"));
+        WebElement expYearField = $(By.xpath("//input[@class='form-field form-date__field form-date_year__field']"));
         expYearField.sendKeys(expYear);
     }
 
@@ -57,7 +54,7 @@ public class PagePaymentServiceFee extends BasePage
      */
     public void fillCvv(String cvv)
     {
-        WebElement cvvField = $(By.xpath("//label[@id='form-cvc-label']"));
+        WebElement cvvField = $(By.xpath("//input[@id='form-cvc-input']"));
         cvvField.sendKeys(cvv);
     }
 
@@ -66,6 +63,9 @@ public class PagePaymentServiceFee extends BasePage
      */
     public void fillCardData(String cardNumber, String expMonth, String expYear, String cvv)
     {
+        log("Переключаемся во фрейм Тинькофф");
+        switchTo().defaultContent();
+        switchTo().frame("c");
         log("Заполняем данные тестовой карты");
         fillCardNumber(cardNumber);
         fillExpMonth(expMonth);
