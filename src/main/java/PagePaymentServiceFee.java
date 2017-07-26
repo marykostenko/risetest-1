@@ -84,6 +84,7 @@ public class PagePaymentServiceFee extends BasePage
     public int checkSuccessPaymentInIframe (int logErrors)
     {
         logErrors = checkAndLog(successPaymentInIframe.isEmpty(), logErrors, "ОШИБКА: нет подвтерждения успешности платежа в айфрейме ", "Платёж успешно совершён");
+        switchTo().defaultContent();
         return logErrors;
     }
 
@@ -95,6 +96,7 @@ public class PagePaymentServiceFee extends BasePage
     public int checkUnsuccessPaymentInIframe(int logErrors)
     {
         logErrors = checkAndLog(unsuccessPaymentInIframe.isEmpty(), logErrors, "ОШИБКА: нет подвтерждения неуспешности платежа в айфрейме", "Платёж не прошёл");
+        switchTo().defaultContent();
         return logErrors;
     }
 

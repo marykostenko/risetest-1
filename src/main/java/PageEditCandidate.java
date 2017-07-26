@@ -85,21 +85,21 @@ public class PageEditCandidate extends BasePage
     {
         log("Заполняем обязательные поля заявки кандидата");
         $(By.xpath("//div[@id='sourceOfSearch']//child::span[@class='add-on dropdown-toggle']")).click();
-        $(By.xpath("//a[contains(text(),'Росатом')]")).click();
+        $(By.xpath("html/body/ul[1]/li[2]/a")).click();
         fillPlaceOfBirth(userPlaceOfBirth);
         fillDateOfBirth(userDateOfBirth);
         fillEducationLevelId(userEducationLevelId);
-        $(By.xpath("//strong[contains(text(),'Бакалавриат')]")).click();
+        $(By.xpath("//strong[contains(text(),'"+userEducationLevelId+"')]")).click();
         fillPreviousEduOrganization(userPreviousEduOrganization);
         fillCountryOfFinishedEducationOrganisation(userCountryOfFinishedEducationOrganisation);
-        $(By.xpath("//strong[contains(text(),'Австралия')]")).click();
+        $(By.xpath("//strong[contains(text(),'"+userCountryOfFinishedEducationOrganisation+"')]")).click();
         $(By.xpath("//button[@data-go-to-request='true']")).click();
         fillLevelId(userLevelId);
-        $(By.xpath("//strong[contains(text(),'Магистратура')]")).click();
+        $(By.xpath("//strong[contains(text(),'"+userLevelId+"')]")).click();
         fillEduDirId(userEduDirId);
-        $(By.xpath("//strong[contains(text(),'09.04.02')]")).click();
+        $(By.xpath("//strong[contains(text(),'"+userEduDirId+"')]")).click();
         $(By.xpath("//div[@id='selectedOrgId_field']//div[contains(text(),'1.')]//following::div[3]//child::span")).click();
-        $(By.xpath("//a[contains(text(),'Воронежский государственный')]")).click();
+        $(By.xpath("html/body/ul[8]/li[2]/a")).click();
         $(By.xpath("//button[@class='btn btn-success']")).click();
 
     }

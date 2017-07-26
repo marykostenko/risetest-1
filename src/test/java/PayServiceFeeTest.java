@@ -1,8 +1,3 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.Mouse;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
@@ -10,7 +5,6 @@ import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static com.codeborne.selenide.WebDriverRunner.webdriverContainer;
 
 /**
  * Created by Maria on 06.06.2017.
@@ -92,6 +86,8 @@ public class PayServiceFeeTest extends BaseTest
         logErrors = pagePaymentServiceFee.checkSuccessPaymentInIframe(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.1 завершен");
     }
 
     //PAYMENT-1.2
@@ -167,6 +163,8 @@ public class PayServiceFeeTest extends BaseTest
         logErrors = pagePaymentServiceFee.checkUnsuccessPaymentInIframe(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.2 завершен");
     }
 
     //PAYMENT-1.3
@@ -210,7 +208,9 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Находим кандидата в состоянии 'Заявка на контракт принята', сервисный сбор 'не оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
-        pageCandidateList.searchCandidateApplicationForAContractIsAcceptedUnpaidServiceFee();
+        pageCandidateList.filterApplicationForAContractIsAccepted();
+        pageCandidateList.filterServiceFeeUnpaid();
+        pageCandidateList.selectFirstCandidate();
 
         log("Проверяем наличие кнопки 'Оплатить', нажимаем на неё, проверяем форму оплаты");
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
@@ -219,6 +219,8 @@ public class PayServiceFeeTest extends BaseTest
         logErrors = pagePaymentServiceFee.checkIframe(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.3 завершен");
     }
 
     //PAYMENT-1.4
@@ -262,7 +264,9 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Находим кандидата в состоянии 'На рассмотрении вуза', сервисный сбор 'не оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
-        pageCandidateList.searchCandidateApplicationForOnUniApprovalUnpaidServiceFee();
+        pageCandidateList.filterApplicationForOnUniApproval();
+        pageCandidateList.filterServiceFeeUnpaid();
+        pageCandidateList.selectFirstCandidate();
 
         log("Проверяем наличие кнопки 'Оплатить', нажимаем на неё, проверяем форму оплаты");
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
@@ -271,6 +275,8 @@ public class PayServiceFeeTest extends BaseTest
         logErrors = pagePaymentServiceFee.checkIframe(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.4 завершен");
     }
 
     //PAYMENT-1.5
@@ -314,7 +320,9 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Находим кандидата в состоянии 'Распределён', сервисный сбор 'Не оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
-        pageCandidateList.searchCandidateApplicationForDistributedUnpaidServiceFee();
+        pageCandidateList.filterApplicationForDistributed();
+        pageCandidateList.filterServiceFeeUnpaid();
+        pageCandidateList.selectFirstCandidate();
 
         log("Проверяем наличие кнопки 'Оплатить', нажимаем на неё, проверяем форму оплаты");
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
@@ -323,6 +331,8 @@ public class PayServiceFeeTest extends BaseTest
         logErrors = pagePaymentServiceFee.checkIframe(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.5 завершен");
     }
 
     //PAYMENT-1.6
@@ -330,7 +340,7 @@ public class PayServiceFeeTest extends BaseTest
     public void testCheckPaymentButtonApplicationForAContractIsAcceptedPaidServiceFee() throws IOException
     {
 
-        log("Запущен тест PAYMENT-1.6 Проверка отсутсвия кнопки Оплата у кандидатов в состоянии Заявка на контракт принята, у которых не оплачен сервисный сбор");
+        log("Запущен тест PAYMENT-1.6 Проверка отсутсвия кнопки Оплата у кандидатов в состоянии Заявка на контракт принята, у которых оплачен сервисный сбор");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -364,15 +374,19 @@ public class PayServiceFeeTest extends BaseTest
         MenuContent menuContent = new MenuContent();
         menuContent.goToCandidatesList();
 
-        log("Находим кандидата в состоянии 'Заявка на контракт принята', сервисный сбор 'не оплачен'");
+        log("Находим кандидата в состоянии 'Заявка на контракт принята', сервисный сбор 'Оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
-        pageCandidateList.searchCandidateApplicationForAContractIsAcceptedUnpaidServiceFee();
+        pageCandidateList.filterApplicationForAContractIsAccepted();
+        pageCandidateList.filterServiceFeePaid();
+        pageCandidateList.selectFirstCandidate();
 
         log("Проверяем отсутствие кнопки 'Оплатить'");
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
         logErrors = pageCandidateCard.checkLackOfPaymentButton(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.6 завершен");
     }
 
     //PAYMENT-1.7
@@ -416,13 +430,17 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Находим кандидата в состоянии 'На рассмотрении вуза', сервисный сбор 'не оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
-        pageCandidateList.searchCandidateApplicationForOnUniApprovalUnpaidServiceFee();
+        pageCandidateList.filterApplicationForOnUniApproval();
+        pageCandidateList.filterServiceFeePaid();
+        pageCandidateList.selectFirstCandidate();
 
         log("Проверяем отсутствие кнопки 'Оплатить'");
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
         logErrors = pageCandidateCard.checkLackOfPaymentButton(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.7 завершен");
     }
 
     //PAYMENT-1.8
@@ -466,13 +484,17 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Находим кандидата в состоянии 'Распределён', сервисный сбор 'Не оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
-        pageCandidateList.searchCandidateApplicationForDistributedUnpaidServiceFee();
+        pageCandidateList.filterApplicationForDistributed();
+        pageCandidateList.filterServiceFeePaid();
+        pageCandidateList.selectFirstCandidate();
 
         log("Проверяем отсутствие кнопки 'Оплатить'");
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
         logErrors = pageCandidateCard.checkLackOfPaymentButton(logErrors);
 
         checkMistakes();
+
+        log("Тест PAYMENT-1.8 завершен");
     }
 
 }
