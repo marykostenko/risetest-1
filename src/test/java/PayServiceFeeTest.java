@@ -14,7 +14,7 @@ public class PayServiceFeeTest extends BaseTest
 
     //PAYMENT-1.1
     @Test(priority = 1)
-    public void testSuccessfulPayment() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+    public void testSuccessfulPayment() throws IOException, InterruptedException, MessagingException {
 
         log("Запущен тест PAYMENT-1.1 Успешная оплата сервисного сбора");
 
@@ -91,7 +91,7 @@ public class PayServiceFeeTest extends BaseTest
 
     //PAYMENT-1.2
     @Test(priority = 2)
-    public void testUnsuccessfulPayment() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+    public void testUnsuccessfulPayment() throws IOException, InterruptedException, MessagingException {
 
         log("Запущен тест PAYMENT-1.2 Неуспешная оплата сервисного сбора");
 
