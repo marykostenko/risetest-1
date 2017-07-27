@@ -30,4 +30,9 @@
             <class name = "EntryUnderRegistretedCandidatesTest"></class>
         </classes>
     </test>
+    <test name = "Payments (service fee)">
+        <classes>
+            <class name="PayServiceFeeTest"></class>
+        </classes>
+    </test>
 </suite>
