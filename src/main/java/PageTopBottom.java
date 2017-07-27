@@ -85,6 +85,7 @@ public class PageTopBottom extends BasePage
      */
     private String[] menuLine = {"План приема", "Организации", "Кандидаты", "Страны", "Группы", "Агенты", "Администрирование" };
 
+
     /**
      * возвращаетс true, если найден пункт меню с заданным номером
      */
@@ -297,6 +298,6 @@ public class PageTopBottom extends BasePage
     /**
      * переходит на публичную страницу "Как поступить"
      */
-    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/education/how-to-apply')]")).click(); }
+    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/public-material/how-to-apply')]")).click(); }
 
 }

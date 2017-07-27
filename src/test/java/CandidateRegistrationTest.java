@@ -16,7 +16,7 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-2.1
     @Test(priority = 1)
-    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException
     {
 
         log("Запущен тест CAND-REG-2.1");
@@ -87,7 +87,7 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-2.2
     @Test(priority = 2)
-    public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
 
         log("Запущен тест CAND-REG-2.2");
@@ -159,7 +159,8 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-2.3
     @Test(priority = 3)
-    public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
+    public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException
+    {
 
         log("Запущен тест CAND-REG-2.3");
 
@@ -230,7 +231,7 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-2.3
     @Test(priority = 4)
-    public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
 
         log("Запущен тест CAND-REG-2.4");

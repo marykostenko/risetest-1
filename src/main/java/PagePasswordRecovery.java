@@ -46,7 +46,7 @@ public class PagePasswordRecovery extends BasePage {
 
     public void clickCancelButton() throws InterruptedException
     {
-        $(By.xpath(".//form[@action='/password/recovery']//a[@href='/']")).click();
+        $(By.xpath(".//form[@action='/password/recovery']//a[@href='/ru']")).click();
     }
 
     private WebElement emailRecovery = $(By.id("email"));
