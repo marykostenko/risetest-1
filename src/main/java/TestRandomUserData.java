@@ -14,6 +14,10 @@ public class TestRandomUserData {
         randomEmail = this.initRandomUserData(userId + "RandomEmail");
     }
 
+    public TestRandomUserData() {
+
+    }
+
 
     protected String initRandomUserData(String fieldKey) throws IOException {
         Properties randomUserData = new Properties();
@@ -46,4 +50,5 @@ public class TestRandomUserData {
     public String getFullQuotaRandomEmail(){ return "userForRegistrationFullQuotaRandomEmail"; }
     public String getPartialContractRandomEmail(){ return   "userForRegistrationPartialContractRandomEmail"; }
     public String getFullContractRandomEmail(){ return   "userForRegistrationFullContractRandomEmail"; }
+    public String getUserForPayFeeRandomEmail() { return "userForPayFeeRandomEmail"; }
 }

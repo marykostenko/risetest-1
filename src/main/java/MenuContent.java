@@ -88,6 +88,14 @@ public class MenuContent extends BasePage
         return logErrors;
     }
 
+    /**
+     * переход к списку каниддатов
+     */
+    public void goToCandidatesList()
+    {
+        $(By.xpath("//a[@href='/candidates']")).click();
+    }
+
     private ElementsCollection filtersCountry = $$(By.xpath("//div[@id='country-filters']"));
     private ElementsCollection tableCountries = $$(By.xpath("//div[@id='countries']"));
 
@@ -140,6 +148,33 @@ public class MenuContent extends BasePage
 
     }
 
+    private ElementsCollection filtersGroups = $$(By.xpath("//div[@id='js-candidate-group-filters']"));
+    private ElementsCollection tableForGroups = $$(By.xpath("//div[@id='js-candidate-group-container']"));
+
+    public int checkMenuGroups(int logErrors)
+    {
+
+        if (pageTopBottom.isAnyMenuAppear(4))
+        {
+
+            log("Пункт 'Группы' есть");
+            $(By.xpath("//a[@href='/candidategroup/list']")).click();
+
+            logErrors = checkAndLog(filtersGroups.isEmpty(), logErrors, "ОШИБКА: нет фильтров групп", "Фильтры групп есть");
+            logErrors = checkAndLog(tableForGroups.isEmpty(), logErrors, "ОШИБКА: нет таблицы групп", "Таблица групп есть");
+
+        } else
+        {
+
+            logErrors++;
+            log("ОШИБКА: Пункт 'Группы' не найден");
+
+        }
+
+        return logErrors;
+
+    }
+
     private ElementsCollection filtersAgents = $$(By.xpath("//div[@id='agents-filter']"));
     private ElementsCollection tableAgents = $$(By.xpath("//div[@id='agents']"));
 
@@ -173,6 +208,7 @@ public class MenuContent extends BasePage
     private ElementsCollection menuGovernment = $$(By.xpath("//a[@href='/government/list']"));
     private ElementsCollection menuJournal = $$(By.xpath("//a[@href='/journal']"));
     private ElementsCollection menuContentManagement = $$(By.xpath("//a[@href='/contentManagement']"));
+    private ElementsCollection menuReceiptList = $$(By.xpath("//a[@href='/atol/receipt/list']"));
     private ElementsCollection menuSystemActions = $$(By.xpath("//a[@href = '/admin/systemactions']"));
     private ElementsCollection menuMailTemplates = $$(By.xpath("//a[@href='/admin/mailtemplates']"));
     private ElementsCollection menuVisas = $$(By.xpath("//a[@href='/visaRequest/list']"));
@@ -185,12 +221,15 @@ public class MenuContent extends BasePage
             log("Пункт 'Администрирование' есть");
             $(By.xpath("//a[@class='dropdown-toggle padding-right-0']")).click();
 
+            checkMenuVisa(logErrors);
             logErrors = checkAndLog(menuUsers.isEmpty(), logErrors, "ОШИБКА: нет меню 'Пользователи'", "Меню 'Пользователи' есть");
             logErrors = checkAndLog(menuCatalogs.isEmpty(), logErrors, "ОШИБКА: нет меню 'Справочники'", "Меню 'Справочники' есть");
             logErrors = checkAndLog(menuCyclesWithPlans.isEmpty(), logErrors, "ОШИБКА: нет меню 'Циклы приёма'", "Меню 'Циклы приема' есть");
             logErrors = checkAndLog(menuGovernment.isEmpty(), logErrors, "ОШИБКА: нет меню 'Органы власти'", "Меню 'Органы власти' есть");
             logErrors = checkAndLog(menuJournal.isEmpty(), logErrors, "ОШИБКА: нет меню 'Журнал'", "Меню 'Журнал' есть");
-        //    logErrors = checkAndLog(menuContentManagement.isEmpty(), logErrors, "ОШИБКА: нет меню 'Управление контентом'", "Меню 'Управление контентом' есть");
+            logErrors = checkAndLog(menuContentManagement.isEmpty(), logErrors, "ОШИБКА: нет меню 'Управление контентом'", "Меню 'Управление контентом' есть");
+            logErrors = checkAndLog(menuReceiptList.isEmpty(), logErrors, "ОШИБКА: нет меню 'Чеки'", "Меню 'Чеки' есть");
+            logErrors = checkAndLog(menuSystemActions.isEmpty(), logErrors, "ОШИБКА: нет меню 'Действия'", "Меню 'Действия' есть");
             logErrors = checkAndLog(menuMailTemplates.isEmpty(), logErrors, "ОШИБКА: нет меню 'Шаблоны'", "Меню 'Шаблоны' есть");
             logErrors = checkAndLog(menuVisas.isEmpty(), logErrors, "ОШИБКА: нет меню 'Визы'", "Меню 'Визы' есть");
 

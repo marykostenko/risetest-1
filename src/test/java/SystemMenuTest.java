@@ -55,13 +55,13 @@ public class SystemMenuTest extends BaseTest
         log("Проверка меню 'Кандидаты'");
         logErrors = menuContent.checkMenuCand(logErrors);
 
+        log("Проверка меню 'Группы'");
+        logErrors = menuContent.checkMenuGroups(logErrors);
 
         log("Проверка меню 'Страны'");
         logErrors = menuContent.checkMenuCountries(logErrors);
 
 
- //       log("Проверка меню 'Визы'");
-//        logErrors = menuContent.checkMenuVisa(logErrors);
 
         log("Проверка меню 'Агенты'");
         logErrors = menuContent.checkMenuAgents(logErrors);

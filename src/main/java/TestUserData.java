@@ -1,6 +1,10 @@
+import com.codeborne.selenide.junit.ScreenShooter;
+
+import javax.mail.MessagingException;
 import java.io.*;
 import java.util.Properties;
 
+import static com.codeborne.selenide.Selenide.open;
 import static org.testng.Reporter.log;
 
 /**
@@ -27,6 +31,13 @@ public class TestUserData
     private String incorrectPassword;
     private String sex;
     private String country;
+    private String placeOfBirth;
+    private String dateOfBirth;
+    private String educationLvl;
+    private String previousEduOrganization;
+    private String countryOfFinishedEducationOrganisation;
+    private String lvlId;
+    private String eduDirId;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -49,6 +60,13 @@ public class TestUserData
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
         sex = this.initUserData(userId + "Sex");
         country = this.initUserData(userId + "Country");
+        placeOfBirth = this.initUserData(userId + "PlaceOfBirth");
+        dateOfBirth = this.initUserData(userId + "DateOfBirth");
+        educationLvl = this.initUserData(userId + "EducationLvl");
+        previousEduOrganization = this.initUserData(userId + "PreviousEduOrganization");
+        countryOfFinishedEducationOrganisation = this.initUserData(userId + "CountryOfFinishedEducationOrganisation");
+        lvlId = this.initUserData(userId + "LvlId");
+        eduDirId = this.initUserData(userId + "EduDirId");
     }
 
     public TestUserData() {
@@ -84,16 +102,9 @@ public class TestUserData
 
     public String getUserLogin() { return userLogin; }
 
-    public String getUserPassword()
-    {
-        return userPassword;
-    }
+    public String getUserPassword() { return userPassword; }
 
-    public String getUserPost()
-    {
-        return userPost;
-    }
-
+    public String getUserPost() { return userPost; }
 
     public String getUserNewLogin() { return userNewLogin; }
 
@@ -115,6 +126,22 @@ public class TestUserData
 
     public String getCountry() { return country; }
 
+    public String getPlaceOfBirth() { return placeOfBirth; }
+
+    public String getDateOfBirth() { return  dateOfBirth; }
+
+    public String getEducationLvl() { return educationLvl; }
+
+    public String getPreviousEduOrganization() { return previousEduOrganization; }
+
+    public String getCountryOfFinishedEducationOrganisation() { return countryOfFinishedEducationOrganisation; }
+
+    public String getLvlId() { return lvlId; }
+
+    public String getEduDirId() { return eduDirId; }
+
+
+
     /**
      * смена пароля пользователя на тестовый
      */
@@ -131,5 +158,33 @@ public class TestUserData
         PageActions pageActions = new PageActions();
         pageActions.changeUserPassword(userId, userPass);
         pageTopBottom.logout();
+    }
+
+    /**
+     * регистрация тестового контрактного кандидата для теста оплаты сервисного сбора
+     */
+    public void registrationCandidateForPayFeeTest(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
+            throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+    {
+        log("Нажимаем кнопку Регистрация");
+        PageMain pageMain = new PageMain();
+        pageMain.goToRegistrationFromBlockContractTraining();
+
+        PageRegistration pageRegistration = new PageRegistration();
+        log("Создаём рандомый email для регитсрации");
+        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
+        log("Сохраняем email для последующего входа под этим кандидатом");
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+        testRandomUserData.entryUserData(userEmail, randomEmail);
+
+        log("Заполняем обязательные поля");
+        pageRegistration.partialFillingRegistrationForm(userLastName, userFirstName, userSex, userCountry, randomEmail, userPassword);
+
+        TestMail testMail = new TestMail();
+        log("Находим ссылку из последнего письма в ящике");
+        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
+        open(linkRegistration);
+
     }
 }
