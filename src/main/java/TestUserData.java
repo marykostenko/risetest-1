@@ -1,7 +1,7 @@
-import com.codeborne.selenide.junit.ScreenShooter;
-
 import javax.mail.MessagingException;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -164,7 +164,7 @@ public class TestUserData
      * регистрация тестового контрактного кандидата для теста оплаты сервисного сбора
      */
     public void registrationCandidateForPayFeeTest(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
-            throws IOException, InterruptedException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException
+            throws IOException, InterruptedException, MessagingException
     {
         log("Нажимаем кнопку Регистрация");
         PageMain pageMain = new PageMain();
