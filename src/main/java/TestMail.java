@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.sleep;
 
 /**
  * Created by user nkorobicina on 28.12.2016.
@@ -289,6 +290,7 @@ public class TestMail extends BasePage
      */
     public String getLinkFromLastMailForRegistration() throws IOException, MessagingException
     {
+        sleep(5000);
         return getLinkFromMailForRegistration(getHtmlTextLastMail());
     }
 

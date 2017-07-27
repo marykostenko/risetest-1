@@ -3,7 +3,6 @@ import org.testng.annotations.Test;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -394,7 +393,7 @@ public class PayServiceFeeTest extends BaseTest
     public void testCheckPaymentButtonApplicationForOnUniApprovalPaidServiceFee() throws IOException
     {
 
-        log("Запущен тест PAYMENT-1.7 Проверка отсутствия кнопки Оплата у кандидатов в состоянии На рассмотрении вуза, у которых не оплачен сервисный сбор");
+        log("Запущен тест PAYMENT-1.7 Проверка отсутствия кнопки Оплата у кандидатов в состоянии На рассмотрении вуза, у которых оплачен сервисный сбор");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -428,7 +427,7 @@ public class PayServiceFeeTest extends BaseTest
         MenuContent menuContent = new MenuContent();
         menuContent.goToCandidatesList();
 
-        log("Находим кандидата в состоянии 'На рассмотрении вуза', сервисный сбор 'не оплачен'");
+        log("Находим кандидата в состоянии 'На рассмотрении вуза', сервисный сбор 'оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
         pageCandidateList.filterApplicationForOnUniApproval();
         pageCandidateList.filterServiceFeePaid();
@@ -448,7 +447,7 @@ public class PayServiceFeeTest extends BaseTest
     public void testCheckPaymentButtonApplicationForDistributedPaidServiceFee() throws IOException
     {
 
-        log("Запущен тест PAYMENT-1.8 Проверка отсутствия кнопки Оплата у кандидатов в состоянии Распределён, у которых не оплачен сервисный сбор");
+        log("Запущен тест PAYMENT-1.8 Проверка отсутствия кнопки Оплата у кандидатов в состоянии Распределён, у которых оплачен сервисный сбор");
 
         log("Переходим на главную страницу");
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -482,7 +481,7 @@ public class PayServiceFeeTest extends BaseTest
         MenuContent menuContent = new MenuContent();
         menuContent.goToCandidatesList();
 
-        log("Находим кандидата в состоянии 'Распределён', сервисный сбор 'Не оплачен'");
+        log("Находим кандидата в состоянии 'Распределён', сервисный сбор 'Оплачен'");
         PageCandidateList pageCandidateList = new PageCandidateList();
         pageCandidateList.filterApplicationForDistributed();
         pageCandidateList.filterServiceFeePaid();

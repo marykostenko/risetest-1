@@ -34,7 +34,7 @@ public class PageCandidateList extends BasePage
      */
     public void filterApplicationForDistributed()
     {
-        log("В фильтре 'Состояние' выбираем 'На рассмотрении вуза'");
+        log("В фильтре 'Состояние' выбираем 'Распределен'");
         $(By.xpath("//div[@id='stateCode_field']//child::span[@class='add-on dropdown-toggle']")).click();
         $(By.xpath("//a[@data-id='DISTRIBUTED']")).click();
     }

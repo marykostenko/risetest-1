@@ -1,9 +1,7 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
 
 /**
  * Created by Maria on 06.06.2017.
@@ -99,7 +97,7 @@ public class PageEditCandidate extends BasePage
         fillEduDirId(userEduDirId);
         $(By.xpath("//strong[contains(text(),'"+userEduDirId+"')]")).click();
         $(By.xpath("//div[@id='selectedOrgId_field']//div[contains(text(),'1.')]//following::div[3]//child::span")).click();
-        $(By.xpath("html/body/ul[8]/li[2]/a")).click();
+        $(By.xpath("html/body/ul[9]/li[2]/a")).click();
         $(By.xpath("//button[@class='btn btn-success']")).click();
 
     }
