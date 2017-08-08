@@ -44,6 +44,15 @@ public class TestMail extends BasePage
         return emailChangeRequest;
     }
 
+    public void checkLetterName(String factLetterName, String expectedLetterName)
+    {
+        if (factLetterName==expectedLetterName)
+            log("Название письма верное");
+       // else
+
+
+    }
+
     private Folder initInboxReadOnly() throws MessagingException
     {
         //устанавливаем свойства протокола
