@@ -28,9 +28,13 @@ public class PayServiceFeeTest extends BaseTest
         log("Регистрируем тестового контрактного кандидата для оплаты сервисного сбора");
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
-        TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
+        TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData();
         testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
                 userDataForPayFee.getUserPassword());
+
+        log("Берем email созданного пользователя для логина");
+        userDataForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
+
 
         log("Входим под зарегистрированным пользователем");
         log("Нажимаем кнопку \"Вход\"");
@@ -45,12 +49,14 @@ public class PayServiceFeeTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
+        log(userDataForPayFeeRandomEmail.getRandomEmail());
         pageLogin.fillLoginForm(userDataForPayFeeRandomEmail.getRandomEmail(), userDataForPayFee.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
 
         log("Проверяем, выполнен ли вход");
+
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Заполняем обязательные поля в заявке кандидата и сохраняем заявку");
@@ -105,9 +111,12 @@ public class PayServiceFeeTest extends BaseTest
         log("Регистрируем тестового контрактного кандидата для оплаты сервисного сбора");
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
-        TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
+        TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData();
         testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
                 userDataForPayFee.getUserPassword());
+
+        log("Берем email созданного пользователя для логина");
+        userDataForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
 
         log("Входим под зарегистрированным пользователем");
         log("Нажимаем кнопку \"Вход\"");

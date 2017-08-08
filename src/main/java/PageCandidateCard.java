@@ -1,6 +1,5 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -27,7 +26,7 @@ public class PageCandidateCard extends BasePage
 
     }
 
-    private ElementsCollection paymentButton = $$(By.xpath("//a[@class='btn btn-success']"));
+    private ElementsCollection paymentButton = $$(By.xpath("//a[contains(@href, '/pay/00')]"));
 
     /**
      * проверка наличия кнопки "Оплатить", переход по ней на форму оплаты
@@ -35,7 +34,7 @@ public class PageCandidateCard extends BasePage
     public int checkPaymentButton(int logErrors)
     {
         logErrors = checkAndLog(paymentButton.isEmpty(), logErrors, "ОШИБКА: нет кнопки 'Оплатить' на карточке кандидата", "Кнопка 'Оплатить' на карточке кандидата есть");
-        $(By.xpath("//a[@class='btn btn-success']")).click();
+        $(By.xpath("//a[contains(@href, '/pay/00')]")).click();
         return logErrors;
     }
 

@@ -171,8 +171,9 @@ public class TestUserData
         pageMain.goToRegistrationFromBlockContractTraining();
 
         PageRegistration pageRegistration = new PageRegistration();
-        log("Создаём рандомый email для регитсрации");
+        log("Создаём рандомый email для регистрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
 
         log("Сохраняем email для последующего входа под этим кандидатом");
         TestRandomUserData testRandomUserData = new TestRandomUserData();
