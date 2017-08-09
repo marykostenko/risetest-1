@@ -1,9 +1,9 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 
 /**
  * Страница шапка, подвал и строка главного меню
@@ -18,14 +18,36 @@ public class PageTopBottom extends BasePage
     {
         $(By.xpath("//a[@class='header_logo_link']")).click();
     }
+    private WebElement loginHeaderButton = $(By.xpath("//nav[contains(@class, 'login_nav_header')]//a[contains(@href,'login')]"));
+
+    private WebElement mobileControlButton = $(By.xpath("//button[contains(@class, 'handle mobile_control')]"));
+    private WebElement loginMobileButton = $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//a[contains(@href,'login')]"));
 
     //открывает страницу логина
     public void goToLogin(){
-        $(By.xpath("//a[contains(@href,'login')]")).click();
+
+        if(loginHeaderButton.isDisplayed())
+        {
+            loginHeaderButton.click();
+        }
+        else
+        {
+            mobileMenuOpen();
+            loginMobileButton.click();
+        }
     }
 
     //открывает страницу регистрации
-    public void goToRegistration() { $(By.xpath(" //nav[@class='login_nav login_nav_header']//child::a[@href='/registration'] ")).click(); }
+    public void goToRegistration()
+    {
+        if($(By.xpath("//nav[@class='login_nav login_nav_header']//child::a[@href='/registration'] ")).isDisplayed())
+        $(By.xpath("//nav[@class='login_nav login_nav_header']//child::a[@href='/registration'] ")).click();
+        else
+        {
+            mobileMenuOpen();
+            $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//child::a[@href='/registration'] ")).click();
+        }
+    }
 
     //открывает корзину
     public void openBasket() { $(By.xpath("//div[@class='rs-basket']//child::div[@class='dropdown-btn']")).click(); }
@@ -41,12 +63,29 @@ public class PageTopBottom extends BasePage
         pageLogin.pushLoginButton();
     }
 
+    private void mobileMenuOpen()
+    {
+        if(!$(By.xpath("//div[@class='mobile_sidebar_wrapper']")).isDisplayed())
+        {
+            mobileControlButton.click();
+            sleep(waitTime);
+        }
+    }
+
     /**
      * метод возвращает имя и фамилию, которые видны в шапке, когда пользователь залогинен
      */
     public String getFILoggedUser()
     {
-       return $(By.xpath("//div[@class='login_nav login_nav_header']//child::a[contains(@href,'/user/')]")).text();
+        WebElement headerUserFI = $(By.xpath("//div[@class='login_nav login_nav_header']//child::a[contains(@href,'/user/')]"));
+        WebElement mobileUserFI = $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//child::a[contains(@href,'/user/')]"));
+       if(headerUserFI.isDisplayed())
+        return headerUserFI.getText();
+        else
+       {
+           mobileMenuOpen();
+           return mobileUserFI.getText();
+       }
     }
 
     /**
@@ -55,9 +94,19 @@ public class PageTopBottom extends BasePage
      */
     public String getFICandidate()
     {
-        return $(By.xpath("//div[@class='login_nav login_nav_header']//a[contains(@href,'/candidates/')]")).text();
+        WebElement headerFiCandidate = $(By.xpath("//div[@class='login_nav login_nav_header']//a[contains(@href,'/candidates/')]"));
+        WebElement mobileFICandidate = $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//a[contains(@href,'/candidates/')]"));
+        if(headerFiCandidate.isDisplayed())
+            return headerFiCandidate.getText();
+        else
+        {
+            mobileMenuOpen();
+            return mobileFICandidate.getText();
+        }
     }
 
+    private WebElement logoutHeaderButton = $(By.xpath("//div[contains(@class, 'login_nav_header')]//a[contains(@href, 'logout')]"));
+    private WebElement logoutMobileButton = $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//a[contains(@href, 'logout')]"));
     private ElementsCollection logoutButton = $$(By.xpath("//a[contains(@href, 'logout')]"));
 
     /**
@@ -68,15 +117,25 @@ public class PageTopBottom extends BasePage
     {
         if(logoutButton.isEmpty())
             return false;
-        else
+        else {
             return true;
+        }
     }
 
 
     public void logout()
     {
-        logoutButton.get(0).click();
-        $(By.xpath("//div[@class='login_nav_item']/a[@href='/registration']")).waitUntil(appear, waitTime);
+        if(logoutHeaderButton.isDisplayed())
+        {
+            logoutHeaderButton.click();
+        }
+        else
+        {
+            mobileMenuOpen();
+            logoutMobileButton.click();
+        }
+
+        $(By.xpath("//div[@class = 'rs-promo-text']")).waitUntil(appear, waitTime);
     }
 
 
@@ -164,7 +223,16 @@ public class PageTopBottom extends BasePage
      */
     private ElementsCollection navMenu = $$(By.xpath("//a[contains(@href, '/navigator#')]"));
 
-    public void goToNavigator() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_5 rs-swap-target rs-swap-enabled']")).click(); }
+    public void goToNavigator()
+    {
+        if($(By.xpath("//nav[@class='main_nav main_nav_header']//a[contains(@href, '/navigator')]")).isDisplayed())
+        $(By.xpath("//nav[@class='main_nav main_nav_header']//a[contains(@href, '/navigator')]")).click();
+        else
+        {
+            mobileMenuOpen();
+            $(By.xpath("//nav[contains(@class, 'nav_mobile')]//a[contains(@href, '/navigator')]")).click();
+        }
+    }
 
     /**
      * проверка, что главное меню кандидата содержит Личный кабинет, иконку-домик, поиск образовательных программ
@@ -281,7 +349,13 @@ public class PageTopBottom extends BasePage
 
     public void goToUserProfile()
     {
+        if($(By.xpath("//div[@class='rs-row']//child::a[contains(@href,'/user/')]")).isDisplayed())
         $(By.xpath("//div[@class='rs-row']//child::a[contains(@href,'/user/')]")).click();
+        else
+        {
+            mobileMenuOpen();
+            $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//child::a[contains(@href,'/user/')]")).click();
+        }
     }
 
 
@@ -294,10 +368,41 @@ public class PageTopBottom extends BasePage
     }
 
 
-    public void openEdInRus() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_1 rs-swap-target rs-swap-enabled']")).click(); }
+    public void openEdInRus()
+    {
+        if($(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_1 rs-swap-target rs-swap-enabled']")).isDisplayed())
+            $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_1 rs-swap-target rs-swap-enabled']")).click();
+        else
+        {
+            mobileMenuOpen();
+            $(By.xpath("//nav[contains(@class, 'nav_mobile')]//div[contains(@class, 'item mobile_nav_1')]")).click();
+        }
+    }
     /**
      * переходит на публичную страницу "Как поступить"
      */
-    public void goToPublicPageHowToApply() { $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/public-material/how-to-apply')]")).click(); }
+    public void goToPublicPageHowToApply()
+    {
+        if($(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/public-material/how-to-apply')]")).isDisplayed())
+        $(By.xpath("//nav[@class='main_nav main_nav_header']//child::a[contains(@href,'/ru/public-material/how-to-apply')]")).click();
+        else
+        {
+            mobileMenuOpen();
+            $(By.xpath("//nav[contains(@class, 'nav_mobile')]//child::a[contains(@href,'/ru/public-material/how-to-apply')]")).click();
+        }
+    }
+
+
+    /**
+     * выход из симулирования пользователя
+     */
+
+    public void stopSimulateUser (String standUrl)
+    {
+        if($(By.xpath("//a[contains(@href,'/stopSimulateUser')]")).isDisplayed())
+        $(By.xpath("//a[contains(@href,'/stopSimulateUser')]")).click();
+        else
+            open(standUrl + "stopSimulateUser");
+    }
 
 }

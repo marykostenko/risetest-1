@@ -3,7 +3,6 @@ import org.testng.annotations.Test;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
-import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -100,7 +99,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
         checkMistakes();
 
-        log("Тест USER-L-2.1 завершен");
+        log("Тест USER-ACC-3.1 завершен");
 
     }
         //USER-ACC-3.2
@@ -191,6 +190,8 @@ public class ChangingLoginAndPassTest extends BaseTest {
             pageUserAccount.clickSavePassword();
 
             checkMistakes();
+
+            log("Тест USER-ACC-3.2 завершен");
 
     }
 }
