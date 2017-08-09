@@ -207,11 +207,12 @@ public class MenuContent extends BasePage
     private ElementsCollection menuCyclesWithPlans = $$(By.xpath("//a[@href='/cycleswithplans']"));
     private ElementsCollection menuGovernment = $$(By.xpath("//a[@href='/government/list']"));
     private ElementsCollection menuJournal = $$(By.xpath("//a[@href='/journal']"));
-    private ElementsCollection menuContentManagement = $$(By.xpath("//a[@href='/contentManagement']"));
+    private ElementsCollection menuInsurancePolicy = $$(By.xpath("//a[@href='/insurancepolicy/list']"));
     private ElementsCollection menuReceiptList = $$(By.xpath("//a[@href='/atol/receipt/list']"));
     private ElementsCollection menuSystemActions = $$(By.xpath("//a[@href = '/admin/systemactions']"));
     private ElementsCollection menuMailTemplates = $$(By.xpath("//a[@href='/admin/mailtemplates']"));
     private ElementsCollection menuVisas = $$(By.xpath("//a[@href='/visaRequest/list']"));
+
 
     public int checkMenuAdmin(int logErrors)
     {
@@ -227,7 +228,7 @@ public class MenuContent extends BasePage
             logErrors = checkAndLog(menuCyclesWithPlans.isEmpty(), logErrors, "ОШИБКА: нет меню 'Циклы приёма'", "Меню 'Циклы приема' есть");
             logErrors = checkAndLog(menuGovernment.isEmpty(), logErrors, "ОШИБКА: нет меню 'Органы власти'", "Меню 'Органы власти' есть");
             logErrors = checkAndLog(menuJournal.isEmpty(), logErrors, "ОШИБКА: нет меню 'Журнал'", "Меню 'Журнал' есть");
-            logErrors = checkAndLog(menuContentManagement.isEmpty(), logErrors, "ОШИБКА: нет меню 'Управление контентом'", "Меню 'Управление контентом' есть");
+            logErrors = checkAndLog(menuInsurancePolicy.isEmpty(), logErrors, "ОШИБКА: нет меню 'Страховые полиса'", "Меню 'Страховые полиса' есть");
             logErrors = checkAndLog(menuReceiptList.isEmpty(), logErrors, "ОШИБКА: нет меню 'Чеки'", "Меню 'Чеки' есть");
             logErrors = checkAndLog(menuSystemActions.isEmpty(), logErrors, "ОШИБКА: нет меню 'Действия'", "Меню 'Действия' есть");
             logErrors = checkAndLog(menuMailTemplates.isEmpty(), logErrors, "ОШИБКА: нет меню 'Шаблоны'", "Меню 'Шаблоны' есть");

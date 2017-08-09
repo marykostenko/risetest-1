@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.testng.Reporter.log;
 
 /**
  * Created by user nkorobicina on 07.12.2016.
@@ -166,24 +165,24 @@ public class TestUserData
     public void registrationCandidateForPayFeeTest(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
             throws IOException, InterruptedException, MessagingException
     {
-        log("Нажимаем кнопку Регистрация");
+        System.out.println("Нажимаем кнопку Регистрация");
         PageMain pageMain = new PageMain();
         pageMain.goToRegistrationFromBlockContractTraining();
 
         PageRegistration pageRegistration = new PageRegistration();
-        log("Создаём рандомый email для регистрации");
+        System.out.println("Создаём рандомый email для регистрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
 
-        log("Сохраняем email для последующего входа под этим кандидатом");
+        System.out.println("Сохраняем email для последующего входа под этим кандидатом");
         TestRandomUserData testRandomUserData = new TestRandomUserData();
         testRandomUserData.entryUserData(userEmail, randomEmail);
 
-        log("Заполняем обязательные поля");
+        System.out.println("Заполняем обязательные поля");
         pageRegistration.partialFillingRegistrationForm(userLastName, userFirstName, userSex, userCountry, randomEmail, userPassword);
 
         TestMail testMail = new TestMail();
-        log("Находим ссылку из последнего письма в ящике");
+        System.out.println("Находим ссылку из последнего письма в ящике");
         String linkRegistration = testMail.getLinkFromLastMailForRegistration();
         open(linkRegistration);
 
