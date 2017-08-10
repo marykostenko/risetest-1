@@ -29,8 +29,10 @@ public class TestUserData
     private String newPost;
     private String id;
     private String incorrectPassword;
-    private String sex;
+    private String sexRu;
+    private String sexEn;
     private String country;
+    private String countryId;
     private String placeOfBirth;
     private String dateOfBirth;
     private String educationLvl;
@@ -58,8 +60,10 @@ public class TestUserData
         newPost = this.initUserData(userId + "NewPost");
         id = this.initUserData(userId + "Id");
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
-        sex = this.initUserData(userId + "Sex");
+        sexRu = this.initUserData(userId + "SexRu");
+        sexEn = this.initUserData(userId + "SexEn");
         country = this.initUserData(userId + "Country");
+        countryId = this.initUserData(userId + "CountryId");
         placeOfBirth = this.initUserData(userId + "PlaceOfBirth");
         dateOfBirth = this.initUserData(userId + "DateOfBirth");
         educationLvl = this.initUserData(userId + "EducationLvl");
@@ -122,9 +126,13 @@ public class TestUserData
 
     public String getIncorrectPassword() { return incorrectPassword; }
 
-    public String getSex() { return sex; }
+    public String getSexRu() { return sexRu; }
+
+    public String getSexEn() { return sexEn; }
 
     public String getCountry() { return country; }
+
+    public String getCountryId() { return countryId; }
 
     public String getPlaceOfBirth() { return placeOfBirth; }
 

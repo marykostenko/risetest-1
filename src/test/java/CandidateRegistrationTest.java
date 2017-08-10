@@ -1,4 +1,3 @@
-import org.apache.bcel.generic.GOTO;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
@@ -48,7 +47,7 @@ public class CandidateRegistrationTest extends BaseTest
         log("Заполняем обязательные поля");
         TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
         pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
-                registrationQuotaPartialUserData.getSex(), registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
+                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
         log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
@@ -119,7 +118,7 @@ public class CandidateRegistrationTest extends BaseTest
         log("Заполняем все поля (кроме полей, связанных с агентами)");
         TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
         pageRegistration.fullFillingRegistrationForm(registrationQuotaFullUserData.getUserLastName(), registrationQuotaFullUserData.getUserFirstName(),
-              registrationQuotaFullUserData.getUserMiddleName(),  registrationQuotaFullUserData.getSex(), registrationQuotaFullUserData.getCountry(),
+              registrationQuotaFullUserData.getUserMiddleName(),  registrationQuotaFullUserData.getSexRu(), registrationQuotaFullUserData.getCountry(),
                randomEmail, registrationQuotaFullUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
@@ -191,7 +190,7 @@ public class CandidateRegistrationTest extends BaseTest
 
         log("Заполняем обязательные поля");
         TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
-        pageRegistration.partialFillingRegistrationForm(registrationContractPartialUserData.getUserLastName(), registrationContractPartialUserData.getUserFirstName(), registrationContractPartialUserData.getSex(),
+        pageRegistration.partialFillingRegistrationForm(registrationContractPartialUserData.getUserLastName(), registrationContractPartialUserData.getUserFirstName(), registrationContractPartialUserData.getSexRu(),
                 registrationContractPartialUserData.getCountry(), randomEmail, registrationContractPartialUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
@@ -264,7 +263,7 @@ public class CandidateRegistrationTest extends BaseTest
         log("Заполняем все поля (кроме полей, связанных с агентами)");
         TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
         pageRegistration.fullFillingRegistrationForm(registrationContractFullUserData.getUserLastName(), registrationContractFullUserData.getUserFirstName(),
-                registrationContractFullUserData.getUserMiddleName(),  registrationContractFullUserData.getSex(), registrationContractFullUserData.getCountry(), randomEmail,
+                registrationContractFullUserData.getUserMiddleName(),  registrationContractFullUserData.getSexRu(), registrationContractFullUserData.getCountry(), randomEmail,
                 registrationContractFullUserData.getUserPassword());
 
         TestMail testMail = new TestMail();
