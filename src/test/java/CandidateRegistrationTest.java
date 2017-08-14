@@ -28,55 +28,19 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Регистрация");
-        pageTopBottom.goToRegistration();
 
-
-        log("Проверяем, что открылась страница с url /registration");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
-
-        log("Создаём рандомый email для регитсрации");
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        TestMail testMail = new TestMail();
+        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        TestMail testMail1 = new TestMail();
+        String randomEmail = testMail.checkAnticipatedLetter(testMail1.isSubjectCorrect(subjectRegistrationMail),registrationQuotaPartialUserData.getUserLastName(),
+                registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSexRu(),
+                registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword());
 
         log("Сохраняем email для последующего входа под этим кандидатом");
         TestRandomUserData registrationQuotaPartialUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialQuotaId());
         registrationQuotaPartialUserRandomEmail.entryUserData(registrationQuotaPartialUserRandomEmail.getPartialQuotaRandomEmail(), randomEmail);
 
-        log("Заполняем обязательные поля");
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
-                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
-
-        TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationMail = testMail.getEmailUserRegistration();
-        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
-
-        open(linkRegistration);
-        log("Проверяем url страницы");
-        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
-
-        log("Проверяем письмо на почте, подтверждающее регистрацию");
-        TestMail testMail1 = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
-        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
-        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
-
-        open(linkFromMailOfSuccessfulRegistration);
 
         log("Проверяем что открылась главная страница сайта");
         HomePageControl homePageControl = new HomePageControl();

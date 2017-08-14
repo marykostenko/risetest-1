@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
  * Created by user nkorobicina on 28.12.2016.
@@ -401,6 +402,48 @@ public class TestMail extends BasePage
                 logErrors++;
             }
         return logErrors;
+    }
+
+    /**
+     * Проверяет, пришло ли ожидаемое письмо
+     */
+    public String checkAnticipatedLetter(boolean nameLetter,  String lastName, String firstName, String sexRu, String country, String userPassword) throws IOException, MessagingException {
+
+        log("Нажимаем кнопку Регистрация");
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        pageTopBottom.goToRegistration();
+
+        log("Создаём рандомый email для регитсрации");
+        PageRegistration pageRegistration = new PageRegistration();
+        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+
+        log("Проверяем, что открылась страница с url /registration");
+        log("Url страницы: " + url());
+    //    logErrors = pageRegistration.assertRegistrationQuota(logErrors);
+
+
+        log("Заполняем обязательные поля");
+
+        pageRegistration.partialFillingRegistrationForm(lastName, firstName, sexRu, country, randomEmail, userPassword);
+
+        boolean addressee = isAddresseeCorrect(randomEmail);
+
+        if ((nameLetter==true)&(addressee==true))
+        {
+            log("Ожидаемое письмо получено. Продолжаем выполнение теста");
+        }
+        else
+        {
+            log("Ожидаемое письмо не получено. Тест необходимо начать заново");
+            pageTopBottom.goToHomePage();
+            checkAnticipatedLetter(nameLetter, lastName, firstName, sexRu, country, userPassword);
+        }
+
+        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+        String linkFromMailOfSuccessfulRegistration = getLinkFromLastMailOfSuccessfilRegistration();
+
+        open(linkFromMailOfSuccessfulRegistration);
+        return randomEmail;
     }
 }
 

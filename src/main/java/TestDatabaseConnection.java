@@ -1,39 +1,54 @@
-import org.apache.commons.lang3.ObjectUtils;
-import org.testng.log4testng.Logger;
-import sun.util.logging.PlatformLogger;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class TestDatabaseConnection
 {
 
-    public static void connectionRiseDatabase(String host, String port, String database, String userName, String password) throws SQLException {
+    /**
+     * Находит активационный код для кандидата
+     */
+    public static String selectActivationCodeFromDatabase(String host, String port, String database, String userName, String password, String query) throws SQLException {
 
-            System.out.println("Проверка подключения к базе данных");
+            System.out.println("Подключение к базе данных");
+            String result = null;
 
             Connection connection = null;
-            try {
+            try
+            {
                 connection = DriverManager.getConnection("jdbc:postgresql://"+ host +":" + port + "/" + database, userName, password);
-            } catch (SQLException ex) {
+                Statement statement = connection.createStatement();
+                ResultSet executeQuery = statement.executeQuery(query);
+
+                while (executeQuery.next()) {
+                    result = executeQuery.getString("activationString");
+                }
+                // Закрываем соединение
+                executeQuery.close();
+                statement.close();
+                connection.close();
+
+            }
+            catch (SQLException ex)
+            {
                 ex.printStackTrace();
             }
-
-            if (null != connection) {
+            if (null != connection)
+            {
                 System.out.println("✓ Подключение установлено");
-            } else {
+            }
+            else
+            {
                 System.out.println("✗ Подключение НЕ установлено");
             }
-        }
+        return result;
+    }
 
     /**
-     * достаёт из таблицы активационный код
+     * Запрос на активационный код
      */
-    public void selectActivateCode (String userEmail, String host, String port, String database, String userName, String password) throws SQLException {
-        String query = "SELECT User.activationString FROM public.User WHERE User.email = " + userEmail;
+    public String requestSelectActivationCode(String userEmail) throws SQLException {
 
+        String query = "SELECT \"User\".\"activationString\" FROM public.\"User\" WHERE \"User\".email = '" + userEmail + "'";
+        return query;
     }
 
 

@@ -169,9 +169,9 @@ public class TestUserData
     }
 
     /**
-     * регистрация тестового контрактного кандидата для теста оплаты сервисного сбора
+     * Регистрация тестового контрактного кандидата
      */
-    public void registrationCandidateForPayFeeTest(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
+    public void registrationContractCandidate(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
             throws IOException, InterruptedException, MessagingException
     {
         log("Нажимаем кнопку Регистрация");
@@ -195,5 +195,23 @@ public class TestUserData
         String linkRegistration = testMail.getLinkFromLastMailForRegistration();
         open(linkRegistration);
 
+    }
+
+
+    /**
+     * Генерация активационной ссылки для квотников
+     */
+    public String createActivationLinkForQuota(String stand, String activationCode)
+    {
+        String activateLink = stand + activationCode +"?contract=false";
+        return activateLink;
+    }
+    /**
+     * Генерация активационной ссылки для контрактников
+     */
+    public String createActivationLinkForContract(String activationCode)
+    {
+        String activateLink = "http://rise-dev.naumen.ru/activate/"+ activationCode +"?contract=contract";
+        return activateLink;
     }
 }
