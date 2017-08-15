@@ -1,3 +1,4 @@
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
@@ -31,9 +32,12 @@ public class CandidateRegistrationTest extends BaseTest
 
         TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
         TestMail testMail = new TestMail();
-        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        String subjectRegistrationMail = testMail.getEmailChangeNotification();
         TestMail testMail1 = new TestMail();
-        String randomEmail = testMail.checkAnticipatedLetter(testMail1.isSubjectCorrect(subjectRegistrationMail),registrationQuotaPartialUserData.getUserLastName(),
+        boolean nameLetter = testMail1.isSubjectCorrect(subjectRegistrationMail);
+
+        log("Регистрируем нового кандидата и проверяем, получено ли письмо с активационной ссылкой");
+        String randomEmail = testMail1.checkAnticipatedLetter(nameLetter,registrationQuotaPartialUserData.getUserLastName(),
                 registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSexRu(),
                 registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword());
 
@@ -41,6 +45,10 @@ public class CandidateRegistrationTest extends BaseTest
         TestRandomUserData registrationQuotaPartialUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialQuotaId());
         registrationQuotaPartialUserRandomEmail.entryUserData(registrationQuotaPartialUserRandomEmail.getPartialQuotaRandomEmail(), randomEmail);
 
+        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+        String linkFromMailOfSuccessfulRegistration = testMail.getLinkFromLastMailForRegistration();
+
+        open(linkFromMailOfSuccessfulRegistration);
 
         log("Проверяем что открылась главная страница сайта");
         HomePageControl homePageControl = new HomePageControl();

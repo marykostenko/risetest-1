@@ -1,3 +1,5 @@
+import org.testng.Assert;
+
 import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
@@ -404,8 +406,14 @@ public class TestMail extends BasePage
         return logErrors;
     }
 
+
     /**
-     * Проверяет, пришло ли ожидаемое письмо
+     * Счётчик итерация для регкурсии
+     */
+    int a = 0;
+
+    /**
+     * Регсистрирует кандидата. Проверяет, пришло ли ожидаемое письмо
      */
     public String checkAnticipatedLetter(boolean nameLetter,  String lastName, String firstName, String sexRu, String country, String userPassword) throws IOException, MessagingException {
 
@@ -419,30 +427,26 @@ public class TestMail extends BasePage
 
         log("Проверяем, что открылась страница с url /registration");
         log("Url страницы: " + url());
-    //    logErrors = pageRegistration.assertRegistrationQuota(logErrors);
 
 
         log("Заполняем обязательные поля");
-
         pageRegistration.partialFillingRegistrationForm(lastName, firstName, sexRu, country, randomEmail, userPassword);
 
         boolean addressee = isAddresseeCorrect(randomEmail);
 
-        if ((nameLetter==true)&(addressee==true))
-        {
-            log("Ожидаемое письмо получено. Продолжаем выполнение теста");
-        }
-        else
-        {
-            log("Ожидаемое письмо не получено. Тест необходимо начать заново");
-            pageTopBottom.goToHomePage();
-            checkAnticipatedLetter(nameLetter, lastName, firstName, sexRu, country, userPassword);
-        }
+            if ((nameLetter == true) & (addressee == true)) {
+                log("Ожидаемое письмо получено. Продолжаем выполнение теста");
+            } else
+                if (a<10)
+                {
+                    a++;
+                    log("Ожидаемое письмо не получено. Тест необходимо начать заново");
+                    pageTopBottom.goToHomePage();
+                    checkAnticipatedLetter(nameLetter, lastName, firstName, sexRu, country, userPassword);
+                }
+                else
+                    Assert.fail("Тест не выполнен в связи с тем, что мы не получили необходимое письмо");
 
-        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-        String linkFromMailOfSuccessfulRegistration = getLinkFromLastMailOfSuccessfilRegistration();
-
-        open(linkFromMailOfSuccessfulRegistration);
         return randomEmail;
     }
 }
