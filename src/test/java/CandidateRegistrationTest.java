@@ -229,7 +229,7 @@ public class CandidateRegistrationTest extends BaseTest
         checkMistakes();
     }
 
-    //CAND-REG-2.3
+    //CAND-REG-2.4
     @Test(priority = 4)
     public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
