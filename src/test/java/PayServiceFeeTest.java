@@ -29,7 +29,7 @@ public class PayServiceFeeTest extends BaseTest
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
         TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData();
-        testUserData.registrationContractCandidate(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSexRu(), userDataForPayFee.getCountry(),
+        testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
                 userDataForPayFee.getUserPassword());
 
         log("Берем email созданного пользователя для логина");
@@ -112,7 +112,7 @@ public class PayServiceFeeTest extends BaseTest
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
         TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData();
-        testUserData.registrationContractCandidate(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSexRu(), userDataForPayFee.getCountry(),
+        testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
                 userDataForPayFee.getUserPassword());
 
         log("Берем email созданного пользователя для логина");
