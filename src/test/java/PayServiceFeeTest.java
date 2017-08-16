@@ -29,8 +29,8 @@ public class PayServiceFeeTest extends BaseTest
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
         TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData();
-        testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
-                userDataForPayFee.getUserPassword());
+      //  testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSexEn(), userDataForPayFee.getCountry(),
+       //         userDataForPayFee.getUserPassword());
 
         log("Берем email созданного пользователя для логина");
         userDataForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
@@ -112,8 +112,8 @@ public class PayServiceFeeTest extends BaseTest
         TestUserData testUserData = new TestUserData();
         TestUserData userDataForPayFee = new TestUserData(getUserForPayFeeId());
         TestRandomUserData userDataForPayFeeRandomEmail = new TestRandomUserData();
-        testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
-                userDataForPayFee.getUserPassword());
+     //   testUserData.registrationCandidateForPayFeeTest(userDataForPayFeeRandomEmail.getUserForPayFeeRandomEmail(),userDataForPayFee.getUserLastName(), userDataForPayFee.getUserFirstName(), userDataForPayFee.getSex(), userDataForPayFee.getCountry(),
+     //           userDataForPayFee.getUserPassword());
 
         log("Берем email созданного пользователя для логина");
         userDataForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());

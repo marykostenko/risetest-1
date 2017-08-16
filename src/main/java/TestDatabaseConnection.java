@@ -3,10 +3,14 @@ import java.sql.*;
 public class TestDatabaseConnection
 {
 
+    private String columnActivation = "activationString";
+
+    public String getColumnActivation() { return columnActivation; }
+
     /**
-     * Находит активационный код для кандидата
+     * Получает запрос к базе и название колонки и возвращает ячейку (НАДО ПЕРЕПИСАТЬ НА МАССИВ)
      */
-    public static String selectActivationCodeFromDatabase(String host, String port, String database, String userName, String password, String query) throws SQLException {
+    public String selectFromDatabase(String host, String port, String database, String userName, String password, String query, String columnLabel) throws SQLException {
 
             System.out.println("Подключение к базе данных");
             String result = null;
@@ -19,7 +23,7 @@ public class TestDatabaseConnection
                 ResultSet executeQuery = statement.executeQuery(query);
 
                 while (executeQuery.next()) {
-                    result = executeQuery.getString("activationString");
+                    result = executeQuery.getString(columnLabel);
                 }
                 // Закрываем соединение
                 executeQuery.close();
@@ -45,12 +49,20 @@ public class TestDatabaseConnection
     /**
      * Запрос на активационный код
      */
-    public String requestSelectActivationCode(String userEmail) throws SQLException {
-
+    public String requestSelectActivationCode(String userEmail) throws SQLException
+    {
         String query = "SELECT \"User\".\"activationString\" FROM public.\"User\" WHERE \"User\".email = '" + userEmail + "'";
         return query;
     }
 
+    /**
+     * Запрос на id кандидата
+     */
+    public String requestSelectCandidateId(String userEmail) throws SQLException
+    {
+        String query = "";
+        return query;
+    }
 
 }
 

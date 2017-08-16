@@ -36,10 +36,15 @@ public class TestUserData
     private String placeOfBirth;
     private String dateOfBirth;
     private String educationLvl;
+    private String educationLvlId;
     private String previousEduOrganization;
+    private String previousEduOrganizationId;
     private String countryOfFinishedEducationOrganisation;
     private String lvlId;
     private String eduDirId;
+    private String candidateFormAndCardTpl; //шаблон карточки кандидата
+    private String nationalSelectionId;
+    private String sourceOfSearch;
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -67,10 +72,15 @@ public class TestUserData
         placeOfBirth = this.initUserData(userId + "PlaceOfBirth");
         dateOfBirth = this.initUserData(userId + "DateOfBirth");
         educationLvl = this.initUserData(userId + "EducationLvl");
+        educationLvlId = this.initUserData(userId + "EducationLvlId");
         previousEduOrganization = this.initUserData(userId + "PreviousEduOrganization");
+        previousEduOrganizationId = this.initUserData(userId + "PreviousEduOrganizationId");
         countryOfFinishedEducationOrganisation = this.initUserData(userId + "CountryOfFinishedEducationOrganisation");
         lvlId = this.initUserData(userId + "LvlId");
         eduDirId = this.initUserData(userId + "EduDirId");
+        candidateFormAndCardTpl = this.initUserData("candidateFormAndCardTpl");
+        nationalSelectionId = this.initUserData("nationalSelectionId");
+        sourceOfSearch = this.initUserData(userId + "SourceOfSearch");
     }
 
     public TestUserData() {
@@ -148,6 +158,15 @@ public class TestUserData
 
     public String getEduDirId() { return eduDirId; }
 
+    public String getCandidateFormAndCardTpl() { return candidateFormAndCardTpl; }
+
+    public String getNationalSelectionId() { return nationalSelectionId; }
+
+    public String getEducationLvlId() { return educationLvlId; }
+
+    public String getPreviousEduOrganizationId() { return previousEduOrganizationId; }
+
+    public String getSourceOfSearch() { return sourceOfSearch; }
 
 
     /**
@@ -209,9 +228,9 @@ public class TestUserData
     /**
      * Генерация активационной ссылки для контрактников
      */
-    public String createActivationLinkForContract(String activationCode)
+    public String createActivationLinkForContract(String stand, String activationCode)
     {
-        String activateLink = "http://rise-dev.naumen.ru/activate/"+ activationCode +"?contract=contract";
+        String activateLink = stand + "activate/" + activationCode +"?contract=true";
         return activateLink;
     }
 }
