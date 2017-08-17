@@ -7,6 +7,10 @@ public class TestDatabaseConnection
 
     public String getColumnActivation() { return columnActivation; }
 
+    private String columnCandidateId = "id";
+
+    public String getColumnCandidateId() { return columnCandidateId; };
+
     /**
      * Получает запрос к базе и название колонки и возвращает ячейку (НАДО ПЕРЕПИСАТЬ НА МАССИВ)
      */
@@ -60,7 +64,14 @@ public class TestDatabaseConnection
      */
     public String requestSelectCandidateId(String userEmail) throws SQLException
     {
-        String query = "";
+        String query = "SELECT \n" +
+                "  \"Candidate\".id\n" +
+                "FROM \n" +
+                "  public.\"Candidate\", \n" +
+                "  public.\"User\"\n" +
+                "WHERE \n" +
+                "  \"Candidate\".\"userId\" = \"User\".uuid\n" +
+                "  AND \"User\".email = '" + userEmail +"';";
         return query;
     }
 

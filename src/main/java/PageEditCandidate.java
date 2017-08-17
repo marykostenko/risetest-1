@@ -103,7 +103,7 @@ public class PageEditCandidate extends BasePage
     }
 
     /**
-     * формирует адрес, для отправки POST запроса с заполненной заявкой кандидата
+     * формирует адрес для отправки POST запроса с персональными данными кандидата
      * @param standUrl
      * @param candidateId берётся из базы
      * @param candidateFormAndCardTpl шаблон карточки кандидата берем один и тот же
@@ -112,10 +112,20 @@ public class PageEditCandidate extends BasePage
      */
     public String createUrlRequestForEditPersonalData (String standUrl, String candidateId, String candidateFormAndCardTpl, String nationalSelection)
     {
-        String urlRequestForEditPersonalData = standUrl + "candidate/" + candidateId + "/request/edit/"+ candidateFormAndCardTpl + "/nationalSelection/" + nationalSelection;
+        String urlRequestForEditPersonalData = standUrl + "candidate/" + candidateId + "/personalData/"+ candidateFormAndCardTpl + "/nationalSelection/" + nationalSelection;
         return urlRequestForEditPersonalData;
     }
 
+    /**
+     * Формирует адрес для отправки POST запроса с заявкой андидата
+     */
+    public String createUrlRequestForEditRequest (String standUrl, String candidateId, String candidateFormAndCardTpl, String nationalSelection)
+    {
+        String urlRequestForEditRequest = standUrl + "candidate/" + candidateId + "/request/edit/"+ candidateFormAndCardTpl + "/nationalSelection/" + nationalSelection;
+        return urlRequestForEditRequest;
+    }
+
+    //http://rise-dev.naumen.ru/candidate/4e9ed07396ec412f906551efd329d78e/request/edit/839654bc96504868b82480c8741aa7ea/nationalSelection/41c57d01cf484ef59df5051138263c09
  //   http://rise-dev.naumen.ru/candidate/30d1528b926149e3ba6f003983e20b6a/personalData/839654bc96504868b82480c8741aa7ea/nationalSelection/458b51d479624e95831a283721019b2b
 
 }

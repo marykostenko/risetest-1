@@ -19,6 +19,8 @@ public class NewRegistrationTest extends BaseTest
         //определяем связь с данными для регистрации кандидата для оплаты сервисного сбора
         TestUserData registrationUserForPayFeeData = new TestUserData(getUserForPayFeeId());
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+        TestRequestsForHttp testRequestsForHttp1 = new TestRequestsForHttp();
+        TestRequestsForHttp testRequestsForHttp2 = new TestRequestsForHttp();
         TestUserData testUserData = new TestUserData();
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
@@ -36,8 +38,6 @@ public class NewRegistrationTest extends BaseTest
         //создаём запрос к базе данных
         String queryActivationCode = testDatabaseConnection.requestSelectActivationCode(randomEmail);
         String queryCandidateId = testDatabaseConnection.requestSelectCandidateId(randomEmail);
-        String nationalSelectionId = testUserData.getNationalSelectionId();
-        String candidateFormAndCardTpl = testUserData.getCandidateFormAndCardTpl();
 
 
         log("Сохраняем email для последующего входа под этим кандидатом");
@@ -84,13 +84,30 @@ public class NewRegistrationTest extends BaseTest
         log("Заходим в базу, берём id канидадта");
         String candidateId = testDatabaseConnection1.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
                 testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
-                testDatabaseConnection.getColumnActivation());
+                testDatabaseConnection.getColumnCandidateId());
+        log(candidateId);
 
         log("Формируем адрес для POST запроса на отправку персональных данных кандидата");
-        String urlForRequestfillCandidateRequest = pageEditCandidate.createUrlRequestForEditPersonalData((getStandUrl("Ext"), candidateId, candidateFormAndCardTpl, nationalSelectionId);
+        String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData((getStandUrl("Ext")), candidateId,
+                registrationUserForPayFeeData.getCandidateFormAndCardTpl(), registrationUserForPayFeeData.getNationalSelectionId());
+        log(urlForRequestFillCandidatePersonalData);
 
-        log("Отправляем POST запрос, заполняя персональные данные кандидата");
-       // testRequestsForHttp.postRequestfillCandidateRequest(urlForRequestfillCandidateRequest, registrationUserForPayFeeData. )
+        log("Отправляем POST запрос с персональными данными кандидата");
+        testRequestsForHttp1.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData, registrationUserForPayFeeData.getUserLastName(),
+                registrationUserForPayFeeData.getUserFirstName(), registrationUserForPayFeeData.getPlaceOfBirth(), registrationUserForPayFeeData.getDateOfBirth(),
+                registrationUserForPayFeeData.getSexEn(), randomEmail, registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getPreviousEduOrganization(),
+                registrationUserForPayFeeData.getCountryPreviousEduOrganizationId(), registrationUserForPayFeeData.getSourceOfSearch());
+
+        log("Формируем адрес для POST зароса на отправку заявки кандидата");
+        String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getCandidateFormAndCardTpl(),
+                registrationUserForPayFeeData.getNationalSelectionId());
+        log(urlForRequestFillCandidateRequest);
+
+        log("Отправлем POST запрос с данными о заявке кандидата");
+        testRequestsForHttp2.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, registrationUserForPayFeeData.getAgreeToContract(), registrationUserForPayFeeData.getCandidateStateCode(), registrationUserForPayFeeData.getEduDirId(),
+                registrationUserForPayFeeData.getEducationForm(), registrationUserForPayFeeData.getLanguagesWithDegrees(), registrationUserForPayFeeData.getLanguagesWithDegreesDegree(),
+                registrationUserForPayFeeData.getLanguagesWithDegreesLanguage(), registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getSelectedOrgId());
+
 
         checkMistakes();
 

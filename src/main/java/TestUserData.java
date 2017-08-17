@@ -45,6 +45,14 @@ public class TestUserData
     private String candidateFormAndCardTpl; //шаблон карточки кандидата
     private String nationalSelectionId;
     private String sourceOfSearch;
+    private String agreeToContract;
+    private String candidateStateCode;
+    private String educationForm;
+    private String languagesWithDegrees;
+    private String languagesWithDegreesDegree;
+    private String languagesWithDegreesLanguage;
+    private String selectedOrgId;
+
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -78,9 +86,16 @@ public class TestUserData
         countryOfFinishedEducationOrganisation = this.initUserData(userId + "CountryOfFinishedEducationOrganisation");
         lvlId = this.initUserData(userId + "LvlId");
         eduDirId = this.initUserData(userId + "EduDirId");
-        candidateFormAndCardTpl = this.initUserData("candidateFormAndCardTpl");
-        nationalSelectionId = this.initUserData("nationalSelectionId");
+        candidateFormAndCardTpl = this.initUserData(userId + "CandidateFormAndCardTpl");
+        nationalSelectionId = this.initUserData(userId +"NationalSelectionId");
         sourceOfSearch = this.initUserData(userId + "SourceOfSearch");
+        agreeToContract = this.initUserData(userId + "AgreeToContract");
+        candidateStateCode = this.initUserData(userId + "CandidateStateCode");
+        educationForm = this.initUserData(userId + "EducationForm");
+        languagesWithDegrees = this.initUserData(userId + "LanguagesWithDegrees");
+        languagesWithDegreesDegree = this.initUserData(userId + "LanguagesWithDegreesDegree");
+        languagesWithDegreesLanguage = this.initUserData(userId + "LanguagesWithDegreesLanguage");
+        selectedOrgId = this.initUserData(userId + "SelectedOrgId");
     }
 
     public TestUserData() {
@@ -164,10 +179,25 @@ public class TestUserData
 
     public String getEducationLvlId() { return educationLvlId; }
 
-    public String getPreviousEduOrganizationId() { return previousEduOrganizationId; }
+    public String getCountryPreviousEduOrganizationId() { return previousEduOrganizationId; }
 
     public String getSourceOfSearch() { return sourceOfSearch; }
 
+    public String getPreviousEduOrganizationId() { return previousEduOrganizationId; }
+
+    public String getAgreeToContract() { return agreeToContract; }
+
+    public String getCandidateStateCode() { return candidateStateCode; }
+
+    public String getEducationForm() { return educationForm; }
+
+    public String getLanguagesWithDegrees() { return languagesWithDegrees; }
+
+    public String getLanguagesWithDegreesDegree() { return languagesWithDegreesDegree; }
+
+    public String getLanguagesWithDegreesLanguage() { return languagesWithDegreesLanguage; }
+
+    public String getSelectedOrgId() { return selectedOrgId; }
 
     /**
      * смена пароля пользователя на тестовый
