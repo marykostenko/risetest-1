@@ -475,7 +475,7 @@ public class ChangingDataAccountTest extends BaseTest
         logErrors = menuContent.checkMenuAdmin(logErrors);
 
         log("Выход из симулирования пользователя");
-        pageTopBottom.stopSimulateUser(getStandUrl("Ext"));
+        pageTopBottom.stopSimulateUser();
 
         log("Переход на страницу с пользователями");
         pageTopBottom.openAdminMenu();
