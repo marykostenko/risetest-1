@@ -1,15 +1,23 @@
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class TestRequestsForHttp
 {
@@ -29,8 +37,7 @@ public class TestRequestsForHttp
      * */
     public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail, String registrationPassword) throws IOException
     {
-
-        HttpPost loginRequest = new HttpPost(urlForRequest);
+        HttpPost registrationRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
         credentials.add(new BasicNameValuePair("lastName", lastName));
         credentials.add(new BasicNameValuePair("firstName", firstName));
@@ -44,18 +51,40 @@ public class TestRequestsForHttp
         credentials.add(new BasicNameValuePair("licenseAgreement", "true"));
         credentials.add(new BasicNameValuePair("pdnAgreement", "true"));
 
-        loginRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
-        HttpResponse response = getHttpClient().execute(loginRequest);
+        registrationRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
+        HttpResponse response = getHttpClient().execute(registrationRequest);
+        response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
 
     /**
-     * Заполнчет персональные данные кандидата
+     * логинится
      */
-    public static int postRequestFillCandidatePersonalData(String urlForRequest, String lastName, String firstName, String placeOfBirth, String dateOfBirth, String sexEn, String email,
-                                                           String educationLevelId, String previousEduOrganization, String countryOfFinishedEducationOrganisationId, String sourceOfSearch)
+    public static int postRequestForLogin (String urlForRequest, String email, String password) throws IOException
+    {
+        HttpPost loginRequest = new HttpPost(urlForRequest);
+        List<NameValuePair> credentials = new ArrayList<NameValuePair>();
+        credentials.add(new BasicNameValuePair("email", email));
+        credentials.add(new BasicNameValuePair("password", password));
+        credentials.add(new BasicNameValuePair("rememberMe", "true"));
+        loginRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
+
+        HttpResponse response = getHttpClient().execute(loginRequest);
+        System.out.println(response);
+        response.getEntity().getContent().close();
+
+        return response.getStatusLine().getStatusCode();
+    }
+
+    /**
+     * Заполняет персональные данные кандидата
+     */
+    public static int postRequestFillCandidatePersonalData(String urlForRequest, String lastName, String firstName, String placeOfBirth,
+                                                           String dateOfBirth, String sexEn, String email, String educationLevelId, String previousEduOrganization,
+                                                           String countryOfFinishedEducationOrganisationId, String sourceOfSearch)
             throws IOException
     {
+
         HttpPost personalDataRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
         credentials.add(new BasicNameValuePair("address", ""));
@@ -91,6 +120,7 @@ public class TestRequestsForHttp
         personalDataRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
         HttpResponse response = getHttpClient().execute(personalDataRequest);
         System.out.println(response);
+        response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
 
@@ -151,6 +181,8 @@ public class TestRequestsForHttp
 
         candidateRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
         HttpResponse response = getHttpClient().execute(candidateRequest);
+        System.out.println(response);
+        response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
 

@@ -125,7 +125,14 @@ public class PageEditCandidate extends BasePage
         return urlRequestForEditRequest;
     }
 
-    //http://rise-dev.naumen.ru/candidate/4e9ed07396ec412f906551efd329d78e/request/edit/839654bc96504868b82480c8741aa7ea/nationalSelection/41c57d01cf484ef59df5051138263c09
- //   http://rise-dev.naumen.ru/candidate/30d1528b926149e3ba6f003983e20b6a/personalData/839654bc96504868b82480c8741aa7ea/nationalSelection/458b51d479624e95831a283721019b2b
+    /**
+     * Формирует алрес для отправки POST запроса при логине
+     */
+    public String createUrlRequestForLogin (String standUrl)
+    {
+        String urlRequestForLogin = standUrl + "login";
+        return urlRequestForLogin;
+    }
+
 
 }

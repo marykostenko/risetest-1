@@ -1,10 +1,13 @@
+import org.openqa.selenium.Cookie;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class NewRegistrationTest extends BaseTest
@@ -21,6 +24,7 @@ public class NewRegistrationTest extends BaseTest
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
         TestRequestsForHttp testRequestsForHttp1 = new TestRequestsForHttp();
         TestRequestsForHttp testRequestsForHttp2 = new TestRequestsForHttp();
+        TestRequestsForHttp testRequestsForHttp3 = new TestRequestsForHttp();
         TestUserData testUserData = new TestUserData();
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
@@ -42,6 +46,7 @@ public class NewRegistrationTest extends BaseTest
 
         log("Сохраняем email для последующего входа под этим кандидатом");
         registrationUserForPayFeeRandomEmail.entryUserData(registrationUserForPayFeeRandomEmail.getUserForPayFeeRandomEmail(), randomEmail);
+        log(randomEmail);
 
         log("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
         testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlRequestForRegistration, registrationUserForPayFeeData.getUserLastName(), registrationUserForPayFeeData.getUserFirstName(),
@@ -57,29 +62,15 @@ public class NewRegistrationTest extends BaseTest
         log("Активационная ссылка: " + activationLink);
         open(activationLink);
 
-        log("Проверяем что открылась главная страница сайта");
-        logErrors = homePageControl.isHomePage(logErrors);
+        log("Формируем адрес для POST запроса на логин");
+        String urlForRequestLogin = pageEditCandidate.createUrlRequestForLogin((getStandUrl("Ext")));
 
-        log("Входим под зарегистрированным пользователем");
-        log("Нажимаем кнопку \"Вход\"");
-        pageTopBottom.goToLogin();
+        log("Отправлем POST запрос с логином");
+        testRequestsForHttp1.postRequestForLogin(urlForRequestLogin, randomEmail, registrationUserForPayFeeData.getUserPassword());
 
-        log("Проверяем, что открылась страница с url /login");
-        log("Url страницы: " + url());
-        logErrors = pageLogin.assertLoginUrl(logErrors);
+       // Set<Cookie> allCookies = getWebDriver().manage().getCookies();
+       //  for (Cookie loadedCookie : allCookies) { System.out.println(String.format("%s -> %s", loadedCookie.getName(), loadedCookie.getValue())); }
 
-        log("Проверяем, что есть форма логина");
-        pageLogin.isLoginForm();
-
-        log("Заполняем форму логина");
-        log(randomEmail);
-        pageLogin.fillLoginForm(randomEmail, registrationUserForPayFeeData.getUserPassword());
-
-        log("Нажимаем кнопку Войти");
-        pageLogin.pushLoginButton();
-
-        log("Проверяем, выполнен ли вход");
-        logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Заходим в базу, берём id канидадта");
         String candidateId = testDatabaseConnection1.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
@@ -93,7 +84,7 @@ public class NewRegistrationTest extends BaseTest
         log(urlForRequestFillCandidatePersonalData);
 
         log("Отправляем POST запрос с персональными данными кандидата");
-        testRequestsForHttp1.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData, registrationUserForPayFeeData.getUserLastName(),
+        testRequestsForHttp2.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData, registrationUserForPayFeeData.getUserLastName(),
                 registrationUserForPayFeeData.getUserFirstName(), registrationUserForPayFeeData.getPlaceOfBirth(), registrationUserForPayFeeData.getDateOfBirth(),
                 registrationUserForPayFeeData.getSexEn(), randomEmail, registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getPreviousEduOrganization(),
                 registrationUserForPayFeeData.getCountryPreviousEduOrganizationId(), registrationUserForPayFeeData.getSourceOfSearch());
@@ -104,7 +95,7 @@ public class NewRegistrationTest extends BaseTest
         log(urlForRequestFillCandidateRequest);
 
         log("Отправлем POST запрос с данными о заявке кандидата");
-        testRequestsForHttp2.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, registrationUserForPayFeeData.getAgreeToContract(), registrationUserForPayFeeData.getCandidateStateCode(), registrationUserForPayFeeData.getEduDirId(),
+        testRequestsForHttp3.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, registrationUserForPayFeeData.getAgreeToContract(), registrationUserForPayFeeData.getCandidateStateCode(), registrationUserForPayFeeData.getEduDirId(),
                 registrationUserForPayFeeData.getEducationForm(), registrationUserForPayFeeData.getLanguagesWithDegrees(), registrationUserForPayFeeData.getLanguagesWithDegreesDegree(),
                 registrationUserForPayFeeData.getLanguagesWithDegreesLanguage(), registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getSelectedOrgId());
 
