@@ -397,12 +397,15 @@ public class PageTopBottom extends BasePage
      * выход из симулирования пользователя
      */
 
-    public void stopSimulateUser (String standUrl)
+    public void stopSimulateUser()
     {
         if($(By.xpath("//a[contains(@href,'/stopSimulateUser')]")).isDisplayed())
         $(By.xpath("//a[contains(@href,'/stopSimulateUser')]")).click();
         else
-            open(standUrl + "stopSimulateUser");
+        {
+            mobileMenuOpen();
+            $(By.xpath("//nav[contains(@class, 'nav_mobile')]//child::a[contains(@href,'/stopSimulateUser')]")).click();
+        }
     }
 
 }
