@@ -1,26 +1,25 @@
 import org.apache.http.Consts;
-import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.CookieStore;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class TestRequestsForHttp
-{
+public class TestRequestsForHttp {
     private static DefaultHttpClient httpClient;
 
     private static DefaultHttpClient getHttpClient() {
@@ -34,9 +33,8 @@ public class TestRequestsForHttp
 
     /**
      * Заполняет форму регистрации
-     * */
-    public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail, String registrationPassword) throws IOException
-    {
+     */
+    public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail, String registrationPassword) throws IOException {
         HttpPost registrationRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
         credentials.add(new BasicNameValuePair("lastName", lastName));
@@ -60,8 +58,7 @@ public class TestRequestsForHttp
     /**
      * логинится
      */
-    public static int postRequestForLogin (String urlForRequest, String email, String password) throws IOException
-    {
+    public static int postRequestForLogin(String urlForRequest, String email, String password) throws IOException {
         HttpPost loginRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
         credentials.add(new BasicNameValuePair("email", email));
@@ -82,8 +79,7 @@ public class TestRequestsForHttp
     public static int postRequestFillCandidatePersonalData(String urlForRequest, String lastName, String firstName, String placeOfBirth,
                                                            String dateOfBirth, String sexEn, String email, String educationLevelId, String previousEduOrganization,
                                                            String countryOfFinishedEducationOrganisationId, String sourceOfSearch)
-            throws IOException
-    {
+            throws IOException {
 
         HttpPost personalDataRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
@@ -103,7 +99,7 @@ public class TestRequestsForHttp
         credentials.add(new BasicNameValuePair("firstNameRus", firstName));
         credentials.add(new BasicNameValuePair("goToRequest", "true"));
         credentials.add(new BasicNameValuePair("identityCardDate", ""));
-        credentials.add(new BasicNameValuePair("identityCardExpirationDate", email));
+        credentials.add(new BasicNameValuePair("identityCardExpirationDate", ""));
         credentials.add(new BasicNameValuePair("identityCardNumber", ""));
         credentials.add(new BasicNameValuePair("lastNameEng", lastName));
         credentials.add(new BasicNameValuePair("lastNameRus", lastName));
@@ -121,6 +117,7 @@ public class TestRequestsForHttp
         HttpResponse response = getHttpClient().execute(personalDataRequest);
         System.out.println(response);
         response.getEntity().getContent().close();
+
         return response.getStatusLine().getStatusCode();
     }
 
@@ -128,8 +125,7 @@ public class TestRequestsForHttp
      * Заполняет заявку кандидата
      */
     public static int postRequestFillCandidateRequest(String urlForRequest, String agreeToContract, String candidateStateCode, String eduDirId, String educationForm, String languagesWithDegrees,
-                                                      String languagesWithDegreesDegree, String languagesWithDegreesLanguage, String levelId, String selectedOrgId) throws IOException
-    {
+                                                      String languagesWithDegreesDegree, String languagesWithDegreesLanguage, String levelId, String selectedOrgId) throws IOException {
         HttpPost candidateRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
         credentials.add(new BasicNameValuePair("achievementsInfo", ""));
@@ -186,4 +182,33 @@ public class TestRequestsForHttp
         return response.getStatusLine().getStatusCode();
     }
 
+
+    /**
+     * Отправляет файл на сервер
+     *
+     * @param urlForRequest
+     * @return
+     * @throws IOException
+     */
+    public static int postRequestForUploadFile(String urlForRequest) throws IOException {
+        File file = new File("src/main/resources/cote.jpg");
+        HttpPost uploadFileRequest = new HttpPost(urlForRequest);
+        MultipartEntity multipartEntity = new MultipartEntity();
+        multipartEntity.addPart("file", new FileBody(file));
+
+        uploadFileRequest.setEntity(multipartEntity);
+        HttpResponse response = getHttpClient().execute(uploadFileRequest);
+
+       // JSONObject jsonObj = new JSONObject(EntityUtils.toString(response.getEntity(), "UTF-8"));
+
+        HttpEntity httpEntity = response.getEntity();
+
+        if (httpEntity != null) {
+            System.out.println(EntityUtils.toString(httpEntity));
+        }
+
+        response.getEntity().getContent().close();
+        return response.getStatusLine().getStatusCode();
+    }
 }
+

@@ -134,5 +134,30 @@ public class PageEditCandidate extends BasePage
         return urlRequestForLogin;
     }
 
+    /**
+     * Формирут адрес для отправки POST запроса при загрузке файлов (копий документов)
+     */
+    public String createUrlRequestForUploadFile (String standUrl, String candidateId, String fileId)
+    {
+        String urlRequestForUploadFile = standUrl + "candidates/" + candidateId + "/" + fileId + "/uploadFile";
+        return urlRequestForUploadFile;
+    }
 
+    /**
+     * Формирует адрес для отправки POST запроса с фото кандидата на сервер
+     */
+    public String createUrlRequestForUploadPhoto (String standUrl, String candidateId)
+    {
+        String urlRequestForUploadPhoto = standUrl + "candidate/" + candidateId + "/upload-photo-ajax";
+        return urlRequestForUploadPhoto;
+    }
+
+    /**
+     * Формирует алрес для POST запроса сохпранения фото кандидата
+     */
+    public String createUrlRequestForSavePhoto (String standUrl, String candidateId)
+    {
+        String urlRequestForSavePhoto = standUrl + "candidate/" + candidateId + "/save-photo";
+        return urlRequestForSavePhoto;
+    }
 }

@@ -68,10 +68,6 @@ public class NewRegistrationTest extends BaseTest
         log("Отправлем POST запрос с логином");
         testRequestsForHttp1.postRequestForLogin(urlForRequestLogin, randomEmail, registrationUserForPayFeeData.getUserPassword());
 
-       // Set<Cookie> allCookies = getWebDriver().manage().getCookies();
-       //  for (Cookie loadedCookie : allCookies) { System.out.println(String.format("%s -> %s", loadedCookie.getName(), loadedCookie.getValue())); }
-
-
         log("Заходим в базу, берём id канидадта");
         String candidateId = testDatabaseConnection1.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
                 testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
@@ -87,7 +83,7 @@ public class NewRegistrationTest extends BaseTest
         testRequestsForHttp2.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData, registrationUserForPayFeeData.getUserLastName(),
                 registrationUserForPayFeeData.getUserFirstName(), registrationUserForPayFeeData.getPlaceOfBirth(), registrationUserForPayFeeData.getDateOfBirth(),
                 registrationUserForPayFeeData.getSexEn(), randomEmail, registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getPreviousEduOrganization(),
-                registrationUserForPayFeeData.getCountryPreviousEduOrganizationId(), registrationUserForPayFeeData.getSourceOfSearch());
+                registrationUserForPayFeeData.getCountryOfFinishedEducationOrganisationId(), registrationUserForPayFeeData.getSourceOfSearch());
 
         log("Формируем адрес для POST зароса на отправку заявки кандидата");
         String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getCandidateFormAndCardTpl(),
@@ -98,6 +94,30 @@ public class NewRegistrationTest extends BaseTest
         testRequestsForHttp3.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, registrationUserForPayFeeData.getAgreeToContract(), registrationUserForPayFeeData.getCandidateStateCode(), registrationUserForPayFeeData.getEduDirId(),
                 registrationUserForPayFeeData.getEducationForm(), registrationUserForPayFeeData.getLanguagesWithDegrees(), registrationUserForPayFeeData.getLanguagesWithDegreesDegree(),
                 registrationUserForPayFeeData.getLanguagesWithDegreesLanguage(), registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getSelectedOrgId());
+
+        log("Формируем адрес для POST зароса на отправку копии пасспорта");
+        String urlForRequestForUploadCopyPassport = pageEditCandidate.createUrlRequestForUploadFile((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getDocumentOfPassportId());
+        log(urlForRequestForUploadCopyPassport);
+
+        log("Отправляем POST запрос с копией пасспорта");
+        testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyPassport);
+
+        log("Формируем адрес для POST зароса на отправку копии документа об образовании");
+        String urlForRequestForUploadCopyOfTheEduCertificate = pageEditCandidate.createUrlRequestForUploadFile((getStandUrl("Ext")), candidateId,
+                registrationUserForPayFeeData.getDocumentCopyOfTheEduCertificate());
+        log(urlForRequestForUploadCopyPassport);
+
+        log("Отправляем POST запрос с копией документа об образовании");
+        testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyOfTheEduCertificate);
+
+        log("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
+        String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto((getStandUrl("Ext")), candidateId);
+
+        log("Отправляем POST запрос с фото");
+        testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadPhoto);
+
+        log("Получаем GET запрос, берём из него временный параметр для сохранения фото в профиле");
+
 
 
         checkMistakes();

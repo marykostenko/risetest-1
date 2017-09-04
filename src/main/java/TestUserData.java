@@ -40,6 +40,7 @@ public class TestUserData
     private String previousEduOrganization;
     private String previousEduOrganizationId;
     private String countryOfFinishedEducationOrganisation;
+    private String countryOfFinishedEducationOrganisationId;
     private String lvlId;
     private String eduDirId;
     private String candidateFormAndCardTpl; //шаблон карточки кандидата
@@ -52,6 +53,8 @@ public class TestUserData
     private String languagesWithDegreesDegree;
     private String languagesWithDegreesLanguage;
     private String selectedOrgId;
+    private String documentOfPassportId;
+    private String documentCopyOfTheEduCertificate;
 
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
@@ -84,6 +87,7 @@ public class TestUserData
         previousEduOrganization = this.initUserData(userId + "PreviousEduOrganization");
         previousEduOrganizationId = this.initUserData(userId + "PreviousEduOrganizationId");
         countryOfFinishedEducationOrganisation = this.initUserData(userId + "CountryOfFinishedEducationOrganisation");
+        countryOfFinishedEducationOrganisationId = this.initUserData(userId + "CountryOfFinishedEducationOrganisationId");
         lvlId = this.initUserData(userId + "LvlId");
         eduDirId = this.initUserData(userId + "EduDirId");
         candidateFormAndCardTpl = this.initUserData(userId + "CandidateFormAndCardTpl");
@@ -96,6 +100,9 @@ public class TestUserData
         languagesWithDegreesDegree = this.initUserData(userId + "LanguagesWithDegreesDegree");
         languagesWithDegreesLanguage = this.initUserData(userId + "LanguagesWithDegreesLanguage");
         selectedOrgId = this.initUserData(userId + "SelectedOrgId");
+
+        documentOfPassportId = this.initUserData("documentOfPassportId");
+        documentCopyOfTheEduCertificate = this.initUserData("documentCopyOfTheEduCertificate");
     }
 
     public TestUserData() {
@@ -169,6 +176,8 @@ public class TestUserData
 
     public String getCountryOfFinishedEducationOrganisation() { return countryOfFinishedEducationOrganisation; }
 
+    public String getCountryOfFinishedEducationOrganisationId() { return countryOfFinishedEducationOrganisationId; }
+
     public String getLvlId() { return lvlId; }
 
     public String getEduDirId() { return eduDirId; }
@@ -199,6 +208,10 @@ public class TestUserData
 
     public String getSelectedOrgId() { return selectedOrgId; }
 
+
+    public String getDocumentOfPassportId() { return documentOfPassportId; }
+
+    public String getDocumentCopyOfTheEduCertificate() { return  documentCopyOfTheEduCertificate; }
     /**
      * смена пароля пользователя на тестовый
      */
