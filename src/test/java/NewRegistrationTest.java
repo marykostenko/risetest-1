@@ -114,9 +114,9 @@ public class NewRegistrationTest extends BaseTest
         String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto((getStandUrl("Ext")), candidateId);
 
         log("Отправляем POST запрос с фото");
-        testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadPhoto);
+        testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
 
-        log("Получаем GET запрос, берём из него временный параметр для сохранения фото в профиле");
+        log("");
 
 
 

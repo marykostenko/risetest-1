@@ -2,17 +2,15 @@ import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -199,12 +197,37 @@ public class TestRequestsForHttp {
         uploadFileRequest.setEntity(multipartEntity);
         HttpResponse response = getHttpClient().execute(uploadFileRequest);
 
-       // JSONObject jsonObj = new JSONObject(EntityUtils.toString(response.getEntity(), "UTF-8"));
-
         HttpEntity httpEntity = response.getEntity();
 
         if (httpEntity != null) {
             System.out.println(EntityUtils.toString(httpEntity));
+        }
+
+        response.getEntity().getContent().close();
+        return response.getStatusLine().getStatusCode();
+    }
+
+    /**
+     * Загружет фото на сервер, парсит ответ POST запроса и возвращает временную переменную, которую будем использовать в запросе на созранение фото кандидата
+     * @param urlForRequest
+     * @return
+     * @throws IOException
+     */
+    public static int postRequestForUploadPhoto(String urlForRequest) throws IOException {
+
+        File file = new File("src/main/resources/cote.jpg");
+        HttpPost uploadFileRequest = new HttpPost(urlForRequest);
+        MultipartEntity multipartEntity = new MultipartEntity();
+        multipartEntity.addPart("file", new FileBody(file));
+
+        uploadFileRequest.setEntity(multipartEntity);
+        HttpResponse response = getHttpClient().execute(uploadFileRequest);
+
+        HttpEntity httpEntity = response.getEntity();
+
+        if (httpEntity != null) {
+            JSONObject json = new JSONObject(EntityUtils.toString(httpEntity));
+            System.out.println(json.getJSONArray("files").getJSONObject(0).getString("uuid"));
         }
 
         response.getEntity().getContent().close();
