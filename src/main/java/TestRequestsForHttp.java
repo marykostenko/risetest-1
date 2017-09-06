@@ -189,7 +189,7 @@ public class TestRequestsForHttp {
      * @throws IOException
      */
     public static int postRequestForUploadFile(String urlForRequest) throws IOException {
-        File file = new File("src/main/resources/cote.jpg");
+        File file = new File("src/main/resources/cote.jpeg");
         HttpPost uploadFileRequest = new HttpPost(urlForRequest);
         MultipartEntity multipartEntity = new MultipartEntity();
         multipartEntity.addPart("file", new FileBody(file));
@@ -199,10 +199,12 @@ public class TestRequestsForHttp {
 
         HttpEntity httpEntity = response.getEntity();
 
-        if (httpEntity != null) {
+        if (httpEntity != null)
+        {
             System.out.println(EntityUtils.toString(httpEntity));
         }
 
+        System.out.println(response);
         response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
@@ -213,22 +215,48 @@ public class TestRequestsForHttp {
      * @return
      * @throws IOException
      */
-    public static int postRequestForUploadPhoto(String urlForRequest) throws IOException {
+    public String postRequestForUploadPhoto(String urlForRequest) throws IOException {
 
-        File file = new File("src/main/resources/cote.jpg");
-        HttpPost uploadFileRequest = new HttpPost(urlForRequest);
+        String uuid = null;
+
+        File file = new File("src/main/resources/cote.jpeg");
+        HttpPost uploadPhotoRequest = new HttpPost(urlForRequest);
         MultipartEntity multipartEntity = new MultipartEntity();
         multipartEntity.addPart("file", new FileBody(file));
 
-        uploadFileRequest.setEntity(multipartEntity);
-        HttpResponse response = getHttpClient().execute(uploadFileRequest);
+        uploadPhotoRequest.setEntity(multipartEntity);
+        HttpResponse response = getHttpClient().execute(uploadPhotoRequest);
 
         HttpEntity httpEntity = response.getEntity();
 
         if (httpEntity != null) {
             JSONObject json = new JSONObject(EntityUtils.toString(httpEntity));
-            System.out.println(json.getJSONArray("files").getJSONObject(0).getString("uuid"));
+           uuid = json.getJSONArray("files").getJSONObject(0).getString("uuid");
+
         }
+
+        System.out.println(response);
+        response.getEntity().getContent().close();
+        return uuid;
+    }
+
+    /**
+     * сохраняет фото кандидата
+     */
+    public static int postRequestForSavePhoto(String urlForRequest, String temporaryImage) throws IOException {
+
+        HttpPost savePhotoRequest = new HttpPost(urlForRequest);
+
+        List<NameValuePair> credentials = new ArrayList<NameValuePair>();
+        credentials.add(new BasicNameValuePair("height", "500"));
+        credentials.add(new BasicNameValuePair("temporaryImage", temporaryImage));
+        credentials.add(new BasicNameValuePair("width", "375"));
+        credentials.add(new BasicNameValuePair("x", "0"));
+        credentials.add(new BasicNameValuePair("y", "0"));
+        savePhotoRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
+
+        HttpResponse response = getHttpClient().execute(savePhotoRequest);
+        System.out.println(response);
 
         response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();

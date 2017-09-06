@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
@@ -25,6 +26,7 @@ public class NewRegistrationTest extends BaseTest
         TestRequestsForHttp testRequestsForHttp1 = new TestRequestsForHttp();
         TestRequestsForHttp testRequestsForHttp2 = new TestRequestsForHttp();
         TestRequestsForHttp testRequestsForHttp3 = new TestRequestsForHttp();
+        TestRequestsForHttp testRequestsForHttp4 = new TestRequestsForHttp();
         TestUserData testUserData = new TestUserData();
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
@@ -46,7 +48,7 @@ public class NewRegistrationTest extends BaseTest
 
         log("Сохраняем email для последующего входа под этим кандидатом");
         registrationUserForPayFeeRandomEmail.entryUserData(registrationUserForPayFeeRandomEmail.getUserForPayFeeRandomEmail(), randomEmail);
-        log(randomEmail);
+        log("Сгенерироованный email: " + randomEmail);
 
         log("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
         testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlRequestForRegistration, registrationUserForPayFeeData.getUserLastName(), registrationUserForPayFeeData.getUserFirstName(),
@@ -72,7 +74,7 @@ public class NewRegistrationTest extends BaseTest
         String candidateId = testDatabaseConnection1.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
                 testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
                 testDatabaseConnection.getColumnCandidateId());
-        log(candidateId);
+        log("ID кандидата: " + candidateId);
 
         log("Формируем адрес для POST запроса на отправку персональных данных кандидата");
         String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData((getStandUrl("Ext")), candidateId,
@@ -112,13 +114,24 @@ public class NewRegistrationTest extends BaseTest
 
         log("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
         String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto((getStandUrl("Ext")), candidateId);
+        log(urlForRequestForUploadPhoto);
 
-        log("Отправляем POST запрос с фото");
-        testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
+        log("Отправляем POST запрос с фото и сохраняем временную переменную из ответа для сохранения фото");
+        String temporaryImage = testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
+        log(temporaryImage);
 
-        log("");
+        log("Формируем POST запрос для сохранения фото кандитата");
+        String urlForRequestForSavePhoto = pageEditCandidate.createUrlRequestForSavePhoto((getStandUrl("Ext")), candidateId);
+        log(urlForRequestForSavePhoto);
 
+        log("Сохраняем фото кандитата");
+        testRequestsForHttp4.postRequestForSavePhoto(urlForRequestForSavePhoto, temporaryImage);
 
+        log("Тестовый кандидат готов к оплате сервисного сбора");
+
+        /**
+         * НАЧАЛО ТЕСТА PAYMENT-1.1
+         */
 
         checkMistakes();
 

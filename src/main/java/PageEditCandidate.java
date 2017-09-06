@@ -103,6 +103,16 @@ public class PageEditCandidate extends BasePage
     }
 
     /**
+     * Формирует адресс, на который будем отправлять пост запрос при регистрации контрактного кандидата
+     */
+    public String createUrlRequestForRegistrationContract (String standUrl)
+    {
+        String urlRequestForRegistrationContract = standUrl + "/registration?contract=true";
+        return urlRequestForRegistrationContract;
+    }
+
+
+    /**
      * формирует адрес для отправки POST запроса с персональными данными кандидата
      * @param standUrl
      * @param candidateId берётся из базы
@@ -117,7 +127,7 @@ public class PageEditCandidate extends BasePage
     }
 
     /**
-     * Формирует адрес для отправки POST запроса с заявкой андидата
+     * Формирует адрес для отправки POST запроса с заявкой кандидата
      */
     public String createUrlRequestForEditRequest (String standUrl, String candidateId, String candidateFormAndCardTpl, String nationalSelection)
     {
