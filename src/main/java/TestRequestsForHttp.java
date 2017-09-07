@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sun.activation.registries.LogSupport.log;
+
 public class TestRequestsForHttp {
     private static DefaultHttpClient httpClient;
 
@@ -49,6 +51,7 @@ public class TestRequestsForHttp {
 
         registrationRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
         HttpResponse response = getHttpClient().execute(registrationRequest);
+        System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
@@ -65,7 +68,7 @@ public class TestRequestsForHttp {
         loginRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
 
         HttpResponse response = getHttpClient().execute(loginRequest);
-        System.out.println(response);
+        System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
 
         return response.getStatusLine().getStatusCode();
@@ -113,7 +116,7 @@ public class TestRequestsForHttp {
 
         personalDataRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
         HttpResponse response = getHttpClient().execute(personalDataRequest);
-        System.out.println(response);
+        System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
 
         return response.getStatusLine().getStatusCode();
@@ -175,7 +178,7 @@ public class TestRequestsForHttp {
 
         candidateRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
         HttpResponse response = getHttpClient().execute(candidateRequest);
-        System.out.println(response);
+        System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
@@ -197,14 +200,7 @@ public class TestRequestsForHttp {
         uploadFileRequest.setEntity(multipartEntity);
         HttpResponse response = getHttpClient().execute(uploadFileRequest);
 
-        HttpEntity httpEntity = response.getEntity();
-
-        if (httpEntity != null)
-        {
-            System.out.println(EntityUtils.toString(httpEntity));
-        }
-
-        System.out.println(response);
+        System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
     }
@@ -235,7 +231,7 @@ public class TestRequestsForHttp {
 
         }
 
-        System.out.println(response);
+        System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
         return uuid;
     }
@@ -256,10 +252,23 @@ public class TestRequestsForHttp {
         savePhotoRequest.setEntity(new UrlEncodedFormEntity(credentials, Consts.UTF_8));
 
         HttpResponse response = getHttpClient().execute(savePhotoRequest);
-        System.out.println(response);
+        System.out.println(response.getStatusLine());
 
         response.getEntity().getContent().close();
         return response.getStatusLine().getStatusCode();
+    }
+
+    /**
+     * Проверяет успешность POST запроса, в случае неуспешности
+     */
+    public static boolean successPostRequest(int statusCode)
+    {
+        if (statusCode != 200)
+        {
+            System.out.println("ОШИБКА! POST запрос выполнен неуспешно");
+            return false;
+        }
+        else return true;
     }
 }
 

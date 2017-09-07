@@ -83,7 +83,7 @@ public abstract class BaseTest
     public String getUserForEditPersonalDataId () { return userForEditPersonalDataId; }
     public String getUserForEditPostId () { return userForEditPostId; }
     public String getChangedUserPersonalDataId() { return changedUserForEditPersonalDataId;}
-    public String getuserForAddRoleId() { return userForAddRoleId; }
+    public String getUserForAddRoleId() { return userForAddRoleId; }
     public String getUserForRegistrationPartialQuotaId() { return userForRegistrationPartialQuotaId; }
     public String getUserForRegistrationFullQuotaId() { return userForRegistrationFullQuotaId; }
     public String getUserForRegistrationPartialContractId() { return userForRegistrationPartialContractId; }
