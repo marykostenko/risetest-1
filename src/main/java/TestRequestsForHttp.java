@@ -259,7 +259,7 @@ public class TestRequestsForHttp {
     }
 
     /**
-     * Проверяет успешность POST запроса, в случае неуспешности
+     * Проверяет успешность POST запроса
      */
     public static boolean successPostRequest(int statusCode)
     {
