@@ -424,7 +424,7 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Заполняем email для поиска пользователя");
         PageUsersList pageUsersList = new PageUsersList();
-        TestUserData testUserForAddRole = new TestUserData(getuserForAddRoleId());
+        TestUserData testUserForAddRole = new TestUserData(getUserForAddRoleId());
         pageUsersList.fillUserEmail(testUserForAddRole.getUserLogin());
 
         log("Нажимаем кнопку Поиск");

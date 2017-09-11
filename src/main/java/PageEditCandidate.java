@@ -102,4 +102,72 @@ public class PageEditCandidate extends BasePage
 
     }
 
+    /**
+     * Формирует адресс, на который будем отправлять пост запрос при регистрации контрактного кандидата
+     */
+    public String createUrlRequestForRegistrationContract (String standUrl)
+    {
+        String urlRequestForRegistrationContract = standUrl + "/registration?contract=true";
+        return urlRequestForRegistrationContract;
+    }
+
+
+    /**
+     * формирует адрес для отправки POST запроса с персональными данными кандидата
+     * @param standUrl
+     * @param candidateId берётся из базы
+     * @param candidateFormAndCardTpl шаблон карточки кандидата берем один и тот же
+     * @param nationalSelection берётся из базы
+     * @return
+     */
+    public String createUrlRequestForEditPersonalData (String standUrl, String candidateId, String candidateFormAndCardTpl, String nationalSelection)
+    {
+        String urlRequestForEditPersonalData = standUrl + "candidate/" + candidateId + "/personalData/"+ candidateFormAndCardTpl + "/nationalSelection/" + nationalSelection;
+        return urlRequestForEditPersonalData;
+    }
+
+    /**
+     * Формирует адрес для отправки POST запроса с заявкой кандидата
+     */
+    public String createUrlRequestForEditRequest (String standUrl, String candidateId, String candidateFormAndCardTpl, String nationalSelection)
+    {
+        String urlRequestForEditRequest = standUrl + "candidate/" + candidateId + "/request/edit/"+ candidateFormAndCardTpl + "/nationalSelection/" + nationalSelection;
+        return urlRequestForEditRequest;
+    }
+
+    /**
+     * Формирует алрес для отправки POST запроса при логине
+     */
+    public String createUrlRequestForLogin (String standUrl)
+    {
+        String urlRequestForLogin = standUrl + "login";
+        return urlRequestForLogin;
+    }
+
+    /**
+     * Формирут адрес для отправки POST запроса при загрузке файлов (копий документов)
+     */
+    public String createUrlRequestForUploadFile (String standUrl, String candidateId, String fileId)
+    {
+        String urlRequestForUploadFile = standUrl + "candidates/" + candidateId + "/" + fileId + "/uploadFile";
+        return urlRequestForUploadFile;
+    }
+
+    /**
+     * Формирует адрес для отправки POST запроса с фото кандидата на сервер
+     */
+    public String createUrlRequestForUploadPhoto (String standUrl, String candidateId)
+    {
+        String urlRequestForUploadPhoto = standUrl + "candidate/" + candidateId + "/upload-photo-ajax";
+        return urlRequestForUploadPhoto;
+    }
+
+    /**
+     * Формирует алрес для POST запроса сохпранения фото кандидата
+     */
+    public String createUrlRequestForSavePhoto (String standUrl, String candidateId)
+    {
+        String urlRequestForSavePhoto = standUrl + "candidate/" + candidateId + "/save-photo";
+        return urlRequestForSavePhoto;
+    }
 }

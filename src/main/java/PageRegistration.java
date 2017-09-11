@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -157,6 +158,7 @@ public class PageRegistration extends BasePage
         $(By.id("licenseAgreement")).click();
         $(By.id("pdnAgreement")).click();
         $(By.xpath("//input[@value='ЗАРЕГИСТРИРОВАТЬСЯ']")).click();
+        sleep(10000);
     }
 
     /**

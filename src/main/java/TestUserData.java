@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.open;
+import static org.testng.Reporter.log;
 
 /**
  * Created by user nkorobicina on 07.12.2016.
@@ -28,15 +29,33 @@ public class TestUserData
     private String newPost;
     private String id;
     private String incorrectPassword;
-    private String sex;
+    private String sexRu;
+    private String sexEn;
     private String country;
+    private String countryId;
     private String placeOfBirth;
     private String dateOfBirth;
     private String educationLvl;
+    private String educationLvlId;
     private String previousEduOrganization;
+    private String previousEduOrganizationId;
     private String countryOfFinishedEducationOrganisation;
+    private String countryOfFinishedEducationOrganisationId;
     private String lvlId;
     private String eduDirId;
+    private String candidateFormAndCardTpl; //шаблон карточки кандидата
+    private String nationalSelectionId;
+    private String sourceOfSearch;
+    private String agreeToContract;
+    private String candidateStateCode;
+    private String educationForm;
+    private String languagesWithDegrees;
+    private String languagesWithDegreesDegree;
+    private String languagesWithDegreesLanguage;
+    private String selectedOrgId;
+    private String documentOfPassportId;
+    private String documentCopyOfTheEduCertificate;
+
 //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле userData.properties
 
     public TestUserData(String userId) throws IOException
@@ -57,15 +76,33 @@ public class TestUserData
         newPost = this.initUserData(userId + "NewPost");
         id = this.initUserData(userId + "Id");
         incorrectPassword = this.initUserData(userId + "IncorrectPassword");
-        sex = this.initUserData(userId + "Sex");
+        sexRu = this.initUserData(userId + "SexRu");
+        sexEn = this.initUserData(userId + "SexEn");
         country = this.initUserData(userId + "Country");
+        countryId = this.initUserData(userId + "CountryId");
         placeOfBirth = this.initUserData(userId + "PlaceOfBirth");
         dateOfBirth = this.initUserData(userId + "DateOfBirth");
         educationLvl = this.initUserData(userId + "EducationLvl");
+        educationLvlId = this.initUserData(userId + "EducationLvlId");
         previousEduOrganization = this.initUserData(userId + "PreviousEduOrganization");
+        previousEduOrganizationId = this.initUserData(userId + "PreviousEduOrganizationId");
         countryOfFinishedEducationOrganisation = this.initUserData(userId + "CountryOfFinishedEducationOrganisation");
+        countryOfFinishedEducationOrganisationId = this.initUserData(userId + "CountryOfFinishedEducationOrganisationId");
         lvlId = this.initUserData(userId + "LvlId");
         eduDirId = this.initUserData(userId + "EduDirId");
+        candidateFormAndCardTpl = this.initUserData(userId + "CandidateFormAndCardTpl");
+        nationalSelectionId = this.initUserData(userId +"NationalSelectionId");
+        sourceOfSearch = this.initUserData(userId + "SourceOfSearch");
+        agreeToContract = this.initUserData(userId + "AgreeToContract");
+        candidateStateCode = this.initUserData(userId + "CandidateStateCode");
+        educationForm = this.initUserData(userId + "EducationForm");
+        languagesWithDegrees = this.initUserData(userId + "LanguagesWithDegrees");
+        languagesWithDegreesDegree = this.initUserData(userId + "LanguagesWithDegreesDegree");
+        languagesWithDegreesLanguage = this.initUserData(userId + "LanguagesWithDegreesLanguage");
+        selectedOrgId = this.initUserData(userId + "SelectedOrgId");
+
+        documentOfPassportId = this.initUserData("documentOfPassportId");
+        documentCopyOfTheEduCertificate = this.initUserData("documentCopyOfTheEduCertificate");
     }
 
     public TestUserData() {
@@ -121,9 +158,13 @@ public class TestUserData
 
     public String getIncorrectPassword() { return incorrectPassword; }
 
-    public String getSex() { return sex; }
+    public String getSexRu() { return sexRu; }
+
+    public String getSexEn() { return sexEn; }
 
     public String getCountry() { return country; }
+
+    public String getCountryId() { return countryId; }
 
     public String getPlaceOfBirth() { return placeOfBirth; }
 
@@ -135,12 +176,42 @@ public class TestUserData
 
     public String getCountryOfFinishedEducationOrganisation() { return countryOfFinishedEducationOrganisation; }
 
+    public String getCountryOfFinishedEducationOrganisationId() { return countryOfFinishedEducationOrganisationId; }
+
     public String getLvlId() { return lvlId; }
 
     public String getEduDirId() { return eduDirId; }
 
+    public String getCandidateFormAndCardTpl() { return candidateFormAndCardTpl; }
+
+    public String getNationalSelectionId() { return nationalSelectionId; }
+
+    public String getEducationLvlId() { return educationLvlId; }
+
+    public String getCountryPreviousEduOrganizationId() { return previousEduOrganizationId; }
+
+    public String getSourceOfSearch() { return sourceOfSearch; }
+
+    public String getPreviousEduOrganizationId() { return previousEduOrganizationId; }
+
+    public String getAgreeToContract() { return agreeToContract; }
+
+    public String getCandidateStateCode() { return candidateStateCode; }
+
+    public String getEducationForm() { return educationForm; }
+
+    public String getLanguagesWithDegrees() { return languagesWithDegrees; }
+
+    public String getLanguagesWithDegreesDegree() { return languagesWithDegreesDegree; }
+
+    public String getLanguagesWithDegreesLanguage() { return languagesWithDegreesLanguage; }
+
+    public String getSelectedOrgId() { return selectedOrgId; }
 
 
+    public String getDocumentOfPassportId() { return documentOfPassportId; }
+
+    public String getDocumentCopyOfTheEduCertificate() { return  documentCopyOfTheEduCertificate; }
     /**
      * смена пароля пользователя на тестовый
      */
@@ -160,31 +231,49 @@ public class TestUserData
     }
 
     /**
-     * регистрация тестового контрактного кандидата для теста оплаты сервисного сбора
+     * Регистрация тестового контрактного кандидата
      */
-    public void registrationCandidateForPayFeeTest(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
+    public void registrationContractCandidate(String userEmail, String userLastName, String userFirstName, String userSex, String userCountry, String userPassword)
             throws IOException, InterruptedException, MessagingException
     {
-        System.out.println("Нажимаем кнопку Регистрация");
+        log("Нажимаем кнопку Регистрация");
         PageMain pageMain = new PageMain();
         pageMain.goToRegistrationFromBlockContractTraining();
 
         PageRegistration pageRegistration = new PageRegistration();
-        System.out.println("Создаём рандомый email для регистрации");
+        log("Создаём рандомый email для регистрации");
         String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
 
 
-        System.out.println("Сохраняем email для последующего входа под этим кандидатом");
+        log("Сохраняем email для последующего входа под этим кандидатом");
         TestRandomUserData testRandomUserData = new TestRandomUserData();
         testRandomUserData.entryUserData(userEmail, randomEmail);
 
-        System.out.println("Заполняем обязательные поля");
+        log("Заполняем обязательные поля");
         pageRegistration.partialFillingRegistrationForm(userLastName, userFirstName, userSex, userCountry, randomEmail, userPassword);
 
         TestMail testMail = new TestMail();
-        System.out.println("Находим ссылку из последнего письма в ящике");
+        log("Находим ссылку из последнего письма в ящике");
         String linkRegistration = testMail.getLinkFromLastMailForRegistration();
         open(linkRegistration);
 
+    }
+
+
+    /**
+     * Генерация активационной ссылки для квотников
+     */
+    public String createActivationLinkForQuota(String stand, String activationCode)
+    {
+        String activateLink = stand + activationCode +"?contract=false";
+        return activateLink;
+    }
+    /**
+     * Генерация активационной ссылки для контрактников
+     */
+    public String createActivationLinkForContract(String stand, String activationCode)
+    {
+        String activateLink = stand + "activate/" + activationCode +"?contract=true";
+        return activateLink;
     }
 }
