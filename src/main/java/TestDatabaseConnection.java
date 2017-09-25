@@ -4,12 +4,10 @@ public class TestDatabaseConnection
 {
 
     private String columnActivation = "activationString";
-
     public String getColumnActivation() { return columnActivation; }
 
-    private String columnCandidateId = "id";
-
-    public String getColumnCandidateId() { return columnCandidateId; };
+    private String elementId = "id";
+    public String getElementId() { return elementId; };
 
     /**
      * Получает запрос к базе и название колонки и возвращает ячейку (НАДО ПЕРЕПИСАТЬ НА МАССИВ)
@@ -72,6 +70,20 @@ public class TestDatabaseConnection
                 "WHERE \n" +
                 "  \"Candidate\".\"userId\" = \"User\".uuid\n" +
                 "  AND \"User\".email = '" + userEmail +"';";
+        return query;
+    }
+
+    /**
+     * Запрос на id элемента справочника
+     */
+    public String requestSelectCatalogElementId (String elementCode) throws SQLException
+    {
+        String query = "SELECT \n" +
+                "  \"CatalogItem\".id\n" +
+                "FROM \n" +
+                "  public.\"CatalogItem\"\n" +
+                "  WHERE\n" +
+                " \"CatalogItem\".code = '" + elementCode + "';";
         return query;
     }
 

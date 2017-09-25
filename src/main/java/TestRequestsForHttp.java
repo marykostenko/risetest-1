@@ -233,6 +233,7 @@ public class TestRequestsForHttp {
 
         System.out.println(response.getStatusLine());
         response.getEntity().getContent().close();
+        System.out.println(uuid);
         return uuid;
     }
 

@@ -6,9 +6,10 @@ import java.util.Properties;
 /**
  * Created by Maria on 01.06.2017.
  */
-public class TestRandomUserData {
+public class TestRandomUserData extends BasePage {
 
     private String randomEmail;
+
 
     public TestRandomUserData(String userId) throws IOException {
         randomEmail = this.initRandomUserData(userId + "RandomEmail");
@@ -51,4 +52,21 @@ public class TestRandomUserData {
     public String getPartialContractRandomEmail(){ return   "userForRegistrationPartialContractRandomEmail"; }
     public String getFullContractRandomEmail(){ return   "userForRegistrationFullContractRandomEmail"; }
     public String getUserForPayFeeRandomEmail() { return "userForPayFeeRandomEmail"; }
+
+    public String getSourceOfSearchId()
+    {
+        String sourceOfSearchId = null;
+        return sourceOfSearchId;
+    }
+
+    public boolean randomEmailNotNull(String randomEmail)
+    {
+
+        if (randomEmail == null)
+        {
+            log("ОШИБКА! Тестовый кандидат не был создан, тест не моджет быть продолжен!");
+            return false;
+        }
+        else return true;
+    }
 }

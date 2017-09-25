@@ -4,10 +4,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.codeborne.selenide.Selenide.close;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
-import static com.codeborne.selenide.WebDriverRunner.closeWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
@@ -21,117 +18,28 @@ public class PayServiceFeeTest extends BaseTest
     @Test(priority = 1)
     public void testSuccessfulPayment() throws IOException, InterruptedException, MessagingException, SQLException {
 
-        log("Подготовка тестового кандидата для оплаты сервисного сбора");
-
-        PageRegistration pageRegistration = new PageRegistration();
-        //определяем связь с рандомным email кандидата, для записи его в файл
-        TestRandomUserData registrationUserForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
-        //определяем связь с данными для регистрации кандидата для оплаты сервисного сбора
-        TestUserData registrationUserForPayFeeData = new TestUserData(getUserForPayFeeId());
-        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+        TestUserData regUsData = new TestUserData(getUserForPayFeeId());
         TestUserData testUserData = new TestUserData();
-        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
-        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
-        TestDatabaseConnection testDatabaseConnection1 = new TestDatabaseConnection();
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
-        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
         PageRequest pageRequest = new PageRequest();
         PagePaymentServiceFee pagePaymentServiceFee = new PagePaymentServiceFee();
         TestCardData testCardData = new TestCardData();
 
-        log("Создаём рандомый email для регитсрации");
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
-        //создаём запрос к базе данных
-        String queryActivationCode = testDatabaseConnection.requestSelectActivationCode(randomEmail);
-        String queryCandidateId = testDatabaseConnection.requestSelectCandidateId(randomEmail);
-        boolean success; // проверка успешности POST запроса
+        String userId = getUserForPayFeeId();
 
+        log("Подготовка тестового кандидата для оплаты сервисного сбора");
 
-        log("Сохраняем email для последующего входа под этим кандидатом");
-        registrationUserForPayFeeRandomEmail.entryUserData(registrationUserForPayFeeRandomEmail.getUserForPayFeeRandomEmail(), randomEmail);
-        log("Сгенерироованный email: " + randomEmail);
+        String randomEmail = testUserData.creationTestCandidateForPayFee((getStandUrl("Ext")), userId);
 
-        log("Формируем адрес для POST запроса на регистрацию");
-        String urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract((getStandUrl("Ext")));
-
-        log("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, registrationUserForPayFeeData.getUserLastName(), registrationUserForPayFeeData.getUserFirstName(),
-                registrationUserForPayFeeData.getSexEn(), registrationUserForPayFeeData.getCountryId(), randomEmail, registrationUserForPayFeeData.getUserPassword()));
-        if (success == false) { return; }
-
-        log("Заходим в базу, берём активационный код");
-        String activationCode = testDatabaseConnection.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
-                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryActivationCode,
-                testDatabaseConnection.getColumnActivation());
-
-        log("Формируем активационную ссылку и переходим по ней");
-        String activationLink = testUserData.createActivationLinkForContract(getStandUrl("Ext"),activationCode);
-        log("Активационная ссылка: " + activationLink);
-        open(activationLink);
-
-        log("Формируем адрес для POST запроса на логин");
-        String urlForRequestLogin = pageEditCandidate.createUrlRequestForLogin((getStandUrl("Ext")));
-
-        log("Отправлем POST запрос с логином");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForLogin(urlForRequestLogin, randomEmail, registrationUserForPayFeeData.getUserPassword()));
-        if (success == false) { return; }
-
-        log("Заходим в базу, берём id канидадта");
-        String candidateId = testDatabaseConnection1.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
-                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
-                testDatabaseConnection.getColumnCandidateId());
-        log("ID кандидата: " + candidateId);
-
-        log("Формируем адрес для POST запроса на отправку персональных данных кандидата");
-        String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData((getStandUrl("Ext")), candidateId,
-                registrationUserForPayFeeData.getCandidateFormAndCardTpl(), registrationUserForPayFeeData.getNationalSelectionId());
-
-        log("Отправляем POST запрос с персональными данными кандидата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData, registrationUserForPayFeeData.getUserLastName(),
-                registrationUserForPayFeeData.getUserFirstName(), registrationUserForPayFeeData.getPlaceOfBirth(), registrationUserForPayFeeData.getDateOfBirth(),
-                registrationUserForPayFeeData.getSexEn(), randomEmail, registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getPreviousEduOrganization(),
-                registrationUserForPayFeeData.getCountryOfFinishedEducationOrganisationId(), registrationUserForPayFeeData.getSourceOfSearch()));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST зароса на отправку заявки кандидата");
-        String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getCandidateFormAndCardTpl(),
-                registrationUserForPayFeeData.getNationalSelectionId());
-
-        log("Отправлем POST запрос с данными о заявке кандидата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, registrationUserForPayFeeData.getAgreeToContract(), registrationUserForPayFeeData.getCandidateStateCode(), registrationUserForPayFeeData.getEduDirId(),
-                registrationUserForPayFeeData.getEducationForm(), registrationUserForPayFeeData.getLanguagesWithDegrees(), registrationUserForPayFeeData.getLanguagesWithDegreesDegree(),
-                registrationUserForPayFeeData.getLanguagesWithDegreesLanguage(), registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getSelectedOrgId()));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST зароса на отправку копии пасспорта");
-        String urlForRequestForUploadCopyPassport = pageEditCandidate.createUrlRequestForUploadFile((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getDocumentOfPassportId());
-
-        log("Отправляем POST запрос с копией пасспорта");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyPassport));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST зароса на отправку копии документа об образовании");
-        String urlForRequestForUploadCopyOfTheEduCertificate = pageEditCandidate.createUrlRequestForUploadFile((getStandUrl("Ext")), candidateId,
-                registrationUserForPayFeeData.getDocumentCopyOfTheEduCertificate());
-
-        log("Отправляем POST запрос с копией документа об образовании");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyOfTheEduCertificate));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
-        String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto((getStandUrl("Ext")), candidateId);
-
-        log("Отправляем POST запрос с фото и сохраняем временную переменную из ответа для сохранения фото");
-        String temporaryImage = testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
-
-        log("Формируем POST запрос для сохранения фото кандитата");
-        String urlForRequestForSavePhoto = pageEditCandidate.createUrlRequestForSavePhoto((getStandUrl("Ext")), candidateId);
-
-        log("Сохраняем фото кандитата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForSavePhoto(urlForRequestForSavePhoto, temporaryImage));
-        if (success == false) { return; }
-
+        log("Проверяем, что тестовый кандиадат был создан и мы получли его email для входа");
+        if (!testRandomUserData.randomEmailNotNull(randomEmail))
+        {
+            logErrors++;
+            checkMistakes();
+            return;
+        }
 
         log("ТЕСТОВЫЙ КАНДИДАТ ГОТОВ К ОПЛАТЕ СЕРВИСНОГО СБОРА");
         log("_______________________________________________________________");
@@ -158,8 +66,8 @@ public class PayServiceFeeTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        log(registrationUserForPayFeeRandomEmail.getRandomEmail());
-        pageLogin.fillLoginForm(registrationUserForPayFeeRandomEmail.getRandomEmail(), registrationUserForPayFeeData.getUserPassword());
+        log(randomEmail);
+        pageLogin.fillLoginForm(randomEmail, regUsData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -172,7 +80,6 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Проверяем наличие айфрейма Тинькофф");
         logErrors = pagePaymentServiceFee.checkIframe(logErrors);
-
 
         log("Вводим тестовые данные для успешной оплаты");
         pagePaymentServiceFee.fillCardData(testCardData.getNumberCardForSuccessfulPay(), testCardData.getExptDateMounth(), testCardData.getExptDateYear(), testCardData.getCvv());
@@ -187,117 +94,29 @@ public class PayServiceFeeTest extends BaseTest
     //PAYMENT-1.2
     @Test(priority = 2)
     public void testUnsuccessfulPayment() throws IOException, InterruptedException, MessagingException, SQLException {
-        log("Подготовка тестового кандидата для оплаты сервисного сбора");
 
-        PageRegistration pageRegistration = new PageRegistration();
-        //определяем связь с рандомным email кандидата, для записи его в файл
-        TestRandomUserData registrationUserForPayFeeRandomEmail = new TestRandomUserData(getUserForPayFeeId());
-        //определяем связь с данными для регистрации кандидата для оплаты сервисного сбора
-        TestUserData registrationUserForPayFeeData = new TestUserData(getUserForPayFeeId());
-        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+        TestUserData regUsData = new TestUserData(getUserForPayFeeId());
         TestUserData testUserData = new TestUserData();
-        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
-        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
-        TestDatabaseConnection testDatabaseConnection1 = new TestDatabaseConnection();
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
-        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
         PageRequest pageRequest = new PageRequest();
         PagePaymentServiceFee pagePaymentServiceFee = new PagePaymentServiceFee();
         TestCardData testCardData = new TestCardData();
 
-        log("Создаём рандомый email для регитсрации");
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
-        //создаём запрос к базе данных
-        String queryActivationCode = testDatabaseConnection.requestSelectActivationCode(randomEmail);
-        String queryCandidateId = testDatabaseConnection.requestSelectCandidateId(randomEmail);
-        boolean success; // проверка успешности POST запроса
+        String userId = getUserForPayFeeId();
 
+        log("Подготовка тестового кандидата для оплаты сервисного сбора");
 
-        log("Сохраняем email для последующего входа под этим кандидатом");
-        registrationUserForPayFeeRandomEmail.entryUserData(registrationUserForPayFeeRandomEmail.getUserForPayFeeRandomEmail(), randomEmail);
-        log("Сгенерироованный email: " + randomEmail);
+        String randomEmail = testUserData.creationTestCandidateForPayFee((getStandUrl("Ext")), userId);
 
-        log("Формируем адрес для POST запроса на регистрацию");
-        String urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract((getStandUrl("Ext")));
-
-        log("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, registrationUserForPayFeeData.getUserLastName(), registrationUserForPayFeeData.getUserFirstName(),
-                registrationUserForPayFeeData.getSexEn(), registrationUserForPayFeeData.getCountryId(), randomEmail, registrationUserForPayFeeData.getUserPassword()));
-        if (success == false) { return; }
-
-        log("Заходим в базу, берём активационный код");
-        String activationCode = testDatabaseConnection.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
-                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryActivationCode,
-                testDatabaseConnection.getColumnActivation());
-
-        log("Формируем активационную ссылку и переходим по ней");
-        String activationLink = testUserData.createActivationLinkForContract(getStandUrl("Ext"),activationCode);
-        log("Активационная ссылка: " + activationLink);
-        open(activationLink);
-
-        log("Формируем адрес для POST запроса на логин");
-        String urlForRequestLogin = pageEditCandidate.createUrlRequestForLogin((getStandUrl("Ext")));
-
-        log("Отправлем POST запрос с логином");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForLogin(urlForRequestLogin, randomEmail, registrationUserForPayFeeData.getUserPassword()));
-        if (success == false) { return; }
-
-        log("Заходим в базу, берём id канидадта");
-        String candidateId = testDatabaseConnection1.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
-                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
-                testDatabaseConnection.getColumnCandidateId());
-        log("ID кандидата: " + candidateId);
-
-        log("Формируем адрес для POST запроса на отправку персональных данных кандидата");
-        String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData((getStandUrl("Ext")), candidateId,
-                registrationUserForPayFeeData.getCandidateFormAndCardTpl(), registrationUserForPayFeeData.getNationalSelectionId());
-
-        log("Отправляем POST запрос с персональными данными кандидата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData, registrationUserForPayFeeData.getUserLastName(),
-                registrationUserForPayFeeData.getUserFirstName(), registrationUserForPayFeeData.getPlaceOfBirth(), registrationUserForPayFeeData.getDateOfBirth(),
-                registrationUserForPayFeeData.getSexEn(), randomEmail, registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getPreviousEduOrganization(),
-                registrationUserForPayFeeData.getCountryOfFinishedEducationOrganisationId(), registrationUserForPayFeeData.getSourceOfSearch()));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST зароса на отправку заявки кандидата");
-        String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getCandidateFormAndCardTpl(),
-                registrationUserForPayFeeData.getNationalSelectionId());
-
-        log("Отправлем POST запрос с данными о заявке кандидата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, registrationUserForPayFeeData.getAgreeToContract(), registrationUserForPayFeeData.getCandidateStateCode(), registrationUserForPayFeeData.getEduDirId(),
-                registrationUserForPayFeeData.getEducationForm(), registrationUserForPayFeeData.getLanguagesWithDegrees(), registrationUserForPayFeeData.getLanguagesWithDegreesDegree(),
-                registrationUserForPayFeeData.getLanguagesWithDegreesLanguage(), registrationUserForPayFeeData.getLvlId(), registrationUserForPayFeeData.getSelectedOrgId()));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST зароса на отправку копии пасспорта");
-        String urlForRequestForUploadCopyPassport = pageEditCandidate.createUrlRequestForUploadFile((getStandUrl("Ext")), candidateId, registrationUserForPayFeeData.getDocumentOfPassportId());
-
-        log("Отправляем POST запрос с копией пасспорта");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyPassport));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST зароса на отправку копии документа об образовании");
-        String urlForRequestForUploadCopyOfTheEduCertificate = pageEditCandidate.createUrlRequestForUploadFile((getStandUrl("Ext")), candidateId,
-                registrationUserForPayFeeData.getDocumentCopyOfTheEduCertificate());
-
-        log("Отправляем POST запрос с копией документа об образовании");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyOfTheEduCertificate));
-        if (success == false) { return; }
-
-        log("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
-        String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto((getStandUrl("Ext")), candidateId);
-
-        log("Отправляем POST запрос с фото и сохраняем временную переменную из ответа для сохранения фото");
-        String temporaryImage = testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
-
-        log("Формируем POST запрос для сохранения фото кандитата");
-        String urlForRequestForSavePhoto = pageEditCandidate.createUrlRequestForSavePhoto((getStandUrl("Ext")), candidateId);
-
-        log("Сохраняем фото кандитата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForSavePhoto(urlForRequestForSavePhoto, temporaryImage));
-        if (success == false) { return; }
-
+        log("Проверяем, что тестовый кандиадат был создан и мы получли его email для входа");
+        if (!testRandomUserData.randomEmailNotNull(randomEmail))
+        {
+            logErrors++;
+            checkMistakes();
+            return;
+        }
 
         log("ТЕСТОВЫЙ КАНДИДАТ ГОТОВ К ОПЛАТЕ СЕРВИСНОГО СБОРА");
         log("_______________________________________________________________");
@@ -324,8 +143,8 @@ public class PayServiceFeeTest extends BaseTest
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        log(registrationUserForPayFeeRandomEmail.getRandomEmail());
-        pageLogin.fillLoginForm(registrationUserForPayFeeRandomEmail.getRandomEmail(), registrationUserForPayFeeData.getUserPassword());
+        log(randomEmail);
+        pageLogin.fillLoginForm(randomEmail, regUsData.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -339,7 +158,7 @@ public class PayServiceFeeTest extends BaseTest
         log("Проверяем наличие айфрейма Тинькофф");
         logErrors = pagePaymentServiceFee.checkIframe(logErrors);
 
-        log("Вводим тестовые данные для успешной оплаты");
+        log("Вводим тестовые данные для неуспешной оплаты");
         pagePaymentServiceFee.fillCardData(testCardData.getNumberCardForUnsuccessfulPay(), testCardData.getExptDateMounth(), testCardData.getExptDateYear(), testCardData.getCvv());
 
         logErrors = pagePaymentServiceFee.checkUnsuccessPaymentInIframe(logErrors);
