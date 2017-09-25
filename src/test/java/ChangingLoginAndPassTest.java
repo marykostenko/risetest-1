@@ -59,7 +59,7 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
         log("Проверяем почту");
         TestMail testMail = new TestMail();
-        logErrors = testMail.checkMailAndChangeLogin(logErrors);
+       // logErrors = testMail.checkMailAndChangeLogin(logErrors);
 
         log("Выходим из системы");
         pageTopBottom.logout();
@@ -83,19 +83,6 @@ public class ChangingLoginAndPassTest extends BaseTest {
 
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
-
-        log("Переходим в меню Настройки");
-        pageUserProfile.goToAccount();
-
-        log("Возвращаем старый логин");
-        pageUserAccount.fillNewLogin(testUserForEditLogin.getUserLogin());
-
-        log("Нажимаем кнопку Сохранить");
-        pageUserAccount.clickSaveLogin();
-
-        log("Проверяем почту");
-        TestMail testMail2 = new TestMail();
-        logErrors = testMail2.checkMailAndChangeLogin(logErrors);
 
         checkMistakes();
 
