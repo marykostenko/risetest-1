@@ -30,8 +30,8 @@ public class ChangingLoginAndPassTest extends BaseTest {
         pageTopBottom.switchToRu();
 
         log("Добавим нового пользователя в систему");
-        String userId = testRandomUserData.createNewRandomUserUser(testAdminData.getUserLogin(), testAdminData.getUserPassword(),testUserForEditLogin.getUserLastName(), testUserForEditLogin.getUserFirstName(),
-                randomEmail);
+        String userId = testRandomUserData.createNewRandomUserUser(testAdminData.getUserLogin(), testAdminData.getUserPassword(),testUserForEditLogin.getUserLastName(),
+                testUserForEditLogin.getUserFirstName(), randomEmail);
 
         log("Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), userId, testUserForEditLogin.getUserPassword());
