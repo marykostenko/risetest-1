@@ -38,7 +38,7 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.switchToRu();
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),null,
-                registrationQuotaPartialUserData.getSexEn(), registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword(), contract, partial));
+                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword(), contract, partial));
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
         {
@@ -79,8 +79,9 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        String randomEmail = (testMail.independentRegistrationCandidate(registrationFullQuotaUserData.getUserLastName(), registrationFullQuotaUserData.getUserFirstName(),null,
-                registrationFullQuotaUserData.getSexEn(), registrationFullQuotaUserData.getCountry(), registrationFullQuotaUserData.getUserPassword(), contract, partial));
+        String randomEmail = (testMail.independentRegistrationCandidate(registrationFullQuotaUserData.getUserLastName(), registrationFullQuotaUserData.getUserFirstName(),
+                registrationFullQuotaUserData.getUserMiddleName(), registrationFullQuotaUserData.getSexRu(), registrationFullQuotaUserData.getCountry(),
+                registrationFullQuotaUserData.getUserPassword(), contract, partial));
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
         {
@@ -117,7 +118,7 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.switchToRu();
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationPartialContractUserData.getUserLastName(), registrationPartialContractUserData.getUserFirstName(),null,
-                registrationPartialContractUserData.getSexEn(), registrationPartialContractUserData.getCountry(), registrationPartialContractUserData.getUserPassword(), contract, partial));
+                registrationPartialContractUserData.getSexRu(), registrationPartialContractUserData.getCountry(), registrationPartialContractUserData.getUserPassword(), contract, partial));
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
         {
@@ -152,8 +153,9 @@ public class CandidateRegistrationTest extends BaseTest
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        String randomEmail = (testMail.independentRegistrationCandidate(registrationFullContractUserData.getUserLastName(), registrationFullContractUserData.getUserFirstName(),null,
-                registrationFullContractUserData.getSexEn(), registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial));
+        String randomEmail = (testMail.independentRegistrationCandidate(registrationFullContractUserData.getUserLastName(),
+                registrationFullContractUserData.getUserFirstName(),registrationFullContractUserData.getUserMiddleName(), registrationFullContractUserData.getSexRu(),
+                registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial));
 
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))

@@ -359,38 +359,49 @@ public class TestMail extends BasePage
         {
             log("Вводим новый логин");
             pageUserAccount.fillNewLogin(newLogin);
-
             log("Нажимаем кнопку Сохранить");
             pageUserAccount.clickSaveLogin();
+            sleep(10000);
 
-            if (penultActualMailName.equals(expectedRequestLetter)) {
+            if (penultActualMailName.equals(expectedRequestLetter))
+            {
                 log("Подтверждение найдено в предпоследнем письме");
                 checkMail = true;
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromPenultMail();
                 log("Переходим по ссылке");
                 open(linkRecovery);
-                if (lastActualMailName.equals(expectedNotificationLetter)) {
+                if (lastActualMailName.equals(expectedNotificationLetter))
+                {
                     log("Уведомление найдено в последнем письме");
-                } else {
-                    log("Уведомление не найдено в последнем письме");
-                    checkMail = false;
-                }
-            } else if (lastActualMailName.equals(expectedRequestLetter)) {
+                } else
+                    {
+                        log("Уведомление не найдено в последнем письме");
+                        checkMail = false;
+                    }
+            } else if (lastActualMailName.equals(expectedRequestLetter))
+            {
                 log("Подтверждение найдено в последнем письме");
                 checkMail = true;
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromLastMail();
-
                 log("Переходим по ссылке");
                 open(linkRecovery);
-                if (penultActualMailName.equals(expectedNotificationLetter)) {
+
+                if (penultActualMailName.equals(expectedNotificationLetter))
+                {
                     log("Уведомление найдено в предпоследнем письме");
-                } else {
-                    log("Уведомление не найдено в предпоследнем письме");
-                    checkMail = false;
-                }
+                } else
+                    {
+                        log("Уведомление не найдено в предпоследнем письме");
+                        checkMail = false;
+                    }
+            } else
+            {
+                log("Все письма для смены логина не были получены");
+                checkMail = false;
             }
+            sleep(1000);
             i++;
         }
         return checkMail;
@@ -406,9 +417,9 @@ public class TestMail extends BasePage
 
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageRegistration pageRegistration = new PageRegistration();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
         PageMain pageMain = new PageMain();
         TestMail testMail = new TestMail();
-        TestMail testMail1 = new TestMail();
         HomePageControl homePageControl = new HomePageControl();
 
         int i = 0;
@@ -419,7 +430,7 @@ public class TestMail extends BasePage
         {
 
             log("Создаём рандомный email для регистрации кандитата");
-            randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+            randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
             log(randomEmail);
 
             log("Переходим на страницу регитсрации кандидата");
@@ -440,6 +451,7 @@ public class TestMail extends BasePage
             {
                 log("Заполняем все поля для регитсрации (кроме полей, связанных с агентами)");
                 pageRegistration.fullFillingRegistrationForm(userLastName, userFirstName, userMiddleName,  userSex, userCountry, randomEmail, userPassword);
+                sleep(100000);
             }
 
             log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
@@ -463,14 +475,14 @@ public class TestMail extends BasePage
 
                     log("Проверяем письмо на почте, подтверждающее регистрацию");
                     log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-                    String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
+                    String subjectRegistrationConfirmMail = testMail.getEmailUserRegistration();
 
-                    if (!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail)) {
-                        log("Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+                    if (!testMail.isSubjectCorrect(subjectRegistrationConfirmMail)) {
+                        log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
                         conditionsFulfilled = false;
                     } else {
-                        if (!testMail1.isAddresseeCorrect(randomEmail)) {
-                            log("Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+                        if (!testMail.isAddresseeCorrect(randomEmail)) {
+                            log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
                             conditionsFulfilled = false;
                         } else {
                             log("Письмо, подтверждающее регистрацию получено");
@@ -522,6 +534,8 @@ public class TestMail extends BasePage
 
             log("Нажимаем кнопку Отправить");
             pagePasswordRecovery.clickSendEmail();
+
+            sleep(10000);
 
             log("Проверяем заголовок последнего письма в отладочном почтовом ящике");
             String subjectRecoveryMail = getPasswordRecoveryMailHead();

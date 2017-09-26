@@ -213,6 +213,7 @@ public class TestUserData
     public String getDocumentOfPassportId() { return documentOfPassportId; }
 
     public String getDocumentCopyOfTheEduCertificate() { return  documentCopyOfTheEduCertificate; }
+
     /**
      * смена пароля пользователя на тестовый
      */
@@ -220,13 +221,14 @@ public class TestUserData
     {
         PageLogin pageLogin = new PageLogin();
         PageTopBottom pageTopBottom = new PageTopBottom();
+        MenuContent menuContent = new MenuContent();
+        PageActions pageActions = new PageActions();
+
         pageTopBottom.goToLogin();
         pageLogin.isLoginForm();
         pageLogin.fillLoginForm(adminLogin, adminPass);
         pageLogin.pushLoginButton();
-        MenuContent menuContent = new MenuContent();
         menuContent.goToAdminActions();
-        PageActions pageActions = new PageActions();
         pageActions.changeUserPassword(userId, userPass);
         pageTopBottom.logout();
     }
@@ -251,6 +253,7 @@ public class TestUserData
 
     public String creationTestCandidateForPayFee (String standUrl, String userId) throws SQLException, IOException
     {
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
         PageRegistration pageRegistration = new PageRegistration();
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
         PageEditCandidate pageEditCandidate = new PageEditCandidate();
@@ -259,7 +262,7 @@ public class TestUserData
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
         TestUserData userForPayFeeId = new TestUserData(userId);
 
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+        String randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
         String queryActivationCode = testDatabaseConnection.requestSelectActivationCode(randomEmail);
         String queryCandidateId = testDatabaseConnection.requestSelectCandidateId(randomEmail);
         String querySourceOfSearchId = testDatabaseConnection.requestSelectCatalogElementId(userForPayFeeId.getSourceOfSearchCode());

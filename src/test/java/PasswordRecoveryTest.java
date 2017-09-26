@@ -16,57 +16,17 @@ public class PasswordRecoveryTest extends BaseTest
     @Test(priority = 1)
     public void testRecoveryPasswordReceivingMail() throws IOException, InterruptedException, MessagingException
     {
+        TestUserData testUserData = new TestUserData(getMailRecoveryId());
+        TestMail testMail = new TestMail();
+
         log("Запущен тест USER-ACC-1.1");
 
-        log("Переходим на форму логина");
-        PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.goToLogin();
-
-        log("Нажимаем на ссылку 'Забыли пароль?'");
-        PageLogin pageLogin = new PageLogin();
-        pageLogin.goToRecoveryPage();
-
-        log("Проверяем url страницы");
-        PagePasswordRecovery pagePasswordRecovery = new PagePasswordRecovery();
-        logErrors = pagePasswordRecovery.checkUrlFirstRecoveryPage(logErrors);
-
-        log("Нажимаем кнопку Отмена");
-        pagePasswordRecovery.clickCancelButton();
-        PageMain pageMain = new PageMain();
-
-        log("Проверяем, что открылась главная страница");
-        logErrors = pageMain.checkMainPage(logErrors);
-
-        log("Переходим на форму логина");
-        pageTopBottom.goToLogin();
-
-        log("Нажимаем на ссылку 'Забыли пароль?'");
-        pageLogin.goToRecoveryPage();
-        TestUserData testUserData = new TestUserData(getMailRecoveryId());
-
-        log("Заполняем поле Email");
-        pagePasswordRecovery.fillEmail(testUserData.getUserLogin());
-
-        log("Нажимаем кнопку Отправить");
-        pagePasswordRecovery.clickSendEmail();
-
-        log("Проверяем текст на странице");
-        logErrors = pagePasswordRecovery.checkTextAlertMailSending(logErrors);
-
-        log("Проверяем заголовок последнего письма в отладочном почтовом ящике");
-        TestMail testMail = new TestMail();
-        String subjectRecoveryMail = testMail.getPasswordRecoveryMailHead();
-        if(!testMail.isSubjectCorrect(subjectRecoveryMail))
+        if (!testMail.checkRecoveryMail(testUserData.getUserLogin()))
         {
+            log("ОШИБКА! Тест не может быть выполнен, так как не удалось получить письмо!");
             logErrors++;
-            log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRecoveryMail);
-        }
-
-        log("Проверяем адресата письма");
-        if(!testMail.isAddresseeCorrect(testUserData.getUserLogin()))
-        {
-            logErrors++;
-            log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserData.getUserLogin());
+            checkMistakes();
+            return;
         }
 
         checkMistakes();
@@ -80,31 +40,24 @@ public class PasswordRecoveryTest extends BaseTest
     @Test(priority = 2)
     public void testRestorePassword() throws IOException, InterruptedException, MessagingException
     {
+        TestUserData testUserData = new TestUserData(getMailRecoveryId());
+        TestMail testMail = new TestMail();
+        PagePasswordRecovery pagePasswordRecovery = new PagePasswordRecovery();
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        PageUserAccount pageUserAccount = new PageUserAccount();
+
         log("Запущен тест USER-ACC-1.2");
 
-        log("Переходим на форму логина");
-        PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.goToLogin();
+        if (!testMail.checkRecoveryMail(testUserData.getUserLogin()))
+        {
+            log("ОШИБКА! Тест не может быть выполнен, так как не удалось получить письмо!");
+            logErrors++;
+            checkMistakes();
+            return;
+        }
 
-        log("Нажимаем на ссылку 'Забыли пароль?'");
-        PageLogin pageLogin = new PageLogin();
-        pageLogin.goToRecoveryPage();
-        TestUserData testUserData = new TestUserData(getMailRecoveryId());
-
-        log("Заполняем поле Email");
-        PagePasswordRecovery pagePasswordRecovery = new PagePasswordRecovery();
-        pagePasswordRecovery.fillEmail(testUserData.getUserLogin());
-
-        log("Нажимаем кнопку Отправить");
-        pagePasswordRecovery.clickSendEmail();
-
-        TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о восстановлении правильному адресату");
-        String subjectRecoveryMail = testMail.getPasswordRecoveryMailHead();
-        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRecoveryMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRecoveryMail);
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(testUserData.getUserLogin()), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + testUserData.getUserLogin());
+        checkMistakes();
 
         log("Находим ссылку из последнего письма в ящике");
         String linkRecovery = testMail.getLinkFromLastMail();
@@ -136,9 +89,7 @@ public class PasswordRecoveryTest extends BaseTest
 
         log("Изменяем пароль обратно");
         pageTopBottom.goToUserProfile();
-        PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.goToAccount();
-        PageUserAccount pageUserAccount = new PageUserAccount();
         pageUserAccount.changePassword(newPassword, testUserData.getUserPassword());
         checkMistakes();
         log("Тест USER-ACC-1.2 завершен");

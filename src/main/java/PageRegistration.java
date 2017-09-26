@@ -133,15 +133,6 @@ public class PageRegistration extends BasePage
     }
 
     /**
-     * создает рандомный email для регистрации
-     */
-    public String createRandomEmail()
-    {
-        String email = "mail"+RandomStringUtils.randomNumeric(10) + "@gmail.com";
-        return email;
-    }
-
-    /**
      * частичное заполненние полей при  регистрации (только обязательные поля)
      */
     public void partialFillingRegistrationForm(String userLastName, String userFirstName, String userSex, String userCountry,String email, String userPassword)
