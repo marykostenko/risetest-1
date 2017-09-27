@@ -59,7 +59,9 @@ public class ChangingLoginAndPassTest extends BaseTest {
         log("Переходим в меню Настройки");
         pageUserProfile.goToAccount();
 
-        if (!testMail.checkMailAndChangeLogin(testUserForEditLogin.getUserNewLogin()))
+        String newLogin = testMail.checkMailAndChangeLogin();
+
+        if (!testRandomUserData.randomEmailNotNull(newLogin))
         {
             log("ОШИБКА! Тест не может быть выполнен, так как необходимые для смены логина письма не были получены!");
             logErrors++;
@@ -82,7 +84,8 @@ public class ChangingLoginAndPassTest extends BaseTest {
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        pageLogin.fillLoginForm(testUserForEditLogin.getUserNewLogin(), testUserForEditLogin.getUserPassword());
+        pageLogin.fillLoginForm(newLogin, testUserForEditLogin.getUserPassword());
+        log(newLogin);
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();

@@ -343,30 +343,36 @@ public class TestMail extends BasePage
     /**
      * Проверяет последнее и предпоследнее письмо на наличие в нем уведомления и подтверждения смены пароля, переходит по ссылке для смены
      */
-    public boolean checkMailAndChangeLogin (String newLogin) throws MessagingException, IOException
+    public String checkMailAndChangeLogin () throws MessagingException, IOException
     {
         PageUserAccount pageUserAccount = new PageUserAccount();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+
         boolean checkMail = false;
         int i = 0;
-
-        String lastActualMailName = getSubjectLastMail();
-        int lettersCount = getLettersCount();
-        String penultActualMailName = getSubjectMail(lettersCount - 1);
-        String expectedNotificationLetter = getEmailChangeNotification();
-        String expectedRequestLetter = getEmailChangeRequest();
+        String randomNewEmail = null;
 
         while ((i < 4)&&(!checkMail))
         {
+            log("Создаём рандомный email для регистрации кандитата");
+            randomNewEmail = String.valueOf(testRandomUserData.createRandomEmail());
             log("Вводим новый логин");
-            pageUserAccount.fillNewLogin(newLogin);
+            log(randomNewEmail);
+            pageUserAccount.fillNewLogin(randomNewEmail);
             log("Нажимаем кнопку Сохранить");
             pageUserAccount.clickSaveLogin();
             sleep(10000);
 
+            String lastActualMailName = getSubjectLastMail();
+            int lettersCount = getLettersCount();
+            String penultActualMailName = getSubjectMail(lettersCount - 1);
+            String expectedNotificationLetter = getEmailChangeNotification();
+            String expectedRequestLetter = getEmailChangeRequest();
+
             if (penultActualMailName.equals(expectedRequestLetter))
             {
-                log("Подтверждение найдено в предпоследнем письме");
                 checkMail = true;
+                log("Подтверждение найдено в предпоследнем письме");
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromPenultMail();
                 log("Переходим по ссылке");
@@ -374,37 +380,43 @@ public class TestMail extends BasePage
                 if (lastActualMailName.equals(expectedNotificationLetter))
                 {
                     log("Уведомление найдено в последнем письме");
-                } else
-                    {
-                        log("Уведомление не найдено в последнем письме");
-                        checkMail = false;
-                    }
-            } else if (lastActualMailName.equals(expectedRequestLetter))
+                }
+                else
+                {
+                    log("Уведомление не найдено в последнем письме");
+                    checkMail = false;
+                    randomNewEmail = null;
+                }
+            }
+            else if (lastActualMailName.equals(expectedRequestLetter))
             {
-                log("Подтверждение найдено в последнем письме");
                 checkMail = true;
+                log("Подтверждение найдено в последнем письме");
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromLastMail();
+
                 log("Переходим по ссылке");
                 open(linkRecovery);
-
                 if (penultActualMailName.equals(expectedNotificationLetter))
                 {
                     log("Уведомление найдено в предпоследнем письме");
-                } else
-                    {
-                        log("Уведомление не найдено в предпоследнем письме");
-                        checkMail = false;
-                    }
-            } else
-            {
-                log("Все письма для смены логина не были получены");
-                checkMail = false;
+                }
+                else
+                {
+                    log("Уведомление не найдено в предпоследнем письме");
+                    checkMail = false;
+                    randomNewEmail = null;
+                }
             }
-            sleep(1000);
+            else
+            {
+                log("Подтверждение не было найдено в последнем и предпоследнем письмах. Тест не может быть продолжен");
+                checkMail = false;
+                randomNewEmail = null;
+            }
             i++;
         }
-        return checkMail;
+        return randomNewEmail;
     }
 
     /**
