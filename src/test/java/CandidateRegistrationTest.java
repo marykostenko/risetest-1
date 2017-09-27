@@ -20,40 +20,35 @@ public class CandidateRegistrationTest extends BaseTest
     public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException
     {
 
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        TestRandomUserData registrationPartialQuotaUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialQuotaId());
+        TestMail testMail = new TestMail();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+
+        boolean partial = true;
+        boolean contract = false;
+
         log("Запущен тест CAND-REG-2.1");
 
         log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.goToHomePage();
 
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
+        String randomEmail = (testMail.independentRegistrationCandidate(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),null,
+                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword(), contract, partial));
 
-        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
-        TestMail testMail = new TestMail();
-        String subjectRegistrationMail = testMail.getEmailChangeNotification();
-        TestMail testMail1 = new TestMail();
-        boolean nameLetter = testMail1.isSubjectCorrect(subjectRegistrationMail);
-
-        log("Регистрируем нового кандидата и проверяем, получено ли письмо с активационной ссылкой");
-        String randomEmail = testMail1.checkAnticipatedLetter(nameLetter,registrationQuotaPartialUserData.getUserLastName(),
-                registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSexRu(),
-                registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword());
-
-        log("Сохраняем email для последующего входа под этим кандидатом");
-        TestRandomUserData registrationQuotaPartialUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialQuotaId());
-        registrationQuotaPartialUserRandomEmail.entryUserData(registrationQuotaPartialUserRandomEmail.getPartialQuotaRandomEmail(), randomEmail);
-
-        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-        String linkFromMailOfSuccessfulRegistration = testMail.getLinkFromLastMailForRegistration();
-
-        open(linkFromMailOfSuccessfulRegistration);
-
-        log("Проверяем что открылась главная страница сайта");
-        HomePageControl homePageControl = new HomePageControl();
-        logErrors = homePageControl.isHomePage(logErrors);
-
+        if (testRandomUserData.randomEmailNotNull(randomEmail))
+        {
+            log("Сохраняем email для последующего входа под этим кандидатом");
+            registrationPartialQuotaUserRandomEmail.entryUserData(registrationPartialQuotaUserRandomEmail.getFullQuotaRandomEmail(), randomEmail);
+        } else
+        {
+            log("ОШИБКА! Тест не может быть выполнен, так как не удалось получить письмо на электронную почту");
+            logErrors++;
+        }
         checkMistakes();
     }
 
@@ -61,70 +56,42 @@ public class CandidateRegistrationTest extends BaseTest
     @Test(priority = 2)
     public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        TestUserData registrationFullQuotaUserData = new TestUserData(getUserForRegistrationFullQuotaId());
+        TestRandomUserData registrationFullQuotaUserRandomEmail = new TestRandomUserData(getUserForRegistrationFullQuotaId());
+        TestMail testMail = new TestMail();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+
+        boolean partial = false;
+        boolean contract = false;
 
         log("Запущен тест CAND-REG-2.2");
 
         log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.goToHomePage();
 
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Регистрация");
-        pageTopBottom.goToRegistration();
+        log("Переходим на главную страницу");
+        pageTopBottom.goToHomePage();
 
+        log("Переключаем язык страницы на русский");
+        pageTopBottom.switchToRu();
 
-        log("Проверяем, что открылась страница с url /registration");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationQuota(logErrors);
+        String randomEmail = (testMail.independentRegistrationCandidate(registrationFullQuotaUserData.getUserLastName(), registrationFullQuotaUserData.getUserFirstName(),
+                registrationFullQuotaUserData.getUserMiddleName(), registrationFullQuotaUserData.getSexRu(), registrationFullQuotaUserData.getCountry(),
+                registrationFullQuotaUserData.getUserPassword(), contract, partial));
 
-        log("Создаём рандомый email для регитсрации");
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
-
-        log("Сохраняем email для последующего входа под этим кандидатом");
-        TestRandomUserData registrationQuotaFullUserRandomEmail = new TestRandomUserData(getUserForRegistrationFullQuotaId());
-        registrationQuotaFullUserRandomEmail.entryUserData(registrationQuotaFullUserRandomEmail.getFullQuotaRandomEmail(), randomEmail);
-
-        log("Заполняем все поля (кроме полей, связанных с агентами)");
-        TestUserData registrationQuotaFullUserData = new TestUserData(getUserForRegistrationFullQuotaId());
-        pageRegistration.fullFillingRegistrationForm(registrationQuotaFullUserData.getUserLastName(), registrationQuotaFullUserData.getUserFirstName(),
-              registrationQuotaFullUserData.getUserMiddleName(),  registrationQuotaFullUserData.getSexRu(), registrationQuotaFullUserData.getCountry(),
-               randomEmail, registrationQuotaFullUserData.getUserPassword());
-
-        TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationMail = testMail.getEmailUserRegistration();
-        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
-
-        open(linkRegistration);
-        log("Проверяем url страницы");
-        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
-
-        log("Проверяем письмо на почте, подтверждающее регистрацию");
-        TestMail testMail1 = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
-        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
-        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
-
-        open(linkFromMailOfSuccessfulRegistration);
-
-        log("Проверяем что открылась главная страница сайта");
-        HomePageControl homePageControl = new HomePageControl();
-        logErrors = homePageControl.isHomePage(logErrors);
+        if (testRandomUserData.randomEmailNotNull(randomEmail))
+        {
+            log("Сохраняем email для последующего входа под этим кандидатом");
+            registrationFullQuotaUserRandomEmail.entryUserData(registrationFullQuotaUserRandomEmail.getFullQuotaRandomEmail(), randomEmail);
+        } else
+        {
+            log("ОШИБКА! Тест не может быть выполнен, так как не удалось получить письмо на электронную почту");
+            logErrors++;
+        }
 
         checkMistakes();
     }
@@ -133,71 +100,35 @@ public class CandidateRegistrationTest extends BaseTest
     @Test(priority = 3)
     public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException
     {
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        TestUserData registrationPartialContractUserData = new TestUserData(getUserForRegistrationPartialContractId());
+        TestRandomUserData registrationPartialContractUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialContractId());
+        TestMail testMail = new TestMail();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+
+        boolean partial = true;
+        boolean contract = true;
 
         log("Запущен тест CAND-REG-2.3");
 
         log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.goToHomePage();
 
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Подать заявку в блоке Обучение по контракту");
-        PageMain pageMain = new PageMain();
-        pageMain.goToRegistrationFromBlockContractTraining();
+        String randomEmail = (testMail.independentRegistrationCandidate(registrationPartialContractUserData.getUserLastName(), registrationPartialContractUserData.getUserFirstName(),null,
+                registrationPartialContractUserData.getSexRu(), registrationPartialContractUserData.getCountry(), registrationPartialContractUserData.getUserPassword(), contract, partial));
 
-
-        log("Проверяем, что открылась страница с url /registration?contract=true");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationContract(logErrors);
-
-        log("Создаём рандомый email для регитсрации");
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
-
-        log("Сохраняем email для последующего входа под этим кандидатом");
-        TestRandomUserData registrationContractPartialUserRandomEmail = new TestRandomUserData(getUserForRegistrationPartialContractId());
-        registrationContractPartialUserRandomEmail.entryUserData(registrationContractPartialUserRandomEmail.getPartialContractRandomEmail(), randomEmail);
-
-        log("Заполняем обязательные поля");
-        TestUserData registrationContractPartialUserData = new TestUserData(getUserForRegistrationPartialContractId());
-        pageRegistration.partialFillingRegistrationForm(registrationContractPartialUserData.getUserLastName(), registrationContractPartialUserData.getUserFirstName(), registrationContractPartialUserData.getSexRu(),
-                registrationContractPartialUserData.getCountry(), randomEmail, registrationContractPartialUserData.getUserPassword());
-
-        TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationMail = testMail.getEmailUserRegistration();
-        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
-
-        open(linkRegistration);
-        log("Проверяем url страницы");
-        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
-
-        log("Проверяем письмо на почте, подтверждающее регистрацию");
-        TestMail testMail1 = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
-        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
-        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
-
-        open(linkFromMailOfSuccessfulRegistration);
-
-        log("Проверяем что открылась главная страница сайта");
-        HomePageControl homePageControl = new HomePageControl();
-        logErrors = homePageControl.isHomePage(logErrors);
-
+        if (testRandomUserData.randomEmailNotNull(randomEmail))
+        {
+            log("Сохраняем email для последующего входа под этим кандидатом");
+            registrationPartialContractUserRandomEmail.entryUserData(registrationPartialContractUserRandomEmail.getFullQuotaRandomEmail(), randomEmail);
+        } else
+        {
+            log("ОШИБКА! Тест не может быть выполнен, так как не удалось получить письмо на электронную почту");
+            logErrors++;
+        }
         checkMistakes();
     }
 
@@ -205,72 +136,37 @@ public class CandidateRegistrationTest extends BaseTest
     @Test(priority = 4)
     public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        TestUserData registrationFullContractUserData = new TestUserData(getUserForRegistrationFullContractId());
+        TestRandomUserData registrationFullContractUserRandomEmail = new TestRandomUserData(getUserForRegistrationFullContractId());
+        TestMail testMail = new TestMail();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+
+        boolean partial = false;
+        boolean contract = true;
 
         log("Запущен тест CAND-REG-2.4");
 
         log("Переходим на главную страницу");
-        PageTopBottom pageTopBottom = new PageTopBottom();
         pageTopBottom.goToHomePage();
 
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
 
-        log("Нажимаем кнопку Подать заявку в блоке Обучение по контракту");
-        PageMain pageMain = new PageMain();
-        pageMain.goToRegistrationFromBlockContractTraining();
+        String randomEmail = (testMail.independentRegistrationCandidate(registrationFullContractUserData.getUserLastName(),
+                registrationFullContractUserData.getUserFirstName(),registrationFullContractUserData.getUserMiddleName(), registrationFullContractUserData.getSexRu(),
+                registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial));
 
 
-        log("Проверяем, что открылась страница с url /registration?contract=true");
-        PageRegistration pageRegistration = new PageRegistration();
-        log("Url страницы: " + url());
-        logErrors = pageRegistration.assertRegistrationContract(logErrors);
-
-        log("Создаём рандомый email для регитсрации");
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
-
-        log("Сохраняем email для последующего входа под этим кандидатом");
-        TestRandomUserData registrationContractFullUserRandomEmail = new TestRandomUserData(getUserForRegistrationFullContractId());
-        registrationContractFullUserRandomEmail.entryUserData(registrationContractFullUserRandomEmail.getFullContractRandomEmail(), randomEmail);
-
-        log("Заполняем все поля (кроме полей, связанных с агентами)");
-        TestUserData registrationContractFullUserData = new TestUserData(getUserForRegistrationFullContractId());
-        pageRegistration.fullFillingRegistrationForm(registrationContractFullUserData.getUserLastName(), registrationContractFullUserData.getUserFirstName(),
-                registrationContractFullUserData.getUserMiddleName(),  registrationContractFullUserData.getSexRu(), registrationContractFullUserData.getCountry(), randomEmail,
-                registrationContractFullUserData.getUserPassword());
-
-        TestMail testMail = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationMail = testMail.getEmailUserRegistration();
-        logErrors = testMail.checkAndLog(!testMail.isSubjectCorrect(subjectRegistrationMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
-        logErrors = testMail.checkAndLog(!testMail.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма в ящике");
-        String linkRegistration = testMail.getLinkFromLastMailForRegistration();
-
-        open(linkRegistration);
-        log("Проверяем url страницы");
-        logErrors = pageRegistration.checkUrlFirstRegistrationPage(logErrors);
-
-        log("Проверяем письмо на почте, подтверждающее регистрацию");
-        TestMail testMail1 = new TestMail();
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-        String subjectRegistrationConfirmMail = testMail1.getEmailUserRegistration();
-        logErrors = testMail1.checkAndLog(!testMail1.isSubjectCorrect(subjectRegistrationConfirmMail), logErrors,
-                "Ошибка: неправильный заголовок последнего письма - " + testMail1.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
-        logErrors = testMail1.checkAndLog(!testMail1.isAddresseeCorrect(randomEmail), logErrors,
-                "Ошибка: неправильный адресат в последнем письме - " + testMail1.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-
-        log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-        String linkFromMailOfSuccessfulRegistration = testMail1.getLinkFromLastMailOfSuccessfilRegistration();
-
-        open(linkFromMailOfSuccessfulRegistration);
-
-        log("Проверяем что открылась главная страница сайта");
-        HomePageControl homePageControl = new HomePageControl();
-        logErrors = homePageControl.isHomePage(logErrors);
-
+        if (testRandomUserData.randomEmailNotNull(randomEmail))
+        {
+            log("Сохраняем email для последующего входа под этим кандидатом");
+            registrationFullContractUserRandomEmail.entryUserData(registrationFullContractUserRandomEmail.getFullQuotaRandomEmail(), randomEmail);
+        } else
+        {
+            log("ОШИБКА! Тест не может быть выполнен, так как не удалось получить письмо на электронную почту");
+            logErrors++;
+        }
         checkMistakes();
     }
 }

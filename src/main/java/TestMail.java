@@ -1,5 +1,3 @@
-import org.testng.Assert;
-
 import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
@@ -8,7 +6,6 @@ import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.sleep;
-import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
  * Created by user nkorobicina on 28.12.2016.
@@ -45,15 +42,6 @@ public class TestMail extends BasePage
     public String getEmailChangeRequest()
     {
         return emailChangeRequest;
-    }
-
-    public void checkLetterName(String factLetterName, String expectedLetterName)
-    {
-        if (factLetterName==expectedLetterName)
-            log("Название письма верное");
-       // else
-
-
     }
 
     private Folder initInboxReadOnly() throws MessagingException
@@ -355,16 +343,35 @@ public class TestMail extends BasePage
     /**
      * Проверяет последнее и предпоследнее письмо на наличие в нем уведомления и подтверждения смены пароля, переходит по ссылке для смены
      */
-    public int checkMailAndChangeLogin (int logErrors) throws MessagingException, IOException
+    public String checkMailAndChangeLogin () throws MessagingException, IOException
     {
-        String lastActualMailName = getSubjectLastMail();
-        int lettersCount = getLettersCount();
-        String penultActualMailName = getSubjectMail(lettersCount - 1);
-        String expectedNotificationLetter = getEmailChangeNotification();
-        String expectedRequestLetter = getEmailChangeRequest();
+        PageUserAccount pageUserAccount = new PageUserAccount();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+
+        boolean checkMail = false;
+        int i = 0;
+        String randomNewEmail = null;
+
+        while ((i < 4)&&(!checkMail))
+        {
+            log("Создаём рандомный email для регистрации кандитата");
+            randomNewEmail = String.valueOf(testRandomUserData.createRandomEmail());
+            log("Вводим новый логин");
+            log(randomNewEmail);
+            pageUserAccount.fillNewLogin(randomNewEmail);
+            log("Нажимаем кнопку Сохранить");
+            pageUserAccount.clickSaveLogin();
+            sleep(10000);
+
+            String lastActualMailName = getSubjectLastMail();
+            int lettersCount = getLettersCount();
+            String penultActualMailName = getSubjectMail(lettersCount - 1);
+            String expectedNotificationLetter = getEmailChangeNotification();
+            String expectedRequestLetter = getEmailChangeRequest();
 
             if (penultActualMailName.equals(expectedRequestLetter))
             {
+                checkMail = true;
                 log("Подтверждение найдено в предпоследнем письме");
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromPenultMail();
@@ -377,11 +384,13 @@ public class TestMail extends BasePage
                 else
                 {
                     log("Уведомление не найдено в последнем письме");
-                    logErrors++;
+                    checkMail = false;
+                    randomNewEmail = null;
                 }
             }
-        else if (lastActualMailName.equals(expectedRequestLetter))
+            else if (lastActualMailName.equals(expectedRequestLetter))
             {
+                checkMail = true;
                 log("Подтверждение найдено в последнем письме");
                 log("Находим ссылку из предпоследнего письма в ящике");
                 String linkRecovery = getLinkFromLastMail();
@@ -393,61 +402,167 @@ public class TestMail extends BasePage
                     log("Уведомление найдено в предпоследнем письме");
                 }
                 else
-                    {
+                {
                     log("Уведомление не найдено в предпоследнем письме");
-                    logErrors++;
-                    }
-        }
-        else
+                    checkMail = false;
+                    randomNewEmail = null;
+                }
+            }
+            else
             {
                 log("Подтверждение не было найдено в последнем и предпоследнем письмах. Тест не может быть продолжен");
-                logErrors++;
+                checkMail = false;
+                randomNewEmail = null;
             }
-        return logErrors;
+            i++;
+        }
+        return randomNewEmail;
     }
 
-
     /**
-     * Счётчик итерация для регкурсии
+     * Регистрация кандидата и её подтверждение, в случае неполученных писем регистрация перезапускается
      */
-    int a = 0;
+    public String independentRegistrationCandidate(String userLastName, String userFirstName, String userMiddleName, String userSex, String userCountry, String userPassword,
+                                                   boolean contract, boolean partial)
+            throws MessagingException, IOException, InterruptedException
+    {
 
-    /**
-     * Регсистрирует кандидата. Проверяет, пришло ли ожидаемое письмо
-     */
-    public String checkAnticipatedLetter(boolean nameLetter,  String lastName, String firstName, String sexRu, String country, String userPassword) throws IOException, MessagingException {
-
-        log("Нажимаем кнопку Регистрация");
         PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.goToRegistration();
-
-        log("Создаём рандомый email для регитсрации");
         PageRegistration pageRegistration = new PageRegistration();
-        String randomEmail = String.valueOf(pageRegistration.createRandomEmail());
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+        PageMain pageMain = new PageMain();
+        TestMail testMail = new TestMail();
+        HomePageControl homePageControl = new HomePageControl();
 
-        log("Проверяем, что открылась страница с url /registration");
-        log("Url страницы: " + url());
+        int i = 0;
+        boolean conditionsFulfilled = false;
+        String randomEmail = null;
 
+        while ((i < 4)&&(!conditionsFulfilled))
+        {
 
-        log("Заполняем обязательные поля");
-        pageRegistration.partialFillingRegistrationForm(lastName, firstName, sexRu, country, randomEmail, userPassword);
+            log("Создаём рандомный email для регистрации кандитата");
+            randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
+            log(randomEmail);
 
-        boolean addressee = isAddresseeCorrect(randomEmail);
+            log("Переходим на страницу регитсрации кандидата");
+            if (!contract)
+                pageTopBottom.goToRegistration();
+            else
+            {
+                log("Переходим на главную страницу");
+                pageTopBottom.goToHomePage();
+                pageMain.goToRegistrationFromBlockContractTraining();
+            }
 
-            if ((nameLetter == true) & (addressee == true)) {
-                log("Ожидаемое письмо получено. Продолжаем выполнение теста");
+            if (partial)
+            {
+                log("Заполняем обязательные поля для регистрации");
+                pageRegistration.partialFillingRegistrationForm(userLastName, userFirstName, userSex, userCountry, randomEmail, userPassword);
             } else
-                if (a<10)
-                {
-                    a++;
-                    log("Ожидаемое письмо не получено. Тест необходимо начать заново");
-                    pageTopBottom.goToHomePage();
-                    checkAnticipatedLetter(nameLetter, lastName, firstName, sexRu, country, userPassword);
+            {
+                log("Заполняем все поля для регитсрации (кроме полей, связанных с агентами)");
+                pageRegistration.fullFillingRegistrationForm(userLastName, userFirstName, userMiddleName,  userSex, userCountry, randomEmail, userPassword);
+                sleep(100000);
+            }
+
+            log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+            String subjectRegistrationMail = testMail.getEmailUserRegistration();
+            if (!testMail.isSubjectCorrect(subjectRegistrationMail))
+            {
+                log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
+                conditionsFulfilled = false;
+            } else {
+                conditionsFulfilled = true;
+                if (!testMail.isAddresseeCorrect(randomEmail)) {
+                    log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+                    conditionsFulfilled = false;
+                } else {
+                    log("Письмо для подтверджения регистрации получено");
+
+                    log("Находим ссылку из последнего письма в ящике");
+                    String linkRegistration = testMail.getLinkFromLastMailForRegistration();
+
+                    open(linkRegistration);
+
+                    log("Проверяем письмо на почте, подтверждающее регистрацию");
+                    log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+                    String subjectRegistrationConfirmMail = testMail.getEmailUserRegistration();
+
+                    if (!testMail.isSubjectCorrect(subjectRegistrationConfirmMail)) {
+                        log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+                        conditionsFulfilled = false;
+                    } else {
+                        if (!testMail.isAddresseeCorrect(randomEmail)) {
+                            log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+                            conditionsFulfilled = false;
+                        } else {
+                            log("Письмо, подтверждающее регистрацию получено");
+                            log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+                            String linkFromMailOfSuccessfulRegistration = testMail.getLinkFromLastMailOfSuccessfilRegistration();
+                            open(linkFromMailOfSuccessfulRegistration);
+
+                            log("Проверяем что открылась главная страница сайта");
+                            if (!homePageControl.isHomePage()) {
+                                log("Главная не открылась");
+                                conditionsFulfilled = false;
+                            }
+                        }
+                    }
                 }
-                else
-                    Assert.fail("Тест не выполнен в связи с тем, что мы не получили необходимое письмо");
+            }
+            i++;
+        }
+
+        if (!conditionsFulfilled)
+            randomEmail = null;
 
         return randomEmail;
     }
+
+
+    /**
+     * Проверка письма о восстановлении пароля пользователя
+     */
+    public boolean checkRecoveryMail(String userLogin) throws InterruptedException, MessagingException, IOException
+    {
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        PageLogin pageLogin = new PageLogin();
+        PagePasswordRecovery pagePasswordRecovery = new PagePasswordRecovery();
+
+        boolean checkRecoveryMail = false;
+        int i = 0;
+
+        while ((!checkRecoveryMail)&&(i < 4))
+        {
+            log("Переходим на форму логина");
+            pageTopBottom.goToLogin();
+
+            log("Нажимаем на ссылку 'Забыли пароль?'");
+            pageLogin.goToRecoveryPage();
+
+            log("Заполняем поле Email");
+            pagePasswordRecovery.fillEmail(userLogin);
+
+            log("Нажимаем кнопку Отправить");
+            pagePasswordRecovery.clickSendEmail();
+
+            sleep(10000);
+
+            log("Проверяем заголовок последнего письма в отладочном почтовом ящике");
+            String subjectRecoveryMail = getPasswordRecoveryMailHead();
+            if (!isSubjectCorrect(subjectRecoveryMail)) {
+                log("Ошибка: неправильный заголовок последнего письма - " + getSubjectLastMail() + ". Ожидался: " + subjectRecoveryMail);
+            } else {
+                log("Проверяем адресата письма");
+                if (!isAddresseeCorrect(userLogin)) {
+                    log("Ошибка: неправильный адресат в последнем письме - " + getAddresseeLastMail() + ". Ожидался: " + userLogin);
+                } else checkRecoveryMail = true;
+            }
+            i++;
+        }
+        return checkRecoveryMail;
+    }
+
 }
 

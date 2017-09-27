@@ -14,11 +14,12 @@ public class HomePageControl  extends BasePage
     /**
      * метод проверяет, что мы находимся на главной странице
      */
-    public int isHomePage(int logErrors)
+    public boolean isHomePage()
     {
-        logErrors = checkAndLog(logo.isEmpty(), logErrors, "Ошибка: ссылка на главную страницу не открылась", "Ссылка на главную страницу открылась");
-
-        return logErrors;
+        if (!logo.isEmpty())
+            return true;
+        else
+            return false;
     }
 
     /**проверяет отображение шапки на главной странице и наличие в ней логотипа Россотрудничества, названия сайта, кнопок смены языка, вход и регистрация, кнопка корзины

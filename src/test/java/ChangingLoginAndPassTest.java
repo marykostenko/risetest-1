@@ -12,33 +12,43 @@ public class ChangingLoginAndPassTest extends BaseTest {
     //USER-ACC-3.1
     @Test(priority = 1)
     public void testChangingLogin() throws IOException, InterruptedException, MessagingException {
-        log("Запущен тест USER-ACC-3.1");
 
-        log("Переключаем язык страницы на русский");
         PageTopBottom pageTopBottom = new PageTopBottom();
-        pageTopBottom.switchToRu();
-
-        log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
         TestUserData testAdminData = new TestUserData(getAdminId());
         TestUserData testUserForEditLogin = new TestUserData(getUserForEditLoginId());
         TestUserData testUserData = new TestUserData();
-        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testUserForEditLogin.getId(), testUserForEditLogin.getUserPassword());
-        log("Пароль пользователя изменен. Продолжаем выполнение теста");
+        PageLogin pageLogin = new PageLogin();
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        TestMail testMail = new TestMail();
 
+        String randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
+
+        log("Запущен тест USER-ACC-3.1");
+
+        log("Переключаем язык страницы на русский");
+        pageTopBottom.switchToRu();
+
+        log("Добавим нового пользователя в систему");
+        String userId = testRandomUserData.createNewRandomUserUser(testAdminData.getUserLogin(), testAdminData.getUserPassword(),testUserForEditLogin.getUserLastName(),
+                testUserForEditLogin.getUserFirstName(), randomEmail);
+
+        log("Сменим пароль пользователя на тестовый");
+        testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), userId, testUserForEditLogin.getUserPassword());
+        log("Пароль пользователя изменен. Продолжаем выполнение теста");
 
         log("Нажимаем кнопку Вход");
         pageTopBottom.goToLogin();
 
         log("Проверяем, что открылась страница с url /login");
         log("Url страницы: " + url());
-        PageLogin pageLogin = new PageLogin();
         logErrors = pageLogin.assertLoginUrl(logErrors);
 
         log("Проверяем, что есть форма логина");
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        pageLogin.fillLoginForm(testUserForEditLogin.getUserLogin(), testUserForEditLogin.getUserPassword());
+        pageLogin.fillLoginForm(randomEmail, testUserForEditLogin.getUserPassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -47,19 +57,17 @@ public class ChangingLoginAndPassTest extends BaseTest {
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
         log("Переходим в меню Настройки");
-        PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.goToAccount();
 
-        log("Вводим новый логин");
-        PageUserAccount pageUserAccount = new PageUserAccount();
-        pageUserAccount.fillNewLogin(testUserForEditLogin.getUserNewLogin());
+        String newLogin = testMail.checkMailAndChangeLogin();
 
-        log("Нажимаем кнопку Сохранить");
-        pageUserAccount.clickSaveLogin();
-
-        log("Проверяем почту");
-        TestMail testMail = new TestMail();
-        logErrors = testMail.checkMailAndChangeLogin(logErrors);
+        if (!testRandomUserData.randomEmailNotNull(newLogin))
+        {
+            log("ОШИБКА! Тест не может быть выполнен, так как необходимые для смены логина письма не были получены!");
+            logErrors++;
+            checkMistakes();
+            return;
+        }
 
         log("Выходим из системы");
         pageTopBottom.logout();
@@ -76,26 +84,14 @@ public class ChangingLoginAndPassTest extends BaseTest {
         pageLogin.isLoginForm();
 
         log("Заполняем форму логина");
-        pageLogin.fillLoginForm(testUserForEditLogin.getUserNewLogin(), testUserForEditLogin.getUserPassword());
+        pageLogin.fillLoginForm(newLogin, testUserForEditLogin.getUserPassword());
+        log(newLogin);
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
 
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
-
-        log("Переходим в меню Настройки");
-        pageUserProfile.goToAccount();
-
-        log("Возвращаем старый логин");
-        pageUserAccount.fillNewLogin(testUserForEditLogin.getUserLogin());
-
-        log("Нажимаем кнопку Сохранить");
-        pageUserAccount.clickSaveLogin();
-
-        log("Проверяем почту");
-        TestMail testMail2 = new TestMail();
-        logErrors = testMail2.checkMailAndChangeLogin(logErrors);
 
         checkMistakes();
 
