@@ -4,12 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import org.apache.commons.lang3.RandomStringUtils;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by Maria on 24.05.2017.
@@ -137,6 +132,7 @@ public class PageRegistration extends BasePage
      */
     public void partialFillingRegistrationForm(String userLastName, String userFirstName, String userSex, String userCountry,String email, String userPassword)
     {
+        sleep(5000);
         fillLastName(userLastName);
         fillFirstName(userFirstName);
         fillSex(userSex);
@@ -148,7 +144,7 @@ public class PageRegistration extends BasePage
         fillConfirmPassword(userPassword);
         $(By.id("licenseAgreement")).click();
         $(By.id("pdnAgreement")).click();
-        $(By.xpath("//input[@value='ЗАРЕГИСТРИРОВАТЬСЯ']")).click();
+        $(By.xpath("//input[@type='submit']")).click();
         sleep(10000);
     }
 
@@ -157,6 +153,7 @@ public class PageRegistration extends BasePage
      */
     public void fullFillingRegistrationForm(String userLastName, String userFirstName, String userMiddleName,String userSex, String userCountry, String email, String userPassword)
     {
+        sleep(5000);
         fillLastName(userLastName);
         fillFirstName(userFirstName);
         fillMiddleName(userMiddleName);
@@ -169,7 +166,7 @@ public class PageRegistration extends BasePage
         fillConfirmPassword(userPassword);
         $(By.id("licenseAgreement")).click();
         $(By.id("pdnAgreement")).click();
-        $(By.xpath("//input[@value='ЗАРЕГИСТРИРОВАТЬСЯ']")).click();
+        $(By.xpath("//input[@type='submit']")).click();
     }
 
     /**

@@ -33,6 +33,7 @@
     <test name = "Payments (service fee)">
         <classes>
             <class name="PayServiceFeeTest"></class>
+            <class name="ButtonServiceFeeTest"></class>
         </classes>
     </test>
 </suite>

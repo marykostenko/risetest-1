@@ -10,7 +10,17 @@ public class PageCandidateList extends BasePage
 {
 
     /**
-     * находит кандидата в списке, состояние которого 'Заявка на контракт принята', сервисный сбор не оплачен
+     * находит кандидата в списке, состояние которого 'Заполнение заявки на контракт'
+     */
+    public void filterApplicationForAContractFilling()
+    {
+        log("В фильтре 'Состояние' выбираем 'Заполнение заявки на контракт'");
+        $(By.xpath("//div[@id='stateCode_field']//child::span[@class='add-on dropdown-toggle']")).click();
+        $(By.xpath("//a[@data-id='FILLING_APPLICATION']")).click();
+    }
+
+    /**
+     * находит кандидата в списке, состояние которого 'Заявка на контракт принята'
      */
     public void filterApplicationForAContractIsAccepted()
     {

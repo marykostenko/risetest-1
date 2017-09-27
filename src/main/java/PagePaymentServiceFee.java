@@ -18,7 +18,7 @@ public class PagePaymentServiceFee extends BasePage
      */
     public int checkIframe (int logErrors)
     {
-        logErrors = checkAndLog(iframe.isEmpty(), logErrors, "ОШИБКА: нет айфрейма Тинькофф ", "Айфрейм Тинькфф есть");
+        logErrors = checkAndLog(iframe.isEmpty(), logErrors, "ОШИБКА: нет айфрейма Тинькофф ", "Айфрейм Тинькофф есть");
         return logErrors;
     }
 

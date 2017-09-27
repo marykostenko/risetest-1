@@ -317,7 +317,7 @@ public class TestMail extends BasePage
     public boolean isSubjectCorrect(String subject) throws MessagingException
     {
         String subjectLastMail = getSubjectLastMail();
-        if(subjectLastMail.equals(subject))
+        if(subjectLastMail.contains(subject))
         {
             return true;
         }
@@ -330,7 +330,7 @@ public class TestMail extends BasePage
     public boolean isAddresseeCorrect(String addressee) throws MessagingException, IOException
     {
         String addresseeLastMail = getAddresseeLastMail();
-        if(addresseeLastMail.equals(addressee))
+        if(addresseeLastMail.contains(addressee))
         {
             return true;
         }
@@ -423,7 +423,7 @@ public class TestMail extends BasePage
      * Регистрация кандидата и её подтверждение, в случае неполученных писем регистрация перезапускается
      */
     public String independentRegistrationCandidate(String userLastName, String userFirstName, String userMiddleName, String userSex, String userCountry, String userPassword,
-                                                   boolean contract, boolean partial)
+                                                   boolean contract, boolean partial, String standUrl)
             throws MessagingException, IOException, InterruptedException
     {
 
@@ -506,6 +506,7 @@ public class TestMail extends BasePage
                             if (!homePageControl.isHomePage()) {
                                 log("Главная не открылась");
                                 conditionsFulfilled = false;
+                                open(standUrl);
                             }
                         }
                     }

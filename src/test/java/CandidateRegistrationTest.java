@@ -1,11 +1,7 @@
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.url;
 
 /**
  * Created by Maria on 24.05.2017.
@@ -38,7 +34,7 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.switchToRu();
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),null,
-                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword(), contract, partial));
+                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), registrationQuotaPartialUserData.getUserPassword(), contract, partial, getStandUrl(flagForStandUrl)));
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
         {
@@ -81,7 +77,7 @@ public class CandidateRegistrationTest extends BaseTest
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationFullQuotaUserData.getUserLastName(), registrationFullQuotaUserData.getUserFirstName(),
                 registrationFullQuotaUserData.getUserMiddleName(), registrationFullQuotaUserData.getSexRu(), registrationFullQuotaUserData.getCountry(),
-                registrationFullQuotaUserData.getUserPassword(), contract, partial));
+                registrationFullQuotaUserData.getUserPassword(), contract, partial, getStandUrl(flagForStandUrl)));
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
         {
@@ -118,7 +114,7 @@ public class CandidateRegistrationTest extends BaseTest
         pageTopBottom.switchToRu();
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationPartialContractUserData.getUserLastName(), registrationPartialContractUserData.getUserFirstName(),null,
-                registrationPartialContractUserData.getSexRu(), registrationPartialContractUserData.getCountry(), registrationPartialContractUserData.getUserPassword(), contract, partial));
+                registrationPartialContractUserData.getSexRu(), registrationPartialContractUserData.getCountry(), registrationPartialContractUserData.getUserPassword(), contract, partial, getStandUrl(flagForStandUrl)));
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
         {
@@ -155,7 +151,7 @@ public class CandidateRegistrationTest extends BaseTest
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationFullContractUserData.getUserLastName(),
                 registrationFullContractUserData.getUserFirstName(),registrationFullContractUserData.getUserMiddleName(), registrationFullContractUserData.getSexRu(),
-                registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial));
+                registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial, getStandUrl("Ext")));
 
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))

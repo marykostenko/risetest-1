@@ -90,6 +90,7 @@ public abstract class BaseTest
     public String getUserForRegistrationFullContractId() { return userForRegistrationFullContractId; }
     public String getUserForPayFeeId() { return userForPayFeeId; }
 
+    protected String flagForStandUrl = "Ext";
 
     public String getStandUrl(String flag) throws IOException
     {
@@ -102,7 +103,7 @@ public abstract class BaseTest
     @BeforeClass
     public void beforeSuite() throws IOException
     {
-        open(getStandUrl("Ext"));
+        open(getStandUrl(flagForStandUrl));
     }
 
     @BeforeMethod
