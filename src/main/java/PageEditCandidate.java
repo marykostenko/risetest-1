@@ -103,11 +103,20 @@ public class PageEditCandidate extends BasePage
     }
 
     /**
-     * Формирует адресс, на который будем отправлять пост запрос при регистрации контрактного кандидата
+     * Формирует адрес, на который будем отправлять пост запрос при регистрации контрактного кандидата
      */
     public String createUrlRequestForRegistrationContract (String standUrl)
     {
         String urlRequestForRegistrationContract = standUrl + "/registration?contract=true";
+        return urlRequestForRegistrationContract;
+    }
+
+    /**
+     * Формирует адрес, на который будем отправлять пост запрос при регистрации квотного кандидата
+     */
+    public String createUrlRequestForRegistrationQuota (String standUrl)
+    {
+        String urlRequestForRegistrationContract = standUrl + "/registration?contract=false";
         return urlRequestForRegistrationContract;
     }
 

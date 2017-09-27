@@ -233,6 +233,30 @@ public class TestUserData
         pageTopBottom.logout();
     }
 
+    /**
+     * Регистрирует тестового кандидата посредством отправки пост запроса
+     */
+    public boolean registrationCandidateByPostRequest(boolean contract,String standUrl, String lastName, String firstName, String sexEn, String countryId, String email, String password) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+
+        String urlForRequestRegistration = null;
+
+        System.out.println("Формируем адрес для POST запроса на регистрацию");
+        if (contract)
+        {
+            urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract(standUrl);
+        } else
+        {
+            urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationQuota(standUrl);
+        }
+
+        System.out.println("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
+        boolean successPostRequest = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, lastName,
+                firstName, sexEn, countryId, email, password));
+
+        return successPostRequest;
+    }
 
     /**
      * Генерация активационной ссылки для квотников
@@ -251,10 +275,17 @@ public class TestUserData
         return activateLink;
     }
 
+    /**
+     * Регистрирует тествого кандидадат и заполняет все обязательные поля для того, чтобы кандидат мог оплатить сервисный сбор
+     * @param standUrl
+     * @param userId
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
     public String creationTestCandidateForPayFee (String standUrl, String userId) throws SQLException, IOException
     {
         TestRandomUserData testRandomUserData = new TestRandomUserData();
-        PageRegistration pageRegistration = new PageRegistration();
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
         PageEditCandidate pageEditCandidate = new PageEditCandidate();
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
@@ -268,12 +299,8 @@ public class TestUserData
         String querySourceOfSearchId = testDatabaseConnection.requestSelectCatalogElementId(userForPayFeeId.getSourceOfSearchCode());
         boolean success; // проверка успешности POST запроса
 
-        System.out.println("Формируем адрес для POST запроса на регистрацию");
-        String urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract(standUrl);
-
-        System.out.println("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, userForPayFeeId.getUserLastName(),
-                userForPayFeeId.getUserFirstName(), userForPayFeeId.getSexEn(), userForPayFeeId.getCountryId(), randomEmail, userForPayFeeId.getUserPassword()));
+        success = registrationCandidateByPostRequest(true, standUrl, userForPayFeeId.getUserLastName(), userForPayFeeId.getUserFirstName(), userForPayFeeId.getSexEn(),
+                userForPayFeeId.getCountryId(), randomEmail, userForPayFeeId.getUserPassword());
         if (!success)
             randomEmail = null;
 
