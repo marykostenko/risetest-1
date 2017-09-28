@@ -2,6 +2,7 @@ import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 /**
  * Created by Maria on 28.12.2016.
@@ -16,6 +17,7 @@ public class HomePageControl  extends BasePage
      */
     public boolean isHomePage()
     {
+        sleep(waitTime*10);
         if (!logo.isEmpty())
             return true;
         else
