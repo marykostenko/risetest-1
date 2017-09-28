@@ -46,6 +46,7 @@ public class CandidateRegistrationTest extends BaseTest
             logErrors++;
         }
         checkMistakes();
+        log("Тест CAND-REG-2.1 завершен");
     }
 
     //CAND-REG-2.2
@@ -90,6 +91,7 @@ public class CandidateRegistrationTest extends BaseTest
         }
 
         checkMistakes();
+        log("Тест CAND-REG-2.2 завершен");
     }
 
     //CAND-REG-2.3
@@ -126,6 +128,7 @@ public class CandidateRegistrationTest extends BaseTest
             logErrors++;
         }
         checkMistakes();
+        log("Тест CAND-REG-2.3 завершен");
     }
 
     //CAND-REG-2.4
@@ -151,7 +154,7 @@ public class CandidateRegistrationTest extends BaseTest
 
         String randomEmail = (testMail.independentRegistrationCandidate(registrationFullContractUserData.getUserLastName(),
                 registrationFullContractUserData.getUserFirstName(),registrationFullContractUserData.getUserMiddleName(), registrationFullContractUserData.getSexRu(),
-                registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial, getStandUrl("Ext")));
+                registrationFullContractUserData.getCountry(), registrationFullContractUserData.getUserPassword(), contract, partial, getStandUrl(flagForStandUrl)));
 
 
         if (testRandomUserData.randomEmailNotNull(randomEmail))
@@ -164,5 +167,6 @@ public class CandidateRegistrationTest extends BaseTest
             logErrors++;
         }
         checkMistakes();
+        log("Тест CAND-REG-2.4 завершен");
     }
 }
