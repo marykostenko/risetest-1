@@ -11,6 +11,7 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import sun.security.krb5.internal.PAData;
 
 import java.io.File;
 import java.io.IOException;
@@ -270,6 +271,131 @@ public class TestRequestsForHttp {
             return false;
         }
         else return true;
+    }
+
+    /**
+     * Отправляет пост запрос для регистрации кандидата
+     */
+    public boolean registrationCandidateByPostRequest(boolean contract,String standUrl, String lastName, String firstName, String sexEn, String countryId, String email, String password) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        String urlForRequestRegistration;
+
+        System.out.println("Формируем адрес для POST запроса на регистрацию");
+        if (contract)
+        {
+            urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract(standUrl);
+        } else
+        {
+            urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationQuota(standUrl);
+        }
+
+        System.out.println("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
+        boolean successPostRequest = successPostRequest(postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, lastName,
+                firstName, sexEn, countryId, email, password));
+
+        return successPostRequest;
+    }
+
+    /**
+     * Отправляет пост запрос для логина
+     */
+    public boolean loginByPostRequest(String standUrl, String email, String password) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        System.out.println("Формируем адрес для POST запроса на логин");
+        String urlForRequestLogin = pageEditCandidate.createUrlRequestForLogin(standUrl);
+
+        System.out.println("Отправлем POST запрос с логином");
+        boolean successPostRequest = successPostRequest(postRequestForLogin(urlForRequestLogin, email, password));
+
+        return successPostRequest;
+    }
+
+    /**
+     * Отправляет пост запрос для заполнения персональных данных кандидата
+     */
+    public boolean fillingPersonalDataByPostRequest(String standUrl, String candidateId, String formAndCardTpl, String nationalSelectionId, String lastName, String firstName, String placeOfBirth,
+                                                    String dateOfBirth, String sexEn, String email, String lvlId, String previousEduOrganization, String countryOfFinishedEducationOrganisationId,
+                                                    String sourceOfSearchId) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        System.out.println("Формируем адрес для POST запроса на отправку персональных данных кандидата");
+        String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData(standUrl, candidateId,  formAndCardTpl, nationalSelectionId);
+
+        System.out.println("Отправляем POST запрос с персональными данными кандидата");
+        boolean successPostRequest = successPostRequest(postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData,  lastName, firstName, placeOfBirth,  dateOfBirth, sexEn, email,
+                lvlId, previousEduOrganization, countryOfFinishedEducationOrganisationId, sourceOfSearchId));
+
+        return successPostRequest;
+    }
+
+    /**
+     * Отправляет пост запрос для заполнения заявки кандидата
+     */
+    public boolean fillCandidateRequestByPostRequest(String standUrl, String candidateId, String formAndCardTpl, String nationalSelectionId, String agreeToContract, String candidateStateCode,
+                                                     String eduDirId, String educationForm, String languagesWithDegrees, String languagesWithDegreesDegree,  String languagesWithDegreesLanguage,
+                                                     String lvlId,  String selectedOrgId) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        System.out.println("Формируем адрес для POST зароса на отправку заявки кандидата");
+        String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest(standUrl, candidateId, formAndCardTpl, nationalSelectionId);
+
+        System.out.println("Отправлем POST запрос с данными о заявке кандидата");
+        boolean successPostRequest = successPostRequest(postRequestFillCandidateRequest(urlForRequestFillCandidateRequest, agreeToContract, candidateStateCode,  eduDirId, educationForm,
+                languagesWithDegrees, languagesWithDegreesDegree,  languagesWithDegreesLanguage, lvlId,  selectedOrgId));
+        return successPostRequest;
+    }
+
+    /**
+     * Отправляет пост запрос с копией пасспорта кандидата
+     */
+    public boolean fillCopyPassportByPostRequest(String standUrl, String candidateId, String documentOfPassportId) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        System.out.println("Формируем адрес для POST зароса на отправку копии пасспорта");
+        String urlForRequestForUploadCopyPassport = pageEditCandidate.createUrlRequestForUploadFile(standUrl, candidateId,  documentOfPassportId);
+
+        System.out.println("Отправляем POST запрос с копией пасспорта");
+        boolean successPostRequest = successPostRequest(postRequestForUploadFile(urlForRequestForUploadCopyPassport));
+
+        return successPostRequest;
+    }
+
+    /**
+     * Отправляет пост запрос с копией документа об образовании
+     */
+    public boolean fillCopyEduCertificate(String standUrl, String candidateId, String documentCopyOfTheEduCertificate) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        System.out.println("Формируем адрес для POST зароса на отправку копии документа об образовании");
+        String urlForRequestForUploadCopyOfTheEduCertificate = pageEditCandidate.createUrlRequestForUploadFile(standUrl, candidateId,  documentCopyOfTheEduCertificate);
+
+        System.out.println("Отправляем POST запрос с копией документа об образовании");
+        boolean successPostRequest = successPostRequest(postRequestForUploadFile(urlForRequestForUploadCopyOfTheEduCertificate));
+
+        return successPostRequest;
+    }
+
+    /**
+     * Отправляет пост запрос с фото кандидата
+     */
+    public boolean fillCandidatePhoto(String standUrl, String candidateId) throws IOException {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+
+        System.out.println("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
+        String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto(standUrl, candidateId);
+
+        System.out.println("Отправляем POST запрос с фото и сохраняем временную переменную из ответа для сохранения фото");
+        String temporaryImage = postRequestForUploadPhoto(urlForRequestForUploadPhoto);
+
+        System.out.println("Формируем POST запрос для сохранения фото кандитата");
+        String urlForRequestForSavePhoto = pageEditCandidate.createUrlRequestForSavePhoto(standUrl, candidateId);
+
+        System.out.println("Сохраняем фото кандитата");
+        boolean successPostRequest = successPostRequest(postRequestForSavePhoto(urlForRequestForSavePhoto, temporaryImage));
+
+        return successPostRequest;
     }
 }
 

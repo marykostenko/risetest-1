@@ -233,30 +233,7 @@ public class TestUserData
         pageTopBottom.logout();
     }
 
-    /**
-     * Регистрирует тестового кандидата посредством отправки пост запроса
-     */
-    public boolean registrationCandidateByPostRequest(boolean contract,String standUrl, String lastName, String firstName, String sexEn, String countryId, String email, String password) throws IOException {
-        PageEditCandidate pageEditCandidate = new PageEditCandidate();
-        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
 
-        String urlForRequestRegistration = null;
-
-        System.out.println("Формируем адрес для POST запроса на регистрацию");
-        if (contract)
-        {
-            urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract(standUrl);
-        } else
-        {
-            urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationQuota(standUrl);
-        }
-
-        System.out.println("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
-        boolean successPostRequest = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, lastName,
-                firstName, sexEn, countryId, email, password));
-
-        return successPostRequest;
-    }
 
     /**
      * Генерация активационной ссылки для квотников
@@ -299,7 +276,8 @@ public class TestUserData
         String querySourceOfSearchId = testDatabaseConnection.requestSelectCatalogElementId(userForPayFeeId.getSourceOfSearchCode());
         boolean success; // проверка успешности POST запроса
 
-        success = registrationCandidateByPostRequest(true, standUrl, userForPayFeeId.getUserLastName(), userForPayFeeId.getUserFirstName(), userForPayFeeId.getSexEn(),
+        //регистрируем кандиадта
+        success = testRequestsForHttp.registrationCandidateByPostRequest(true, standUrl, userForPayFeeId.getUserLastName(), userForPayFeeId.getUserFirstName(), userForPayFeeId.getSexEn(),
                 userForPayFeeId.getCountryId(), randomEmail, userForPayFeeId.getUserPassword());
         if (!success)
             randomEmail = null;
@@ -313,12 +291,8 @@ public class TestUserData
         System.out.println("Активационная ссылка: " + activationLink);
         open(activationLink);
 
-        System.out.println("Формируем адрес для POST запроса на логин");
-        String urlForRequestLogin = pageEditCandidate.createUrlRequestForLogin(standUrl);
-
-        System.out.println("Отправлем POST запрос с логином");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForLogin(urlForRequestLogin, randomEmail, userForPayFeeId.getUserPassword()));
-
+        //логинимся под кандидатом
+        success = testRequestsForHttp.loginByPostRequest(standUrl, randomEmail, userForPayFeeId.getUserPassword());
         if (!success)
             randomEmail = null;
 
@@ -334,58 +308,33 @@ public class TestUserData
                 testDatabaseConnection.getElementId());
         System.out.println("ID источника поиска: " + sourceOfSearchId);
 
-        System.out.println("Формируем адрес для POST запроса на отправку персональных данных кандидата");
-        String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData(standUrl, candidateId,  userForPayFeeId.getCandidateFormAndCardTpl(),
-                userForPayFeeId.getNationalSelectionId());
-
-        System.out.println("Отправляем POST запрос с персональными данными кандидата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData,  userForPayFeeId.getUserLastName(),
-                userForPayFeeId.getUserFirstName(),  userForPayFeeId.getPlaceOfBirth(),  userForPayFeeId.getDateOfBirth(),  userForPayFeeId.getSexEn(), randomEmail,  userForPayFeeId.getLvlId(),
-                userForPayFeeId.getPreviousEduOrganization(),  userForPayFeeId.getCountryOfFinishedEducationOrganisationId(), sourceOfSearchId));
-
-        if (!success)
-            randomEmail = null;
-        System.out.println("Формируем адрес для POST зароса на отправку заявки кандидата");
-        String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest(standUrl, candidateId,  userForPayFeeId.getCandidateFormAndCardTpl(),
-                userForPayFeeId.getNationalSelectionId());
-
-        System.out.println("Отправлем POST запрос с данными о заявке кандидата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest,  userForPayFeeId.getAgreeToContract(),
-                userForPayFeeId.getCandidateStateCode(),  userForPayFeeId.getEduDirId(),  userForPayFeeId.getEducationForm(),  userForPayFeeId.getLanguagesWithDegrees(),
-                userForPayFeeId.getLanguagesWithDegreesDegree(),  userForPayFeeId.getLanguagesWithDegreesLanguage(),  userForPayFeeId.getLvlId(),  userForPayFeeId.getSelectedOrgId()));
-
+        //отправляем персональные данные кандидата
+        success = testRequestsForHttp.fillingPersonalDataByPostRequest(standUrl, candidateId, userForPayFeeId.getCandidateFormAndCardTpl(), userForPayFeeId.getNationalSelectionId(),
+                userForPayFeeId.getUserLastName(), userForPayFeeId.getUserFirstName(), userForPayFeeId.getPlaceOfBirth(), userForPayFeeId.getDateOfBirth(), userForPayFeeId.getSexEn(),
+                randomEmail, userForPayFeeId.getLvlId(), userForPayFeeId.getPreviousEduOrganization(),  userForPayFeeId.getCountryOfFinishedEducationOrganisationId(), sourceOfSearchId);
         if (!success)
             randomEmail = null;
 
-        System.out.println("Формируем адрес для POST зароса на отправку копии пасспорта");
-        String urlForRequestForUploadCopyPassport = pageEditCandidate.createUrlRequestForUploadFile(standUrl,candidateId,  userForPayFeeId.getDocumentOfPassportId());
-
-        System.out.println("Отправляем POST запрос с копией пасспорта");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyPassport));
-
+        //отправляем заявку кандидата
+        success = testRequestsForHttp.fillCandidateRequestByPostRequest(standUrl, candidateId,  userForPayFeeId.getCandidateFormAndCardTpl(),
+                userForPayFeeId.getNationalSelectionId(),userForPayFeeId.getAgreeToContract(),  userForPayFeeId.getCandidateStateCode(),  userForPayFeeId.getEduDirId(),
+                userForPayFeeId.getEducationForm(),  userForPayFeeId.getLanguagesWithDegrees(), userForPayFeeId.getLanguagesWithDegreesDegree(),  userForPayFeeId.getLanguagesWithDegreesLanguage(),
+                userForPayFeeId.getLvlId(),  userForPayFeeId.getSelectedOrgId());
         if (!success)
             randomEmail = null;
 
-        System.out.println("Формируем адрес для POST зароса на отправку копии документа об образовании");
-        String urlForRequestForUploadCopyOfTheEduCertificate = pageEditCandidate.createUrlRequestForUploadFile(standUrl, candidateId,  userForPayFeeId.getDocumentCopyOfTheEduCertificate());
-
-        System.out.println("Отправляем POST запрос с копией документа об образовании");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyOfTheEduCertificate));
-
+        //отправляем копию пасспорта
+        success = testRequestsForHttp.fillCopyPassportByPostRequest(standUrl, candidateId, userForPayFeeId.getDocumentOfPassportId());
         if (!success)
             randomEmail = null;
 
-        System.out.println("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
-        String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto(standUrl, candidateId);
+        //отправляем копию документа об образовании
+        success = testRequestsForHttp.fillCopyEduCertificate(standUrl, candidateId, userForPayFeeId.getDocumentCopyOfTheEduCertificate());
+        if (!success)
+            randomEmail = null;
 
-        System.out.println("Отправляем POST запрос с фото и сохраняем временную переменную из ответа для сохранения фото");
-        String temporaryImage = testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
-
-        System.out.println("Формируем POST запрос для сохранения фото кандитата");
-        String urlForRequestForSavePhoto = pageEditCandidate.createUrlRequestForSavePhoto(standUrl, candidateId);
-
-        System.out.println("Сохраняем фото кандитата");
-        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForSavePhoto(urlForRequestForSavePhoto, temporaryImage));
+        //Добавляем фото кандидата
+        success = testRequestsForHttp.fillCandidatePhoto(standUrl, candidateId);
         if (!success)
             randomEmail = null;
 
