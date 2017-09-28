@@ -27,7 +27,6 @@
         <classes>
             <class name ="CheckRegistrationButtonsTest"></class>
             <class name = "CandidateRegistrationTest"></class>
-            <class name = "EntryUnderRegistretedCandidatesTest"></class>
         </classes>
     </test>
     <test name = "Payments (service fee)">
