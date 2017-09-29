@@ -25,6 +25,8 @@ public class PayServiceFeeTest extends BaseTest
         PageRequest pageRequest = new PageRequest();
         PagePaymentServiceFee pagePaymentServiceFee = new PagePaymentServiceFee();
         TestCardData testCardData = new TestCardData();
+        PageCandidateCard pageCandidateCard = new PageCandidateCard();
+
 
         String userId = getUserForPayFeeId();
 
@@ -84,6 +86,18 @@ public class PayServiceFeeTest extends BaseTest
         pagePaymentServiceFee.fillCardData(testCardData.getNumberCardForSuccessfulPay(), testCardData.getExptDateMounth(), testCardData.getExptDateYear(), testCardData.getCvv());
 
         logErrors = pagePaymentServiceFee.checkSuccessPaymentInIframe(logErrors);
+
+        log("Возвращаемся в карточку кандидата");
+        pageTopBottom.goToCandidateCard();
+
+        log("Проверяем статус кандидата");
+        if(!pageCandidateCard.isStatusContractAccepted())
+        {
+            log("Статус кандидата не изменился, нажимаем кнопку Отправить заявление");
+            pageCandidateCard.clickSubmitApplication();
+            pageCandidateCard.waitWhileStatusBecomesContractAccepted();
+        }
+        log("Статус кандидата изменился на Заявка на контракт принята");
 
         checkMistakes();
 
