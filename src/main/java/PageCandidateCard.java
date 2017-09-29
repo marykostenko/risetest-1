@@ -25,7 +25,7 @@ public class PageCandidateCard extends BasePage
 
     }
 
-    private ElementsCollection paymentButton = $$(By.xpath("//div[@class='user-block-content']//a[contains(@href, '/payment/') and @class='btn btn-success']"));
+    private ElementsCollection paymentButton = $$(By.xpath("//div[@class='user-block-content']//a[contains(@id, '_payment_link') and @class='btn btn-success']"));
 
     /**
      * проверка наличия кнопки "Оплатить", переход по ней на форму оплаты
