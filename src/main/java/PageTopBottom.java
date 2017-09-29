@@ -105,6 +105,25 @@ public class PageTopBottom extends BasePage
         }
     }
 
+    /**
+     * Переход на карточку кандидата, когда кандидат залогинен
+     */
+
+    public void goToCandidateCard()
+    {
+        WebElement headerFiCandidate = $(By.xpath("//div[@class='login_nav login_nav_header']//a[contains(@href,'/candidates/')]"));
+        WebElement mobileFICandidate = $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//a[contains(@href,'/candidates/')]"));
+        if(headerFiCandidate.isDisplayed())
+            headerFiCandidate.click();
+        else
+        {
+            mobileMenuOpen();
+            mobileFICandidate.click();
+        }
+
+    }
+
+
     private WebElement logoutHeaderButton = $(By.xpath("//div[contains(@class, 'login_nav_header')]//a[contains(@href, 'logout')]"));
     private WebElement logoutMobileButton = $(By.xpath("//nav[contains(@class, 'login_nav_mobile')]//a[contains(@href, 'logout')]"));
     private ElementsCollection logoutButton = $$(By.xpath("//a[contains(@href, 'logout')]"));
