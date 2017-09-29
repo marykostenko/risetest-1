@@ -264,7 +264,6 @@ public class TestUserData
     {
         TestRandomUserData testRandomUserData = new TestRandomUserData();
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
-        PageEditCandidate pageEditCandidate = new PageEditCandidate();
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
         TestUserData testUserData = new TestUserData();
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
@@ -298,7 +297,7 @@ public class TestUserData
 
         System.out.println("Заходим в базу, берём id канидадта");
         String candidateId = testDatabaseConnection.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
-                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
+                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(), queryCandidateId,
                 testDatabaseConnection.getElementId());
         System.out.println("ID кандидата: " + candidateId);
 

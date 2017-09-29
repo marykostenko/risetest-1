@@ -15,11 +15,9 @@ import static com.codeborne.selenide.Selenide.open;
 /**
  * Created by user nkorobicina on 17.11.2016.
  */
-public abstract class BaseTest
-{
+public abstract class BaseTest {
 
-    protected String initStandUrl(String standkey) throws IOException
-    {
+    protected String initStandUrl(String standkey) throws IOException {
         Properties standUrl = new Properties();
         File propertyFile = new File("src/main/resources/standsUrl.properties");
         standUrl.load(new FileReader(propertyFile));
@@ -49,51 +47,85 @@ public abstract class BaseTest
     private static final String userForRegistrationFullContractId = "userForRegistrationFullContract";
     private static final String userForPayFeeId = "userForPayFee";
 
-    public String getAdminId() { return adminId; }
-    public String getCandidateId()
-    {
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public String getCandidateId() {
         return candidateId;
     }
-    public String getRepresentativeId()
-    {
+
+    public String getRepresentativeId() {
         return representativeId;
     }
-    public String getCuratorId()
-    {
+
+    public String getCuratorId() {
         return curatorId;
     }
-    public String getAgreementId()
-    {
+
+    public String getAgreementId() {
         return agreementId;
     }
-    public String getAdminOrgId()
-    {
+
+    public String getAdminOrgId() {
         return adminOrgId;
     }
-    public String getMailRecoveryId()
-    {
+
+    public String getMailRecoveryId() {
         return mailRecoveryId;
     }
-    public String getUserLoserId ()
-    {
+
+    public String getUserLoserId() {
         return userLoserId;
     }
-    public String getUserForEditLoginId () { return userForEditLoginId; }
-    public String getGetUserForEditPasswordId () { return userForEditPasswordId; }
-    public String getUserForEditPersonalDataId () { return userForEditPersonalDataId; }
-    public String getUserForEditPostId () { return userForEditPostId; }
-    public String getChangedUserPersonalDataId() { return changedUserForEditPersonalDataId;}
-    public String getUserForAddRoleId() { return userForAddRoleId; }
-    public String getUserForRegistrationPartialQuotaId() { return userForRegistrationPartialQuotaId; }
-    public String getUserForRegistrationFullQuotaId() { return userForRegistrationFullQuotaId; }
-    public String getUserForRegistrationPartialContractId() { return userForRegistrationPartialContractId; }
-    public String getUserForRegistrationFullContractId() { return userForRegistrationFullContractId; }
-    public String getUserForPayFeeId() { return userForPayFeeId; }
+
+    public String getUserForEditLoginId() {
+        return userForEditLoginId;
+    }
+
+    public String getGetUserForEditPasswordId() {
+        return userForEditPasswordId;
+    }
+
+    public String getUserForEditPersonalDataId() {
+        return userForEditPersonalDataId;
+    }
+
+    public String getUserForEditPostId() {
+        return userForEditPostId;
+    }
+
+    public String getChangedUserPersonalDataId() {
+        return changedUserForEditPersonalDataId;
+    }
+
+    public String getUserForAddRoleId() {
+        return userForAddRoleId;
+    }
+
+    public String getUserForRegistrationPartialQuotaId() {
+        return userForRegistrationPartialQuotaId;
+    }
+
+    public String getUserForRegistrationFullQuotaId() {
+        return userForRegistrationFullQuotaId;
+    }
+
+    public String getUserForRegistrationPartialContractId() {
+        return userForRegistrationPartialContractId;
+    }
+
+    public String getUserForRegistrationFullContractId() {
+        return userForRegistrationFullContractId;
+    }
+
+    public String getUserForPayFeeId() {
+        return userForPayFeeId;
+    }
 
     protected String flagForStandUrl = "Ext";
 
-    public String getStandUrl(String flag) throws IOException
-    {
+    public String getStandUrl(String flag) throws IOException {
         standUrl = this.initStandUrl("stand" + flag + "Url");
         return standUrl;
     }
@@ -101,49 +133,34 @@ public abstract class BaseTest
     protected int logErrors;
 
     @BeforeClass
-    public void beforeSuite() throws IOException
-    {
+    public void beforeSuite() throws IOException {
         open(getStandUrl(flagForStandUrl));
     }
 
     @BeforeMethod
-    public void beforeTest()
-    {
+    public void beforeTest() {
         logErrors = 0;
     }
 
-    public void log(String textLog)
-    {
+    public void log(String textLog) {
         System.out.println(textLog);
     }
 
-    protected void checkMistakes()
-    {
+    protected void checkMistakes() {
         log("Проверяем число найденных ошибок");
-        if(logErrors>0)
-        {
-             Assert.fail("Найдено " + logErrors + " ошибок");
+        if (logErrors > 0) {
+            Assert.fail("Найдено " + logErrors + " ошибок");
         }
         log("Ошибки не найдены");
     }
 
     @AfterMethod
-    public void afterTest()
-    {
+    public void afterTest() {
         //проверка, что залогинены и разлогинивание
         PageTopBottom pageTopBottom = new PageTopBottom();
-        if(pageTopBottom.isLoggedIn())
-        {
+        if (pageTopBottom.isLoggedIn()) {
             log("Залогинены, разлогиниваемся");
             pageTopBottom.logout();
         }
     }
-
-    @AfterClass
-    public void afterSuite()
-    {
-        log("Закрываем браузер");
-        close();
-    }
-
 }

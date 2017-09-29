@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.sql.*;
 
 public class TestDatabaseConnection
@@ -85,6 +86,49 @@ public class TestDatabaseConnection
                 "  WHERE\n" +
                 " \"CatalogItem\".code = '" + elementCode + "';";
         return query;
+    }
+
+    /**
+     * Запрос на смену статуса кандидата по его id
+     */
+    public String requestUpdateCandidateState (String newState, String idCandidate)
+    {
+        String query = "UPDATE\n" +
+                " public.\"Candidate\"\n" +
+                " SET\n" +
+                "   \"stateCode\" = '"+ newState +"'\n" +
+                "  WHERE \n" +
+                "   \"Candidate\".id = '" + idCandidate + "';";
+
+        return query;
+    }
+
+    /**
+     * Вытаскивает id кандидата, используя его email
+     * @param candidateEmail
+     * @return
+     * @throws IOException
+     * @throws SQLException
+     */
+    public String selectCandidateId(String candidateEmail) throws IOException, SQLException {
+
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+
+        String queryOnCheckCandidateId = requestSelectCandidateId(candidateEmail);
+        String candidateId = selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
+                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryOnCheckCandidateId, getElementId());
+
+        return candidateId;
+    }
+
+    public void changeCandidateState(String newState, String candidateId) throws SQLException, IOException
+    {
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+
+        String queryChangeCandidateState = requestUpdateCandidateState(newState, candidateId);
+        selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
+                testDatabaseConnectingData.getPasswordForDB(),queryChangeCandidateState, getElementId());
+
     }
 
 }
