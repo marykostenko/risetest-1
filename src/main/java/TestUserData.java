@@ -236,11 +236,11 @@ public class TestUserData
 
 
     /**
-     * Генерация активационной ссылки для квотников
+     * Генерация активационной ссылки для квотников c указанием агента
      */
-    public String createActivationLinkForQuota(String stand, String activationCode)
+    public String createActivationLinkForQuotaWithPromoCode(String stand, String activationCode, String promo)
     {
-        String activateLink = stand + activationCode +"?contract=false";
+        String activateLink = stand + "activate/" + activationCode +"?contract=false&promoCode=" + promo;
         return activateLink;
     }
     /**
@@ -277,7 +277,7 @@ public class TestUserData
 
         //регистрируем кандиадта
         success = testRequestsForHttp.registrationCandidateByPostRequest(true, standUrl, userForPayFeeId.getUserLastName(), userForPayFeeId.getUserFirstName(), userForPayFeeId.getSexEn(),
-                userForPayFeeId.getCountryId(), randomEmail, userForPayFeeId.getUserPassword());
+                userForPayFeeId.getCountryId(), randomEmail, userForPayFeeId.getUserPassword(), null);
         if (!success)
             randomEmail = null;
 

@@ -10,22 +10,27 @@ public class TestDatabaseConnection
     private String elementId = "id";
     public String getElementId() { return elementId; };
 
+    private String columnRegNumber = "registrationNumber";
+    public String getColumnRegNumber() { return  columnRegNumber; }
+
     /**
-     * Получает запрос к базе и название колонки и возвращает ячейку (НАДО ПЕРЕПИСАТЬ НА МАССИВ)
+     * Получает запрос на выборку к базе и название колонки и возвращает ячейку (НАДО ПЕРЕПИСАТЬ НА МАССИВ)
      */
     public String selectFromDatabase(String host, String port, String database, String userName, String password, String query, String columnLabel) throws SQLException {
 
-            System.out.println("Подключение к базе данных");
             String result = null;
 
             Connection connection = null;
             try
             {
                 connection = DriverManager.getConnection("jdbc:postgresql://"+ host +":" + port + "/" + database, userName, password);
+
                 Statement statement = connection.createStatement();
+
                 ResultSet executeQuery = statement.executeQuery(query);
 
-                while (executeQuery.next()) {
+                while (executeQuery.next())
+                {
                     result = executeQuery.getString(columnLabel);
                 }
                 // Закрываем соединение
@@ -38,15 +43,40 @@ public class TestDatabaseConnection
             {
                 ex.printStackTrace();
             }
-            if (null != connection)
-            {
-                System.out.println("✓ Подключение установлено");
-            }
-            else
+            if (null == connection)
             {
                 System.out.println("✗ Подключение НЕ установлено");
             }
         return result;
+    }
+
+    /**
+     * Получает запрос и обновляет данные в базе
+     */
+    public void updateInDatabase(String host, String port, String database, String userName, String password, String query)
+    {
+        Connection connection = null;
+        try
+        {
+            connection = DriverManager.getConnection("jdbc:postgresql://"+ host +":" + port + "/" + database, userName, password);
+
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate(query);
+
+            // Закрываем соединение
+            statement.close();
+            connection.close();
+
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        if (null == connection)
+        {
+            System.out.println("✗ Подключение НЕ установлено");
+        }
     }
 
     /**
@@ -71,6 +101,20 @@ public class TestDatabaseConnection
                 "WHERE \n" +
                 "  \"Candidate\".\"userId\" = \"User\".uuid\n" +
                 "  AND \"User\".email = '" + userEmail +"';";
+        return query;
+    }
+
+    /**
+     * Запрос на регномер кандидата
+     */
+    public String requestSelectCandidateRegNumber(String idCandidate)
+    {
+        String query = "SELECT \n" +
+                "  \"Candidate\".\"registrationNumber\"\n" +
+                "FROM \n" +
+                "  public.\"Candidate\"\n" +
+                "WHERE\n" +
+                "  \"Candidate\".id = '"+ idCandidate +"';";
         return query;
     }
 
@@ -114,20 +158,42 @@ public class TestDatabaseConnection
 
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
 
-        String queryOnCheckCandidateId = requestSelectCandidateId(candidateEmail);
-        String candidateId = selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
-                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryOnCheckCandidateId, getElementId());
+        String queryCandidateId = requestSelectCandidateId(candidateEmail);
+        String candidateId = selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(),
+                testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId, getElementId());
 
         return candidateId;
     }
 
+    /**
+     * Вытаскивает регномер кандидата, используя его id
+     */
+    public String selectCandidateRegNumber(String idCandidate) throws IOException, SQLException {
+
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+
+        String querySelectCandidateRegNumber = requestSelectCandidateRegNumber(idCandidate);
+        String candidateRegNumber = selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(),
+                testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(), querySelectCandidateRegNumber, getColumnRegNumber());
+
+        return candidateRegNumber;
+    }
+
+
+    /**
+     * Меняет состяоние кандидату
+     * @param newState
+     * @param candidateId
+     * @throws SQLException
+     * @throws IOException
+     */
     public void changeCandidateState(String newState, String candidateId) throws SQLException, IOException
     {
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
 
         String queryChangeCandidateState = requestUpdateCandidateState(newState, candidateId);
-        selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
-                testDatabaseConnectingData.getPasswordForDB(),queryChangeCandidateState, getElementId());
+        updateInDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
+                testDatabaseConnectingData.getPasswordForDB(),queryChangeCandidateState);
 
     }
 

@@ -35,7 +35,9 @@ public class TestRequestsForHttp {
     /**
      * Заполняет форму регистрации
      */
-    public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail, String registrationPassword) throws IOException {
+    public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail, String registrationPassword,
+                                                                   String promoCode) throws IOException
+    {
         HttpPost registrationRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();
         credentials.add(new BasicNameValuePair("lastName", lastName));
@@ -46,7 +48,7 @@ public class TestRequestsForHttp {
         credentials.add(new BasicNameValuePair("registrationEmail", regEmail));
         credentials.add(new BasicNameValuePair("registrationPassword", registrationPassword));
         credentials.add(new BasicNameValuePair("registrationPasswordConfirm", registrationPassword));
-        credentials.add(new BasicNameValuePair("promoCode", ""));
+        credentials.add(new BasicNameValuePair("promoCode", promoCode));
         credentials.add(new BasicNameValuePair("licenseAgreement", "true"));
         credentials.add(new BasicNameValuePair("pdnAgreement", "true"));
 
@@ -276,7 +278,9 @@ public class TestRequestsForHttp {
     /**
      * Отправляет пост запрос для регистрации кандидата
      */
-    public boolean registrationCandidateByPostRequest(boolean contract,String standUrl, String lastName, String firstName, String sexEn, String countryId, String email, String password) throws IOException {
+    public boolean registrationCandidateByPostRequest(boolean contract,String standUrl, String lastName, String firstName, String sexEn, String countryId, String email, String password, String promoCode)
+            throws IOException
+    {
         PageEditCandidate pageEditCandidate = new PageEditCandidate();
 
         String urlForRequestRegistration;
@@ -290,9 +294,8 @@ public class TestRequestsForHttp {
             urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationQuota(standUrl);
         }
 
-        System.out.println("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
-        boolean successPostRequest = successPostRequest(postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, lastName,
-                firstName, sexEn, countryId, email, password));
+        System.out.println("Заполняем поля в POST запросе и отправляем данные на регистрацию");
+        boolean successPostRequest = successPostRequest(postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, lastName, firstName, sexEn, countryId, email, password, promoCode));
 
         return successPostRequest;
     }
