@@ -47,13 +47,40 @@ public abstract class BaseTest {
     private static final String userForRegistrationFullContractId = "userForRegistrationFullContract";
     private static final String userForPayFeeId = "userForPayFee";
 
+    //тестовые кандидаты
+    private static final String input = "input";
+    private static final String onCheckId = "onCheck";
+    private static final String inroducedId = "inroduced";
+    private static final String invitedForTestsId = "invitedForTests";
+    private static final String testsDoneId = "testsDone";
+    private static final String selectedForQuotaId = "selectedForQuota";
+    private static final String secondDistributionLevelId = "secondDistributionLevel";
+    private static final String dossierFormedId = "dossierFormed";
+    private static final String distributedQuotaId = "distributedQuota";
+    private static final String directedQuotaId = "directedQuota";
+    private static final String enrolledQuotaId = "enrolledQuota";
+    private static final String completedQtId = "completedQt";
+    private static final String enrolledSubfacultyQId = "enrolledSubfacultyQ";
+    private static final String distributedSubfacultyQId = "distributedSubfacultyQ";
+    private static final String expelledQuotaId = "expelledQuota";
+    private static final String notPassedForQuotaId = "notPassedForQuota";
+    private static final String fillingApplicationId = "fillingApplication";
+    private static final String contractAcceptedId = "contractAccepted";
+    private static final String onApprovalId = "onApproval";
+    private static final String distributedId = "distributed";
+    private static final String rejectedId = "rejected";
+    private static final String enrolledTfId = "enrolledTf";
+    private static final String completedTfId = "completedTf";
+    private static final String enrolledId = "enrolled";
+    private static final String graduatedId = "graduated";
+    private static final String expelledId = "expelled";
+    private static final String refusedId = "refused";
+
     public String getAdminId() {
         return adminId;
     }
 
-    public String getCandidateId() {
-        return candidateId;
-    }
+    public String getCandidateId() { return candidateId; }
 
     public String getRepresentativeId() {
         return representativeId;
@@ -122,6 +149,62 @@ public abstract class BaseTest {
     public String getUserForPayFeeId() {
         return userForPayFeeId;
     }
+
+    public String getInputId() { return input;}
+
+    public String getOnCheckId() { return onCheckId; }
+
+    public String getInroducedId() { return inroducedId; }
+
+    public String getInvitedForTestsId() { return invitedForTestsId; }
+
+    public String getTestsDoneId() { return  testsDoneId; }
+
+    public String getSelectedForQuotaId() { return selectedForQuotaId;}
+
+    public String getSecondDistributionLevelId() { return secondDistributionLevelId; }
+
+    public String getDossierFormedId() { return dossierFormedId; }
+
+    public String getDistributedQuotaId() { return distributedQuotaId; }
+
+    public String getDirectedQuotaId() { return directedQuotaId; }
+
+    public String getEnrolledQuotaId() { return enrolledQuotaId; }
+
+    public String getСompletedQtId() { return completedQtId; }
+
+    public String getEnrolledSubfacultyQId() { return enrolledSubfacultyQId; }
+
+    public String getDistributedSubfacultyQId() { return distributedSubfacultyQId; }
+
+    public String getExpelledQuotaId() { return expelledQuotaId; }
+
+    public String getNotPassedForQuotaId() { return notPassedForQuotaId; }
+
+    //Контрактники:
+
+    public String getFillingApplicationId() { return fillingApplicationId; }
+
+    public String getContractAcceptedId() { return contractAcceptedId; }
+
+    public String getOnApprovalId() { return onApprovalId; }
+
+    public String getDistributedId() { return distributedId; }
+
+    public String getRejectedId() { return rejectedId; }
+
+    public String getEnrolledTfId() { return enrolledTfId; }
+
+    public String getCompletedTfId() { return completedTfId; }
+
+    public String getEnrolledId() { return enrolledId; }
+
+    public String getGraduatedId() { return graduatedId; }
+
+    public String getExpelledId() { return expelledId; }
+
+    public String getRefusedId() { return refusedId; }
 
     protected String flagForStandUrl = "Ext";
 

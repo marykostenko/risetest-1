@@ -1,7 +1,10 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
+import static net.sourceforge.htmlunit.corejs.javascript.Context.enter;
 
 /**
  * Created by Maria on 10.07.2017.
@@ -77,5 +80,24 @@ public class PageCandidateList extends BasePage
         sleep(5000);
         log("Открываем первого кандидата из списка");
         $(By.xpath("//tr[1]//child::a[contains(@href,'/candidates/')]")).click();
+    }
+
+    /**
+     * Осуществляет поиск по регномеру
+     */
+    private void searchByRegNumber(String regNumber)
+    {
+        WebElement emailField = $(By.id("title"));
+        emailField.sendKeys(regNumber);
+        emailField.sendKeys(Keys.ENTER);
+    }
+
+    /**
+     * Вводит регномер кандидата и открывает отфильрованного
+     */
+    public void selectCandidateByRegNumber(String regNumber)
+    {
+        searchByRegNumber(regNumber);
+        selectFirstCandidate();
     }
 }

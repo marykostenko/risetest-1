@@ -15,7 +15,9 @@ public class TestCandidatesData
     private String candidateState;
     private String candidatePromo;
     private String candidateStateName;
+    private String candidateRegNumber;
 
+    private static final String input = "input";
     private static final String onCheckId = "onCheck";
     private static final String inroducedId = "inroduced";
     private static final String invitedForTestsId = "invitedForTests";
@@ -54,11 +56,18 @@ public class TestCandidatesData
         candidateState = this.initUserData(userId + "CandidateState");
         candidatePromo = this.initUserData(userId + "CandidatePromo");
         candidateStateName = this.initUserData(userId + "CandidateStateName");
+        candidateRegNumber = this.initRegNumber( userId + "CandidateRegNumber");
 
     }
 
+    public void setCandidateRegNumber(String userId, String regNumber) throws IOException
+    {
+        this.entryRegNumbers(userId + "CandidateRegNumber", regNumber);
+    }
+
     // методу передаётся название поля в properties и метод записывает данные в поле
-    public void entryRegNumbers(String fieldKey, String newData) throws IOException {
+    public void entryRegNumbers(String fieldKey, String newData) throws IOException
+    {
         FileInputStream in = new FileInputStream("src/main/resources/regNumbersCandidates.properties");
         Properties props = new Properties();
         props.load(in);
@@ -85,6 +94,14 @@ public class TestCandidatesData
         return userData.getProperty(fieldKey);
     }
 
+    protected String initRegNumber (String fieldKey) throws IOException
+    {
+        Properties userData = new Properties();
+        File propertyFile = new File("src/main/resources/regNumbersCandidates.properties");
+        userData.load(new FileReader(propertyFile));
+        return userData.getProperty(fieldKey);
+    }
+
     public String getCandidateFirstName() { return candidateFirstName; }
 
     public String getCandidateLastName() { return candidateLastName; }
@@ -101,6 +118,9 @@ public class TestCandidatesData
 
     public String getCandidateStateName() { return candidateStateName; }
 
+    public String getCandidateRegNumber() { return candidateRegNumber; }
+
+    public String getInputId() { return input;}
     public String getOnCheckId() { return onCheckId; }
     public String getInroducedId() { return inroducedId; }
     public String getInvitedForTestsId() { return invitedForTestsId; }
@@ -159,6 +179,7 @@ public class TestCandidatesData
 
     public void createCandidateInAllStatues(String standUrl) throws IOException, SQLException
     {
+        String candidateInput = getInputId();
         String candidateOnCheck = getOnCheckId();
         String candidateInroduced =getInroducedId();
         String candidateInvitedForTests = getInvitedForTestsId();
@@ -189,8 +210,10 @@ public class TestCandidatesData
         /**
          * Зарегистрируем и добавим кандидатов во всех возможных состояниях в системе
          */
+        registrationAndActivateTestCandidate(standUrl, candidateInput);
         registrationAndActivateTestCandidate(standUrl, candidateOnCheck);
         registrationAndActivateTestCandidate(standUrl, candidateInroduced);
+       /**
         registrationAndActivateTestCandidate(standUrl, candidateInvitedForTests);
         registrationAndActivateTestCandidate(standUrl, candidateTestsDone);
         registrationAndActivateTestCandidate(standUrl, candidateSelectedForQuota);
@@ -215,14 +238,14 @@ public class TestCandidatesData
         registrationAndActivateTestCandidate(standUrl, candidateGraduated);
         registrationAndActivateTestCandidate(standUrl, candidateExpelled);
         registrationAndActivateTestCandidate(standUrl, candidateRefused);
-
+*/
 
     }
 
     /**
-     * Регистрирет и активирует тестового кандидата и меняет ему состояние. Возвращает регномер кандидата
+     * Регистрирет и активирует тестового кандидата и меняет ему состояние. Записывет его регномер в файл
      */
-    private String registrationAndActivateTestCandidate(String standUrl, String userId) throws IOException, SQLException
+    private void registrationAndActivateTestCandidate(String standUrl, String userId) throws IOException, SQLException
     {
         TestRandomUserData testRandomUserData = new TestRandomUserData();
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
@@ -232,6 +255,7 @@ public class TestCandidatesData
         String email = testRandomUserData.createRandomEmail();
         boolean contract = false;
 
+        System.out.println();
         System.out.println("Зарегистрируем и активируем кадидата");
         testRequestsForHttp.registrationCandidateByPostRequest(contract, standUrl, candidate.getCandidateLastName(), candidate.getCandidateFirstName(), candidate.getCandidateSexEn(),
                 candidate.getCandidateCountryId(), email, candidate.getCandidatePassword(), candidate.getCandidatePromo());
@@ -242,13 +266,12 @@ public class TestCandidatesData
 
         System.out.println("Меняем состояние кандидату...");
         testDatabaseConnection.changeCandidateState(candidate.getCandidateState(), idCandidate);
-        System.out.println();
 
         System.out.println("Получаем регномер кандидата");
         String regNumber = testDatabaseConnection.selectCandidateRegNumber(idCandidate);
 
         System.out.println("Записываем регномер в файл");
+        setCandidateRegNumber(userId, regNumber);
 
-        return regNumber;
     }
 }

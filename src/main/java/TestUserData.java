@@ -231,6 +231,7 @@ public class TestUserData
         menuContent.goToAdminActions();
         pageActions.changeUserPassword(userId, userPass);
         pageTopBottom.logout();
+        System.out.println();
     }
 
 
