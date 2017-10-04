@@ -148,6 +148,18 @@ public class TestDatabaseConnection
     }
 
     /**
+     * Запрос на очистку списка отмеченных кандидатов для пользователя
+     */
+    private String requestDeleteCandidatesFromSelection (String userId)
+    {
+        String query = "DELETE FROM \n" +
+                "  public.\"CandidateListSelection\"\n" +
+                "  WHERE\n" +
+                "  \"CandidateListSelection\".\"userId\" = '" + userId + "';\n";
+        return query;
+    }
+
+    /**
      * Вытаскивает id кандидата, используя его email
      * @param candidateEmail
      * @return
@@ -195,6 +207,18 @@ public class TestDatabaseConnection
         updateInDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
                 testDatabaseConnectingData.getPasswordForDB(),queryChangeCandidateState);
 
+    }
+
+    /**
+     * Чистит список отмеченных кандидатов для пользователя
+     */
+    public void deleteCandidatesFromSelection(String userId) throws IOException
+    {
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+
+        String queryDelete = requestDeleteCandidatesFromSelection(userId);
+        updateInDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
+                testDatabaseConnectingData.getPasswordForDB(),queryDelete);
     }
 
 }

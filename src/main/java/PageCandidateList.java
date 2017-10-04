@@ -1,8 +1,10 @@
+import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
 import static net.sourceforge.htmlunit.corejs.javascript.Context.enter;
 
@@ -12,6 +14,21 @@ import static net.sourceforge.htmlunit.corejs.javascript.Context.enter;
 public class PageCandidateList extends BasePage
 {
 
+    /**
+     * Нажимает кнопку "Отмеченные"
+     */
+    public void ckickSelected()
+    {
+        $(By.xpath("//a[contains(text(),'Отмеченные')]")).click();
+    }
+
+    /**
+     * Нажимает кнопку "Выгрузить в Excel"
+     */
+    public void clickToExcelUpload()
+    {
+        $(By.xpath("//a[@id='excel-table-upload']")).click();
+    }
     /**
      * находит кандидата в списке, состояние которого 'Заполнение заявки на контракт'
      */
@@ -99,5 +116,45 @@ public class PageCandidateList extends BasePage
     {
         searchByRegNumber(regNumber);
         selectFirstCandidate();
+    }
+
+    private ElementsCollection firstActiveCandidateInList =  $$(By.xpath("//tr[1]//child::a[contains(@href,'/candidates/')]"));
+
+    /**
+     * Проверяет,что  пользователь не может открыть карточку кандидата, которую отфильровал по регномеру
+     */
+    public int canNotOpenACard(int logErrors, String regNumber, String state)
+    {
+        MenuContent menuContent = new MenuContent();
+
+        menuContent.goToCandidatesList();
+
+        searchByRegNumber(regNumber);
+        sleep(3000);
+
+        if (!firstActiveCandidateInList.isEmpty())
+        {
+            log("ОШИБКА! Карточка кандидата открыта для просмотра");
+            logErrors++;
+        }
+        else
+            log("Карточка кандидата в состоянии " + state + " не доступна для просмотра");
+
+        return logErrors;
+    }
+
+    /**
+     * Отмечает кандидата, отфильтрованного по регномеру
+     */
+    public void marksCandidate(String regNumber)
+    {
+        MenuContent menuContent = new MenuContent();
+
+        menuContent.goToCandidatesList();
+
+        searchByRegNumber(regNumber);
+        sleep(3000);
+
+        $(By.xpath("//tr[1]//child::i[contains(@href,'/selectInList')]")).click();
     }
 }

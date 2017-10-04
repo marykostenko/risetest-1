@@ -171,13 +171,12 @@ public class TestCandidatesData
 
 
     /**
-     * Создаёт кандидатов во всех возможных состояниях
+     * Создаёт кандидатов во всех возможных квотных состояниях
      * @param standUrl
      * @throws IOException
      * @throws SQLException
      */
-
-    public void createCandidateInAllStatues(String standUrl) throws IOException, SQLException
+    public void createCandidateInAllQuotaStatues(String standUrl) throws IOException, SQLException
     {
         String candidateInput = getInputId();
         String candidateOnCheck = getOnCheckId();
@@ -195,25 +194,13 @@ public class TestCandidatesData
         String candidateDistributedSubfacultyQ = getDistributedSubfacultyQId();
         String candidateExpelledQuota = getExpelledQuotaId();
         String candidateNotPassedForQuota = getNotPassedForQuotaId();
-        String candidateFillingApplication = getFillingApplicationId();
-        String candidateContractAccepted = getContractAcceptedId();
-        String candidateOnApproval = getOnApprovalId();
-        String candidateDistributed = getDistributedId();
-        String candidateRejected = getRejectedId();
-        String candidateEnrolledTf = getEnrolledTfId();
-        String candidateCompletedTf = getCompletedTfId();
-        String candidateEnrolled = getEnrolledId();
-        String candidateGraduated = getGraduatedId();
-        String candidateExpelled = getExpelledId();
-        String candidateRefused = getRefusedId();
 
         /**
-         * Зарегистрируем и добавим кандидатов во всех возможных состояниях в системе
+         * Зарегистрируем и добавим кандидатов во всех возможных квотных состояниях в системе
          */
         registrationAndActivateTestCandidate(standUrl, candidateInput);
         registrationAndActivateTestCandidate(standUrl, candidateOnCheck);
         registrationAndActivateTestCandidate(standUrl, candidateInroduced);
-       /**
         registrationAndActivateTestCandidate(standUrl, candidateInvitedForTests);
         registrationAndActivateTestCandidate(standUrl, candidateTestsDone);
         registrationAndActivateTestCandidate(standUrl, candidateSelectedForQuota);
@@ -227,6 +214,32 @@ public class TestCandidatesData
         registrationAndActivateTestCandidate(standUrl, candidateDistributedSubfacultyQ);
         registrationAndActivateTestCandidate(standUrl, candidateExpelledQuota);
         registrationAndActivateTestCandidate(standUrl, candidateNotPassedForQuota);
+
+    }
+
+    /**
+     * Создаёт кандидатов во всех возможных контрактных состояниях
+     * @param standUrl
+     * @throws IOException
+     * @throws SQLException
+     */
+    public void createCandidateInAllContractStatues(String standUrl) throws IOException, SQLException
+    {
+        String candidateFillingApplication = getFillingApplicationId();
+        String candidateContractAccepted = getContractAcceptedId();
+        String candidateOnApproval = getOnApprovalId();
+        String candidateDistributed = getDistributedId();
+        String candidateRejected = getRejectedId();
+        String candidateEnrolledTf = getEnrolledTfId();
+        String candidateCompletedTf = getCompletedTfId();
+        String candidateEnrolled = getEnrolledId();
+        String candidateGraduated = getGraduatedId();
+        String candidateExpelled = getExpelledId();
+        String candidateRefused = getRefusedId();
+
+        /**
+         * Зарегистрируем и добавим кандидатов во всех возможных контрактных состояниях в системе
+         */
         registrationAndActivateTestCandidate(standUrl, candidateFillingApplication);
         registrationAndActivateTestCandidate(standUrl, candidateContractAccepted);
         registrationAndActivateTestCandidate(standUrl, candidateOnApproval);
@@ -238,8 +251,6 @@ public class TestCandidatesData
         registrationAndActivateTestCandidate(standUrl, candidateGraduated);
         registrationAndActivateTestCandidate(standUrl, candidateExpelled);
         registrationAndActivateTestCandidate(standUrl, candidateRefused);
-*/
-
     }
 
     /**
