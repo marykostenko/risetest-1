@@ -219,6 +219,7 @@ public class TestDatabaseConnection
         String queryDelete = requestDeleteCandidatesFromSelection(userId);
         updateInDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
                 testDatabaseConnectingData.getPasswordForDB(),queryDelete);
+        System.out.println();
     }
 
 }

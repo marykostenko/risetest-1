@@ -1,5 +1,6 @@
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -284,5 +285,17 @@ public class TestCandidatesData
         System.out.println("Записываем регномер в файл");
         setCandidateRegNumber(userId, regNumber);
 
+    }
+
+    /**
+     * Выводит массив квотных состояний
+     */
+    public ArrayList<String> quotaStates()
+    {
+        ArrayList<String> quotaStatesList = new ArrayList<String>();
+
+
+
+        return quotaStatesList;
     }
 }

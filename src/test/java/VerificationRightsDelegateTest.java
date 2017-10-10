@@ -56,10 +56,14 @@ public class VerificationRightsDelegateTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
+        PageCandidateList pageCandidateList = new PageCandidateList();
 
         log("Идёт подготовка тестовых данных для прохождения теста провекрки прав представителя...");
         log("Для выполнения данного теста добавляю тестовых кандидатов в систему:");
         testCandidatesData.createCandidateInAllQuotaStatues((getStandUrl("Ext")));
+
+        log("Переиндексируем добавленых не через интерфейс кандидатов");
+        pageCandidateList.reindexInputCandidate(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getCountry(), testRepresentativeData.getCountryId());
 
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
@@ -129,6 +133,9 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("Для выполнения данного теста добавляю тестовых кандидатов в систему:");
         testCandidatesData.createCandidateInAllContractStatues((getStandUrl("Ext")));
 
+        log("Переиндексируем добавленых не через интерфейс кандидатов");
+        pageCandidateList.reindexInputCandidate(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getCountry(), testRepresentativeData.getCountryId());
+
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
 
@@ -183,9 +190,10 @@ public class VerificationRightsDelegateTest extends BaseTest
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
         PageCandidateList pageCandidateList = new PageCandidateList();
+        MenuContent menuContent = new MenuContent();
 
         log("Перед выполнением данного теста необходимо очистить список отмеченных кандидатов для представителя");
-        testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
+     //   testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
 
         log("Запущен тест USER-Rights-1.3");
 
@@ -210,7 +218,7 @@ public class VerificationRightsDelegateTest extends BaseTest
 
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
-
+/**
         log("Отмечаем кандидатов во всех возможных состояниях");
         pageCandidateList.marksCandidate(inputCandidate.getCandidateRegNumber());
         pageCandidateList.marksCandidate(onCheckCandidate.getCandidateRegNumber());
@@ -240,9 +248,10 @@ public class VerificationRightsDelegateTest extends BaseTest
         pageCandidateList.marksCandidate(graduatedId.getCandidateRegNumber());
         pageCandidateList.marksCandidate(expelledId.getCandidateRegNumber());
         pageCandidateList.marksCandidate(refusedId.getCandidateRegNumber());
-
+*/
         log("Выгрузим отмеченных кандидатов");
-        pageCandidateList.ckickSelected();
+        menuContent.goToCandidatesList();
+        pageCandidateList.clickSelected();
         pageCandidateList.clickToExcelUpload();
 
         checkMistakes();
