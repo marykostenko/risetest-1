@@ -191,6 +191,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         PageLogin pageLogin = new PageLogin();
         PageCandidateList pageCandidateList = new PageCandidateList();
         MenuContent menuContent = new MenuContent();
+        ReadExcel readExcel = new ReadExcel();
 
         log("Перед выполнением данного теста необходимо очистить список отмеченных кандидатов для представителя");
      //   testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
@@ -248,11 +249,13 @@ public class VerificationRightsDelegateTest extends BaseTest
         pageCandidateList.marksCandidate(graduatedId.getCandidateRegNumber());
         pageCandidateList.marksCandidate(expelledId.getCandidateRegNumber());
         pageCandidateList.marksCandidate(refusedId.getCandidateRegNumber());
-*/
+ */
         log("Выгрузим отмеченных кандидатов");
         menuContent.goToCandidatesList();
         pageCandidateList.clickSelected();
         pageCandidateList.clickToExcelUpload();
+
+        logErrors = readExcel.checkUploadingStatesCandidates(logErrors);
 
         checkMistakes();
     }

@@ -290,11 +290,43 @@ public class TestCandidatesData
     /**
      * Выводит массив квотных состояний
      */
-    public ArrayList<String> quotaStates()
+    public ArrayList quotaStates () throws IOException
     {
+        TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
+        TestCandidatesData candidateOnCheck = new TestCandidatesData(getOnCheckId());
+        TestCandidatesData candidateInroduced = new TestCandidatesData(getInroducedId());
+        TestCandidatesData candidateInvitedForTests = new TestCandidatesData(getInvitedForTestsId());
+        TestCandidatesData candidateTestsDone = new TestCandidatesData(getTestsDoneId());
+        TestCandidatesData candidateSelectedForQuota = new TestCandidatesData(getSelectedForQuotaId());
+        TestCandidatesData candidateSecondDistributionLevel = new TestCandidatesData(getSecondDistributionLevelId());
+        TestCandidatesData candidateDossierFormed = new TestCandidatesData(getDossierFormedId());
+        TestCandidatesData candidateDistributedQuota = new TestCandidatesData(getDistributedQuotaId());
+        TestCandidatesData candidateDirectedQuota = new TestCandidatesData(getDirectedQuotaId());
+        TestCandidatesData candidateEnrolledQuota = new TestCandidatesData(getEnrolledQuotaId());
+        TestCandidatesData candidateСompletedQt = new TestCandidatesData(getСompletedQtId());
+        TestCandidatesData candidateEnrolledSubfacultyQ = new TestCandidatesData(getEnrolledSubfacultyQId());
+        TestCandidatesData candidateDistributedSubfacultyQ = new TestCandidatesData(getDistributedSubfacultyQId());
+        TestCandidatesData candidateExpelledQuota = new TestCandidatesData(getExpelledQuotaId());
+        TestCandidatesData candidateNotPassedForQuota = new TestCandidatesData(getNotPassedForQuotaId());
+
         ArrayList<String> quotaStatesList = new ArrayList<String>();
 
-
+        quotaStatesList.add(inputCandidate.getCandidateStateName());
+        quotaStatesList.add(candidateOnCheck.getCandidateStateName());
+        quotaStatesList.add(candidateInroduced.getCandidateStateName());
+        quotaStatesList.add(candidateInvitedForTests.getCandidateStateName());
+        quotaStatesList.add(candidateTestsDone.getCandidateStateName());
+        quotaStatesList.add(candidateSelectedForQuota.getCandidateStateName());
+        quotaStatesList.add(candidateSecondDistributionLevel.getCandidateStateName());
+        quotaStatesList.add(candidateDossierFormed.getCandidateStateName());
+        quotaStatesList.add(candidateDistributedQuota.getCandidateStateName());
+        quotaStatesList.add(candidateDirectedQuota.getCandidateStateName());
+        quotaStatesList.add(candidateEnrolledQuota.getCandidateStateName());
+        quotaStatesList.add(candidateСompletedQt.getCandidateStateName());
+        quotaStatesList.add(candidateEnrolledSubfacultyQ.getCandidateStateName());
+        quotaStatesList.add(candidateDistributedSubfacultyQ.getCandidateStateName());
+        quotaStatesList.add(candidateExpelledQuota.getCandidateStateName());
+        quotaStatesList.add(candidateNotPassedForQuota.getCandidateStateName());
 
         return quotaStatesList;
     }

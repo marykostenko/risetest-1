@@ -30,8 +30,8 @@ public class PageCandidateList extends BasePage {
      */
     public void clickToExcelUpload() throws FileNotFoundException
     {
-        $(By.id("excel-table-upload")).download();
-        //$(By.xpath("//a[@id='excel-table-upload']")).click();
+        //$(By.id("excel-table-upload")).download();
+        $(By.xpath("//a[@id='excel-table-upload']")).click();
     }
 
     /**
