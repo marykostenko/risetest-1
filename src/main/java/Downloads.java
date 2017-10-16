@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class ReadExcel
+public class Downloads
 {
     public int checkUploadingStatesCandidates(int logErrors) throws IOException {
         TestCandidatesData testCandidatesData = new TestCandidatesData();
@@ -18,7 +18,7 @@ public class ReadExcel
         ArrayList<String> statesListInUploading = new ArrayList<String>();
         ArrayList<String> quotaStatesList = testCandidatesData.quotaStates();
 
-        File src = new File("src/main/resources/candidates.xlsx");
+        File src = new File("src/main/resources/downloads/candidates.xlsx");
         FileInputStream fis = new FileInputStream(src);
         XSSFWorkbook wb = new XSSFWorkbook(fis);
 
@@ -41,7 +41,10 @@ public class ReadExcel
             }
         }
 
+        System.out.println("Массив квотных состояний, ожидаемых в выгрузке");
         System.out.println(quotaStatesList);
+        System.out.println();
+        System.out.println("Массив состояний из выгрузки");
         System.out.println(statesListInUploading);
 
         logErrors = excessRecordsInUploading(statesListInUploading, logErrors);
@@ -78,29 +81,15 @@ public class ReadExcel
             System.out.println(uploadingArray);
             logErrors++;
         }
-
-
-
         return logErrors;
     }
 
     /**
-     * Сравнивает массив из выгрузки с ожидаемым массивом значений, если есть нехватающие значения - возвращает true
-     * @param uploadingArray
-     * @param expectedArray
+     * Удаляет все загруженные файлы из папки
      */
-    private boolean lackingRecordsInUploading (ArrayList uploadingArray, ArrayList expectedArray)
+    public void deleteAllDownloads()
     {
-        boolean lacking = false;
-
-        expectedArray.removeAll(uploadingArray);
-
-        if (!uploadingArray.isEmpty())
-        {
-            System.out.println("Ошибка! В выгрузке нехватает кандидатов в состояниях: ");
-            System.out.println(uploadingArray);
-            lacking = true;
-        }
-        return lacking;
+        for (File myFile : new File("src/main/resources/downloads").listFiles())
+            if (myFile.isFile()) myFile.delete();
     }
 }

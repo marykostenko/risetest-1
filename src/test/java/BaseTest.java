@@ -1,3 +1,9 @@
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverProvider;
+import com.codeborne.selenide.WebDriverRunner;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -7,7 +13,10 @@ import org.testng.annotations.BeforeMethod;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.close;
 import static com.codeborne.selenide.Selenide.open;
@@ -216,8 +225,10 @@ public abstract class BaseTest {
     protected int logErrors;
 
     @BeforeClass
-    public void beforeSuite() throws IOException {
-        open(getStandUrl(flagForStandUrl));
+    public void beforeSuite() throws IOException
+    {
+       Configuration.browser = CustomWebDriverProviderChrome.class.getName();
+       open(getStandUrl(flagForStandUrl));
     }
 
     @BeforeMethod

@@ -191,10 +191,11 @@ public class VerificationRightsDelegateTest extends BaseTest
         PageLogin pageLogin = new PageLogin();
         PageCandidateList pageCandidateList = new PageCandidateList();
         MenuContent menuContent = new MenuContent();
-        ReadExcel readExcel = new ReadExcel();
+        Downloads downloads = new Downloads();
 
-        log("Перед выполнением данного теста необходимо очистить список отмеченных кандидатов для представителя");
-     //   testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
+        log("Перед выполнением данного теста необходимо очистить список отмеченных кандидатов для представителя и удалить ранее загруженные файлы");
+        testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
+        downloads.deleteAllDownloads();
 
         log("Запущен тест USER-Rights-1.3");
 
@@ -219,7 +220,7 @@ public class VerificationRightsDelegateTest extends BaseTest
 
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
-/**
+
         log("Отмечаем кандидатов во всех возможных состояниях");
         pageCandidateList.marksCandidate(inputCandidate.getCandidateRegNumber());
         pageCandidateList.marksCandidate(onCheckCandidate.getCandidateRegNumber());
@@ -249,13 +250,13 @@ public class VerificationRightsDelegateTest extends BaseTest
         pageCandidateList.marksCandidate(graduatedId.getCandidateRegNumber());
         pageCandidateList.marksCandidate(expelledId.getCandidateRegNumber());
         pageCandidateList.marksCandidate(refusedId.getCandidateRegNumber());
- */
+
         log("Выгрузим отмеченных кандидатов");
         menuContent.goToCandidatesList();
         pageCandidateList.clickSelected();
         pageCandidateList.clickToExcelUpload();
 
-        logErrors = readExcel.checkUploadingStatesCandidates(logErrors);
+        logErrors = downloads.checkUploadingStatesCandidates(logErrors);
 
         checkMistakes();
     }
@@ -263,9 +264,6 @@ public class VerificationRightsDelegateTest extends BaseTest
     @Test (priority = 4)
     public void testVerificationDistributionOfMessages() throws IOException, SQLException
     {
-
-
-
         checkMistakes();
     }
 }

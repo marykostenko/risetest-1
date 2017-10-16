@@ -1,13 +1,19 @@
 import com.codeborne.selenide.ElementsCollection;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.FileNotFoundException;
+import java.awt.*;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
+import static junit.runner.BaseTestRunner.setPreference;
 import static net.sourceforge.htmlunit.corejs.javascript.Context.enter;
 
 /**
@@ -30,8 +36,9 @@ public class PageCandidateList extends BasePage {
      */
     public void clickToExcelUpload() throws FileNotFoundException
     {
-        //$(By.id("excel-table-upload")).download();
+      // setPreference("browser.download.dir","src/main/resources/");
         $(By.xpath("//a[@id='excel-table-upload']")).click();
+       // File file = $("//a[@id='excel-table-upload']").download();
     }
 
     /**
