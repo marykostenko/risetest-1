@@ -80,8 +80,7 @@ public class TestCandidatesData
         out.close();
     }
 
-    public TestCandidatesData()
-    {
+    public TestCandidatesData() throws IOException {
 
     }
 
@@ -292,42 +291,183 @@ public class TestCandidatesData
      */
     public ArrayList quotaStates () throws IOException
     {
+
         TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
-        TestCandidatesData candidateOnCheck = new TestCandidatesData(getOnCheckId());
-        TestCandidatesData candidateInroduced = new TestCandidatesData(getInroducedId());
-        TestCandidatesData candidateInvitedForTests = new TestCandidatesData(getInvitedForTestsId());
-        TestCandidatesData candidateTestsDone = new TestCandidatesData(getTestsDoneId());
-        TestCandidatesData candidateSelectedForQuota = new TestCandidatesData(getSelectedForQuotaId());
-        TestCandidatesData candidateSecondDistributionLevel = new TestCandidatesData(getSecondDistributionLevelId());
-        TestCandidatesData candidateDossierFormed = new TestCandidatesData(getDossierFormedId());
-        TestCandidatesData candidateDistributedQuota = new TestCandidatesData(getDistributedQuotaId());
-        TestCandidatesData candidateDirectedQuota = new TestCandidatesData(getDirectedQuotaId());
-        TestCandidatesData candidateEnrolledQuota = new TestCandidatesData(getEnrolledQuotaId());
-        TestCandidatesData candidateСompletedQt = new TestCandidatesData(getСompletedQtId());
-        TestCandidatesData candidateEnrolledSubfacultyQ = new TestCandidatesData(getEnrolledSubfacultyQId());
-        TestCandidatesData candidateDistributedSubfacultyQ = new TestCandidatesData(getDistributedSubfacultyQId());
-        TestCandidatesData candidateExpelledQuota = new TestCandidatesData(getExpelledQuotaId());
-        TestCandidatesData candidateNotPassedForQuota = new TestCandidatesData(getNotPassedForQuotaId());
+        TestCandidatesData onCheckCandidate = new TestCandidatesData(getOnCheckId());
+        TestCandidatesData inroducedCandidate = new TestCandidatesData(getInroducedId());
+        TestCandidatesData invitedForTestsCandidate = new TestCandidatesData(getInvitedForTestsId());
+        TestCandidatesData testsDoneCandidate = new TestCandidatesData(getTestsDoneId());
+        TestCandidatesData selectedForQuotaCandidate = new TestCandidatesData(getSelectedForQuotaId());
+        TestCandidatesData secondDistributionLevelCandidate = new TestCandidatesData(getSecondDistributionLevelId());
+        TestCandidatesData dossierFormedCandidate = new TestCandidatesData(getDossierFormedId());
+        TestCandidatesData distributedQuotaCandidate = new TestCandidatesData(getDistributedQuotaId());
+        TestCandidatesData directedQuotaCandidate = new TestCandidatesData(getDirectedQuotaId());
+        TestCandidatesData enrolledQuotaCandidate = new TestCandidatesData(getEnrolledQuotaId());
+        TestCandidatesData completedQtCandidate = new TestCandidatesData(getСompletedQtId());
+        TestCandidatesData enrolledSubfacultyQCandidate = new TestCandidatesData(getEnrolledSubfacultyQId());
+        TestCandidatesData distributedSubfacultyQCandidate = new TestCandidatesData(getDistributedSubfacultyQId());
+        TestCandidatesData expelledQuotaCandidate = new TestCandidatesData(getExpelledQuotaId());
+        TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
 
         ArrayList<String> quotaStatesList = new ArrayList<String>();
 
         quotaStatesList.add(inputCandidate.getCandidateStateName());
-        quotaStatesList.add(candidateOnCheck.getCandidateStateName());
-        quotaStatesList.add(candidateInroduced.getCandidateStateName());
-        quotaStatesList.add(candidateInvitedForTests.getCandidateStateName());
-        quotaStatesList.add(candidateTestsDone.getCandidateStateName());
-        quotaStatesList.add(candidateSelectedForQuota.getCandidateStateName());
-        quotaStatesList.add(candidateSecondDistributionLevel.getCandidateStateName());
-        quotaStatesList.add(candidateDossierFormed.getCandidateStateName());
-        quotaStatesList.add(candidateDistributedQuota.getCandidateStateName());
-        quotaStatesList.add(candidateDirectedQuota.getCandidateStateName());
-        quotaStatesList.add(candidateEnrolledQuota.getCandidateStateName());
-        quotaStatesList.add(candidateСompletedQt.getCandidateStateName());
-        quotaStatesList.add(candidateEnrolledSubfacultyQ.getCandidateStateName());
-        quotaStatesList.add(candidateDistributedSubfacultyQ.getCandidateStateName());
-        quotaStatesList.add(candidateExpelledQuota.getCandidateStateName());
-        quotaStatesList.add(candidateNotPassedForQuota.getCandidateStateName());
+        quotaStatesList.add(onCheckCandidate.getCandidateStateName());
+        quotaStatesList.add(inroducedCandidate.getCandidateStateName());
+        quotaStatesList.add(invitedForTestsCandidate.getCandidateStateName());
+        quotaStatesList.add(testsDoneCandidate.getCandidateStateName());
+        quotaStatesList.add(selectedForQuotaCandidate.getCandidateStateName());
+        quotaStatesList.add(secondDistributionLevelCandidate.getCandidateStateName());
+        quotaStatesList.add(dossierFormedCandidate.getCandidateStateName());
+        quotaStatesList.add(distributedQuotaCandidate.getCandidateStateName());
+        quotaStatesList.add(directedQuotaCandidate.getCandidateStateName());
+        quotaStatesList.add(enrolledQuotaCandidate.getCandidateStateName());
+        quotaStatesList.add(completedQtCandidate.getCandidateStateName());
+        quotaStatesList.add(enrolledSubfacultyQCandidate.getCandidateStateName());
+        quotaStatesList.add(distributedSubfacultyQCandidate.getCandidateStateName());
+        quotaStatesList.add(expelledQuotaCandidate.getCandidateStateName());
+        quotaStatesList.add(notPassedForQuotaCandidate.getCandidateStateName());
 
         return quotaStatesList;
+    }
+
+
+    /**
+     * отмечает кандидатов во всех возможных состояниях
+     */
+    public void marksCandidatesInAllStates() throws IOException
+    {
+        TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
+        TestCandidatesData onCheckCandidate = new TestCandidatesData(getOnCheckId());
+        TestCandidatesData inroducedCandidate = new TestCandidatesData(getInroducedId());
+        TestCandidatesData invitedForTestsCandidate = new TestCandidatesData(getInvitedForTestsId());
+        TestCandidatesData testsDoneCandidate = new TestCandidatesData(getTestsDoneId());
+        TestCandidatesData selectedForQuotaCandidate = new TestCandidatesData(getSelectedForQuotaId());
+        TestCandidatesData secondDistributionLevelCandidate = new TestCandidatesData(getSecondDistributionLevelId());
+        TestCandidatesData dossierFormedCandidate = new TestCandidatesData(getDossierFormedId());
+        TestCandidatesData distributedQuotaCandidate = new TestCandidatesData(getDistributedQuotaId());
+        TestCandidatesData directedQuotaCandidate = new TestCandidatesData(getDirectedQuotaId());
+        TestCandidatesData enrolledQuotaCandidate = new TestCandidatesData(getEnrolledQuotaId());
+        TestCandidatesData completedQtCandidate = new TestCandidatesData(getСompletedQtId());
+        TestCandidatesData enrolledSubfacultyQCandidate = new TestCandidatesData(getEnrolledSubfacultyQId());
+        TestCandidatesData distributedSubfacultyQCandidate = new TestCandidatesData(getDistributedSubfacultyQId());
+        TestCandidatesData expelledQuotaCandidate = new TestCandidatesData(getExpelledQuotaId());
+        TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
+
+        TestCandidatesData fillingApplicationCandidate = new TestCandidatesData(getFillingApplicationId());
+        TestCandidatesData contractAcceptedCandidate = new TestCandidatesData(getContractAcceptedId());
+        TestCandidatesData onApprovalCandidate = new TestCandidatesData(getOnApprovalId());
+        TestCandidatesData distributedCandidate = new TestCandidatesData(getDistributedId());
+        TestCandidatesData rejectedCandidate = new TestCandidatesData(getRejectedId());
+        TestCandidatesData enrolledTfCandidate = new TestCandidatesData(getEnrolledTfId());
+        TestCandidatesData completedTfCandidate = new TestCandidatesData(getCompletedTfId());
+        TestCandidatesData enrolledCandidate = new TestCandidatesData(getEnrolledId());
+        TestCandidatesData graduatedCandidate = new TestCandidatesData(getGraduatedId());
+        TestCandidatesData expelledCandidate = new TestCandidatesData(getExpelledId());
+        TestCandidatesData refusedCandidate = new TestCandidatesData(getRefusedId());
+
+        PageCandidateList pageCandidateList = new PageCandidateList();
+
+        pageCandidateList.marksCandidate(inputCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(onCheckCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(inroducedCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(invitedForTestsCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(testsDoneCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(selectedForQuotaCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(secondDistributionLevelCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(dossierFormedCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(distributedQuotaCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(directedQuotaCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(enrolledQuotaCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(completedQtCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(enrolledSubfacultyQCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(distributedSubfacultyQCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(expelledQuotaCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(notPassedForQuotaCandidate.getCandidateRegNumber());
+
+        pageCandidateList.marksCandidate(fillingApplicationCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(contractAcceptedCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(onApprovalCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(distributedCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(rejectedCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(enrolledTfCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(completedTfCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(enrolledCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(graduatedCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(expelledCandidate.getCandidateRegNumber());
+        pageCandidateList.marksCandidate(refusedCandidate.getCandidateRegNumber());
+    }
+
+
+    public int checkAllQuotaCandidateCanOpenCard(int logErrors) throws IOException
+    {
+        TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
+        TestCandidatesData onCheckCandidate = new TestCandidatesData(getOnCheckId());
+        TestCandidatesData inroducedCandidate = new TestCandidatesData(getInroducedId());
+        TestCandidatesData invitedForTestsCandidate = new TestCandidatesData(getInvitedForTestsId());
+        TestCandidatesData testsDoneCandidate = new TestCandidatesData(getTestsDoneId());
+        TestCandidatesData selectedForQuotaCandidate = new TestCandidatesData(getSelectedForQuotaId());
+        TestCandidatesData secondDistributionLevelCandidate = new TestCandidatesData(getSecondDistributionLevelId());
+        TestCandidatesData dossierFormedCandidate = new TestCandidatesData(getDossierFormedId());
+        TestCandidatesData distributedQuotaCandidate = new TestCandidatesData(getDistributedQuotaId());
+        TestCandidatesData directedQuotaCandidate = new TestCandidatesData(getDirectedQuotaId());
+        TestCandidatesData enrolledQuotaCandidate = new TestCandidatesData(getEnrolledQuotaId());
+        TestCandidatesData completedQtCandidate = new TestCandidatesData(getСompletedQtId());
+        TestCandidatesData enrolledSubfacultyQCandidate = new TestCandidatesData(getEnrolledSubfacultyQId());
+        TestCandidatesData distributedSubfacultyQCandidate = new TestCandidatesData(getDistributedSubfacultyQId());
+        TestCandidatesData expelledQuotaCandidate = new TestCandidatesData(getExpelledQuotaId());
+        TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
+
+        PageCandidateCard pageCandidateCard = new PageCandidateCard();
+
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(inputCandidate.getCandidateRegNumber(), inputCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(onCheckCandidate.getCandidateRegNumber(), onCheckCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(inroducedCandidate.getCandidateRegNumber(), inroducedCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(invitedForTestsCandidate.getCandidateRegNumber(), invitedForTestsCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(testsDoneCandidate.getCandidateRegNumber(), testsDoneCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(selectedForQuotaCandidate.getCandidateRegNumber(), selectedForQuotaCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(secondDistributionLevelCandidate.getCandidateRegNumber(), secondDistributionLevelCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(dossierFormedCandidate.getCandidateRegNumber(), dossierFormedCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(distributedQuotaCandidate.getCandidateRegNumber(), distributedQuotaCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(directedQuotaCandidate.getCandidateRegNumber(), directedQuotaCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(enrolledQuotaCandidate.getCandidateRegNumber(), enrolledQuotaCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(completedQtCandidate.getCandidateRegNumber(), completedQtCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(enrolledSubfacultyQCandidate.getCandidateRegNumber(), enrolledSubfacultyQCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(distributedSubfacultyQCandidate.getCandidateRegNumber(), distributedSubfacultyQCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(expelledQuotaCandidate.getCandidateRegNumber(), expelledQuotaCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(notPassedForQuotaCandidate.getCandidateRegNumber(), notPassedForQuotaCandidate.getCandidateStateName(), logErrors);
+
+        return logErrors;
+    }
+
+    public int checkAllContractCandidateCanNotOpenCard(int logErrors) throws IOException
+    {
+        TestCandidatesData fillingApplicationCandidate = new TestCandidatesData(getFillingApplicationId());
+        TestCandidatesData contractAcceptedCandidate = new TestCandidatesData(getContractAcceptedId());
+        TestCandidatesData onApprovalCandidate = new TestCandidatesData(getOnApprovalId());
+        TestCandidatesData distributedCandidate = new TestCandidatesData(getDistributedId());
+        TestCandidatesData rejectedCandidate = new TestCandidatesData(getRejectedId());
+        TestCandidatesData enrolledTfCandidate = new TestCandidatesData(getEnrolledTfId());
+        TestCandidatesData completedTfCandidate = new TestCandidatesData(getCompletedTfId());
+        TestCandidatesData enrolledCandidate = new TestCandidatesData(getEnrolledId());
+        TestCandidatesData graduatedCandidate = new TestCandidatesData(getGraduatedId());
+        TestCandidatesData expelledCandidate = new TestCandidatesData(getExpelledId());
+        TestCandidatesData refusedCandidate = new TestCandidatesData(getRefusedId());
+
+        PageCandidateList pageCandidateList = new PageCandidateList();
+
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, fillingApplicationCandidate.getCandidateRegNumber(), fillingApplicationCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, contractAcceptedCandidate.getCandidateRegNumber(), contractAcceptedCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, onApprovalCandidate.getCandidateRegNumber(), onApprovalCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, distributedCandidate.getCandidateRegNumber(), distributedCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, rejectedCandidate.getCandidateRegNumber(), rejectedCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, enrolledTfCandidate.getCandidateRegNumber(), enrolledTfCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, completedTfCandidate.getCandidateRegNumber(), completedTfCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, enrolledCandidate.getCandidateRegNumber(), enrolledCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, graduatedCandidate.getCandidateRegNumber(), graduatedCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, expelledCandidate.getCandidateRegNumber(), expelledCandidate.getCandidateStateName());
+        logErrors = pageCandidateList.canNotOpenACard(logErrors, refusedCandidate.getCandidateRegNumber(), refusedCandidate.getCandidateStateName());
+
+        return logErrors;
     }
 }

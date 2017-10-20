@@ -3,12 +3,35 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 
 public class Downloads
 {
+    private String downloadsPath;
+    private String uploadingName;
+
+    public Downloads() throws IOException
+    {
+        downloadsPath = this.initDownloadsData("downloadsPath");
+        uploadingName = this.initDownloadsData("uploadingName");
+    }
+
+    //методу передается название поля в properties и метод возвращает значение поля
+    protected String initDownloadsData(String fieldKey) throws IOException
+    {
+        Properties userData = new Properties();
+        File propertyFile = new File("src/main/resources/downloadsData.properties");
+        userData.load(new FileReader(propertyFile));
+        return userData.getProperty(fieldKey);
+    }
+
+    public String getDownloadsPath() { return downloadsPath; }
+    private String getUploadingName() { return uploadingName; }
+
     public int checkUploadingStatesCandidates(int logErrors) throws IOException {
         TestCandidatesData testCandidatesData = new TestCandidatesData();
 
@@ -18,7 +41,7 @@ public class Downloads
         ArrayList<String> statesListInUploading = new ArrayList<String>();
         ArrayList<String> quotaStatesList = testCandidatesData.quotaStates();
 
-        File src = new File("src/main/resources/downloads/candidates.xlsx");
+        File src = new File(getDownloadsPath()+ getUploadingName());
         FileInputStream fis = new FileInputStream(src);
         XSSFWorkbook wb = new XSSFWorkbook(fis);
 
@@ -89,7 +112,7 @@ public class Downloads
      */
     public void deleteAllDownloads()
     {
-        for (File myFile : new File("src/main/resources/downloads").listFiles())
+        for (File myFile : new File(getDownloadsPath()).listFiles())
             if (myFile.isFile()) myFile.delete();
     }
 }

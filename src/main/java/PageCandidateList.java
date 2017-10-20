@@ -146,7 +146,8 @@ public class PageCandidateList extends BasePage {
     /**
      * Отмечает кандидата, отфильтрованного по регномеру
      */
-    public void marksCandidate(String regNumber) {
+    public void marksCandidate(String regNumber)
+    {
         MenuContent menuContent = new MenuContent();
 
         menuContent.goToCandidatesList();
