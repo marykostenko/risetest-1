@@ -20,20 +20,24 @@ public class VerificationRightsDelegateTest extends BaseTest
         TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
+        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
 
         log("Идёт подготовка тестовых данных для прохождения теста провекрки прав представителя...");
-        /**
+
         log("Для выполнения данного теста добавляю тестовых КВОТНЫХ кандидатов в систему:");
         testCandidatesData.createCandidateInAllQuotaStatues((getStandUrl("Ext")));
 
         log("Для выполнения данного теста добавляю тестовых КОНТРАКТНЫХ кандидатов в систему:");
         testCandidatesData.createCandidateInAllContractStatues((getStandUrl("Ext")));
-**/
+
         log("Переиндексируем добавленых не через интерфейс кандидатов");
         pageCandidateList.reindexInputCandidate(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getCountry(), testRepresentativeData.getCountryId());
 
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
+
+        log("Перед выполнением данного теста необходимо очистить список отмеченных кандидатов для представителя");
+        testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
 
         log("Отмечаем кандидатов во всех возможных состояниях для представителя");
         open(getStandUrl("Ext"));
@@ -133,7 +137,6 @@ public class VerificationRightsDelegateTest extends BaseTest
     @Test (priority = 4)
     public void testVerificationAddingToUnloading() throws IOException, SQLException
     {
-        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
         TestUserData testRepresentativeData = new TestUserData(getRepresentativeId());
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
@@ -141,8 +144,6 @@ public class VerificationRightsDelegateTest extends BaseTest
         MenuContent menuContent = new MenuContent();
         Downloads downloads = new Downloads();
 
-        log("Перед выполнением данного теста необходимо очистить список отмеченных кандидатов для представителя и удалить ранее загруженные файлы");
-        testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
         downloads.deleteAllDownloads();
 
         log("Запущен тест USER-Rights-1.3");

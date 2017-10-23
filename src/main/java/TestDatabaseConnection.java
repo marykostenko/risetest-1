@@ -160,6 +160,33 @@ public class TestDatabaseConnection
     }
 
     /**
+     * Запрос на countryId по названибю страны
+     */
+    private String requestCountryId(String country)
+    {
+        String query = "SELECT \n" +
+                "  \"FSMCountry\".id\n" +
+                "FROM \n" +
+                "  public.\"FSMCountry\"\n" +
+                "WHERE \n" +
+                "\"FSMCountry\".name LIKE '%"+ country +"%';\n";
+        return query;
+    }
+
+    /**
+     * Вытаскивает countryId
+     */
+    public String selectCountryId(String country) throws IOException, SQLException {
+
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+
+        String queryCountryId = requestCountryId(country);
+        String countryId = selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(),
+                testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCountryId, getElementId());
+
+        return countryId;
+    }
+    /**
      * Вытаскивает id кандидата, используя его email
      * @param candidateEmail
      * @return

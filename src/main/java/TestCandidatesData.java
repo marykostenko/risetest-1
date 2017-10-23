@@ -11,7 +11,7 @@ public class TestCandidatesData
     private String candidateFirstName;
     private String candidateLastName;
     private String candidateSexEn;
-    private String candidateCountryId;
+    private String candidateCountry;
     private String candidatePassword;
     private String candidateState;
     private String candidatePromo;
@@ -52,7 +52,7 @@ public class TestCandidatesData
         candidateFirstName = this.initUserData(userId + "CandidateFirstName");
         candidateLastName = this.initUserData(userId + "CandidateLastName");
         candidateSexEn = this.initUserData(userId + "CandidateSexEn");
-        candidateCountryId = this.initUserData(userId + "CandidateCountryId");
+        candidateCountry = this.initUserData(userId + "CandidateCountry");
         candidatePassword = this.initUserData(userId + "CandidatePassword");
         candidateState = this.initUserData(userId + "CandidateState");
         candidatePromo = this.initUserData(userId + "CandidatePromo");
@@ -108,7 +108,7 @@ public class TestCandidatesData
 
     public String getCandidateSexEn() { return candidateSexEn; }
 
-    public String getCandidateCountryId() { return candidateCountryId; }
+    public String getCandidateCountry() { return candidateCountry; }
 
     public String getCandidatePassword() { return candidatePassword; }
 
@@ -266,10 +266,12 @@ public class TestCandidatesData
         String email = testRandomUserData.createRandomEmail();
         boolean contract = false;
 
+        String countryId = testDatabaseConnection.selectCountryId(candidate.getCandidateCountry());
+
         System.out.println();
         System.out.println("Зарегистрируем и активируем кадидата");
         testRequestsForHttp.registrationCandidateByPostRequest(contract, standUrl, candidate.getCandidateLastName(), candidate.getCandidateFirstName(), candidate.getCandidateSexEn(),
-                candidate.getCandidateCountryId(), email, candidate.getCandidatePassword(), candidate.getCandidatePromo());
+                countryId, email, candidate.getCandidatePassword(), candidate.getCandidatePromo());
         activateQuotaCandidateWithPromoCode(email, standUrl, candidate.getCandidatePromo());
 
         String idCandidate = testDatabaseConnection.selectCandidateId(email);

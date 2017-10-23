@@ -41,7 +41,7 @@ public class Downloads
         ArrayList<String> statesListInUploading = new ArrayList<String>();
         ArrayList<String> quotaStatesList = testCandidatesData.quotaStates();
 
-        File src = new File(getDownloadsPath()+ getUploadingName());
+        File src = new File("src/main/resources/downloads/candidates.xlsx");
         FileInputStream fis = new FileInputStream(src);
         XSSFWorkbook wb = new XSSFWorkbook(fis);
 
