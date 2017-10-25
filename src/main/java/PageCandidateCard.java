@@ -140,4 +140,34 @@ public class PageCandidateCard extends BasePage
         }
         return logErrors;
     }
+
+    private ElementsCollection lastNameEngDisabled =  $$(By.xpath("//div[@data-field-name='CandidateFormData_lastNameEng']//child::input[@disabled='true']"));
+    private ElementsCollection firstNameEngDisabled =  $$(By.xpath("//div[@data-field-name='CandidateFormData_firstNameEng']//child::input[@disabled='true']"));
+
+    /**
+     * Проверяет, что нельзя редактировать ФИО латиницей  (когда кандидат в состояниях Заявление принято и Отобран по квоте)
+     */
+    public int checkBanEditingOfNameInLatin(int logErrors, String candidateStateName)
+    {
+        $(By.xpath("//a[@class='link-opacity pull-right']")).click();
+
+        if (lastNameEngDisabled.isEmpty())
+        {
+            log("Ошибка! Фамилию латиницей представителю нельзя редактировать у кандидата в состоянии " + candidateStateName + ", сейчас поле открыто для редактирования");
+            logErrors++;
+        } else
+            log("Представителю закрыта возможность редактировать фамилию латиницей у кандидата в состоянии " + candidateStateName);
+
+        if (firstNameEngDisabled.isEmpty())
+        {
+            log("Ошибка! Имя латиницей представителю нельзя редактировать у кандидата в состоянии " + candidateStateName + ", сейчас поле открыто для редактирования");
+            logErrors++;
+        } else
+            log("Представителю закрыта возможность редактировать имя латиницей у кандидата в состоянии" + candidateStateName);
+
+
+
+        return logErrors;
+    }
+
 }

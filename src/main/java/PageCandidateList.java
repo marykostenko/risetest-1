@@ -1,20 +1,11 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.awt.*;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
-import static junit.runner.BaseTestRunner.setPreference;
-import static net.sourceforge.htmlunit.corejs.javascript.Context.enter;
 
 /**
  * Created by Maria on 10.07.2017.
