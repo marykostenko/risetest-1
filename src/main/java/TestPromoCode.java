@@ -30,6 +30,8 @@ public class TestPromoCode
         } else
             promoCode = promoCodeAgent.getText();
 
+        pageTopBottom.logout();
+
         return promoCode;
     }
 }
