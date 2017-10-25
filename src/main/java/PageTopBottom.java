@@ -389,12 +389,12 @@ public class PageTopBottom extends BasePage
 
     public void openEdInRus()
     {
-        if($(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_1 rs-swap-target rs-swap-enabled']")).isDisplayed())
-            $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_1 rs-swap-target rs-swap-enabled']")).click();
+        if($(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_0 rs-swap-target rs-swap-enabled']")).isDisplayed())
+            $(By.xpath("//nav[@class='main_nav main_nav_header']//child::div[@class='main_nav_item mobile_nav_0 rs-swap-target rs-swap-enabled']")).click();
         else
         {
             mobileMenuOpen();
-            $(By.xpath("//nav[contains(@class, 'nav_mobile')]//div[contains(@class, 'item mobile_nav_1')]")).click();
+            $(By.xpath("//nav[contains(@class, 'nav_mobile')]//div[contains(@class, 'item mobile_nav_0')]")).click();
         }
     }
     /**
