@@ -176,7 +176,7 @@ public class TestCandidatesData
      * @throws IOException
      * @throws SQLException
      */
-    public void createCandidateInAllQuotaStatues(String standUrl) throws IOException, SQLException
+    public void createCandidateInAllQuotaStatues(String standUrl, String promoCode) throws IOException, SQLException
     {
         String candidateInput = getInputId();
         String candidateOnCheck = getOnCheckId();
@@ -198,22 +198,22 @@ public class TestCandidatesData
         /**
          * Зарегистрируем и добавим кандидатов во всех возможных квотных состояниях в системе
          */
-        registrationAndActivateTestCandidate(standUrl, candidateInput);
-        registrationAndActivateTestCandidate(standUrl, candidateOnCheck);
-        registrationAndActivateTestCandidate(standUrl, candidateInroduced);
-        registrationAndActivateTestCandidate(standUrl, candidateInvitedForTests);
-        registrationAndActivateTestCandidate(standUrl, candidateTestsDone);
-        registrationAndActivateTestCandidate(standUrl, candidateSelectedForQuota);
-        registrationAndActivateTestCandidate(standUrl, candidateSecondDistributionLevel);
-        registrationAndActivateTestCandidate(standUrl, candidateDossierFormed);
-        registrationAndActivateTestCandidate(standUrl, candidateDistributedQuota);
-        registrationAndActivateTestCandidate(standUrl, candidateDirectedQuota);
-        registrationAndActivateTestCandidate(standUrl, candidateEnrolledQuota);
-        registrationAndActivateTestCandidate(standUrl, candidateСompletedQt);
-        registrationAndActivateTestCandidate(standUrl, candidateEnrolledSubfacultyQ);
-        registrationAndActivateTestCandidate(standUrl, candidateDistributedSubfacultyQ);
-        registrationAndActivateTestCandidate(standUrl, candidateExpelledQuota);
-        registrationAndActivateTestCandidate(standUrl, candidateNotPassedForQuota);
+        registrationAndActivateTestCandidate(standUrl, candidateInput, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateOnCheck, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateInroduced, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateInvitedForTests, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateTestsDone, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateSelectedForQuota, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateSecondDistributionLevel, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateDossierFormed, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateDistributedQuota, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateDirectedQuota, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateEnrolledQuota, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateСompletedQt, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateEnrolledSubfacultyQ, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateDistributedSubfacultyQ, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateExpelledQuota, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateNotPassedForQuota, promoCode);
 
     }
 
@@ -223,7 +223,7 @@ public class TestCandidatesData
      * @throws IOException
      * @throws SQLException
      */
-    public void createCandidateInAllContractStatues(String standUrl) throws IOException, SQLException
+    public void createCandidateInAllContractStatues(String standUrl, String promoCode) throws IOException, SQLException
     {
         String candidateFillingApplication = getFillingApplicationId();
         String candidateContractAccepted = getContractAcceptedId();
@@ -240,23 +240,23 @@ public class TestCandidatesData
         /**
          * Зарегистрируем и добавим кандидатов во всех возможных контрактных состояниях в системе
          */
-        registrationAndActivateTestCandidate(standUrl, candidateFillingApplication);
-        registrationAndActivateTestCandidate(standUrl, candidateContractAccepted);
-        registrationAndActivateTestCandidate(standUrl, candidateOnApproval);
-        registrationAndActivateTestCandidate(standUrl, candidateDistributed);
-        registrationAndActivateTestCandidate(standUrl, candidateRejected);
-        registrationAndActivateTestCandidate(standUrl, candidateEnrolledTf);
-        registrationAndActivateTestCandidate(standUrl, candidateCompletedTf);
-        registrationAndActivateTestCandidate(standUrl, candidateEnrolled);
-        registrationAndActivateTestCandidate(standUrl, candidateGraduated);
-        registrationAndActivateTestCandidate(standUrl, candidateExpelled);
-        registrationAndActivateTestCandidate(standUrl, candidateRefused);
+        registrationAndActivateTestCandidate(standUrl, candidateFillingApplication, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateContractAccepted, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateOnApproval, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateDistributed, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateRejected, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateEnrolledTf, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateCompletedTf, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateEnrolled, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateGraduated, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateExpelled, promoCode);
+        registrationAndActivateTestCandidate(standUrl, candidateRefused, promoCode);
     }
 
     /**
      * Регистрирет и активирует тестового кандидата и меняет ему состояние. Записывет его регномер в файл
      */
-    private void registrationAndActivateTestCandidate(String standUrl, String userId) throws IOException, SQLException
+    private void registrationAndActivateTestCandidate(String standUrl, String userId, String promoCode) throws IOException, SQLException
     {
         TestRandomUserData testRandomUserData = new TestRandomUserData();
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
@@ -271,7 +271,8 @@ public class TestCandidatesData
         System.out.println();
         System.out.println("Зарегистрируем и активируем кадидата");
         testRequestsForHttp.registrationCandidateByPostRequest(contract, standUrl, candidate.getCandidateLastName(), candidate.getCandidateFirstName(), candidate.getCandidateSexEn(),
-                countryId, email, candidate.getCandidatePassword(), candidate.getCandidatePromo());
+                countryId, email, candidate.getCandidatePassword(), promoCode);
+
         activateQuotaCandidateWithPromoCode(email, standUrl, candidate.getCandidatePromo());
 
         String idCandidate = testDatabaseConnection.selectCandidateId(email);
@@ -369,6 +370,7 @@ public class TestCandidatesData
         TestCandidatesData refusedCandidate = new TestCandidatesData(getRefusedId());
 
         PageCandidateList pageCandidateList = new PageCandidateList();
+        PageTopBottom pageTopBottom = new PageTopBottom();
 
         pageCandidateList.marksCandidate(inputCandidate.getCandidateRegNumber());
         pageCandidateList.marksCandidate(onCheckCandidate.getCandidateRegNumber());
@@ -398,6 +400,8 @@ public class TestCandidatesData
         pageCandidateList.marksCandidate(graduatedCandidate.getCandidateRegNumber());
         pageCandidateList.marksCandidate(expelledCandidate.getCandidateRegNumber());
         pageCandidateList.marksCandidate(refusedCandidate.getCandidateRegNumber());
+
+        pageTopBottom.logout();
     }
 
 
