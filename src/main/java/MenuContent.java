@@ -1,5 +1,6 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -177,6 +178,17 @@ public class MenuContent extends BasePage
 
     private ElementsCollection filtersAgents = $$(By.xpath("//div[@id='agents-filter']"));
     private ElementsCollection tableAgents = $$(By.xpath("//div[@id='agents']"));
+
+
+
+    public void checkAgent(String country)
+    {
+            $(By.xpath("//a[@href='/agent/list']")).click();
+            WebElement countryField = $(By.xpath("//input[@placeholder='Страна']"));
+            countryField.sendKeys(country);
+            $(By.xpath("//strong[contains(text(),'"+ country +"')]")).click();
+
+    }
 
     public int checkMenuAgents(int logErrors)
     {

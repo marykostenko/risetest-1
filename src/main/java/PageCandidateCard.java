@@ -1,10 +1,13 @@
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.WebDriverRunner.url;
+
 /**
  * Created by user nkorobicina on 14.12.2016.
  */
@@ -12,6 +15,7 @@ public class PageCandidateCard extends BasePage
 {
 
     private WebElement statusLine = $(By.xpath("//div[@class='format-candidate-fields'][1]//div[contains(@class, 'span6')][2]"));
+    private ElementsCollection agent = $$(By.xpath("//div[contains(text(),'Организация-агент')]//following::div[1]"));
 
     /**
     * проверка, что меню карточки кандидата содержит нужные вкладки
@@ -54,8 +58,6 @@ public class PageCandidateCard extends BasePage
      * Находит строку, содержащую статус кандидата
      * @return
      */
-
-
     public String getCandidateStatus()
     {
 
@@ -76,6 +78,17 @@ public class PageCandidateCard extends BasePage
     }
 
     /**
+     * Возвращает true, если статус кандидата совпадает с полученным
+     */
+    private boolean statusMeets(String state)
+    {
+        if (getCandidateStatus().contains(state))
+            return true;
+        else
+            return false;
+    }
+
+    /**
      * Нажимает кнопку "Отправить заявление" в состоянии "Заполнение заявки на контракт"
      */
     public void clickSubmitApplication()
@@ -90,6 +103,71 @@ public class PageCandidateCard extends BasePage
     public void waitWhileStatusBecomesContractAccepted()
     {
         $(By.xpath("//div[@class='format-candidate-fields'][1]//div[contains(@class, 'span6')][2]")).shouldHave(text("Заявка на контракт принята"));
+    }
+    /**
+     * Проверяет, есть ли на карточке информация об организации агенте, если есть - возвращает true
+     */
+    private boolean checkAgentInfo()
+    {
+        if (agent.isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * Открывает карточку квотного кандидата, отфильрованную по регномеру, сверяет стстаус с полученным и отсутствие наличия информации об агенте
+     * Возвращает количество ошибок
+     */
+    public int checkQuotaCandidateCard(String regNumber, String state, int logErrors)
+    {
+        PageCandidateList pageCandidateList = new PageCandidateList();
+        MenuContent menuContent = new MenuContent();
+
+        log("Перейдём к списку кандидатов");
+        menuContent.goToCandidatesList();
+
+        pageCandidateList.selectCandidateByRegNumber(regNumber);
+        if (!statusMeets(state))
+        {
+            log("ОШИБКА!!! Состояние кандидата должно было быть " + state);
+            logErrors++;
+        }
+        if (checkAgentInfo())
+        {
+            log("ОШИБКА!!! На карточке отображается информация об агенте");
+            logErrors++;
+        }
+        return logErrors;
+    }
+
+    private ElementsCollection lastNameEngDisabled =  $$(By.xpath("//div[@data-field-name='CandidateFormData_lastNameEng']//child::input[@disabled='true']"));
+    private ElementsCollection firstNameEngDisabled =  $$(By.xpath("//div[@data-field-name='CandidateFormData_firstNameEng']//child::input[@disabled='true']"));
+
+    /**
+     * Проверяет, что нельзя редактировать ФИО латиницей  (когда кандидат в состояниях Заявление принято и Отобран по квоте)
+     */
+    public int checkBanEditingOfNameInLatin(int logErrors, String candidateStateName)
+    {
+        $(By.xpath("//a[@class='link-opacity pull-right']")).click();
+
+        if (lastNameEngDisabled.isEmpty())
+        {
+            log("Ошибка! Фамилию латиницей представителю нельзя редактировать у кандидата в состоянии " + candidateStateName + ", сейчас поле открыто для редактирования");
+            logErrors++;
+        } else
+            log("Представителю закрыта возможность редактировать фамилию латиницей у кандидата в состоянии " + candidateStateName);
+
+        if (firstNameEngDisabled.isEmpty())
+        {
+            log("Ошибка! Имя латиницей представителю нельзя редактировать у кандидата в состоянии " + candidateStateName + ", сейчас поле открыто для редактирования");
+            logErrors++;
+        } else
+            log("Представителю закрыта возможность редактировать имя латиницей у кандидата в состоянии" + candidateStateName);
+
+
+
+        return logErrors;
     }
 
 }
