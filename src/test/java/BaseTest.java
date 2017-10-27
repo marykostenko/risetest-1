@@ -257,4 +257,12 @@ public abstract class BaseTest {
             pageTopBottom.logout();
         }
     }
+
+    @AfterClass
+    public void afterSuite()
+    {
+        log("Закрываем браузер");
+        close();
+    }
+
 }
