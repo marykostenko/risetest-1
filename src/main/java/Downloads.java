@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -108,11 +111,15 @@ public class Downloads
     }
 
     /**
-     * Удаляет все загруженные файлы из папки
+     * Удаляет все загруженные файлы из папки (если папка существует)
      */
     public void deleteAllDownloads()
     {
-        for (File myFile : new File(getDownloadsPath()).listFiles())
-            if (myFile.isFile()) myFile.delete();
+        Path path = Paths.get(getDownloadsPath());
+        if (Files.exists(path))
+        {
+            for (File myFile : new File(getDownloadsPath()).listFiles())
+                if (myFile.isFile()) myFile.delete();
+        }
     }
 }
