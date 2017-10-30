@@ -1,8 +1,10 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
@@ -12,6 +14,8 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 public class PageRegistration extends BasePage
 
 {
+    private WebElement confirmRegistrationText = $(By.xpath("//div[@id='activate']//p[1]"));
+
     /**
      * возвращает true, если адрес страницы содержит /registration
      */
@@ -183,5 +187,20 @@ public class PageRegistration extends BasePage
     public int checkUrlFirstRegistrationPage(int logErrors)
     {
         return checkAndLog(!isFirstRegistrationPage(), logErrors, "Ошибка: url неверный -" + url());
+    }
+
+    /**
+     * Проверка, что после активации кандидата появися текст "Спасибо, вы успешно зарегистрированы на официальном сайте для отбора иностранных граждан на обучение в Российской Федерации.
+     * Ваш регистрационный номер:"
+     */
+    public boolean checkConfirmRegistrationText()
+    {
+        String textOnPage = confirmRegistrationText.getText();
+
+        if (textOnPage.contains("Спасибо, вы успешно зарегистрированы на официальном сайте для отбора иностранных граждан на обучение в Российской Федерации. Ваш регистрационный номер:"))
+        {
+            return true;
+        }
+        else return false;
     }
 }

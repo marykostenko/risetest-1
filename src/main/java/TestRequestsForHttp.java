@@ -11,7 +11,6 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-import sun.security.krb5.internal.PAData;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +34,8 @@ public class TestRequestsForHttp {
     /**
      * Заполняет форму регистрации
      */
-    public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail, String registrationPassword,
-                                                                   String promoCode) throws IOException
+    public static int postRequestForRegistrationWithPartialFilling(String urlForRequest, String lastName, String firstName, String sex, String countryId, String regEmail,
+                                                                   String registrationPassword, String promoCode) throws IOException
     {
         HttpPost registrationRequest = new HttpPost(urlForRequest);
         List<NameValuePair> credentials = new ArrayList<NameValuePair>();

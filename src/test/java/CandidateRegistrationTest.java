@@ -2,6 +2,7 @@ import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created by Maria on 24.05.2017.
@@ -13,6 +14,89 @@ public class CandidateRegistrationTest extends BaseTest
 
     //CAND-REG-2.1
     @Test(priority = 1)
+    public void testCheckRegistrationMail() throws InterruptedException, IOException, MessagingException
+    {
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+        TestMail testMail = new TestMail();
+        PageRegistration pageRegistration = new PageRegistration();
+
+        log("Запущен тест CAND-REG-2.1");
+
+        log("Переходим на главную страницу");
+        pageTopBottom.goToHomePage();
+
+        log("Переключаем язык страницы на русский");
+        pageTopBottom.switchToRu();
+
+        log("Генирируем рандомный email");
+        String randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
+
+        log("Переходим на страницу регитсрации кандидата");
+        pageTopBottom.goToRegistration();
+
+        log("Заполняем обязательные поля для регистрации");
+        pageRegistration.partialFillingRegistrationForm(registrationQuotaPartialUserData.getUserLastName(), registrationQuotaPartialUserData.getUserFirstName(),
+                registrationQuotaPartialUserData.getSexRu(), registrationQuotaPartialUserData.getCountry(), randomEmail, registrationQuotaPartialUserData.getUserPassword());
+
+        if (!testMail.checkRegistrationMail(randomEmail))
+        {
+            logErrors++;
+        }
+
+        checkMistakes();
+        log("Тест CAND-REG-2.1 завершен");
+    }
+
+    //CAND-REG-2.2
+    @Test(priority = 2)
+    public void testCheckConfirmationRegistrationMail() throws InterruptedException, IOException, MessagingException, SQLException {
+        TestUserData registrationQuotaPartialUserData = new TestUserData(getUserForRegistrationPartialQuotaId());
+        PageTopBottom pageTopBottom = new PageTopBottom();
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+        TestMail testMail = new TestMail();
+        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        TestUserData testUserData = new TestUserData();
+
+        log("Запущен тест CAND-REG-2.1");
+
+        log("Переходим на главную страницу");
+        pageTopBottom.goToHomePage();
+
+        log("Переключаем язык страницы на русский");
+        pageTopBottom.switchToRu();
+
+        log("Генирируем рандомный email");
+        String randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
+
+        System.out.println("Формируем адрес для POST запроса на регистрацию");
+        String urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract(getStandUrl(flagForStandUrl));
+
+        log("Отправляем пост завтрос с данными на регистрацию тетсовго кандидата");
+        testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, registrationQuotaPartialUserData.getUserLastName(),
+                registrationQuotaPartialUserData.getUserFirstName(), registrationQuotaPartialUserData.getSexEn(), registrationQuotaPartialUserData.getCountryId(), randomEmail,
+                registrationQuotaPartialUserData.getUserPassword(), null));
+
+        log("Активируем кандидата");
+        if (testUserData.activationCandidate(getStandUrl(flagForStandUrl), randomEmail))
+        {
+            logErrors++;
+        }
+
+        if (!testMail.checkConfirmationRegistrationMail(randomEmail, getStandUrl(flagForStandUrl)))
+        {
+            logErrors++;
+        }
+
+        log("Тест CAND-REG-2.1 завершен");
+        checkMistakes();
+    }
+
+
+    //CAND-REG-2.3
+    @Test(priority = 3)
     public void testRegistrationQuotaWithPartialFilling() throws IOException, InterruptedException, MessagingException
     {
 
@@ -25,7 +109,7 @@ public class CandidateRegistrationTest extends BaseTest
         boolean partial = true;
         boolean contract = false;
 
-        log("Запущен тест CAND-REG-2.1");
+        log("Запущен тест CAND-REG-2.3");
 
         log("Переходим на главную страницу");
         pageTopBottom.goToHomePage();
@@ -46,11 +130,11 @@ public class CandidateRegistrationTest extends BaseTest
             logErrors++;
         }
         checkMistakes();
-        log("Тест CAND-REG-2.1 завершен");
+        log("Тест CAND-REG-2.3 завершен");
     }
 
-    //CAND-REG-2.2
-    @Test(priority = 2)
+    //CAND-REG-2.4
+    @Test(priority = 4)
     public void testRegistrationQuotaWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -62,7 +146,7 @@ public class CandidateRegistrationTest extends BaseTest
         boolean partial = false;
         boolean contract = false;
 
-        log("Запущен тест CAND-REG-2.2");
+        log("Запущен тест CAND-REG-2.4");
 
         log("Переходим на главную страницу");
         pageTopBottom.goToHomePage();
@@ -91,11 +175,11 @@ public class CandidateRegistrationTest extends BaseTest
         }
 
         checkMistakes();
-        log("Тест CAND-REG-2.2 завершен");
+        log("Тест CAND-REG-2.4 завершен");
     }
 
-    //CAND-REG-2.3
-    @Test(priority = 3)
+    //CAND-REG-2.5
+    @Test(priority = 5)
     public void testRegistrationContractWithPartialFilling() throws IOException, InterruptedException, MessagingException
     {
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -107,7 +191,7 @@ public class CandidateRegistrationTest extends BaseTest
         boolean partial = true;
         boolean contract = true;
 
-        log("Запущен тест CAND-REG-2.3");
+        log("Запущен тест CAND-REG-2.5");
 
         log("Переходим на главную страницу");
         pageTopBottom.goToHomePage();
@@ -128,11 +212,11 @@ public class CandidateRegistrationTest extends BaseTest
             logErrors++;
         }
         checkMistakes();
-        log("Тест CAND-REG-2.3 завершен");
+        log("Тест CAND-REG-2.5 завершен");
     }
 
-    //CAND-REG-2.4
-    @Test(priority = 4)
+    //CAND-REG-2.6
+    @Test(priority = 6)
     public void testRegistrationContractWithFullFilling() throws IOException, InterruptedException, MessagingException
     {
         PageTopBottom pageTopBottom = new PageTopBottom();
@@ -144,7 +228,7 @@ public class CandidateRegistrationTest extends BaseTest
         boolean partial = false;
         boolean contract = true;
 
-        log("Запущен тест CAND-REG-2.4");
+        log("Запущен тест CAND-REG-2.6");
 
         log("Переходим на главную страницу");
         pageTopBottom.goToHomePage();
@@ -167,6 +251,6 @@ public class CandidateRegistrationTest extends BaseTest
             logErrors++;
         }
         checkMistakes();
-        log("Тест CAND-REG-2.4 завершен");
+        log("Тест CAND-REG-2.6 завершен");
     }
 }

@@ -26,6 +26,7 @@ public class TestMail extends BasePage
     private static final String passwdMail = "manager1";
     private static final String emailUserRegistration = "Регистрация на russia.study / russia.study Registration";
     private static final String passwordRecoveryMailHead = "Восстановление пароля russia.study / russia.study password restore";
+    private static final String textConfirmationRegistrationMail = "Спасибо, вы успешно зарегистрированы на официальном сайте для отбора иностранных граждан на обучение в Российской Федерации. Ваш регистрационный номер:";
 
     public String getPasswordRecoveryMailHead()
     {
@@ -43,6 +44,8 @@ public class TestMail extends BasePage
     {
         return emailChangeRequest;
     }
+
+    public String getTextConfirmationRegistrationMail() { return textConfirmationRegistrationMail; }
 
     private Folder initInboxReadOnly() throws MessagingException
     {
@@ -268,7 +271,7 @@ public class TestMail extends BasePage
     /**
      * берет ссылку из письма, которое подтверждает успешную регистрацию
      */
-    public String getLinkFromMailOfSuccessfilRegistration(String text) throws IOException, MessagingException
+    public String getLinkFromMailOfSuccessfulRegistration(String text) throws IOException, MessagingException
     {
         String link = getTextMail(text, "Спасибо, вы успешно зарегистрированы на <a href=", ">официальном сайте для отбора иностранных граждан на обучение в Российской Федерации</a>");
         if(!link.isEmpty())
@@ -280,9 +283,9 @@ public class TestMail extends BasePage
     /**
      * Выдает ссылку на главную страницу сайта из последнего письма, которое подверждает успешную регистрацию
      */
-    public String getLinkFromLastMailOfSuccessfilRegistration() throws IOException, MessagingException
+    public String getLinkFromLastMailOfSuccessfulRegistration() throws IOException, MessagingException
     {
-        return getLinkFromMailOfSuccessfilRegistration(getHtmlTextLastMail());
+        return getLinkFromMailOfSuccessfulRegistration(getHtmlTextLastMail());
     }
 
     /**
@@ -420,6 +423,78 @@ public class TestMail extends BasePage
     }
 
     /**
+     * Проверяет, пришло ли на почту письмо для подтверждения регистрации
+     */
+    public boolean checkRegistrationMail(String randomEmail) throws MessagingException, IOException, InterruptedException
+    {
+        TestMail testMail = new TestMail();
+
+        boolean conditionsFulfilled;
+
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        String subjectRegistrationMail = testMail.getEmailUserRegistration();
+        if (!testMail.isSubjectCorrect(subjectRegistrationMail)) {
+            log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
+            conditionsFulfilled = false;
+        } else {
+            conditionsFulfilled = true;
+            if (!testMail.isAddresseeCorrect(randomEmail)) {
+                log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+                conditionsFulfilled = false;
+            } else
+                {
+                    log("Письмо для подтверджения регистрации получено");
+                }
+        }
+        return conditionsFulfilled;
+    }
+
+    /**
+     * Проверяет, пришло ли на почту письмо с подтверждением регистрации
+     */
+    public boolean checkConfirmationRegistrationMail(String randomEmail, String standUrl) throws InterruptedException, IOException, MessagingException
+    {
+        TestMail testMail = new TestMail();
+        HomePageControl homePageControl = new HomePageControl();
+
+        boolean conditionsFulfilled = true;
+
+        log("Проверяем письмо на почте, подтверждающее регистрацию");
+        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        String subjectRegistrationConfirmMail = testMail.getEmailUserRegistration();
+
+        if (!testMail.isSubjectCorrect(subjectRegistrationConfirmMail)) {
+            log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
+            conditionsFulfilled = false;
+        } else {
+            if (!testMail.isAddresseeCorrect(randomEmail)) {
+                log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
+                conditionsFulfilled = false;
+            } else {
+                if (!testMail.checkContainsTextInMail(textConfirmationRegistrationMail))
+                {
+                    log("Ошибка: неверный текст в письме");
+                    conditionsFulfilled = false;
+                } else {
+                    log("Письмо, подтверждающее регистрацию получено");
+                    log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
+                    String linkFromMailOfSuccessfulRegistration = testMail.getLinkFromLastMailOfSuccessfulRegistration();
+                    open(linkFromMailOfSuccessfulRegistration);
+
+                    log("Проверяем что открылась главная страница сайта");
+                    if (!homePageControl.isHomePage()) {
+                        log("Главная не открылась");
+                        conditionsFulfilled = false;
+                        open(standUrl);
+                    }
+                }
+            }
+        }
+        return  conditionsFulfilled;
+    }
+
+
+    /**
      * Регистрация кандидата и её подтверждение, в случае неполученных писем регистрация перезапускается
      */
     public String independentRegistrationCandidate(String userLastName, String userFirstName, String userMiddleName, String userSex, String userCountry, String userPassword,
@@ -431,8 +506,6 @@ public class TestMail extends BasePage
         PageRegistration pageRegistration = new PageRegistration();
         TestRandomUserData testRandomUserData = new TestRandomUserData();
         PageMain pageMain = new PageMain();
-        TestMail testMail = new TestMail();
-        HomePageControl homePageControl = new HomePageControl();
 
         int i = 0;
         boolean conditionsFulfilled = false;
@@ -466,52 +539,12 @@ public class TestMail extends BasePage
                 sleep(100000);
             }
 
-            log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-            String subjectRegistrationMail = testMail.getEmailUserRegistration();
-            if (!testMail.isSubjectCorrect(subjectRegistrationMail))
+            if (checkRegistrationMail(randomEmail))
             {
-                log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationMail);
-                conditionsFulfilled = false;
-            } else {
-                conditionsFulfilled = true;
-                if (!testMail.isAddresseeCorrect(randomEmail)) {
-                    log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-                    conditionsFulfilled = false;
-                } else {
-                    log("Письмо для подтверджения регистрации получено");
 
-                    log("Находим ссылку из последнего письма в ящике");
-                    String linkRegistration = testMail.getLinkFromLastMailForRegistration();
-
-                    open(linkRegistration);
-
-                    log("Проверяем письмо на почте, подтверждающее регистрацию");
-                    log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
-                    String subjectRegistrationConfirmMail = testMail.getEmailUserRegistration();
-
-                    if (!testMail.isSubjectCorrect(subjectRegistrationConfirmMail)) {
-                        log("Ошибка: неправильный заголовок последнего письма - " + testMail.getSubjectLastMail() + ". Ожидался: " + subjectRegistrationConfirmMail);
-                        conditionsFulfilled = false;
-                    } else {
-                        if (!testMail.isAddresseeCorrect(randomEmail)) {
-                            log("Ошибка: неправильный адресат в последнем письме - " + testMail.getAddresseeLastMail() + ". Ожидался: " + randomEmail);
-                            conditionsFulfilled = false;
-                        } else {
-                            log("Письмо, подтверждающее регистрацию получено");
-                            log("Находим ссылку из последнего письма, подтверждающего успешную регистрацию");
-                            String linkFromMailOfSuccessfulRegistration = testMail.getLinkFromLastMailOfSuccessfilRegistration();
-                            open(linkFromMailOfSuccessfulRegistration);
-
-                            log("Проверяем что открылась главная страница сайта");
-                            if (!homePageControl.isHomePage()) {
-                                log("Главная не открылась");
-                                conditionsFulfilled = false;
-                                open(standUrl);
-                            }
-                        }
-                    }
+                   conditionsFulfilled = checkConfirmationRegistrationMail(randomEmail, standUrl);
                 }
-            }
+
             i++;
         }
 
@@ -565,5 +598,17 @@ public class TestMail extends BasePage
         return checkRecoveryMail;
     }
 
+    /**
+     * Проверяет вхождение текста в последнее письмо в ящике
+     */
+    public boolean checkContainsTextInMail(String text) throws IOException, MessagingException
+    {
+        int num = getLettersCount();
+        String textMail = getPlainTextMail(num);
+        if (textMail.contains(text))
+            return true;
+        else return false;
+
+    }
 }
 
