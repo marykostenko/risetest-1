@@ -56,8 +56,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-//в этом логе написано не все, нужно в checkAllQuota... добавить логи, что проверяем
-       log("Проверим, что можем открыть карточки всех квотных кандидатов и не увидим в них информации об агентах");
+        log("Проверим, что можем открыть карточки всех квотных кандидатов и не увидим в них информации об агентах");
 
         logErrors = testCandidatesData.checkAllQuotaCandidateCanOpenCard(logErrors);
 
@@ -147,11 +146,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
 
         log("Отмечаем кандидатов во всех возможных состояниях для представителя");
-        open(getStandUrl(flagForStandUrl));;
-        pageTopBottom.goToLogin();
-        pageLogin.fillLoginForm(testRepresentativeData.getUserLogin(), testRepresentativeData.getUserPassword());
-        pageLogin.pushLoginButton();
-        testCandidatesData.marksCandidatesInAllStates();
+        testCandidatesData.marksAllStatesCandidatesForDelegate(testRepresentativeData.getId());
 
         downloads.deleteAllDownloads();
 

@@ -124,7 +124,8 @@ public class PageCandidateCard extends BasePage
         PageCandidateList pageCandidateList = new PageCandidateList();
         MenuContent menuContent = new MenuContent();
 
-        log("Перейдём к списку кандидатов");
+        log("");
+        log("Перейдём к списку кандидатов для поиска");
         menuContent.goToCandidatesList();
 
         pageCandidateList.selectCandidateByRegNumber(regNumber);
@@ -156,7 +157,7 @@ public class PageCandidateCard extends BasePage
             log("Ошибка! Фамилию латиницей представителю нельзя редактировать у кандидата в состоянии " + candidateStateName + ", сейчас поле открыто для редактирования");
             logErrors++;
         } else
-            log("Представителю закрыта возможность редактировать фамилию латиницей у кандидата в состоянии " + candidateStateName);
+            log("Представителю закрыта возможность редактировать фамилию латиницей у кандидата в состоянии  " + candidateStateName);
 
         if (firstNameEngDisabled.isEmpty())
         {

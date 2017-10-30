@@ -32,7 +32,7 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Подготовка тестового кандидата для оплаты сервисного сбора");
 
-        String randomEmail = testUserData.creationTestCandidateForPayFee((getStandUrl("Ext")), userId);
+        String randomEmail = testUserData.creationTestCandidateForPayFee((getStandUrl(flagForStandUrl)), userId);
 
         log("Проверяем, что тестовый кандиадат был создан и мы получли его email для входа");
         if (!testRandomUserData.randomEmailNotNull(randomEmail))

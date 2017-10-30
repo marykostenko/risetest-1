@@ -60,20 +60,21 @@ public class ChangingDataAccountTest extends BaseTest
 
         log("Проверяем данные на карточке пользователя");
         log("Проверяем фамилию");
-        AccountInformation accountInformation = new AccountInformation();
-        log(accountInformation.getLastNameUser());
-        logErrors = accountInformation.checkLastName(testUserForEditPersonalData.getUserLastName(), logErrors);
+        PageUserProfile pageUserProfile = new PageUserProfile();
+
+        log(pageUserProfile.getLastNameUser());
+        logErrors = pageUserProfile.checkLastName(testUserForEditPersonalData.getUserLastName(), logErrors);
 
         log("Проверяем имя");
-        log(accountInformation.getFirstNameUser());
-        logErrors = accountInformation.checkFirstName(testUserForEditPersonalData.getUserFirstName(), logErrors);
+        log(pageUserProfile.getFirstNameUser());
+        logErrors = pageUserProfile.checkFirstName(testUserForEditPersonalData.getUserFirstName(), logErrors);
 
         log("Проверяем отчество");
-        log(accountInformation.getMiddleNameUser());
-        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalData.getUserMiddleName(), logErrors);
+        log(pageUserProfile.getMiddleNameUser());
+        logErrors = pageUserProfile.checkMiddleName(testUserForEditPersonalData.getUserMiddleName(), logErrors);
 
         log("Редактируем личную информацию от лица администратора");
-        accountInformation.goToEditPersonalInfo();
+        pageUserProfile.goToEditPersonalInfo();
         PageEditPersonalInfo pageEditPersonalInfo = new PageEditPersonalInfo();
         TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
         pageEditPersonalInfo.clearFieldsPersonalInfo();
@@ -82,37 +83,36 @@ public class ChangingDataAccountTest extends BaseTest
         pageEditPersonalInfo.savePersonalInfoChanges();
 
         log("Проверяем, что изменения сохранены");
-        log(accountInformation.getLastNameUser());
-        logErrors = accountInformation.checkLastName(testChangedUserPersonalData.getUserLastName(), logErrors);
-        log(accountInformation.getFirstNameUser());
-        logErrors = accountInformation.checkFirstName(testChangedUserPersonalData.getUserFirstName(), logErrors);
-        log(accountInformation.getMiddleNameUser());
-        logErrors = accountInformation.checkMiddleName(testChangedUserPersonalData.getUserMiddleName(), logErrors);
-        log(accountInformation.getLastNameUser());
-        logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
-        log(accountInformation.getFirstNameUserEng());
-        logErrors = accountInformation.checkFirstNameEng(testChangedUserPersonalData.getUserFirstNameEng(), logErrors);
-        log(accountInformation.getLastNameUserEng());
-        logErrors = accountInformation.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
+        log(pageUserProfile.getLastNameUser());
+        logErrors = pageUserProfile.checkLastName(testChangedUserPersonalData.getUserLastName(), logErrors);
+        log(pageUserProfile.getFirstNameUser());
+        logErrors = pageUserProfile.checkFirstName(testChangedUserPersonalData.getUserFirstName(), logErrors);
+        log(pageUserProfile.getMiddleNameUser());
+        logErrors = pageUserProfile.checkMiddleName(testChangedUserPersonalData.getUserMiddleName(), logErrors);
+        log(pageUserProfile.getLastNameUser());
+        logErrors = pageUserProfile.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
+        log(pageUserProfile.getFirstNameUserEng());
+        logErrors = pageUserProfile.checkFirstNameEng(testChangedUserPersonalData.getUserFirstNameEng(), logErrors);
+        log(pageUserProfile.getLastNameUserEng());
+        logErrors = pageUserProfile.checkLastNameEng(testChangedUserPersonalData.getUserLastNameEng(), logErrors);
 
         log("Входим под пользователем, которого редактируем");
-        PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.startSimulateUser();
 
         log("Редактируем личную информацию от лица пользователя");
-        accountInformation.goToEditPersonalInfo();
+        pageUserProfile.goToEditPersonalInfo();
         pageEditPersonalInfo.clearFieldsPersonalInfo();
         pageEditPersonalInfo.fillPersonalInfoForm(testUserForEditPersonalData.getUserFirstName(), testUserForEditPersonalData.getUserLastName(), testUserForEditPersonalData.getUserMiddleName(),
                 testUserForEditPersonalData.getUserFirstNameEng(), testUserForEditPersonalData.getUserLastNameEng());
         pageEditPersonalInfo.savePersonalInfoChanges();
 
         log("Проверяем, что изменения сохранены и возвращены в первоначальный вид");
-        log(accountInformation.getLastNameUser());
-        logErrors = accountInformation.checkLastName(testUserForEditPersonalData.getUserLastName(), logErrors);
-        log(accountInformation.getFirstNameUser());
-        logErrors = accountInformation.checkFirstName(testUserForEditPersonalData.getUserFirstName(), logErrors);
-        log(accountInformation.getMiddleNameUser());
-        logErrors = accountInformation.checkMiddleName(testUserForEditPersonalData.getUserMiddleName(), logErrors);
+        log(pageUserProfile.getLastNameUser());
+        logErrors = pageUserProfile.checkLastName(testUserForEditPersonalData.getUserLastName(), logErrors);
+        log(pageUserProfile.getFirstNameUser());
+        logErrors = pageUserProfile.checkFirstName(testUserForEditPersonalData.getUserFirstName(), logErrors);
+        log(pageUserProfile.getMiddleNameUser());
+        logErrors = pageUserProfile.checkMiddleName(testUserForEditPersonalData.getUserMiddleName(), logErrors);
         checkMistakes();
 
         log("Тест USER-ACC-2.1 завершен");
@@ -167,14 +167,14 @@ public class ChangingDataAccountTest extends BaseTest
         pageUsersList.chooseFilteredUser();
 
         log("Проверяем, что контактных данных нет");
-        AccountInformation accountInformation = new AccountInformation();
-        log(accountInformation.getPhoneUser());
-        logErrors = accountInformation.checkPhoneUser(testUserForEditPersonalDataData.getUserPhone(), logErrors);
-        log(accountInformation.getEmailUser());
-        logErrors = accountInformation.checkEmailUser(testUserForEditPersonalDataData.getUserEmail(), logErrors);
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        log(pageUserProfile.getPhoneUser());
+        logErrors = pageUserProfile.checkPhoneUser(testUserForEditPersonalDataData.getUserPhone(), logErrors);
+        log(pageUserProfile.getEmailUser());
+        logErrors = pageUserProfile.checkEmailUser(testUserForEditPersonalDataData.getUserEmail(), logErrors);
 
         log("Редактируем контактную информацию от лица администратора");
-        accountInformation.goToEditContactInfo();
+        pageUserProfile.goToEditContactInfo();
         PageEditContactInfo pageEditContactInfo = new PageEditContactInfo();
         TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
         pageEditContactInfo.clearFieldsContactInfo();
@@ -183,25 +183,24 @@ public class ChangingDataAccountTest extends BaseTest
 
 
         log("Проверяем изменения контактной информации");
-        log(accountInformation.getPhoneUser());
-        logErrors = accountInformation.checkPhoneUser(testChangedUserPersonalData.getUserPhone(), logErrors);
-        log(accountInformation.getEmailUser());
-        logErrors = accountInformation.checkEmailUser(testChangedUserPersonalData.getUserEmail(), logErrors);
+        log(pageUserProfile.getPhoneUser());
+        logErrors = pageUserProfile.checkPhoneUser(testChangedUserPersonalData.getUserPhone(), logErrors);
+        log(pageUserProfile.getEmailUser());
+        logErrors = pageUserProfile.checkEmailUser(testChangedUserPersonalData.getUserEmail(), logErrors);
 
         log("Входим под пользователем, которому меняем данные");
-        PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.startSimulateUser();
 
         log("Редактируем контактную информацию от лица пользователя");
-        accountInformation.goToEditContactInfo();
+        pageUserProfile.goToEditContactInfo();
         pageEditContactInfo.clearFieldsContactInfo();
         pageEditContactInfo.saveContactInfoChanges();
 
         log("Проверяем изменения контактной информации");
-        log(accountInformation.getPhoneUser());
-        logErrors = accountInformation.checkPhoneUser(testUserForEditPersonalDataData.getUserPhone(), logErrors);
-        log(accountInformation.getEmailUser());
-        logErrors = accountInformation.checkEmailUser(testUserForEditPersonalDataData.getUserEmail(), logErrors);
+        log(pageUserProfile.getPhoneUser());
+        logErrors = pageUserProfile.checkPhoneUser(testUserForEditPersonalDataData.getUserPhone(), logErrors);
+        log(pageUserProfile.getEmailUser());
+        logErrors = pageUserProfile.checkEmailUser(testUserForEditPersonalDataData.getUserEmail(), logErrors);
 
         checkMistakes();
 
@@ -264,15 +263,15 @@ public class ChangingDataAccountTest extends BaseTest
         pageUsersList.chooseFilteredUser();
 
         log("Добавляем тестовую должность");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.goToEditJob();
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.goToEditJob();
         PageEditJob pageEditJob = new PageEditJob();
         pageEditJob.clearFieldsJob();
         pageEditJob.fillPost(testUserForEditPostData.getNewPost());
         pageEditJob.saveJobInfoChanges();
 
         log("Возвращаем должность пользователя в первоначальное состояние");
-        accountInformation.goToEditJob();
+        pageUserProfile.goToEditJob();
         pageEditJob.clearFieldsJob();
         pageEditJob.fillJobForm(testUserForEditPostData.getUserPost(), testUserForEditPostData.getUserWorkPhone());
         pageEditJob.saveJobInfoChanges();
@@ -342,14 +341,14 @@ public class ChangingDataAccountTest extends BaseTest
         pageUsersList.chooseFilteredUser();
 
         log("Проверяем первоначальные рабочие данные");
-        AccountInformation accountInformation = new AccountInformation();
-        log(accountInformation.getPostUser());
-        logErrors = accountInformation.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
-        log(accountInformation.getWorkPhoneUser());
-        logErrors = accountInformation.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        log(pageUserProfile.getPostUser());
+        logErrors = pageUserProfile.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
+        log(pageUserProfile.getWorkPhoneUser());
+        logErrors = pageUserProfile.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
 
         log("Редактируем должность и рабочий телефон");
-        accountInformation.goToEditJob();
+        pageUserProfile.goToEditJob();
         PageEditJob pageEditJob = new PageEditJob();
         pageEditJob.clearFieldsJob();
         TestUserData testChangedUserPersonalData = new TestUserData(getChangedUserPersonalDataId());
@@ -357,29 +356,28 @@ public class ChangingDataAccountTest extends BaseTest
         pageEditJob.saveJobInfoChanges();
 
         log("Проверка изменения рабочей информации");
-        log(accountInformation.getPostUser());
-        logErrors = accountInformation.checkPostUser(testChangedUserPersonalData.getUserPost(), logErrors);
-        log(accountInformation.getWorkPhoneUser());
-        logErrors = accountInformation.checkWorkPhone(testChangedUserPersonalData.getUserWorkPhone(), logErrors);
+        log(pageUserProfile.getPostUser());
+        logErrors = pageUserProfile.checkPostUser(testChangedUserPersonalData.getUserPost(), logErrors);
+        log(pageUserProfile.getWorkPhoneUser());
+        logErrors = pageUserProfile.checkWorkPhone(testChangedUserPersonalData.getUserWorkPhone(), logErrors);
 
         log("Входим под польхователем, которому меняли данные");
-        PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.startSimulateUser();
 
         log("Переходим к профилю пользователя");
         pageTopBottom.goToUserProfile();
 
         log("Возвращаем должность и рабочий телефон");
-        accountInformation.goToEditJob();
+        pageUserProfile.goToEditJob();
         pageEditJob.clearFieldsJob();
         pageEditJob.fillJobForm(testUserForEditPostData.getUserPost(), testUserForEditPostData.getUserWorkPhone());
         pageEditJob.saveJobInfoChanges();
 
         log("Проверка изменения рабочей информации");
-        log(accountInformation.getPostUser());
-        logErrors = accountInformation.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
-        log(accountInformation.getWorkPhoneUser());
-        logErrors = accountInformation.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
+        log(pageUserProfile.getPostUser());
+        logErrors = pageUserProfile.checkPostUser(testUserForEditPostData.getUserPost(), logErrors);
+        log(pageUserProfile.getWorkPhoneUser());
+        logErrors = pageUserProfile.checkWorkPhone(testUserForEditPostData.getUserWorkPhone(), logErrors);
 
         checkMistakes();
 
@@ -434,14 +432,13 @@ public class ChangingDataAccountTest extends BaseTest
         pageUsersList.chooseFilteredUser();
 
         log("Проверяем отсутсвие роли администратора у пользователя");
-        AccountInformation accountInformation = new AccountInformation();
-        accountInformation.checkAndDeleteAdminRole();
+        PageUserProfile pageUserProfile = new PageUserProfile();
+        pageUserProfile.checkAndDeleteAdminRole();
 
         log("Добавляем новую роль пользователю");
-        accountInformation.addAndCheckRoleFromAdmin(logErrors);
+        pageUserProfile.addAndCheckRoleFromAdmin(logErrors);
 
         log("Входим под пользователем");
-        PageUserProfile pageUserProfile = new PageUserProfile();
         pageUserProfile.startSimulateUser();
 
         log("Проверяем меню администратора");
@@ -491,7 +488,7 @@ public class ChangingDataAccountTest extends BaseTest
         pageUsersList.chooseFilteredUser();
 
         log("Удаление роли пользователя");
-        accountInformation.deleteRoleAdmin();
+        pageUserProfile.deleteRoleAdmin();
 
         checkMistakes();
 

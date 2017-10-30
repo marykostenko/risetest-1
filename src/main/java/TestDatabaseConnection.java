@@ -160,6 +160,18 @@ public class TestDatabaseConnection
     }
 
     /**
+     * Запрос на добавление отметки кандидтата для пользователя
+     */
+    private String requestInsertCandidatesFromSelection (String id, String candidateId, String userId)
+    {
+        String query = "INSERT INTO \n" +
+                "  public.\"CandidateListSelection\"\n" +
+                "  (id, \"candidateId\", \"userId\")\n" +
+                "  values ('" + id + "','" + candidateId + "','" + userId + "');\n";
+        return query;
+    }
+
+    /**
      * Запрос на countryId по названибю страны
      */
     private String requestCountryId(String country)
@@ -249,5 +261,16 @@ public class TestDatabaseConnection
         System.out.println();
     }
 
+    /**
+     * Добавляет отмеченного кандидата для пользователя
+     */
+    public void insertCandidatesFromSelection(String id, String candidateId, String userId) throws IOException
+    {
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+
+        String queryInsert = requestInsertCandidatesFromSelection(id, candidateId, userId);
+        updateInDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(), testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(),
+                testDatabaseConnectingData.getPasswordForDB(),queryInsert);
+    }
 }
 

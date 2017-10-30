@@ -16,6 +16,7 @@ public class TestCandidatesData
     private String candidatePromo;
     private String candidateStateName;
     private String candidateRegNumber;
+    private String candidateId;
 
     private static final String input = "input";
     private static final String onCheckId = "onCheck";
@@ -57,6 +58,7 @@ public class TestCandidatesData
         candidatePromo = this.initUserData(userId + "CandidatePromo");
         candidateStateName = this.initUserData(userId + "CandidateStateName");
         candidateRegNumber = this.initRegNumber( userId + "CandidateRegNumber");
+        candidateId = this.initCandidateId(userId + "CandidateId");
 
     }
 
@@ -78,6 +80,27 @@ public class TestCandidatesData
         props.store(out, null);
         out.close();
     }
+
+
+    public void setCandidateId(String userId, String candidateId) throws IOException
+    {
+        this.entryCandidateId(userId + "CandidateId", candidateId);
+    }
+
+    // методу передаётся название поля в properties и метод записывает данные в поле
+    public void entryCandidateId(String fieldKey, String newData) throws IOException
+    {
+        FileInputStream in = new FileInputStream("src/main/resources/candidatesId.properties");
+        Properties props = new Properties();
+        props.load(in);
+        in.close();
+        props.setProperty(fieldKey, newData);
+
+        FileOutputStream out = new FileOutputStream("src/main/resources/candidatesId.properties");
+        props.store(out, null);
+        out.close();
+    }
+
 
     public TestCandidatesData() throws IOException {
 
@@ -101,6 +124,14 @@ public class TestCandidatesData
         return userData.getProperty(fieldKey);
     }
 
+    protected String initCandidateId (String fieldKey) throws IOException
+    {
+        Properties userData = new Properties();
+        File propertyFile = new File("src/main/resources/candidatesId.properties");
+        userData.load(new FileReader(propertyFile));
+        return userData.getProperty(fieldKey);
+    }
+
     public String getCandidateFirstName() { return candidateFirstName; }
 
     public String getCandidateLastName() { return candidateLastName; }
@@ -118,6 +149,8 @@ public class TestCandidatesData
     public String getCandidateStateName() { return candidateStateName; }
 
     public String getCandidateRegNumber() { return candidateRegNumber; }
+
+    public String getCandidateId() { return candidateId; }
 
     public String getInputId() { return input;}
     public String getOnCheckId() { return onCheckId; }
@@ -277,6 +310,9 @@ public class TestCandidatesData
         String idCandidate = testDatabaseConnection.selectCandidateId(email);
         System.out.println("ID канидадта в состоянии " + candidate.getCandidateStateName() + ": " + idCandidate);
 
+        System.out.println("Записываем id кандидата в файл");
+        setCandidateId(userId, idCandidate);
+
         System.out.println("Меняем состояние кандидату...");
         testDatabaseConnection.changeCandidateState(candidate.getCandidateState(), idCandidate);
 
@@ -333,77 +369,6 @@ public class TestCandidatesData
         return quotaStatesList;
     }
 
-
-    /**
-     * отмечает кандидатов во всех возможных состояниях
-     */
-    public void marksCandidatesInAllStates() throws IOException
-    {
-        TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
-        TestCandidatesData onCheckCandidate = new TestCandidatesData(getOnCheckId());
-        TestCandidatesData inroducedCandidate = new TestCandidatesData(getInroducedId());
-        TestCandidatesData invitedForTestsCandidate = new TestCandidatesData(getInvitedForTestsId());
-        TestCandidatesData testsDoneCandidate = new TestCandidatesData(getTestsDoneId());
-        TestCandidatesData selectedForQuotaCandidate = new TestCandidatesData(getSelectedForQuotaId());
-        TestCandidatesData secondDistributionLevelCandidate = new TestCandidatesData(getSecondDistributionLevelId());
-        TestCandidatesData dossierFormedCandidate = new TestCandidatesData(getDossierFormedId());
-        TestCandidatesData distributedQuotaCandidate = new TestCandidatesData(getDistributedQuotaId());
-        TestCandidatesData directedQuotaCandidate = new TestCandidatesData(getDirectedQuotaId());
-        TestCandidatesData enrolledQuotaCandidate = new TestCandidatesData(getEnrolledQuotaId());
-        TestCandidatesData completedQtCandidate = new TestCandidatesData(getСompletedQtId());
-        TestCandidatesData enrolledSubfacultyQCandidate = new TestCandidatesData(getEnrolledSubfacultyQId());
-        TestCandidatesData distributedSubfacultyQCandidate = new TestCandidatesData(getDistributedSubfacultyQId());
-        TestCandidatesData expelledQuotaCandidate = new TestCandidatesData(getExpelledQuotaId());
-        TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
-
-        TestCandidatesData fillingApplicationCandidate = new TestCandidatesData(getFillingApplicationId());
-        TestCandidatesData contractAcceptedCandidate = new TestCandidatesData(getContractAcceptedId());
-        TestCandidatesData onApprovalCandidate = new TestCandidatesData(getOnApprovalId());
-        TestCandidatesData distributedCandidate = new TestCandidatesData(getDistributedId());
-        TestCandidatesData rejectedCandidate = new TestCandidatesData(getRejectedId());
-        TestCandidatesData enrolledTfCandidate = new TestCandidatesData(getEnrolledTfId());
-        TestCandidatesData completedTfCandidate = new TestCandidatesData(getCompletedTfId());
-        TestCandidatesData enrolledCandidate = new TestCandidatesData(getEnrolledId());
-        TestCandidatesData graduatedCandidate = new TestCandidatesData(getGraduatedId());
-        TestCandidatesData expelledCandidate = new TestCandidatesData(getExpelledId());
-        TestCandidatesData refusedCandidate = new TestCandidatesData(getRefusedId());
-
-        PageCandidateList pageCandidateList = new PageCandidateList();
-        PageTopBottom pageTopBottom = new PageTopBottom();
-
-        pageCandidateList.marksCandidate(inputCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(onCheckCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(inroducedCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(invitedForTestsCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(testsDoneCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(selectedForQuotaCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(secondDistributionLevelCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(dossierFormedCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(distributedQuotaCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(directedQuotaCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(enrolledQuotaCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(completedQtCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(enrolledSubfacultyQCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(distributedSubfacultyQCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(expelledQuotaCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(notPassedForQuotaCandidate.getCandidateRegNumber());
-
-        pageCandidateList.marksCandidate(fillingApplicationCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(contractAcceptedCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(onApprovalCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(distributedCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(rejectedCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(enrolledTfCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(completedTfCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(enrolledCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(graduatedCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(expelledCandidate.getCandidateRegNumber());
-        pageCandidateList.marksCandidate(refusedCandidate.getCandidateRegNumber());
-
-        pageTopBottom.logout();
-    }
-
-
     public int checkAllQuotaCandidateCanOpenCard(int logErrors) throws IOException
     {
         TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
@@ -424,18 +389,19 @@ public class TestCandidatesData
         TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
 
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
-//логировать, что происходит
-        logErrors = pageCandidateCard.checkQuotaCandidateCard(inputCandidate.getCandidateRegNumber(), inputCandidate.getCandidateStateName(), logErrors);
 
+        logErrors = pageCandidateCard.checkQuotaCandidateCard(inputCandidate.getCandidateRegNumber(), inputCandidate.getCandidateStateName(), logErrors);
         logErrors = pageCandidateCard.checkQuotaCandidateCard(onCheckCandidate.getCandidateRegNumber(), onCheckCandidate.getCandidateStateName(), logErrors);
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(inroducedCandidate.getCandidateRegNumber(), inroducedCandidate.getCandidateStateName(), logErrors);
+        System.out.println("Пробуем редактировать фамилию имя латиницей");
         logErrors = pageCandidateCard.checkBanEditingOfNameInLatin(logErrors, inroducedCandidate.getCandidateStateName());
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(invitedForTestsCandidate.getCandidateRegNumber(), invitedForTestsCandidate.getCandidateStateName(), logErrors);
         logErrors = pageCandidateCard.checkQuotaCandidateCard(testsDoneCandidate.getCandidateRegNumber(), testsDoneCandidate.getCandidateStateName(), logErrors);
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(selectedForQuotaCandidate.getCandidateRegNumber(), selectedForQuotaCandidate.getCandidateStateName(), logErrors);
+        System.out.println("Пробуем редактировать фамилию имя латиницей");
         logErrors = pageCandidateCard.checkBanEditingOfNameInLatin(logErrors, selectedForQuotaCandidate.getCandidateStateName());
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(secondDistributionLevelCandidate.getCandidateRegNumber(), secondDistributionLevelCandidate.getCandidateStateName(), logErrors);
@@ -481,5 +447,73 @@ public class TestCandidatesData
         logErrors = pageCandidateList.canNotOpenACard(logErrors, refusedCandidate.getCandidateRegNumber(), refusedCandidate.getCandidateStateName());
 
         return logErrors;
+    }
+
+    /**
+     * Отмечает в базе всех кандидатов для представителя
+     */
+    public void marksAllStatesCandidatesForDelegate(String userId) throws IOException
+    {
+        TestCandidatesData inputCandidate = new TestCandidatesData(getInputId());
+        TestCandidatesData onCheckCandidate = new TestCandidatesData(getOnCheckId());
+        TestCandidatesData inroducedCandidate = new TestCandidatesData(getInroducedId());
+        TestCandidatesData invitedForTestsCandidate = new TestCandidatesData(getInvitedForTestsId());
+        TestCandidatesData testsDoneCandidate = new TestCandidatesData(getTestsDoneId());
+        TestCandidatesData selectedForQuotaCandidate = new TestCandidatesData(getSelectedForQuotaId());
+        TestCandidatesData secondDistributionLevelCandidate = new TestCandidatesData(getSecondDistributionLevelId());
+        TestCandidatesData dossierFormedCandidate = new TestCandidatesData(getDossierFormedId());
+        TestCandidatesData distributedQuotaCandidate = new TestCandidatesData(getDistributedQuotaId());
+        TestCandidatesData directedQuotaCandidate = new TestCandidatesData(getDirectedQuotaId());
+        TestCandidatesData enrolledQuotaCandidate = new TestCandidatesData(getEnrolledQuotaId());
+        TestCandidatesData completedQtCandidate = new TestCandidatesData(getСompletedQtId());
+        TestCandidatesData enrolledSubfacultyQCandidate = new TestCandidatesData(getEnrolledSubfacultyQId());
+        TestCandidatesData distributedSubfacultyQCandidate = new TestCandidatesData(getDistributedSubfacultyQId());
+        TestCandidatesData expelledQuotaCandidate = new TestCandidatesData(getExpelledQuotaId());
+        TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
+
+        TestCandidatesData fillingApplicationCandidate = new TestCandidatesData(getFillingApplicationId());
+        TestCandidatesData contractAcceptedCandidate = new TestCandidatesData(getContractAcceptedId());
+        TestCandidatesData onApprovalCandidate = new TestCandidatesData(getOnApprovalId());
+        TestCandidatesData distributedCandidate = new TestCandidatesData(getDistributedId());
+        TestCandidatesData rejectedCandidate = new TestCandidatesData(getRejectedId());
+        TestCandidatesData enrolledTfCandidate = new TestCandidatesData(getEnrolledTfId());
+        TestCandidatesData completedTfCandidate = new TestCandidatesData(getCompletedTfId());
+        TestCandidatesData enrolledCandidate = new TestCandidatesData(getEnrolledId());
+        TestCandidatesData graduatedCandidate = new TestCandidatesData(getGraduatedId());
+        TestCandidatesData expelledCandidate = new TestCandidatesData(getExpelledId());
+        TestCandidatesData refusedCandidate = new TestCandidatesData(getRefusedId());
+
+        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
+
+        testDatabaseConnection.insertCandidatesFromSelection("1", inputCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("2", onCheckCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("3", inroducedCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("4", invitedForTestsCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("5", testsDoneCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("6", selectedForQuotaCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("7", secondDistributionLevelCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("8", dossierFormedCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("9", distributedQuotaCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("10", directedQuotaCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("11", enrolledQuotaCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("12", completedQtCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("13", enrolledSubfacultyQCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("14", distributedSubfacultyQCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("15", expelledQuotaCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("16", notPassedForQuotaCandidate.getCandidateId(), userId);
+
+        testDatabaseConnection.insertCandidatesFromSelection("17", fillingApplicationCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("18", contractAcceptedCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("19", onApprovalCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("20", distributedCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("21", rejectedCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("22", enrolledTfCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("23", completedTfCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("24", enrolledCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("25", graduatedCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("26", expelledCandidate.getCandidateId(), userId);
+        testDatabaseConnection.insertCandidatesFromSelection("27", refusedCandidate.getCandidateId(), userId);
+
+        System.out.println();
     }
 }
