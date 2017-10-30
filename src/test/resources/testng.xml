@@ -34,4 +34,9 @@
             <class name="ButtonServiceFeeTest"></class>
         </classes>
     </test>
+    <test name = "User rights, representative staff (User-Rights-RS-1)">
+        <classes>
+            <class name="VerificationRightsDelegateTest"></class>
+        </classes>
+    </test>
 </suite>

@@ -50,7 +50,7 @@ public class Downloads
 
         XSSFSheet sheet1 = wb.getSheetAt(0);
 
-        System.out.println("Состояния каниддатов из выгрузки: ");
+        System.out.println("Состояния кандидатов из выгрузки: ");
         while (state != null) {
             try {
                 state = sheet1.getRow(6 + n).getCell(21).getStringCellValue();
@@ -92,7 +92,7 @@ public class Downloads
 
         if (!lacking.isEmpty())
         {
-            System.out.println("Ошибка! В выгрузке нехватает кандидатов в состояниях: ");
+            System.out.println("Ошибка! В выгрузке не хватает кандидатов в состояниях: ");
             System.out.println(lacking);
             logErrors++;
         }

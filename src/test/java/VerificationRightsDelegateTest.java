@@ -24,7 +24,7 @@ public class VerificationRightsDelegateTest extends BaseTest
 
         log("Для выполнения данного теста добавляю тестовых КВОТНЫХ кандидатов в систему:");
         String promoCode = testPromoCode.selectPromoCodeForCountry(testAdminData.getUserLogin(), testAdminData.getUserPassword(),testRepresentativeData.getCountry());
-        testCandidatesData.createCandidateInAllQuotaStatues((getStandUrl("Ext")), promoCode);
+        testCandidatesData.createCandidateInAllQuotaStatues((getStandUrl(flagForStandUrl)), promoCode);
 
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
@@ -32,7 +32,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("Запущен тест USER-Rights-1.1");
 
         log("Открываем главную страницу");
-        open(getStandUrl("Ext"));
+        open(getStandUrl(flagForStandUrl));
 
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
@@ -56,7 +56,8 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-        log("Проверим, что можем открыть карточки всех квотных кандидатов и не увидим в них информации об агентах");
+//в этом логе написано не все, нужно в checkAllQuota... добавить логи, что проверяем
+       log("Проверим, что можем открыть карточки всех квотных кандидатов и не увидим в них информации об агентах");
 
         logErrors = testCandidatesData.checkAllQuotaCandidateCanOpenCard(logErrors);
 
@@ -76,7 +77,7 @@ public class VerificationRightsDelegateTest extends BaseTest
 
         log("Для выполнения данного теста добавляю тестовых КОНТРАКТНЫХ кандидатов в систему:");
         String promoCode = testPromoCode.selectPromoCodeForCountry(testAdminData.getUserLogin(), testAdminData.getUserPassword(),testRepresentativeData.getCountry());
-        testCandidatesData.createCandidateInAllContractStatues((getStandUrl("Ext")), promoCode);
+        testCandidatesData.createCandidateInAllContractStatues((getStandUrl(flagForStandUrl)), promoCode);
 
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
@@ -84,7 +85,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("Запущен тест USER-Rights-1.2");
 
         log("Открываем главную страницу");
-        open(getStandUrl("Ext"));
+        open(getStandUrl(flagForStandUrl));
 
         log("Переключаем язык страницы на русский");
         pageTopBottom.switchToRu();
@@ -131,10 +132,10 @@ public class VerificationRightsDelegateTest extends BaseTest
 
         log("Для выполнения данного теста добавляю тестовых КВОТНЫХ кандидатов в систему:");
         String promoCode = testPromoCode.selectPromoCodeForCountry(testAdminData.getUserLogin(), testAdminData.getUserPassword(),testRepresentativeData.getCountry());
-        testCandidatesData.createCandidateInAllQuotaStatues((getStandUrl("Ext")), promoCode);
+        testCandidatesData.createCandidateInAllQuotaStatues((getStandUrl(flagForStandUrl)), promoCode);
 
         log("Для выполнения данного теста добавляю тестовых КОНТРАКТНЫХ кандидатов в систему:");
-        testCandidatesData.createCandidateInAllContractStatues((getStandUrl("Ext")), promoCode);
+        testCandidatesData.createCandidateInAllContractStatues((getStandUrl(flagForStandUrl)), promoCode);
 
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
@@ -146,7 +147,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         testDatabaseConnection.deleteCandidatesFromSelection(testRepresentativeData.getId());
 
         log("Отмечаем кандидатов во всех возможных состояниях для представителя");
-        open(getStandUrl("Ext"));
+        open(getStandUrl(flagForStandUrl));;
         pageTopBottom.goToLogin();
         pageLogin.fillLoginForm(testRepresentativeData.getUserLogin(), testRepresentativeData.getUserPassword());
         pageLogin.pushLoginButton();

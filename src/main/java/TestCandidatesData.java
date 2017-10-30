@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.testng.Reporter.log;
 
 public class TestCandidatesData
 {
@@ -425,7 +424,7 @@ public class TestCandidatesData
         TestCandidatesData notPassedForQuotaCandidate = new TestCandidatesData(getNotPassedForQuotaId());
 
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
-
+//логировать, что происходит
         logErrors = pageCandidateCard.checkQuotaCandidateCard(inputCandidate.getCandidateRegNumber(), inputCandidate.getCandidateStateName(), logErrors);
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(onCheckCandidate.getCandidateRegNumber(), onCheckCandidate.getCandidateStateName(), logErrors);
