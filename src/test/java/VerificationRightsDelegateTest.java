@@ -29,6 +29,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("В данном тесте будут использованы данные реальных пользователей. Сменим пароль пользователя на тестовый");
         testUserData.changePassForTest(testAdminData.getUserLogin(), testAdminData.getUserPassword(), testRepresentativeData.getId(), testRepresentativeData.getUserPassword());
 
+        System.out.println();
         log("Запущен тест USER-Rights-1.1");
 
         log("Открываем главную страницу");
@@ -56,7 +57,7 @@ public class VerificationRightsDelegateTest extends BaseTest
         log("Проверяем, выполнен ли вход");
         logErrors = pageTopBottom.assertLoggingIn(logErrors);
 
-        log("Проверим, что можем открыть карточки всех квотных кандидатов и не увидим в них информации об агентах");
+        log("Проверим, что можем открыть карточки всех квотных кандидатов");
 
         logErrors = testCandidatesData.checkAllQuotaCandidateCanOpenCard(logErrors);
 

@@ -84,6 +84,7 @@ public abstract class BaseTest {
     private static final String graduatedId = "graduated";
     private static final String expelledId = "expelled";
     private static final String refusedId = "refused";
+    private static final String forPayFeeId = "forPayFee";
 
     public String getAdminId() {
         return adminId;
@@ -155,9 +156,7 @@ public abstract class BaseTest {
         return userForRegistrationFullContractId;
     }
 
-    public String getUserForPayFeeId() {
-        return userForPayFeeId;
-    }
+    public String getCandidateForPayFeeId() { return forPayFeeId; }
 
     public String getInputId() { return input;}
 

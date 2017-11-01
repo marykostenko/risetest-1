@@ -144,6 +144,22 @@ public class PageCandidateCard extends BasePage
 
     private ElementsCollection lastNameEngDisabled =  $$(By.xpath("//div[@data-field-name='CandidateFormData_lastNameEng']//child::input[@disabled='true']"));
     private ElementsCollection firstNameEngDisabled =  $$(By.xpath("//div[@data-field-name='CandidateFormData_firstNameEng']//child::input[@disabled='true']"));
+    private ElementsCollection contactInfoBlock = $$(By.xpath("//div[@class='user-contacts user-block']"));
+
+    /**
+     * Проверяет, что не видны контакты на карточке кандидата
+     */
+    public int checkContactInfo(int logErrors)
+    {
+        if (!contactInfoBlock.isEmpty())
+        {
+            log("Ошибка! Блок Контакты доступен для просмотра!");
+            logErrors++;
+        } else
+            log("Закрыт просмотр блока Котакты");
+
+        return logErrors;
+    }
 
     /**
      * Проверяет, что нельзя редактировать ФИО латиницей  (когда кандидат в состояниях Заявление принято и Отобран по квоте)

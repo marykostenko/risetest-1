@@ -17,8 +17,8 @@ public class PayServiceFeeTest extends BaseTest
     @Test(priority = 1)
     public void testSuccessfulPayment() throws IOException, InterruptedException, MessagingException, SQLException {
 
-        TestUserData regUsData = new TestUserData(getUserForPayFeeId());
-        TestUserData testUserData = new TestUserData();
+        TestCandidatesData regCandData = new TestCandidatesData(getCandidateForPayFeeId());
+        TestCandidatesData testCandidatesData = new TestCandidatesData();
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
         TestRandomUserData testRandomUserData = new TestRandomUserData();
@@ -28,11 +28,11 @@ public class PayServiceFeeTest extends BaseTest
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
 
 
-        String userId = getUserForPayFeeId();
+        String userId = getCandidateForPayFeeId();
 
         log("Подготовка тестового кандидата для оплаты сервисного сбора");
 
-        String randomEmail = testUserData.creationTestCandidateForPayFee((getStandUrl(flagForStandUrl)), userId);
+        String randomEmail = testCandidatesData.creationTestCandidateForPayFee((getStandUrl(flagForStandUrl)), userId);
 
         log("Проверяем, что тестовый кандиадат был создан и мы получли его email для входа");
         if (!testRandomUserData.randomEmailNotNull(randomEmail))
@@ -68,7 +68,7 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Заполняем форму логина");
         log(randomEmail);
-        pageLogin.fillLoginForm(randomEmail, regUsData.getUserPassword());
+        pageLogin.fillLoginForm(randomEmail, regCandData.getCandidatePassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();
@@ -108,8 +108,8 @@ public class PayServiceFeeTest extends BaseTest
     @Test(priority = 2)
     public void testUnsuccessfulPayment() throws IOException, InterruptedException, MessagingException, SQLException {
 
-        TestUserData regUsData = new TestUserData(getUserForPayFeeId());
-        TestUserData testUserData = new TestUserData();
+        TestCandidatesData regCandData = new TestCandidatesData(getCandidateForPayFeeId());
+        TestCandidatesData testCandidatesData = new TestCandidatesData();
         PageTopBottom pageTopBottom = new PageTopBottom();
         PageLogin pageLogin = new PageLogin();
         TestRandomUserData testRandomUserData = new TestRandomUserData();
@@ -117,11 +117,11 @@ public class PayServiceFeeTest extends BaseTest
         PagePaymentServiceFee pagePaymentServiceFee = new PagePaymentServiceFee();
         TestCardData testCardData = new TestCardData();
 
-        String userId = getUserForPayFeeId();
+        String userId = getCandidateForPayFeeId();
 
         log("Подготовка тестового кандидата для оплаты сервисного сбора");
 
-        String randomEmail = testUserData.creationTestCandidateForPayFee((getStandUrl("Ext")), userId);
+        String randomEmail = testCandidatesData.creationTestCandidateForPayFee((getStandUrl("Ext")), userId);
 
         log("Проверяем, что тестовый кандидат был создан и мы получили его email для входа");
         if (!testRandomUserData.randomEmailNotNull(randomEmail))
@@ -157,7 +157,7 @@ public class PayServiceFeeTest extends BaseTest
 
         log("Заполняем форму логина");
         log(randomEmail);
-        pageLogin.fillLoginForm(randomEmail, regUsData.getUserPassword());
+        pageLogin.fillLoginForm(randomEmail, regCandData.getCandidatePassword());
 
         log("Нажимаем кнопку Войти");
         pageLogin.pushLoginButton();

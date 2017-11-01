@@ -58,7 +58,7 @@ public class CandidateRegistrationTest extends BaseTest
         TestMail testMail = new TestMail();
         TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
         PageEditCandidate pageEditCandidate = new PageEditCandidate();
-        TestUserData testUserData = new TestUserData();
+        TestCandidatesData testCandidatesData = new TestCandidatesData();
 
         log("Запущен тест CAND-REG-2.1");
 
@@ -80,7 +80,7 @@ public class CandidateRegistrationTest extends BaseTest
                 registrationQuotaPartialUserData.getUserPassword(), null));
 
         log("Активируем кандидата");
-        if (testUserData.activationCandidate(getStandUrl(flagForStandUrl), randomEmail))
+        if (!testCandidatesData.activationCandidate(getStandUrl(flagForStandUrl), randomEmail))
         {
             logErrors++;
         }

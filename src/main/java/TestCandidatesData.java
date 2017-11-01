@@ -18,6 +18,30 @@ public class TestCandidatesData
     private String candidateRegNumber;
     private String candidateId;
 
+    private String candidateCountryId;
+    private String candidatePlaceOfBirth;
+    private String candidateDateOfBirth;
+    private String candidateEducationLvl;
+    private String candidateEducationLvlId;
+    private String candidatePreviousEduOrganization;
+    private String candidatePreviousEduOrganizationId;
+    private String candidateCountryOfFinishedEducationOrganisation;
+    private String candidateCountryOfFinishedEducationOrganisationId;
+    private String candidateLvlId;
+    private String candidateEduDirId;
+    private String candidateFormAndCardTpl; //шаблон карточки кандидата
+    private String candidateNationalSelectionId;
+    private String candidateSourceOfSearchCode;
+    private String candidateAgreeToContract;
+    private String candidateStateCode;
+    private String candidateEducationForm;
+    private String candidateLanguagesWithDegrees;
+    private String candidateLanguagesWithDegreesDegree;
+    private String candidateLanguagesWithDegreesLanguage;
+    private String candidateSelectedOrgId;
+    private String candidateDocumentOfPassportId;
+    private String candidateDocumentCopyOfTheEduCertificate;
+
     private static final String input = "input";
     private static final String onCheckId = "onCheck";
     private static final String inroducedId = "inroduced";
@@ -45,20 +69,45 @@ public class TestCandidatesData
     private static final String graduatedId = "graduated";
     private static final String expelledId = "expelled";
     private static final String refusedId = "refused";
+
     //инициализируются данные пользователя по userId - строковый идентификатор пользователя, используемый в файле testCandidateData.properties
 
     public TestCandidatesData (String userId) throws IOException
     {
-        candidateFirstName = this.initUserData(userId + "CandidateFirstName");
-        candidateLastName = this.initUserData(userId + "CandidateLastName");
-        candidateSexEn = this.initUserData(userId + "CandidateSexEn");
-        candidateCountry = this.initUserData(userId + "CandidateCountry");
-        candidatePassword = this.initUserData(userId + "CandidatePassword");
-        candidateState = this.initUserData(userId + "CandidateState");
-        candidatePromo = this.initUserData(userId + "CandidatePromo");
-        candidateStateName = this.initUserData(userId + "CandidateStateName");
+        candidateFirstName = this.initCandidateData(userId + "CandidateFirstName");
+        candidateLastName = this.initCandidateData(userId + "CandidateLastName");
+        candidateSexEn = this.initCandidateData(userId + "CandidateSexEn");
+        candidateCountry = this.initCandidateData(userId + "CandidateCountry");
+        candidatePassword = this.initCandidateData(userId + "CandidatePassword");
+        candidateState = this.initCandidateData(userId + "CandidateState");
+        candidatePromo = this.initCandidateData(userId + "CandidatePromo");
+        candidateStateName = this.initCandidateData(userId + "CandidateStateName");
         candidateRegNumber = this.initRegNumber( userId + "CandidateRegNumber");
         candidateId = this.initCandidateId(userId + "CandidateId");
+        candidateCountryId = this.initCandidateData(userId + "CandidateCountryId");
+        candidatePlaceOfBirth = this.initCandidateData(userId + "CandidatePlaceOfBirth");
+        candidateDateOfBirth = this.initCandidateData(userId + "CandidateDateOfBirth");
+        candidateEducationLvl = this.initCandidateData(userId + "CandidateEducationLvl");
+        candidateEducationLvlId = this.initCandidateData(userId + "CandidateEducationLvlId");
+        candidatePreviousEduOrganization = this.initCandidateData(userId + "CandidatePreviousEduOrganization");
+        candidatePreviousEduOrganizationId = this.initCandidateData(userId + "CandidatePreviousEduOrganizationId");
+        candidateCountryOfFinishedEducationOrganisation = this.initCandidateData(userId + "CandidateCountryOfFinishedEducationOrganisation");
+        candidateCountryOfFinishedEducationOrganisationId = this.initCandidateData(userId + "CandidateCountryOfFinishedEducationOrganisationId");
+        candidateLvlId = this.initCandidateData(userId + "CandidateLvlId");
+        candidateEduDirId = this.initCandidateData(userId + "CandidateEduDirId");
+        candidateFormAndCardTpl = this.initCandidateData(userId + "CandidateFormAndCardTpl");
+        candidateNationalSelectionId = this.initCandidateData(userId +"CandidateNationalSelectionId");
+        candidateSourceOfSearchCode = this.initCandidateData(userId + "CandidateSourceOfSearchCode");
+        candidateAgreeToContract = this.initCandidateData(userId + "CandidateAgreeToContract");
+        candidateStateCode = this.initCandidateData(userId + "CandidateStateCode");
+        candidateEducationForm = this.initCandidateData(userId + "CandidateEducationForm");
+        candidateLanguagesWithDegrees = this.initCandidateData(userId + "CandidateLanguagesWithDegrees");
+        candidateLanguagesWithDegreesDegree = this.initCandidateData(userId + "CandidateLanguagesWithDegreesDegree");
+        candidateLanguagesWithDegreesLanguage = this.initCandidateData(userId + "CandidateLanguagesWithDegreesLanguage");
+        candidateSelectedOrgId = this.initCandidateData(userId + "CandidateSelectedOrgId");
+
+        candidateDocumentOfPassportId = this.initCandidateData("documentOfPassportId");
+        candidateDocumentCopyOfTheEduCertificate = this.initCandidateData("documentCopyOfTheEduCertificate");
 
     }
 
@@ -108,7 +157,7 @@ public class TestCandidatesData
 
     //методу передается название поля в properties и метод возвращает значение поля
 
-    protected String initUserData(String fieldKey) throws IOException
+    protected String initCandidateData(String fieldKey) throws IOException
     {
         Properties userData = new Properties();
         File propertyFile = new File("src/main/resources/testCandidateData.properties");
@@ -152,6 +201,54 @@ public class TestCandidatesData
 
     public String getCandidateId() { return candidateId; }
 
+    public String getCountryId() { return candidateCountryId; }
+
+    public String getPlaceOfBirth() { return candidatePlaceOfBirth; }
+
+    public String getDateOfBirth() { return  candidateDateOfBirth; }
+
+    public String getEducationLvl() { return candidateEducationLvl; }
+
+    public String getPreviousEduOrganization() { return candidatePreviousEduOrganization; }
+
+    public String getCountryOfFinishedEducationOrganisation() { return candidateCountryOfFinishedEducationOrganisation; }
+
+    public String getCountryOfFinishedEducationOrganisationId() { return candidateCountryOfFinishedEducationOrganisationId; }
+
+    public String getLvlId() { return candidateLvlId; }
+
+    public String getEduDirId() { return candidateEduDirId; }
+
+    public String getCandidateFormAndCardTpl() { return candidateFormAndCardTpl; }
+
+    public String getNationalSelectionId() { return candidateNationalSelectionId; }
+
+    public String getEducationLvlId() { return candidateEducationLvlId; }
+
+    public String getCountryPreviousEduOrganizationId() { return candidatePreviousEduOrganizationId; }
+
+    public String getSourceOfSearchCode() { return candidateSourceOfSearchCode; }
+
+    public String getPreviousEduOrganizationId() { return candidatePreviousEduOrganizationId; }
+
+    public String getAgreeToContract() { return candidateAgreeToContract; }
+
+    public String getCandidateStateCode() { return candidateStateCode; }
+
+    public String getEducationForm() { return candidateEducationForm; }
+
+    public String getLanguagesWithDegrees() { return candidateLanguagesWithDegrees; }
+
+    public String getLanguagesWithDegreesDegree() { return candidateLanguagesWithDegreesDegree; }
+
+    public String getLanguagesWithDegreesLanguage() { return candidateLanguagesWithDegreesLanguage; }
+
+    public String getSelectedOrgId() { return candidateSelectedOrgId; }
+
+    public String getDocumentOfPassportId() { return candidateDocumentOfPassportId; }
+
+    public String getDocumentCopyOfTheEduCertificate() { return  candidateDocumentCopyOfTheEduCertificate; }
+
     public String getInputId() { return input;}
     public String getOnCheckId() { return onCheckId; }
     public String getInroducedId() { return inroducedId; }
@@ -187,7 +284,6 @@ public class TestCandidatesData
     {
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
         TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
-        TestUserData testUserData = new TestUserData();
 
         String queryActivationCode = testDatabaseConnection.requestSelectActivationCode(email);
 
@@ -196,7 +292,7 @@ public class TestCandidatesData
                 testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(), queryActivationCode, testDatabaseConnection.getColumnActivation());
 
         System.out.println("Формируем активационную ссылку и переходим по ней");
-        String activationLink = testUserData.createActivationLinkForQuotaWithPromoCode(standUrl,activationCode, promo);
+        String activationLink = createActivationLinkForQuotaWithPromoCode(standUrl,activationCode, promo);
         System.out.println("Активационная ссылка: " + activationLink);
         open(activationLink);
     }
@@ -295,7 +391,7 @@ public class TestCandidatesData
         TestCandidatesData candidate = new TestCandidatesData(userId);
         TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
 
-        String email = testRandomUserData.createRandomEmail();
+        String randomEmail = testRandomUserData.createRandomEmail();
         boolean contract = false;
 
         String countryId = testDatabaseConnection.selectCountryId(candidate.getCandidateCountry());
@@ -303,15 +399,17 @@ public class TestCandidatesData
         System.out.println();
         System.out.println("Зарегистрируем и активируем кадидата");
         testRequestsForHttp.registrationCandidateByPostRequest(contract, standUrl, candidate.getCandidateLastName(), candidate.getCandidateFirstName(), candidate.getCandidateSexEn(),
-                countryId, email, candidate.getCandidatePassword(), promoCode);
+                countryId, randomEmail, candidate.getCandidatePassword(), promoCode);
 
-        activateQuotaCandidateWithPromoCode(email, standUrl, candidate.getCandidatePromo());
+        activateQuotaCandidateWithPromoCode(randomEmail, standUrl, candidate.getCandidatePromo());
 
-        String idCandidate = testDatabaseConnection.selectCandidateId(email);
+        String idCandidate = testDatabaseConnection.selectCandidateId(randomEmail);
         System.out.println("ID канидадта в состоянии " + candidate.getCandidateStateName() + ": " + idCandidate);
 
         System.out.println("Записываем id кандидата в файл");
         setCandidateId(userId, idCandidate);
+
+        fillingApplicationCandidate(standUrl, randomEmail, userId);
 
         System.out.println("Меняем состояние кандидату...");
         testDatabaseConnection.changeCandidateState(candidate.getCandidateState(), idCandidate);
@@ -322,6 +420,180 @@ public class TestCandidatesData
         System.out.println("Записываем регномер в файл");
         setCandidateRegNumber(userId, regNumber);
 
+    }
+
+    /**
+     * Генерация активационной ссылки для квотников
+     */
+    public String createActivationLinkForQuota(String stand, String activationCode)
+    {
+        String activateLink = stand + activationCode +"?contract=false";
+        return activateLink;
+    }
+    /**
+     * Генерация активационной ссылки для контрактников
+     */
+    public String createActivationLinkForContract(String stand, String activationCode)
+    {
+        String activateLink = stand + "activate/" + activationCode +"?contract=true";
+        return activateLink;
+    }
+
+    /**
+     * Генерация активационной ссылки для квотников c указанием агента
+     */
+    public String createActivationLinkForQuotaWithPromoCode(String stand, String activationCode, String promo)
+    {
+        String activateLink = stand + "activate/" + activationCode +"?contract=false&promoCode=" + promo;
+        return activateLink;
+    }
+
+    /**
+     * Активирует кандидата
+     */
+    public boolean activationCandidate(String standUrl, String randomEmail) throws IOException, SQLException
+    {
+        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+        PageRegistration pageRegistration = new PageRegistration();
+
+        boolean activation;
+        String queryActivationCode = testDatabaseConnection.requestSelectActivationCode(randomEmail);
+
+        System.out.println("Заходим в базу, берём активационный код");
+        String activationCode = testDatabaseConnection.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),  testDatabaseConnectingData.getDatabase(),
+                testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(), queryActivationCode, testDatabaseConnection.getColumnActivation());
+
+        System.out.println("Формируем активационную ссылку и переходим по ней");
+        String activationLink = createActivationLinkForContract(standUrl,activationCode);
+        System.out.println("Активационная ссылка: " + activationLink);
+        open(activationLink);
+
+        if (!pageRegistration.checkConfirmRegistrationText())
+        {
+            System.out.println("Ошибка! Кандидат не был активирован!");
+            activation = false;
+        } else
+        {
+            System.out.println("Кандидат активирован");
+            activation =  true;
+        }
+
+        return activation;
+    }
+
+
+    /**
+     * Заполняет заявку кандидата
+     */
+    public boolean fillingApplicationCandidate (String standUrl, String randomEmail, String userId) throws IOException, SQLException
+    {
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+        TestDatabaseConnection testDatabaseConnection = new TestDatabaseConnection();
+        TestDatabaseConnectingData testDatabaseConnectingData = new TestDatabaseConnectingData();
+        TestCandidatesData candidate = new TestCandidatesData(userId);
+
+        boolean success;
+        String queryCandidateId = testDatabaseConnection.requestSelectCandidateId(randomEmail);
+        String querySourceOfSearchId = testDatabaseConnection.requestSelectCatalogElementId(candidate.getSourceOfSearchCode());
+
+        System.out.println("Формируем адрес для POST запроса на логин");
+        String urlForRequestLogin = pageEditCandidate.createUrlRequestForLogin(standUrl);
+
+        System.out.println("Отправлем POST запрос с логином");
+        testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForLogin(urlForRequestLogin, randomEmail, candidate.getCandidatePassword()));
+
+        System.out.println("Заходим в базу, берём id канидадта");
+        String candidateId = testDatabaseConnection.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
+                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(),queryCandidateId,
+                testDatabaseConnection.getElementId());
+        System.out.println("ID кандидата: " + candidateId);
+
+        System.out.println("Берём в базе id источника поиска");
+        String sourceOfSearchId = testDatabaseConnection.selectFromDatabase(testDatabaseConnectingData.getHost(), testDatabaseConnectingData.getPort(),
+                testDatabaseConnectingData.getDatabase(), testDatabaseConnectingData.getUserNameForDB(), testDatabaseConnectingData.getPasswordForDB(), querySourceOfSearchId,
+                testDatabaseConnection.getElementId());
+        System.out.println("ID источника поиска: " + sourceOfSearchId);
+
+        System.out.println("Формируем адрес для POST запроса на отправку персональных данных кандидата");
+        String urlForRequestFillCandidatePersonalData = pageEditCandidate.createUrlRequestForEditPersonalData(standUrl, candidateId,  candidate.getCandidateFormAndCardTpl(),
+                candidate.getNationalSelectionId());
+
+        System.out.println("Отправляем POST запрос с персональными данными кандидата");
+        testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidatePersonalData(urlForRequestFillCandidatePersonalData,  candidate.getCandidateLastName(),
+                candidate.getCandidateFirstName(),  candidate.getPlaceOfBirth(),  candidate.getDateOfBirth(),  candidate.getCandidateSexEn(), randomEmail,  candidate.getLvlId(),
+                candidate.getPreviousEduOrganization(),  candidate.getCountryOfFinishedEducationOrganisationId(), sourceOfSearchId));
+
+        System.out.println("Формируем адрес для POST зароса на отправку заявки кандидата");
+        String urlForRequestFillCandidateRequest = pageEditCandidate.createUrlRequestForEditRequest(standUrl, candidateId,  candidate.getCandidateFormAndCardTpl(),
+                candidate.getNationalSelectionId());
+
+        System.out.println("Отправлем POST запрос с данными о заявке кандидата");
+        testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestFillCandidateRequest(urlForRequestFillCandidateRequest,  candidate.getAgreeToContract(),
+                candidate.getCandidateStateCode(),  candidate.getEduDirId(),  candidate.getEducationForm(),  candidate.getLanguagesWithDegrees(),
+                candidate.getLanguagesWithDegreesDegree(),  candidate.getLanguagesWithDegreesLanguage(),  candidate.getLvlId(),  candidate.getSelectedOrgId()));
+
+        System.out.println("Формируем адрес для POST зароса на отправку копии пасспорта");
+        String urlForRequestForUploadCopyPassport = pageEditCandidate.createUrlRequestForUploadFile(standUrl,candidateId,  candidate.getDocumentOfPassportId());
+
+        System.out.println("Отправляем POST запрос с копией пасспорта");
+        testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyPassport));
+
+
+        System.out.println("Формируем адрес для POST зароса на отправку копии документа об образовании");
+        String urlForRequestForUploadCopyOfTheEduCertificate = pageEditCandidate.createUrlRequestForUploadFile(standUrl, candidateId,  candidate.getDocumentCopyOfTheEduCertificate());
+
+        System.out.println("Отправляем POST запрос с копией документа об образовании");
+        testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForUploadFile(urlForRequestForUploadCopyOfTheEduCertificate));
+
+        System.out.println("Формируем адрес для POST запроса на отправку фото кандидата на сервер");
+        String urlForRequestForUploadPhoto = pageEditCandidate.createUrlRequestForUploadPhoto(standUrl, candidateId);
+
+        System.out.println("Отправляем POST запрос с фото и сохраняем временную переменную из ответа для сохранения фото");
+        String temporaryImage = testRequestsForHttp.postRequestForUploadPhoto(urlForRequestForUploadPhoto);
+
+        System.out.println("Формируем POST запрос для сохранения фото кандитата");
+        String urlForRequestForSavePhoto = pageEditCandidate.createUrlRequestForSavePhoto(standUrl, candidateId);
+
+        System.out.println("Сохраняем фото кандитата");
+        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForSavePhoto(urlForRequestForSavePhoto, temporaryImage));
+
+        return success;
+    }
+
+    /**
+     * Создаёт тестового кандидата для оплаты сервисного сбора
+     */
+    public String creationTestCandidateForPayFee (String standUrl, String userId) throws IOException, SQLException
+    {
+        TestRandomUserData testRandomUserData = new TestRandomUserData();
+        PageEditCandidate pageEditCandidate = new PageEditCandidate();
+        TestRequestsForHttp testRequestsForHttp = new TestRequestsForHttp();
+        TestCandidatesData candidatesData = new TestCandidatesData(userId);
+
+        String randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
+        boolean success; // проверка успешности POST запроса
+
+        System.out.println("Формируем адрес для POST запроса на регистрацию");
+        String urlForRequestRegistration = pageEditCandidate.createUrlRequestForRegistrationContract(standUrl);
+
+        System.out.println("Заполняем обязательные поля в POST запросе и отправляем данные на регистрацию");
+        success = testRequestsForHttp.successPostRequest(testRequestsForHttp.postRequestForRegistrationWithPartialFilling(urlForRequestRegistration, candidatesData.getCandidateLastName(),
+                candidatesData.getCandidateFirstName(), candidatesData.getCandidateSexEn(), candidatesData.getCountryId(), randomEmail, candidatesData.getCandidatePassword(), null));
+        if (!success)
+            randomEmail = null;
+
+        success = activationCandidate(standUrl, randomEmail);
+        if (!success)
+            randomEmail = null;
+
+        success = fillingApplicationCandidate(standUrl, randomEmail, userId);
+
+        if (!success)
+            randomEmail = null;
+
+        return randomEmail;
     }
 
     /**
@@ -391,6 +663,8 @@ public class TestCandidatesData
         PageCandidateCard pageCandidateCard = new PageCandidateCard();
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(inputCandidate.getCandidateRegNumber(), inputCandidate.getCandidateStateName(), logErrors);
+        logErrors = pageCandidateCard.checkContactInfo(logErrors);
+
         logErrors = pageCandidateCard.checkQuotaCandidateCard(onCheckCandidate.getCandidateRegNumber(), onCheckCandidate.getCandidateStateName(), logErrors);
 
         logErrors = pageCandidateCard.checkQuotaCandidateCard(inroducedCandidate.getCandidateRegNumber(), inroducedCandidate.getCandidateStateName(), logErrors);

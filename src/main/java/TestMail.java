@@ -459,8 +459,7 @@ public class TestMail extends BasePage
 
         boolean conditionsFulfilled = true;
 
-        log("Проверяем письмо на почте, подтверждающее регистрацию");
-        log("Проверяем, что последнее письмо в ящике - письмо о регистрации правильному адресату");
+        log("Проверяем, что последнее письмо в ящике - письмо, в котором подтверждена регистрация, правильному адресату");
         String subjectRegistrationConfirmMail = testMail.getEmailUserRegistration();
 
         if (!testMail.isSubjectCorrect(subjectRegistrationConfirmMail)) {
@@ -513,7 +512,7 @@ public class TestMail extends BasePage
 
         while ((i < 4)&&(!conditionsFulfilled))
         {
-
+            open(standUrl);
             log("Создаём рандомный email для регистрации кандитата");
             randomEmail = String.valueOf(testRandomUserData.createRandomEmail());
             log(randomEmail);
@@ -527,27 +526,25 @@ public class TestMail extends BasePage
                 pageTopBottom.goToHomePage();
                 pageMain.goToRegistrationFromBlockContractTraining();
             }
-
             if (partial)
             {
                 log("Заполняем обязательные поля для регистрации");
                 pageRegistration.partialFillingRegistrationForm(userLastName, userFirstName, userSex, userCountry, randomEmail, userPassword);
-            } else
-            {
-                log("Заполняем все поля для регитсрации (кроме полей, связанных с агентами)");
-                pageRegistration.fullFillingRegistrationForm(userLastName, userFirstName, userMiddleName,  userSex, userCountry, randomEmail, userPassword);
                 sleep(100000);
-            }
+            } else
+                {
+                    log("Заполняем все поля для регитсрации (кроме полей, связанных с агентами)");
+                    pageRegistration.fullFillingRegistrationForm(userLastName, userFirstName, userMiddleName,  userSex, userCountry, randomEmail, userPassword);
+                    sleep(100000);
+                }
 
             if (checkRegistrationMail(randomEmail))
             {
-
-                   conditionsFulfilled = checkConfirmationRegistrationMail(randomEmail, standUrl);
-                }
-
+                open(getLinkFromLastMailForRegistration());
+                conditionsFulfilled = checkConfirmationRegistrationMail(randomEmail, standUrl);
+            }
             i++;
         }
-
         if (!conditionsFulfilled)
             randomEmail = null;
 
